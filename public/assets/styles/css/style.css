@@ -272,10 +272,13 @@
     background-color: #f7f7f7;
 }
 
+.tarea-pendiente-alumno {
+    padding: 10px;
+}
 
 .tarea-pendiente-alumno:hover {
     background-color: #f7f7f7;
-    cursor: pointer;
+    cursor: default;
 }
 
 #panel-pendientes-detalle {
@@ -338,3 +341,40 @@
 .panel-botonera button:last-child {
     margin-left: 10px;
 }
+
+/* PERSONALIZACIÓN DEL SCROLL */
+
+.contenedor-scroll {
+    margin-top: 15px;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.contenedor-scroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.contenedor-scroll::-webkit-scrollbar:vertical {
+    width: 10px;
+}
+
+.contenedor-scroll::-webkit-scrollbar-button:increment,
+.contenedor-scroll::-webkit-scrollbar-button {
+    display: none;
+}
+
+.contenedor-scroll::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.contenedor-scroll::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.contenedor-scroll::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+/* FIN DE PERSONALIZACIÓN */
