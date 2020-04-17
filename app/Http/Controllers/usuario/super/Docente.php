@@ -1,0 +1,333 @@
+<?php
+
+namespace App\Http\Controllers\usuario\super;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use App;
+use Auth;
+
+class Docente extends Controller
+{
+    private $fotos_path;
+    
+    public function __construct()
+    {
+        $this->fotos_path = storage_path('app/public/docente');
+    }
+
+    public function index()
+    {
+        //consultando los docentes del colegio
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        //consultando el colegio
+        $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
+
+        $docentes = App\Docente_d::where([
+            'id_colegio' => $colegio->id_colegio,
+            'estado' => 1
+        ])->orderBy('created_at','DESC')->get();
+
+        //obtenemos los grados de un colegio
+        $grados = App\Grado_m::where([
+            'id_colegio' => $colegio->id_colegio,
+            'estado' => 1
+        ])->orderBy('c_nivel_academico')->orderBy('c_nombre')->get();
+
+        return view('docentessuper', compact('docentes', 'grados'));
+    }
+
+    public function info($id_docente)
+    {
+        $docente = App\Docente_d::findOrFail($id_docente);
+
+        //a que colegio pertenece el docente
+        $colegio = App\Colegio_m::findOrFail($docente->id_colegio);
+        //obtenemos los grados del colegio
+
+        //obtenemos el usuario
+        $usuario_del_docente = App\User::where('id_docente', '=', $docente->id_docente)->first();
+
+        $grados = App\Grado_m::where([
+            'id_colegio' => $colegio->id_colegio,
+            'estado' => 1
+        ])->get();
+        return view('infodocentesuper', compact('docente', 'usuario_del_docente', 'grados'));
+    }
+
+    public function agregar(Request $request)
+    {
+        //validamos los datos
+        $request->validate([
+            'dni' => 'required|string|size:8',
+            'nombre' => 'required',
+            'nacionalidad' => 'required',
+            'sexo' => 'required|string|size:1',
+            'fecha_nacimiento' => 'required',
+            'correo' => 'required|email',
+            'telefono' => 'required',
+            'direccion' => 'required',
+            'usuariodocente' => 'required|unique:users,email'
+        ]);
+
+
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
+
+            
+        //registrando al docente
+        $docente = new App\Docente_d;
+        $docente->id_colegio = $colegio->id_colegio;
+        $docente->c_dni = $request->input('dni');
+        $docente->c_nombre = $request->input('nombre');
+        $docente->c_nacionalidad = $request->input('nacionalidad');
+        $docente->c_sexo = $request->input('sexo');
+        $docente->c_especialidad = $request->input('especialidad');
+        $docente->t_fecha_nacimiento = $request->input('fecha_nacimiento');
+        $docente->c_correo = $request->input('correo');
+        $docente->c_telefono = $request->input('telefono');
+        $docente->c_direccion = $request->input('direccion');
+        $docente->creador = $usuario->id;
+        $docente->save();
+
+        //asignando secciones al docente
+        $secciones = $request->input('optsecciones');
+        if (!is_null($secciones) && !empty($secciones)) {
+            for ($i = 0; $i < count($secciones); $i++) {
+                //verificamos si ya existe esa seccion en el docente
+                $pivot = DB::table('docente_seccion_p')->where([
+                    'id_docente' => $docente->id_docente,
+                    'id_seccion' => $secciones[$i]
+                ])->first();
+
+                if (is_null($pivot) || empty($pivot)) {
+                    DB::table('docente_seccion_p')->insert([
+                        ['id_docente' => $docente->id_docente, 'id_seccion' => $secciones[$i], 'creador' => $usuario->id]
+                    ]);
+                }
+            }
+        }
+
+        //asignamos su foto de docente
+        $foto = $request->file('fotodocente');
+        if(!is_null($foto) && !empty($foto)){
+            if (!is_dir($this->fotos_path)) {
+                mkdir($this->fotos_path, 0777);
+            }
+            $name = sha1(date('YmdHis'));
+            $save_name = $name . '.' . $foto->getClientOriginalExtension();
+            $resize_name = $name . '.' . $foto->getClientOriginalExtension();
+            Image::make($foto)
+                ->resize(250, null, function ($constraints) {
+                    $constraints->aspectRatio();
+                })
+                ->save($this->fotos_path . '/' . $resize_name);
+            $foto->move($this->fotos_path, $save_name);
+    
+            //actualizamos foto del docente
+            $docente->c_foto = $resize_name;
+            $docente->save();
+        }
+
+        //creamos un usuario con ese docente
+        //password por defecto 12345678
+        $newusuario = new App\User;
+        $newusuario->email = $request->input('usuariodocente');
+        $newusuario->password = bcrypt('12345678');
+        $newusuario->id_docente = $docente->id_docente;
+        $newusuario->creador = $usuario->id;
+        $newusuario->save();
+
+        return redirect('super/docentes');
+    }
+
+    public function actualizar(Request $request)
+    {
+        $request->validate([
+            'dni' => 'required|string|size:8',
+            'nombre' => 'required',
+            'nacionalidad' => 'required',
+            'sexo' => 'required|string|size:1',
+            'fecha_nacimiento' => 'required',
+            'correo' => 'required|email',
+            'telefono' => 'required',
+            'direccion' => 'required'
+        ]);
+
+        //verificamos que el colegio pertenesca al superadministrador
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        //obtenemos el colegio
+        $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
+
+        //si todo esta bien actualizamos el docente
+        $docente = App\Docente_d::where([
+            'id_docente' => $request->input('id_docente'),
+            'id_colegio' => $colegio->id_colegio
+        ])->first();
+
+        if (!is_null($docente) && !empty($docente)) {
+            //actualizamos al docente
+            $docente->c_dni = $request->input('dni');
+            $docente->c_nombre = $request->input('nombre');
+            $docente->c_nacionalidad = $request->input('nacionalidad');
+            $docente->c_especialidad = $request->input('especialidad');
+            $docente->c_sexo = $request->input('sexo');
+            $docente->t_fecha_nacimiento = $request->input('fecha_nacimiento');
+            $docente->c_correo = $request->input('correo');
+            $docente->c_telefono = $request->input('telefono');
+            $docente->c_direccion = $request->input('direccion');
+            $docente->modificador = $usuario->id;
+            $docente->save();
+        }
+
+        
+        return redirect('super/docente/' . $request->input('id_docente'));
+    }
+    public function quitar_seccion(Request $request)
+    {
+        DB::table('docente_seccion_p')->where([
+            'id_seccion' => $request->input('id_seccion'),
+            'id_docente' => $request->input('id_docente')
+        ])->delete();
+
+        $datos = array(
+            'correcto' => TRUE
+        );
+
+        return response()->json($datos);
+    }
+
+    public function agregar_seccion(Request $request)
+    {
+        $docente = App\Docente_d::findOrFail($request->input('id_docente'));
+        $secciones = $request->input('optsecciones');
+        if (!is_null($secciones) && !empty($secciones)) {
+            for ($i = 0; $i < count($secciones); $i++) {
+                //verificamos si ya existe esa seccion en el docente
+                $pivot = DB::table('docente_seccion_p')->where([
+                    'id_docente' => $docente->id_docente,
+                    'id_seccion' => $secciones[$i]
+                ])->first();
+
+                if (is_null($pivot) || empty($pivot)) {
+                    DB::table('docente_seccion_p')->insert([
+                        ['id_docente' => $docente->id_docente, 'id_seccion' => $secciones[$i], 'creador' => Auth::user()->id]
+                    ]);
+                }
+            }
+        }
+
+        $datos = array(
+            'correcto' => TRUE
+        );
+
+        return response()->json($datos);
+    }
+
+    public function cambiar_foto(Request $request)
+    {
+        //verificamos el usuario
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        //obtenemos el colegio del superadministrador
+        $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
+
+        //consultamos el docente
+        $docente = App\Docente_d::where([
+            'id_docente' => $request->input('fotoid_docente'),
+            'id_colegio' => $colegio->id_colegio,
+            'estado' => 1
+        ])->first();
+
+        if (!is_null($docente) && !empty($docente)) {
+            $foto = $request->file('fotodocente');
+            if (!is_dir($this->fotos_path)) {
+                mkdir($this->fotos_path, 0777);
+            }
+            $name = sha1(date('YmdHis'));
+            $save_name = $name . '.' . $foto->getClientOriginalExtension();
+            $resize_name = $name . '.' . $foto->getClientOriginalExtension();
+            Image::make($foto)
+                ->resize(250, null, function ($constraints) {
+                    $constraints->aspectRatio();
+                })
+                ->save($this->fotos_path . '/' . $resize_name);
+            $foto->move($this->fotos_path, $save_name);
+
+            //actualizamos el logo del colegio
+            $docente->c_foto = $resize_name;
+            $docente->modificador = $usuario->id;
+            $docente->save();
+        }
+        return redirect('super/docente/' . $request->input('fotoid_docente'));
+    }
+
+    public function foto($fileName)
+    {
+        $content = Storage::get('public/docente/' . $fileName);
+        //proceso para obtener la extension
+        $ext = pathinfo($fileName)['extension'];
+        $mime = '';
+        if ($ext == 'jpg' || $ext == 'jpeg') {
+            $mime = 'image/jpeg';
+        } else if ($ext == 'gif') {
+            $mime = 'image/gif';
+        } else if ($ext == 'png') {
+            $mime = 'image/png';
+        }
+        return response($content)
+            ->header('Content-Type', $mime);
+    }
+
+    public function cambiar_contrasena(Request $request)
+    {
+        $request->validate([
+            'contrasena' => 'required|string|min:6',
+            'repite_contrasena' => 'required|string|min:6|same:contrasena',
+        ]);
+        //consultando al docente
+        $docente = App\Docente_d::findOrFail($request->input('id_docente'));
+        //si todo es correcto entonces cambiamos la contrasenia
+        $usuario = App\User::where([
+            'id_docente' => $docente->id_docente,
+            'estado' => 1
+        ])->first();
+
+        if (!is_null($usuario) && !empty($usuario)) {
+            $usuario->password = bcrypt($request->input('repite_contrasena'));
+            $usuario->modificador = Auth::user()->id;
+            $usuario->save();
+        }
+        $datos = array(
+            'correcto' => TRUE
+        );
+
+        return response()->json($datos);
+    }
+
+    public function eliminar(Request $request)
+    {
+        //verificamos el super administrador
+        $usuario = App\User::findOrFail(Auth::user()->id);
+
+        //consultamos el colegio
+        $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
+
+        //verificamos si el docente existe
+        $docente = App\Docente_d::where([
+            'id_docente' => $request->input('id_docente'),
+            'id_colegio' => $colegio->id_colegio
+        ])->first();
+        $docente->estado = 0;
+        $docente->save();
+
+        $datos = array(
+            'correcto' => TRUE
+        );
+
+        return response()->json($datos);
+    }
+}

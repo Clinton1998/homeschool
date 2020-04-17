@@ -1,0 +1,340 @@
+:root {
+    --color-primario: #5B30B1;
+}
+
+/* ASIGNACIÓN DE TAREAS */
+
+/*Sobreescribiendo Clases de Bootstrap*/
+
+.btn {
+    background-color: var(--color-primario);
+    color: #FFF;
+}
+
+.btn:hover {
+    background-color: var(--color-primario);
+    color: #FFF;
+}
+
+.badge {
+    padding: 5px;
+}
+
+/* Estilo propio */
+
+.titulo {
+    background-color: rgb(238, 238, 238);
+    color: var(--color-primario);
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 20px;
+}
+
+.botonera {
+    width: 100%;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+/* tareas */
+
+.tareas-encabezado {
+    text-align: center;
+}
+
+.tareas-encabezado h3 {
+    color: var(--color-primario);
+}
+
+.tareas-linea {
+    min-width: 270px;
+    width: 100%;
+    max-width: 600px;
+    height: 1px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background-color: var(--color-primario);
+}
+
+#tareas {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.tarea {
+    min-width: 270px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: solid 1px #ecf0f1;
+    border-left: solid 5px #5B30B1;
+}
+
+.tarea:hover {
+    background-color: #f5f6fa;
+    border-left: solid 5px #5B30B1;
+    cursor: pointer;
+}
+
+.tarea-categoria {
+    width: 100%;
+    text-align: right;
+    margin-bottom: -20px;
+}
+
+.tarea-titulo {
+    color: black;
+    margin-top: 5px;
+}
+
+.tarea-fechas {
+    display: flex;
+    justify-content: space-between;
+    opacity: .5;
+}
+
+.tarea-fechas p {
+    margin-bottom: 0;
+    margin-left: 5px;
+}
+
+.tarea-fecha-publicacion,
+.tarea-fecha-entrega {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Modal Tarea nueva */
+#modal-tarea-nueva .radio-alumnos {
+    text-align: right;
+}
+
+#modal-tarea-nueva .radio-alumnos label {
+    margin-bottom: 0;
+}
+
+/* Modal modal-seleccion-alumnos */
+#modal-seleccion-alumnos {
+    max-width: 250px;
+    margin: auto;
+}
+
+#modal-seleccion-alumnos .alumnos-scroll {
+    height: 220px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+#modal-seleccion-alumnos .check-alumnos {
+    margin-bottom: 3px;
+}
+
+/* Modal comentarios y respuestas*/
+#modal-comentarios-respuestas .caja-respuesta {
+    background-color: #f5f6fa;
+
+    padding: 10px 15px 0 15px;
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    font-style: italic;
+}
+
+#modal-comentarios-respuestas .caja-comentarios {
+    background-color: #f5f6fa;
+    height: 150px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    padding: 10px 15px 0 15px;
+    border: solid 1px lightgrey;
+    border-radius: 5px;
+    font-style: italic;
+}
+
+#modal-comentarios-respuestas .caja-comentarios img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+/* MIS ALUMNOS */
+
+.contenedor-alumnos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.lista-alumnos {
+    min-width: 270px;
+    width: 100%;
+    max-width: 600px;
+    border: solid 1px lightgrey;
+    padding: 20px 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+/* Acordiones */
+
+#accordion-alumnos .agrupacion {
+    margin-bottom: 20px;
+}
+
+.accordion-titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border: solid 1px lightgrey;
+    border-left: solid 4px var(--color-primario);
+}
+
+.accordion-titulo-left {
+    display: flex;
+}
+
+.accordion-titulo-right {
+    background-color: rgba(255, 255, 255, .8);
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.accordion-titulo-right:hover {
+    background-color: var(--color-primario);
+    color: #FFF;
+}
+
+.accordion-titulo p {
+    margin-bottom: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/* Sobreescribiendo */
+#accordion-alumnos .card-body {
+    padding: 0;
+}
+
+#accordion-alumnos .list-group-item {
+    padding: 10px 10px 10px 20px;
+    cursor: pointer;
+}
+
+#accordion-alumnos .list-group-item:hover {
+    background-color: rgb(238, 238, 238);
+}
+
+/* Modal alumno */
+
+#modal-datos-alumno {
+    text-align: center;
+}
+
+#modal-datos-alumno .modal-foto-alumno {
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+#modal-datos-alumno h4 {
+    margin-bottom: 0;
+}
+
+#modal-datos-alumno p {
+    margin-bottom: 0;
+}
+
+/* ESTADO DE TAREAS */
+
+.pestanas {
+    border-bottom: solid 2px var(--color-primario);
+}
+
+.pestanas .nav-link {
+    margin-bottom: 5px;
+}
+
+.card-tarea {
+    margin-bottom: 10px;
+}
+
+.card-tarea:hover {
+    cursor: pointer;
+    transform: translateY(2px);
+}
+
+.card-tarea:hover .card-body {
+    background-color: #f7f7f7;
+}
+
+
+.tarea-pendiente-alumno:hover {
+    background-color: #f7f7f7;
+    cursor: pointer;
+}
+
+#panel-pendientes-detalle {
+    display: none;
+}
+
+.mostrar-panel {
+    display: block;
+}
+
+.contenedor-estado-tareas {
+    display: flex;
+    justify-content: center;
+}
+
+.panel-estado-de-tareas {
+    max-width: 700px;
+    margin: auto;
+}
+
+.cerrar-panel {
+    text-align: right;
+
+}
+
+.cerrar-panel span {
+    padding: 5px;
+    color: #000;
+    font-size: 20px;
+}
+
+.cerrar-panel span:hover {
+    background-color: #f7f7f7;
+    cursor: pointer;
+}
+
+.tarea-pendiente-respuesta {
+    border: solid 1px lightgrey;
+    background-color: #f7f7f7;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.tarea-pendiente-respuesta p {
+    margin-bottom: 0;
+}
+
+#txtCalificacion {
+    max-width: 100px;
+}
+
+.panel-botonera {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.panel-botonera button:last-child {
+    margin-left: 10px;
+}
