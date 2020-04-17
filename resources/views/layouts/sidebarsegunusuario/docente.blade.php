@@ -26,7 +26,7 @@
                 <div class="triangle"></div>
             </li>
             
-            <li class="nav-item {{ request()->is('docente/*') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('docente/asignartareas*') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{route('docente/asignartareas')}}">
                     <i class="nav-icon i-Notepad"></i>
                     <span class="nav-text">Asignación de tareas</span>

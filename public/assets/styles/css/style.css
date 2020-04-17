@@ -378,3 +378,22 @@
 }
 
 /* FIN DE PERSONALIZACIÓN */
+
+
+.enviados-titulo {
+    margin-top: 10px;
+}
+
+.enviados-descripcion {
+    margin-bottom: 10px;
+}
+
+.enviados-detalle {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.enviados-detalle strong {
+    margin-right: 5px;
+}

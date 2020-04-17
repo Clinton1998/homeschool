@@ -137,7 +137,7 @@
                                 <h4 class="text-primary">No hay enviados</h4>
                             @else
                                 @foreach($tareas_enviadas as $tarea)
-                                    <div class="card card-tarea" data-toggle="modal" data-target="#modal-tarea-enviada-detalle">
+                                    <div class="card card-tarea" onclick="fxInfoTarea({{$tarea->id_tarea}});">
                                         <div class="card-body">
                                         <h6 class="mb-3">{{$tarea->c_titulo}}</h6>
                                             <p class="text-20 text-warning line-height-1 mb-3"><i class="i-Arrow-Up-in-Circle"></i> Enviado</p>
@@ -282,7 +282,12 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    
+                    <span href="#" class="badge badge-success" id="infCategoria">{categoria}</span>
+                    <h4 class="enviados-titulo" id="infTitulo">{Título de tarea}</h4>
+                    <p class="enviados-descripcion" id="infDescripcion">{Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam ea deleniti, fugiat consectetur officiis harum praesentium! Quas nesciunt hic inventore fuga, magnam aliquam, iure natus blanditiis dolorem rem, assumenda vitae.}</p>
+                    <div class="enviados-detalle" id="infGrupo"><strong>Grupo: </strong><p>{1 - c}</p></div>
+                    <div class="enviados-detalle" id="infFechaEnvio"><strong>Fecha de envio: </strong><p>{dd-mm-yyyy}</p></div>
+                    <div class="enviados-detalle" id="infFechaEntrega"><strong>Fecha de entrega: </strong><p>{dd-mm-yyyy}</p></div>
                 </div>
                 <div class="modal-footer">
                     

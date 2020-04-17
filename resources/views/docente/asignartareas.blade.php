@@ -23,7 +23,7 @@
     <div id="tareas">
         <!-- Tarea -->
         @foreach($tareas as $tarea)
-            <div class="tarea" data-toggle="modal" data-target="#modal-comentarios-respuestas">
+    <div class="tarea" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">
                 <div class="tarea-categoria">
                     <span class="badge badge-success">{{$tarea->categoria->c_nombre}} - {{$tarea->categoria->c_nivel_academico}}</span>
                 </div>
@@ -152,91 +152,6 @@
                 <button type="button" class="btn btn-primary">Listo</button>
             </div>
         </div>
-        </div>
-    </div>
-
-    <!-- Modal Comentarios y respuestas -->
-    <div class="modal fade" id="modal-comentarios-respuestas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Comentarios y respuestas</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <h4>{Título-de-tarea}</h4>
-                    <p>{Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, sequi illo? Ut similique ipsa nihil eius quidem nostrum non adipisci harum magnam natus.}</p>
-                    
-                    <strong>Respuesta del alumno</strong>
-                    <div class="caja-respuesta">
-                        <p>{No hay respuesta del alumno}</p>
-                    </div>
-                    
-                    <br>
-
-                    <strong>Comentarios de los alumnos</strong>
-                    <div class="caja-comentarios">
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                        <div class="comentario">
-                            <strong class="comentario-persona"><img src="" alt="foto-perfil">{quien-comenta} escribió </strong>
-                            <p class="comentario-contenido">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Exercitationem explicabo, fuga mollitia ratione quae iure aliquam, soluta velit consectetur facilis optio incidunt ducimus eligendi ut perferendis quos architecto, veritatis vel.</p>
-                        </div>
-                    </div>
-                    
-                    <br>
-
-                    <div class="form-group">
-                        <strong>Escribir un comentario</strong>
-                        <textarea class="form-control" id="txtComentario" rows="3" placeholder="Escribe aquí..."></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Publicar comentario</button>
-                </div>
-            </div>
         </div>
     </div>
 </body>

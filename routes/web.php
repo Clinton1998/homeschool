@@ -83,8 +83,10 @@ Route::post('docente/tarea/registrar','usuario\docente\AsignarTareas@asignar')->
 Route::post('docente/tarea/aplicar','usuario\docente\Tarea@aplicar')->name('docente/tarea/aplicar');
 Route::post('docente/tarea/respuesta','usuario\docente\Tarea@respuesta')->name('docente/tarea/respuesta');
 Route::post('docente/tarea/calificarrespuesta','usuario\docente\Tarea@calificar_respuesta')->name('docente/tarea/calificarrespuesta');
+Route::get('docente/tarea/{id_tarea}', 'usuario\docente\Tarea@info')->name('docente/tarea/{id_tarea}');
 
 Route::post('docente/alumno/aplicar','usuario\docente\Alumno@aplicar')->name('docente/alumno/aplicar');
+Route::post('docente/tarea/comentar','usuario\docente\Tarea@comentar')->name('docente/tarea/comentar');
 
 // RUTAS PARA EL DOCENTE
 Route::get('docente/docentes', 'usuario\docente\Docente@index')->name('docente/docente');

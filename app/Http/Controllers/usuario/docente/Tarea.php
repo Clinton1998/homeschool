@@ -28,10 +28,14 @@ class Tarea extends Controller
         $tarea->categoria;
         $tarea->alumnos_asignados;
         if (!is_null($tarea) && !empty($tarea)) {
-
+            
+            $p_alumno = $tarea->alumnos_asignados()->first();
+            $seccion_asignada = App\Seccion_d::findOrFail($p_alumno->id_seccion);
+            $seccion_asignada->grado;
             $datos = array(
                 'correcto' => TRUE,
-                'tarea' => $tarea
+                'tarea' => $tarea,
+                'seccion_asignada' =>  $seccion_asignada
             );
 
             return response()->json($datos);
@@ -43,14 +47,44 @@ class Tarea extends Controller
         }
     }
 
+    public function comentar(Request $request)
+    {
+
+        $usuarioDocente = App\User::findOrFail(Auth::user()->id);
+        $docente = App\Docente_d::where([
+            'id_docente' => $usuarioDocente->id_docente,
+            'estado' => 1
+        ])->first();
+
+        if (!is_null($docente) && !empty($docente)) {
+            //aplicando la tarea
+            $tarea = App\Tarea_d::where([
+                'id_tarea' => $request->input('id_tarea'),
+                'id_docente' => $docente->id_docente,
+                'estado' => 1
+            ])->first();
+
+            //verificamos si la tarea le pertenece al docente
+            if (!is_null($tarea) && !empty($tarea)) {
+                //agregamos el comentario
+                $comentario = new App\Comentario_d;
+                $comentario->id_tarea = $tarea->id_tarea;
+                $comentario->id_usuario = $usuarioDocente->id;
+                $comentario->c_descripcion = $request->input('comentario');
+                $id_referencia =  $request->input('id_comentario_referncia');
+                if (!is_null($id_referencia) && !empty($id_referencia)) {
+                    $ref_com = App\Comentario_d::findOrFail($id_referencia);
+                    $comentario->id_comentario_referencia = $ref_com->id_comentario;
+                }
+                $comentario->creador = $usuarioDocente->id;
+                $comentario->save();
+            }
+        }
+        return redirect('docente/tarea/' . $request->input('id_tarea'));
+    }
+
     public function respuesta(Request $request)
     {
-        /*$datos = array(
-            'correcto' => $request->input('id_puente')
-        );
-
-        return response()->json($datos);*/
-
         $puente = DB::table('alumno_tarea_respuesta_p')->select('id_alumno_docente_tarea', 'id_respuesta', 'c_estado')->where([
             ['id_alumno_docente_tarea', '=', $request->input('id_puente')],
             ['estado', '=', 1],
@@ -133,5 +167,32 @@ class Tarea extends Controller
         }
 
         return redirect('docente/estadotareas');
+    }
+
+    public function info($id_tarea)
+    {
+        $usuarioDocente = App\User::findOrFail(Auth::user()->id);
+        $docente = App\Docente_d::where([
+            'id_docente' => $usuarioDocente->id_docente,
+            'estado' => 1
+        ])->first();
+
+        if (!is_null($docente) && !empty($docente)) {
+            //aplicando la tarea
+            $tarea = App\Tarea_d::where([
+                'id_tarea' => $id_tarea,
+                'id_docente' => $docente->id_docente,
+                'estado' => 1
+            ])->first();
+
+            //verificamos si la tarea le pertenece al docente
+            if (!is_null($tarea) && !empty($tarea)) {
+                return view('docente.infotarea', compact('tarea'));
+            } else {
+                return redirect('docente/asignartareas');;
+            }
+        } else {
+            return redirect('docente/asignartareas');;
+        }
     }
 }

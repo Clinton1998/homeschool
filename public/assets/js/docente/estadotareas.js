@@ -123,4 +123,30 @@ function fxCalificarTareaDeAlumno() {
     $('#frmCalificarTareaDeAlumno').submit();
 }
 
+function fxInfoTarea(id_tar) {
+    $.ajax({
+        type: 'POST',
+        url: '/docente/tarea/aplicar',
+        data: {
+            id_tarea: id_tar
+        },
+        error: function (error) {
+            alert('Ocurrió un error');
+            console.error(error);
+        }
+    }).done(function (data) {
+        if (data.correcto) {
+            $('#infCategoria').text(data.tarea.categoria.c_nombre);
+            $('#infTitulo').text(data.tarea.c_titulo);
+            $('#infDescripcion').text(data.tarea.c_observacion);
+            $('#infGrupo').find('p').text(data.seccion_asignada.c_nombre + ' - ' + data.seccion_asignada.grado.c_nombre + ' ' + data.seccion_asignada.grado.c_nivel_academico);
+            $('#infFechaEnvio').find('p').text(data.tarea.created_at);
+            $('#infFechaEntrega').find('p').text(data.tarea.t_fecha_hora_entrega);
+            $('#modal-tarea-enviada-detalle').modal('show');
+        } else {
+            location.reload();
+        }
+    });
+}
+
 
