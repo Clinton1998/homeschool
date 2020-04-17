@@ -77,4 +77,8 @@ class Tarea extends Controller
         );
         return response()->json($datos);
     }
+
+    public function calificar_respuesta(Request $request){
+        return response()->json($request->all());
+    }
 }

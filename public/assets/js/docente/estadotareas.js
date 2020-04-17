@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    //alert('Documento listo');
+    Ladda.bind('button[type=submit]', {timeout: 5000});
 });
 
 /*function MostrarPanel(){
@@ -72,7 +72,7 @@ function fxAplicarTarea(id_tar) {
 }
 
 function fxAplicarRespuesta(id_pue){
-    alert('El id puente es: '+id_pue);
+    //alert('El id puente es: '+id_pue);
 
     $.ajax({
         type: 'POST',
@@ -85,7 +85,36 @@ function fxAplicarRespuesta(id_pue){
             console.error(error);
         }
     }).done(function(data){
-        console.log('Los datos devueltos son: ');
-        console.log(data);
+        if(data.correcto){
+            $('#id_puente').val(data.puente.id_alumno_docente_tarea);
+            $('#respuestaObservacion').text(data.respuesta.c_observacion);
+            $('#modal-tarea-pendiente-revisar').modal('show');
+        }else{
+            location.reload();
+        }
     });
+}
+
+function fxConfirmarRevision(e){
+    $(e.target).attr('disabled','true');
+    swal({
+        title: '¿Estas seguro?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#0CC27E',
+        cancelButtonColor: '#FF586B',
+        confirmButtonText: 'Sí!',
+        cancelButtonText: 'No, cancelar!',
+        confirmButtonClass: 'btn btn-success mr-5',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false
+    }).then(function () {
+        fxCalificarTareaDeAlumno();
+    }, function (dismiss) {
+        $(e.target).removeAttr('disabled');
+    });
+}
+
+function fxCalificarTareaDeAlumno(){
+    $('#frmCalificarTareaDeAlumno').submit();
 }

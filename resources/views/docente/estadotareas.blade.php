@@ -1,5 +1,8 @@
 @extends('reutilizable.principal')
-
+@section('page-css')
+    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
+@endsection
 @section('main-content')
 
 <head>
@@ -217,9 +220,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
+                    <form  id="frmCalificarTareaDeAlumno" method="POST" class="needs-validation" action="{{ url('docente/tarea/calificarrespuesta') }}" novalidate>
+                        @csrf
+                        <input type="hidden" id="id_puente" name="id_puente">
                     <strong>Respuesta</strong>
                     <div class="tarea-pendiente-respuesta">
-                        <p>{Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rem quisquam error aperiam asperiores quasi praesentium at cupiditate tempore neque ullam! Ipsam accusamus iusto omnis aliquam voluptate ducimus totam consectetur reprehenderit.}</p>
+                        <p id="respuestaObservacion"></p>
                     </div>
                     <strong>Archivo adjunto</strong>
                     <div class="tarea-pendiente-respuesta">
@@ -229,17 +236,19 @@
                         <div class="input-group-prepend">
                           <span class="input-group-text" id="inputGroup-sizing-default">Calificación</span>
                         </div>
-                        <input type="text" id="txtCalificacion" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        <input type="text" id="txtCalificacion" name="calificacion" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                     </div>
                     <br>
                     <strong>Comentario u observación</strong>
                     <div class="form-group">
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="(Opcional)"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1"  name="comentario_calificacion" rows="3" placeholder="(Opcional)"></textarea>
                     </div>
+
+                </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary">Tarea revisada</button>
+                    <button type="button" class="btn btn-primary" onclick="fxConfirmarRevision(event);">Tarea revisada</button>
                 </div>
             </div>
         </div>
@@ -249,6 +258,9 @@
 
 @endsection
 @section('page-js')
+    <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
     <script src="{{asset('assets/js/docente/estadotareas.js')}}"></script>
 @endsection
