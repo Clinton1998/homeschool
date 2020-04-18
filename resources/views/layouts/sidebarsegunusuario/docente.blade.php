@@ -41,6 +41,14 @@
                 </a>
                 <div class="triangle"></div>
             </li>
+
+            <li class="nav-item {{ request()->is('docente/videoclase*') ? 'active' : '' }}">
+                <a class="nav-item-hold" href="{{route('docente/videoclase')}}">
+                    <i class="nav-icon i-Movie"></i>
+                    <span class="nav-text">Videoclase</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
         </ul>
     </div>
     <div class="sidebar-overlay"></div>

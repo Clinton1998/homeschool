@@ -93,6 +93,7 @@ Route::get('docente/docentes', 'usuario\docente\Docente@index')->name('docente/d
 Route::get('docente/alumnos', 'usuario\docente\Alumno@index')->name('docente/alumno');
 Route::get('docente/asignartareas', 'usuario\docente\AsignarTareas@index')->name('docente/asignartareas');
 Route::get('docente/estadotareas', 'usuario\docente\EstadoTareas@index')->name('docente/estadotareas');
+Route::get('docente/videoclase', 'usuario\docente\Videoclase@index')->name('docente/videoclase');
 
 // Route::view('/', 'starter')->name('starter');
 Route::get('large-compact-sidebar/dashboard/dashboard1', function () {
