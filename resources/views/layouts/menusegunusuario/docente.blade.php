@@ -1,9 +1,9 @@
 <div class="main-header">
     <div class="logo">
         @if(is_null($colegio->c_logo)  || empty($colegio->c_logo))
-            <img class="" src="{{asset('assets/images/colegio/school.png')}}" alt="Logo de la institución educativa">
+            <img class="" src="{{asset('assets/images/colegio/school.png')}}" alt="Logo">
         @else
-            <img class="" src="{{url('super/colegio/logo/'.$colegio->c_logo)}}" alt="Logo de la institución educativa">
+            <img class="" src="{{url('super/colegio/logo/'.$colegio->c_logo)}}" alt="Logo">
         @endif
     </div>
 

@@ -1,5 +1,17 @@
 :root {
     --color-primario: #5B30B1;
+    --color-principal-light: #3498db;
+    --color-principal-dark: #2980b9;
+}
+
+.btn-primary {
+    background-color: var(--color-principal-light);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-principal-dark);
+    box-shadow: 0 1px 10px var(--color-principal-light);
 }
 
 /* ASIGNACIÓN DE TAREAS */
