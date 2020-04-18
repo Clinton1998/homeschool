@@ -51,7 +51,7 @@
                                         </a>
                                     </h6>
                                 </div>
-                                <div id="lista-pendientes-1" class="collapse " data-parent="#lista-pendientes-1" style="">
+                                <div id="lista-pendientes-1" class="collapse " data-parent="#accordionRightIcon" style="">
                                     <div class="card-body">
                                         <ul id="alumnos-que-enviaron" class="contenedor-scroll list-group">
                                             <!-- CUANDO FALTA REVISAR LA TAREA -->
@@ -86,7 +86,7 @@
                                         </a>
                                     </h6>
                                 </div>
-                                <div id="lista-pendientes-2" class="collapse " data-parent="#lista-pendientes-2" style="">
+                                <div id="lista-pendientes-2" class="collapse " data-parent="#accordionRightIcon" style="">
                                     <div class="card-body">
                                         <ul id="alumnos-que-no-enviaron" class="contenedor-scroll list-group">
                                             <li class="tarea-pendiente-alumno list-group-item">

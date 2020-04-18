@@ -377,6 +377,39 @@
     border-radius: 10px;
 }
 
+.contenedor-scroll-grupo {
+    margin-top: 15px;
+    max-height: 280px;
+    overflow: auto;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar:vertical {
+    width: 10px;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar-button:increment,
+.contenedor-scroll-grupo::-webkit-scrollbar-button {
+    display: none;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
 /* FIN DE PERSONALIZACIÓN */
 
 
@@ -396,4 +429,37 @@
 
 .enviados-detalle strong {
     margin-right: 5px;
+}
+
+/* VIDEOCLASES */
+
+.pasos {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pasos .pasos-numero-paso {
+    margin-right: 10px;
+}
+
+.pasos .pasos-indicacion {
+    margin-bottom: 0;
+}
+
+.pasos-accion {
+    margin-bottom: 15px;
+}
+
+.GRUPO-SELECCIONADO {
+    display: flex;
+}
+
+.seleccionados {
+    padding: 5px 5px 5px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+#mostrar-contador-label {
+    margin-bottom: 10px;
 }
