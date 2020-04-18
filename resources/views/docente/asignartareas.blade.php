@@ -13,7 +13,7 @@
 <body>
     <h3 class="titulo">ASIGNACIÓN DE TAREAS</h3>
     <div class="botonera">
-        <a href="" class="btn" id="btn-nueva-tarea" data-toggle="modal" data-target="#modal-tarea-nueva">+ Crear nueva tarea</a>
+        <a href="" class="btn btn-primary" id="btn-nueva-tarea" data-toggle="modal" data-target="#modal-tarea-nueva">+ Crear nueva tarea</a>
     </div>
     <div class="tareas-encabezado">
         <h3>Lista de tareas asignadas</h3>

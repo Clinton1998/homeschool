@@ -4,22 +4,6 @@
 
 /* ASIGNACIÓN DE TAREAS */
 
-/*Sobreescribiendo Clases de Bootstrap*/
-
-.btn {
-    background-color: var(--color-primario);
-    color: #FFF;
-}
-
-.btn:hover {
-    background-color: var(--color-primario);
-    color: #FFF;
-}
-
-.badge {
-    padding: 5px;
-}
-
 /* Estilo propio */
 
 .titulo {
