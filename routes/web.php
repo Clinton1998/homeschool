@@ -76,6 +76,8 @@ Route::get('alumno/tareas', 'usuario\alumno\Tarea@index')->name('alumno/tareas')
 Route::get('alumno/docentes', 'usuario\alumno\Docente@index')->name('alumno/docentes');
 Route::get('alumno/companieros', 'usuario\alumno\Companiero@index')->name('alumno/companieros');
 
+Route::post('alumno/tarea/listar', 'usuario\alumno\Tarea@listar')->name('alumno/tarea/listar');
+
 Route::post('docente/docente/aplicar','usuario\docente\Docente@aplicar')->name('docente/docente/aplicar');
 Route::post('docente/docente/buscar','usuario\docente\Docente@buscar')->name('docente/docente/buscar');
 Route::post('docente/docente/alumnoscategorias','usuario\docente\AsignarTareas@alumnos_categorias')->name('docente/docente/alumnoscategorias');

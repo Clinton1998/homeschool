@@ -5,7 +5,7 @@
         <div class="col-xl-8 offset-xl-2">
             <div class="row">
                 @foreach($tareas_del_alumno as $tarea)
-                    @if($tarea->pivot->c_estado=='APEN' && $tarea->t_fecha_hora_entrega>date('Y-m-d H:i:s'))
+                    @if($tarea->pivot->c_estado=='AENV')
                             <div class="col-xl-6">
                                 <div class="card mt-4 mb-4">
                                     <div class="card-body">

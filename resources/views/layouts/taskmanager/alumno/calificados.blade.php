@@ -5,7 +5,7 @@
         <div class="col-xl-8 offset-xl-2">
             <div class="row">
                 @foreach($tareas_del_alumno as $tarea)
-                    @if($tarea->pivot->c_estado=='APEN' && $tarea->t_fecha_hora_entrega>date('Y-m-d H:i:s'))
+                    @if($tarea->pivot->c_estado=='ACAL')
                             <div class="col-xl-6">
                                 <div class="card mt-4 mb-4">
                                     <div class="card-body">
@@ -33,11 +33,12 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                    </div>
-
-                                    <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
-                                        <span>Fecha de entrega: <span class="font-weight-semibold text-primary">{{$tarea->t_fecha_hora_entrega}}</span></span>
-                                        <a href="#" class="text-default " data-toggle="dropdown">Ver y responder</a>
+                                        <hr>
+                                        @php
+                                            $respuesta = App\Respuesta_d::findOrFail($tarea->pivot->id_respuesta);
+                                        @endphp
+                                        <p><span class="text-primary">Calificación:</span> {{$respuesta->c_calificacion}}</p>
+                                        <p><span class="text-primary">Comentario:</span> {{$respuesta->c_comentario_calificacion}}</p>
                                     </div>
                                 </div>
                             </div>    

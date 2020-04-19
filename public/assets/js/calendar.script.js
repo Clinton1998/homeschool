@@ -1,25 +1,13 @@
 $(document).ready(function() {
-    /* initialize the external events
-            -----------------------------------------------------------------*/
-
-
+    
     function initEvent() {
         $('#external-events .fc-event').each(function() {
-
             // store data so the calendar knows to render an event upon drop
             $(this).data('event', {
                 title: $.trim($(this).text()), // use the element's text as the event title
                 color: $(this).css('background-color'),
                 stick: true // maintain when user navigates (see docs on the renderEvent method)
             });
-
-            // make the event draggable using jQuery UI
-            $(this).draggable({
-                zIndex: 999,
-                revert: true, // will cause the event to go back to its
-                revertDuration: 0 // original position after the drag
-            });
-
         });
     }
     initEvent();
@@ -33,26 +21,34 @@ $(document).ready(function() {
         year = newDate.getFullYear();
 
     $('#calendar').fullCalendar({
-
+        locale: 'es',
         header: {
             left: 'prev,next today',
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
         themeSystem: "bootstrap4",
-        droppable: true,
-        editable: true,
+        //editable: true,
         eventLimit: true, // allow "more" link when too many events
-        drop: function() {
-            // is the "remove after drop" checkbox checked?
-            if ($('#drop-remove').is(':checked')) {
-                // if so, remove the element from the "Draggable Events" list
-                $(this).remove();
+        events: {
+            url: '/alumno/tarea/listar',
+            type: 'POST',
+            data: {
+              custom_param1: 'something',
+              custom_param2: 'somethingelse'
+            },
+            error: function(error) {
+              alert('there was an error while fetching events!');
+              console.error(error);
             }
-        },
+        }
+    });
 
+});
 
-        events: [{
+/**
+ * 
+ * events: [{
             title: "Break time",
             start: new Date(year, month, 1),
             allDay: !0,
@@ -96,7 +92,7 @@ $(document).ready(function() {
             end: new Date(year, month, date, 14, 0),
             color: "#ffc107"
         }, {
-            title: "Go for Walk",
+            title: "Clinton Tapia",
             start: new Date(year, month, 25),
             end: new Date(year, month, 27),
             allDay: !0,
@@ -106,23 +102,5 @@ $(document).ready(function() {
             start: new Date(year, month, date + 8, 20, 0),
             end: new Date(year, month, date + 8, 22, 0)
         }]
-    });
-
-
-
-
-
-
-
-
-    jQuery(".js-form-add-event").on("submit", function(e) {
-        e.preventDefault();
-
-        var data = $('#newEvent').val();
-        $('#newEvent').val('');
-        $('#external-events').prepend('<li class="list-group-item bg-success fc-event">' + data + '</li>');
-
-        initEvent();
-    });
-
-});
+ * 
+ */
