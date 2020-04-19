@@ -58,7 +58,7 @@ function fxAplicarDocente(id_doc) {
 
 function fxBuscarDocente() {
     $('#spinnerBuscadorDocente').show();
-    $('#listDocentes').attr('style','display: none;');
+    $('#listDocentes').attr('style', 'display: none;');
     var l = Ladda.create(document.getElementById('button-addon2'));
     l.start();
 
@@ -68,17 +68,17 @@ function fxBuscarDocente() {
         data: {
             nombre: $('#inpBuscarNombreDocente').val()
         },
-        error: function(error){
+        error: function (error) {
             alert('Ocurrío un error');
             console.error(error);
             l.stop();
         }
-    }).done(function(data){
+    }).done(function (data) {
         var htmlDocentes = '';
-        data.docentes.forEach(function(elemento,indice){
-            htmlDocentes += '<li class="list-group-item">';
-            htmlDocentes += '<a href="#" class="a-info-docente">';
-            htmlDocentes += '<input type="hidden" value="'+elemento.id_docente+'">';
+        data.docentes.forEach(function (elemento, indice) {
+            htmlDocentes += '<li class="list-group-item tarea-pendiente-alumno">';
+            htmlDocentes += '<a href="#" class="a-info-docente" data-toggle="modal" data-target="#modal-datos-docente" style="display: block; padding: 12px 20px;">';
+            htmlDocentes += '<input type="hidden" value="' + elemento.id_docente + '">';
             if (elemento.c_foto == null) {
                 if (elemento.c_sexo.toUpperCase() == 'M') {
                     htmlDocentes += '<img class="foto-perfil" src="../assets/images/usuario/teacherman.png" alt="Foto del docente">';
@@ -86,7 +86,7 @@ function fxBuscarDocente() {
                     htmlDocentes += '<img class="foto-perfil" src="../assets/images/usuario/teacherwoman.png" alt="Foto del docente">';
                 }
             } else {
-                htmlDocentes += '<img class="foto-perfil" src="../super/docente/foto/' + elemento.c_foto+'" alt="Foto del docente">';
+                htmlDocentes += '<img class="foto-perfil" src="../super/docente/foto/' + elemento.c_foto + '" alt="Foto del docente">';
             }
             htmlDocentes += elemento.c_nombre;
             htmlDocentes += '</a></li>';
@@ -98,7 +98,7 @@ function fxBuscarDocente() {
         });
 
         l.stop();
-        $('#spinnerBuscadorDocente').attr('style','display: none;');
+        $('#spinnerBuscadorDocente').attr('style', 'display: none;');
         $('#listDocentes').show();
     });
 }

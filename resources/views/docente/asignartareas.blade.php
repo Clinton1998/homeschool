@@ -35,12 +35,12 @@
                         <p class="tarea-descripcion">{{$tarea->c_observacion}}</p>
                         <div class="tarea-fechas">
                             <div class="tarea-fecha-publicacion">
-                                <strong>Fecha de publicación: </strong>
-                                <p>{{$tarea->created_at}}</p>
+                                <small>Fecha de publicación: </small>
+                                <small>{{$tarea->created_at}}</small>
                             </div>
                             <div class="tarea-fecha-entrega">
-                                <strong>Fecha de entrega: </strong>
-                                <p>{{$tarea->t_fecha_hora_entrega}}</p>
+                                <small>Fecha de entrega: </small>
+                                <small>{{$tarea->t_fecha_hora_entrega}}</small>
                             </div>
                         </div>
                     </div>

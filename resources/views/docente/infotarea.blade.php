@@ -1,6 +1,7 @@
 @extends('reutilizable.principal')
 @section('page-css')
-    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">    
+    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">   
+    <link rel="stylesheet" href="{{asset('assets/styles/css/style.css')}}"> 
 @endsection
 
 @section('main-content')
@@ -11,7 +12,7 @@
                 <div class="card-body">
                     <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
                         <div>
-                        <h4 class="text-primary">{{$tarea->c_titulo}}</h4>
+                        <h4 class="">{{$tarea->c_titulo}}</h4>
                         <p class="ul-task-manager__paragraph mb-3 text-justify">{{$tarea->c_observacion}}</p>
                         @if(is_null($tarea->docente->c_foto)  || empty($tarea->docente->c_foto))
                             @if(strtoupper($tarea->docente->c_sexo)=='M')
@@ -51,12 +52,13 @@
                         <input type="hidden" name="id_tarea" value="{{$tarea->id_tarea}}">
                         <input class="form-control form-control-lg mb-6" id="txtComentario" name="comentario" rows="2" placeholder="Escribe aquí..." required autofocus>
                         <div class="mb-4">
-                        <button type="submit" class="btn btn-primary float-right">Comentar</button>
+                            <br>
+                        <button type="submit" class="btn btn-primary float-right">Publicar comentario</button>
                         </div>
                     </form>
                     
                     <br>
-                    <h3 class="text-primary">Comentarios recientes</h3>
+                    <h4 class="">Comentarios recientes</h4>
                     
                     <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
                         <div class="caja-comentarios">

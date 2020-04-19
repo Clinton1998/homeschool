@@ -14,7 +14,7 @@
         <!-- Lista de alumnos por Grado y Sección -->
         <div class="card-body">
             <div class="tareas-encabezado">
-                <h4>Relacion de alumnos por grupos</h4>
+                <h4>Lista de alumnos por grupos</h4>
                 <div class="tareas-linea"></div>
             </div>
 
@@ -26,17 +26,17 @@
 
                 @foreach($secciones as $seccion)
                     <div class="agrupacion">
-                    <div class="accordion-titulo" >
-                        <div class="accordion-titulo-left">
-                        <strong>Seccion: </strong><p>{{$seccion->c_nombre}}</p><strong>Grado: </strong><p>{{$seccion->grado->c_nombre}} - {{$seccion->grado->c_nivel_academico}}</p>
+                        <div class="accordion-titulo" >
+                            <div class="accordion-titulo-left">
+                            <strong>Seccion: </strong><p>{{$seccion->c_nombre}}</p><strong>Grado: </strong><p>{{$seccion->grado->c_nombre}} - {{$seccion->grado->c_nivel_academico}}</p>
                         </div>
-                    <div class="accordion-titulo-right" data-toggle="collapse" data-target="#lista-{{$seccion->id_seccion}}" aria-expanded="false" aria-controls="collapseOne">
+                        <div class="accordion-titulo-right" data-toggle="collapse" data-target="#lista-{{$seccion->id_seccion}}" aria-expanded="false" aria-controls="collapseOne">
                             <svg class="bi bi-caret-down-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 01.753 1.659l-4.796 5.48a1 1 0 01-1.506 0z"/>
                             </svg>
                         </div>
                     </div>
-                <div id="lista-{{$seccion->id_seccion}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-alumnos">
+                    <div id="lista-{{$seccion->id_seccion}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-alumnos">
                         <div class="card-body">
                             <ul class="list-group list-group-flush">
                                 @foreach($seccion->alumnos->where('estado','=',1) as $alumno)
