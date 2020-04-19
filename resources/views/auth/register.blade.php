@@ -12,7 +12,7 @@
     </head>
 
     <body>
-        <div class="auth-layout-wrap" style="background-image: url({{asset('assets/images/photo-wide-4.jpg')}})">
+        <div class="auth-layout-wrap" style="background-image: url({{asset('assets/images/photo-wide-4.jpeg')}})">
             <div class="auth-content">
                 <div class="card o-hidden">
                     <div class="row">
