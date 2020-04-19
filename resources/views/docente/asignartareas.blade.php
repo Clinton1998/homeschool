@@ -11,39 +11,46 @@
 </head>
 
 <body>
-    <h3 class="titulo">ASIGNACIÓN DE TAREAS</h3>
-    <div class="botonera">
-        <a href="" class="btn btn-primary" id="btn-nueva-tarea" data-toggle="modal" data-target="#modal-tarea-nueva">+ Crear nueva tarea</a>
-    </div>
-    <div class="tareas-encabezado">
-        <h3>Lista de tareas asignadas</h3>
-        <div class="tareas-linea"></div>
-    </div>
-    <!-- Lista de tareas -->
-    <div id="tareas">
-        <!-- Tarea -->
-        @foreach($tareas as $tarea)
-    <div class="tarea" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">
-                <div class="tarea-categoria">
-                    <span class="badge badge-success">{{$tarea->categoria->c_nombre}} - {{$tarea->categoria->c_nivel_academico}}</span>
-                </div>
-                <h4 class="tarea-titulo">{{$tarea->c_titulo}}</h4>
-                <p class="tarea-descripcion">{{$tarea->c_observacion}}</p>
-                <div class="tarea-fechas">
-                    <div class="tarea-fecha-publicacion">
-                        <strong>Fecha de publicación: </strong>
-                        <p>{{$tarea->created_at}}</p>
-                    </div>
-                    <div class="tarea-fecha-entrega">
-                        <strong>Fecha de entrega: </strong>
-                        <p>{{$tarea->t_fecha_hora_entrega}}</p>
-                    </div>
-                </div>
+    <h2 class="titulo">Asignación de tareas</h2>
+    
+    <div class="mis-alumnos-contenedor card col col-lg-6">
+        <div class="card-body">
+            <div class="tareas-encabezado">
+                <h4>Lista de tareas asignadas</h4>
+                <div class="tareas-linea"></div>
             </div>
-        @endforeach
 
+            <a href="" class="btn btn-primary" id="btn-nueva-tarea" data-toggle="modal" data-target="#modal-tarea-nueva">+ Crear nueva tarea</a>
+            <br>
+            <br>
+
+            <div id="tareas">
+                <!-- Tarea -->
+                @foreach($tareas as $tarea)
+                    <div class="tarea" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">
+                        <div>
+                            <span class="badge badge-success">{{$tarea->categoria->c_nombre}} - {{$tarea->categoria->c_nivel_academico}}</span>
+                        </div>
+                        <h4 class="tarea-titulo">{{$tarea->c_titulo}}</h4>
+                        <p class="tarea-descripcion">{{$tarea->c_observacion}}</p>
+                        <div class="tarea-fechas">
+                            <div class="tarea-fecha-publicacion">
+                                <strong>Fecha de publicación: </strong>
+                                <p>{{$tarea->created_at}}</p>
+                            </div>
+                            <div class="tarea-fecha-entrega">
+                                <strong>Fecha de entrega: </strong>
+                                <p>{{$tarea->t_fecha_hora_entrega}}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+        
+            </div>
+
+        </div>
     </div>
-
+  
     <!-- Modal Tarea nueva -->
     <div class="modal fade" id="modal-tarea-nueva" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -74,6 +81,7 @@
                         <label for="txtArchivo">Archivo</label>
                         <input type="file" class="form-control form-control-lg" name="archivo" id="txtArchivo">
                     </div>
+                    
                     <div class="form-group">
                         <label class="label-text" for="cbGradoSeccion">Para</label>
                         <select id="cbGradoSeccion" name="seccion" required>
@@ -89,14 +97,14 @@
                     
                     <div class="radio-alumnos form-group" id="divRadioAlumno">
                         <div class="radio-btn form-check form-check-inline">
-                            <label class="radio radio-primary">
+                            <label class="radio radio-light">
                                 <input type="radio" name="radioAlumnos" [value]="1" formcontrolname="radio" class="form-check-input" value="option1" checked >
                                 <span>Todos los alumnos</span>
                                 <span class="checkmark"></span>
                             </label>
                         </div>
                         <div class="radio-btn form-check form-check-inline" data-toggle="modal" data-target="#modal-seleccion-alumnos">
-                            <label class="radio radio-primary">
+                            <label class="radio radio-light">
                                 <input type="radio" name="radioAlumnos" [value]="1" formcontrolname="radio" class="form-check-input" value="option2" >
                                 <span>Seleccionar alumnos</span>
                                 <span class="checkmark"></span>

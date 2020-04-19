@@ -9,9 +9,13 @@
     border: none;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:link,
+.btn-primary:visited,
+.btn-primary:focus {
     background-color: var(--color-principal-dark);
-    box-shadow: 0 1px 10px var(--color-principal-light);
+    box-shadow: none;
 }
 
 /* ASIGNACIÓN DE TAREAS */
@@ -19,29 +23,16 @@
 /* Estilo propio */
 
 .titulo {
-    background-color: rgb(238, 238, 238);
-    color: var(--color-primario);
+    color: var(--color-principal-light);
     width: 100%;
-    margin-bottom: 30px;
     padding: 10px 15px;
-    border-radius: 8px;
-    font-size: 20px;
-}
-
-.botonera {
-    width: 100%;
-    text-align: right;
-    margin-bottom: 10px;
+    text-align: center;
 }
 
 /* tareas */
 
-.tareas-encabezado {
-    text-align: center;
-}
-
-.tareas-encabezado h3 {
-    color: var(--color-primario);
+.tareas-encabezado h4 {
+    color: var(--color-principal-light);
 }
 
 .tareas-linea {
@@ -51,7 +42,7 @@
     height: 1px;
     margin: 0 auto;
     margin-bottom: 20px;
-    background-color: var(--color-primario);
+    background-color: var(--color-principal-light);
 }
 
 #tareas {
@@ -65,38 +56,37 @@
     width: 100%;
     max-width: 600px;
     margin: 0 auto;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     padding: 10px;
     border: solid 1px #ecf0f1;
-    border-left: solid 5px #5B30B1;
+    border-left: solid 5px var(--color-principal-light);
 }
 
 .tarea:hover {
     background-color: #f5f6fa;
-    border-left: solid 5px #5B30B1;
+    border-left: solid 5px var(--color-principal-dark);
     cursor: pointer;
-}
-
-.tarea-categoria {
-    width: 100%;
-    text-align: right;
-    margin-bottom: -20px;
+    transform: translateY(-2px);
+    transition: all 0.3s ease-in-out;
 }
 
 .tarea-titulo {
-    color: black;
     margin-top: 5px;
 }
 
 .tarea-fechas {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     opacity: .5;
 }
 
+.tarea-fecha strong {
+    margin-left: 5px;
+}
+
 .tarea-fechas p {
     margin-bottom: 0;
-    margin-left: 5px;
 }
 
 .tarea-fecha-publicacion,
@@ -106,6 +96,21 @@
 }
 
 /* Modal Tarea nueva */
+
+#txtArchivo {
+    height: 80px;
+    border-style: dashed;
+    text-align: center;
+}
+
+#txtArchivo:hover,
+#txtArchivo:active,
+#txtArchivo:visited,
+#txtArchivo:focus,
+#txtArchivo:link {
+    box-shadow: none;
+}
+
 #modal-tarea-nueva .radio-alumnos {
     text-align: right;
 }
@@ -159,20 +164,8 @@
 
 /* MIS ALUMNOS */
 
-.contenedor-alumnos {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.lista-alumnos {
-    min-width: 270px;
-    width: 100%;
-    max-width: 600px;
-    border: solid 1px lightgrey;
-    padding: 20px 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+.mis-alumnos-contenedor {
+    margin: auto;
 }
 
 /* Acordiones */
@@ -187,7 +180,7 @@
     align-items: center;
     padding: 10px 20px;
     border: solid 1px lightgrey;
-    border-left: solid 4px var(--color-primario);
+    border-left: solid 4px var(--color-principal-light);
 }
 
 .accordion-titulo-left {
@@ -202,7 +195,7 @@
 }
 
 .accordion-titulo-right:hover {
-    background-color: var(--color-primario);
+    background-color: var(--color-principal-light);
     color: #FFF;
 }
 
@@ -248,11 +241,17 @@
 /* ESTADO DE TAREAS */
 
 .pestanas {
-    border-bottom: solid 2px var(--color-primario);
+    border-bottom: solid 2px var(--color-principal-light);
 }
 
 .pestanas .nav-link {
     margin-bottom: 5px;
+}
+
+/* PESATAÑAS: ACTIVO*/
+
+.nav-link .active {
+    background-color: var(--color-principal-light);
 }
 
 .card-tarea {
@@ -261,7 +260,8 @@
 
 .card-tarea:hover {
     cursor: pointer;
-    transform: translateY(2px);
+    transform: translateY(-2px);
+    transition: all 0.3s ease-in-out;
 }
 
 .card-tarea:hover .card-body {
@@ -279,10 +279,12 @@
 
 #panel-pendientes-detalle {
     display: none;
+    margin-bottom: 20px;
 }
 
 .mostrar-panel {
     display: block;
+    transition: all 0.3s ease-in-out;
 }
 
 .contenedor-estado-tareas {

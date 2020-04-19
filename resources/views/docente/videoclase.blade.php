@@ -7,6 +7,7 @@
 </head>
 
 <body onload="ContadorSeleccionados()">
+    <h2 class="titulo">Videoclase</h2>
 
     <div class="contenedor-estado-tareas row">
         <div class=" col-md-6">
@@ -21,11 +22,11 @@
                             PASO 1:
                         </strong>
                         <p class="pasos-indicacion">
-                            Abrir Hangoust
+                            
                         </p>
                     </div>
                     <div class="pasos-accion">
-                        <a type="button" class="abrir-hangoust btn btn-success col col-lg-4 col-sm-12" target="_blank" href="https://accounts.google.com/signin/v2/identifier?service=talk&continue=https%3A%2F%2Fhangouts.google.com%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin">
+                        <a type="button" class="abrir-hangoust btn btn-raised ripple btn-raised-secondary col col-lg-4 col-sm-12" target="_blank" href="https://accounts.google.com/signin/v2/identifier?service=talk&continue=https%3A%2F%2Fhangouts.google.com%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin">
                             Abrir Hangouts
                         </a>
                     </div>
@@ -35,7 +36,7 @@
                             PASO 2:
                         </strong>
                         <p class="pasos-indicacion">
-                            Pegar el vinculo generado en Hangoust
+                            
                         </p>
                     </div>
                     <div class="pasos-accion">
@@ -49,13 +50,13 @@
                             PASO 3:
                         </strong>
                         <p class="pasos-indicacion">
-                            Seleccionar grupo
+                            
                         </p>
                     </div>
                     <div class="GRUPO-SELECCIONADO row">
                         <div class="col col-lg-6 col-sm-12">
                             <div class="">
-                                <button type="button" class="btn btn-primary col col-lg-8 col-sm-12" data-toggle="modal" data-target="#Modal-Integrantes">
+                                <button type="button" class="btn btn-raised ripple btn-raised-secondary col col-lg-8 col-sm-12" data-toggle="modal" data-target="#Modal-Integrantes">
                                     Seleccionar integrantes
                                 </button>
 
@@ -97,7 +98,7 @@
                         </p>
                     </div>
                     <div class="pasos-accion">
-                        <button type="button" class="btn btn-primary col col-lg-4 col-sm-12">
+                        <button type="button" class="btn btn-primary btn-lg col col-sm-12" style="margin-top: 20px">
                             Enviar vinculo
                         </button>
                     </div>

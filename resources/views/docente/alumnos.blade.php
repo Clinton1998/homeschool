@@ -7,15 +7,14 @@
 </head>
 
 <body>
-    <h3 class="titulo">MIS ALUMNOS</h3>
+    <h2 class="titulo">Mis alumnos</h2>
     
-    <div class="contenedor-alumnos">
+    <div class="mis-alumnos-contenedor card col col-lg-6">
             
         <!-- Lista de alumnos por Grado y Sección -->
-        <div class="lista-alumnos">
-
+        <div class="card-body">
             <div class="tareas-encabezado">
-                <h3>Lista de alumnos</h3>
+                <h4>Relacion de alumnos por grupos</h4>
                 <div class="tareas-linea"></div>
             </div>
 
@@ -48,8 +47,7 @@
                     </div>
                     </div>
                 @endforeach
-                
-              </div>
+            </div>            
         </div>
     </div>
 
@@ -71,12 +69,12 @@
                     <p id="correoAlumno"></p>
                     <br>
                     <hr>
-                    <h3>Representantes</h3>
-                    <h4 id="nombreRepresentante1">Clinton</h4>
+                    <h4>Representantes</h4>
+                    <h5 id="nombreRepresentante1">Clinton</h5>
                     <strong>Número de teléfono</strong>
                     <p id="telefono1">{999-999999}</p>
                     <br>
-                    <h4 id="nombreRepresentante2">Clinton</h4>
+                    <h5 id="nombreRepresentante2">Clinton</h5>
                     <strong>Número de teléfono</strong>
                     <p id="telefono2">{999-999999}</p>
                 </div>

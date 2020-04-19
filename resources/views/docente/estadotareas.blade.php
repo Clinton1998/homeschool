@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <h3 class="titulo">ESTADO DE TAREAS</h3>
+    <h2 class="titulo">Estado de tareas</h2>
     
     <div class="contenedor-estado-tareas row">
         <div id="panel-pendientes-detalle" class="mostrar-panel col-md-6">
@@ -106,118 +106,123 @@
             <div class="card text-left">
                 <div class="card-body">
     
-                    <!-- Título de pestañas -->
-                    <ul class="pestanas nav nav-pills" id="myPillTab" role="tablist">
-                        <li class="nav-item">
-                            <a onclick="CerrarPanel()" class="nav-link " id="home-icon-pill" data-toggle="pill" href="#tareas-enviadas" role="tab" aria-controls="homePIll" aria-selected="false">
-                                Enviadas
-                            <span class="badge-enviadas badge  badge-square-warning">{{$tareas_enviadas->count()}}</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="profile-icon-pill" data-toggle="pill" href="#tareas-calificadas" role="tab" aria-controls="profilePIll" aria-selected="false">
-                                Calificadas
-                                <span class="badge-calificadas badge  badge-square-success">{{$tareas_calificadas->count()}}</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" id="contact-icon-pill" data-toggle="pill" href="#tareas-pendientes" role="tab" aria-controls="contactPIll" aria-selected="true">
-                                Pendientes
-                                <span class="badge-pendientes badge  badge-square-danger">{{$tareas_pendientes_por_calificar->count()}}</span>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <!-- Contenido de pestañas -->
-
-                    <div class="contenedor-scroll tab-content" id="myPillTabContent">
-                        <div class="tab-pane fade " id="tareas-enviadas" role="tabpanel" aria-labelledby="home-icon-pill">
-                            <!-- Card -->
-                            @if($tareas_enviadas->count()<=0)
-                                <h4 class="text-primary">No hay enviados</h4>
-                            @else
-                                @foreach($tareas_enviadas as $tarea)
-                                    <div class="card card-tarea" onclick="fxInfoTarea({{$tarea->id_tarea}});">
-                                        <div class="card-body">
-                                        <h6 class="mb-3">{{$tarea->c_titulo}}</h6>
-                                            <p class="text-20 text-warning line-height-1 mb-3"><i class="i-Arrow-Up-in-Circle"></i> Enviado</p>
-                                        <small class="text-muted">Fecha de envio: {{$tarea->created_at}}</small>
+                    <div class="ul-widget__head">
+                        <div class="ul-widget__head-label">
+                            <h3 class="ul-widget__head-title">
+                                <!--Estados-->
+                            </h3>
+                        </div>
+                        <div class="ul-widget__head-toolbar">
+                            <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line ul-widget-nav-tabs-line"
+                                role="tablist">
+                                <li class="nav-item">
+                                    <a onclick="CerrarPanel()" class="nav-link" data-toggle="tab" href="#tareas-enviadas"
+                                        role="tab">
+                                        Enviados
+                                        <span class="badge-enviadas badge  badge-square-warning">{{$tareas_enviadas->count()}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tareas-calificadas"
+                                        role="tab">
+                                        Calificados
+                                        <span class="badge-calificadas badge  badge-square-success">{{$tareas_calificadas->count()}}</span>
+                                        
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tareas-pendientes"
+                                        role="tab">
+                                        Pendientes
+                                        <span class="badge-pendientes badge  badge-square-danger">{{$tareas_pendientes_por_calificar->count()}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="ul-widget__body">
+                        <div class="contenedor-scroll tab-content">
+                            <div class="tab-pane " id="tareas-enviadas">
+                                @if($tareas_enviadas->count()<=0)
+                                    <h4 class="text-primary">No hay enviados</h4>
+                                @else
+                                    @foreach($tareas_enviadas as $tarea)
+                                        <div class="card card-tarea" onclick="fxInfoTarea({{$tarea->id_tarea}});">
+                                            <div class="card-body">
+                                            <h6 class="mb-3">{{$tarea->c_titulo}}</h6>
+                                                <p class="text-20 text-warning line-height-1 mb-3"><i class="i-Arrow-Up-in-Circle"></i> Enviado</p>
+                                            <small class="text-muted">Fecha de envio: {{$tarea->created_at}}</small>
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
-                            @endif                            
-                        </div>
+                                    @endforeach
+                                @endif 
+                            </div>
 
-                        <div class="tab-pane fade " id="tareas-calificadas" role="tabpanel" aria-labelledby="profile-icon-pill">
+                            <div class="tab-pane" id="tareas-calificadas">
+                                @if($tareas_calificadas->count()<=0)
+                                    <h4 class="text-primary">No hay calificados</h4>
+                                @else
+                                    @foreach($tareas_calificadas as $tarea)
+                                        <!-- Card -->
+                                        <div class="card card-tarea" id="cardTareaCalificada{{$tarea->id_tarea}}"  onclick="fxAplicarTarea({{$tarea->id_tarea}})">
+                                        <div class="card-body">
+                                        <h6 class="mb-3">
+                                        <span class="badge badge-success w-badge">{{$tarea->categoria->c_nombre}}</span>
+                                        {{$tarea->c_titulo}}
+                                        </h6>
+                                        <p class="text-20 text-success line-height-1 mb-3"><i class="i-Arrow-Down-in-Circle"></i> Calificado</p>
+                                        <small class="text-muted">Fecha de calificación: {{$tarea->updated_at}}</small>
+                                        </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
 
-                            @if($tareas_calificadas->count()<=0)
-                                <h4 class="text-primary">No hay calificados</h4>
-                            @else
-                                @foreach($tareas_calificadas as $tarea)
-                                    <!-- Card -->
-                                    <div class="card card-tarea" id="cardTareaCalificada{{$tarea->id_tarea}}"  onclick="fxAplicarTarea({{$tarea->id_tarea}})">
-                                    <div class="card-body">
-                                    <h6 class="mb-3">
-                                    <span class="badge badge-success w-badge">{{$tarea->categoria->c_nombre}}</span>
-                                    {{$tarea->c_titulo}}
-                                    </h6>
-                                    <p class="text-20 text-success line-height-1 mb-3"><i class="i-Arrow-Down-in-Circle"></i> Calificado</p>
-                                    <small class="text-muted">Fecha de calificación: {{$tarea->updated_at}}</small>
-                                    </div>
-                                    </div>
-                                @endforeach
-                            @endif
-                            
-                        </div>
-
-                        <div class="tab-pane fade show active" id="tareas-pendientes" role="tabpanel" aria-labelledby="contact-icon-pill">
-                            @if($tareas_pendientes_por_calificar->count()<=0)
+                            <div class="tab-pane active" id="tareas-pendientes">
+                                @if($tareas_pendientes_por_calificar->count()<=0)
                                 <h4 class="text-primary">No hay nada para revisar</h4>
-                            @else
-                                @foreach($tareas_pendientes_por_calificar as $tarea)
-                                    @php
-                                        //proceso para determinar el porcentaje de revision
-                                        $alumnos_de_tarea = $tarea->alumnos_asignados;
-                                        //porcentaje de revision
-                                        $porcentaje_revision = 0;
-                                        //contador de alumnos revisados
-                                        $count_revisados = 0;
-                                        $total = 0;
-                                        foreach($alumnos_de_tarea as $alumno){
-                                            if(!is_null($alumno->pivot->id_respuesta)){
-                                                $total++;
-                                                if(strtoupper($alumno->pivot->c_estado)=='ACAL'){
-                                                $count_revisados++;
+                                @else
+                                    @foreach($tareas_pendientes_por_calificar as $tarea)
+                                        @php
+                                            //proceso para determinar el porcentaje de revision
+                                            $alumnos_de_tarea = $tarea->alumnos_asignados;
+                                            //porcentaje de revision
+                                            $porcentaje_revision = 0;
+                                            //contador de alumnos revisados
+                                            $count_revisados = 0;
+                                            $total = 0;
+                                            foreach($alumnos_de_tarea as $alumno){
+                                                if(!is_null($alumno->pivot->id_respuesta)){
+                                                    $total++;
+                                                    if(strtoupper($alumno->pivot->c_estado)=='ACAL'){
+                                                    $count_revisados++;
+                                                }
+                                                }
                                             }
+                                            if($count_revisados>0){
+                                                $porcentaje_revision = (100*$count_revisados)/($total);
                                             }
-                                        }
-                                        if($count_revisados>0){
-                                            $porcentaje_revision = (100*$count_revisados)/($total);
-                                        }
-                                    @endphp
-                                    <!-- Card -->
-                                    <div class="card-tarea card" id="cardTareaPendiente{{$tarea->id_tarea}}" onclick="fxAplicarTarea({{$tarea->id_tarea}})">
-                                    <div class="card-body">
-                                    <h6 class="mb-2 text-muted">
-                                    <span class="badge badge-success w-badge">{{$tarea->categoria->c_nombre}}</span>
-                                    {{$tarea->c_titulo}}
-                                    </h6>
-                                    <p class="mb-1 text-22 font-weight-light">{{$porcentaje_revision}}%</p>
-                                    <div class="progress mb-1" style="height: 4px">
-                                    <div class="progress-bar bg-danger" style="width: {{$porcentaje_revision}}%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                    </div>
-                                    </div>
-                                    <small class="text-muted">
-                                    Calificados: {{$count_revisados}}  |  Por calificar: {{$total-$count_revisados}}
-                                    </small>
-                                    </div>
-                                    </div>
-
-                                @endforeach
-
-                            @endif
-                            
-                            
+                                        @endphp
+                                        <!-- Card -->
+                                        <div class="card-tarea card" id="cardTareaPendiente{{$tarea->id_tarea}}" onclick="fxAplicarTarea({{$tarea->id_tarea}})">
+                                        <div class="card-body">
+                                        <h6 class="mb-2 text-muted">
+                                        <span class="badge badge-success w-badge">{{$tarea->categoria->c_nombre}}</span>
+                                        {{$tarea->c_titulo}}
+                                        </h6>
+                                        <p class="mb-1 text-22 font-weight-light">{{$porcentaje_revision}}%</p>
+                                        <div class="progress mb-1" style="height: 4px">
+                                        <div class="progress-bar bg-danger" style="width: {{$porcentaje_revision}}%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                        </div>
+                                        <small class="text-muted">
+                                        Calificados: {{$count_revisados}}  |  Por calificar: {{$total-$count_revisados}}
+                                        </small>
+                                        </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>
