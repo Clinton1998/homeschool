@@ -5,7 +5,6 @@
 
 @section('main-content')
             <h1>Tareas</h1>
-            <h2>{{strtotime("now")}}</h2>
             <div class="row">
                 <div class="col-xs-12 col-sm-4">
                     <span class="badge badge-pill badge-warning p-1 m-1">Pendientes</span>

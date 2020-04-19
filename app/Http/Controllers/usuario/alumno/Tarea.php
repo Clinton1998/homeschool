@@ -28,28 +28,6 @@ class Tarea extends Controller
 
     public function listar(Request $request)
     {
-        /*
-            [
-    {
-      title: 'Event Title1',
-      start: '2015-03-17T13:13:55.008',
-      end: '2015-03-19T13:13:55.008'
-    },
-    {
-      title: 'Event Title2',
-      start: '2015-03-17T13:13:55-0400',
-      end: '2015-03-19T13:13:55-0400'
-    }
-  ]
-        */
-        $tareas = array(
-            array(
-                'title' => 'Balanceo de ecuaciones',
-                'start' => '2020-04-17T13:13:55.008',
-                'end' => '2020-04-19T13:13:55.008'
-            )
-        );
-
 
         $usuarioAlumno = App\User::findOrFail(Auth::user()->id);
         $alumno = App\Alumno_d::where([
@@ -67,7 +45,7 @@ class Tarea extends Controller
                 if ($tarea->pivot->c_estado == 'APEN' && $tarea->t_fecha_hora_entrega > date('Y-m-d H:i:s')) {
                     $color = '#FFC107';
                 } else if ($tarea->pivot->c_estado == 'APEN' && $tarea->t_fecha_hora_entrega <= date('Y-m-d H:i:s')) {
-                    $color = '#FF44336';
+                    $color = 'red';
                 } else if ($tarea->pivot->c_estado == 'AENV') {
                     $color = '#003473';
                 } else if ($tarea->pivot->c_estado == 'ACAL') {
