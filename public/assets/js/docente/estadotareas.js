@@ -39,6 +39,11 @@ function fxAplicarTarea(id_tar) {
             $('#spanCategoria').text(data.tarea.categoria.c_nombre);
             $('#nombreTarea').text(data.tarea.c_titulo);
             $('#observacionTarea').text(data.tarea.c_observacion);
+            if (data.tarea.c_url_archivo == null) {
+                $('#archivoTarea').text('');
+            } else {
+                $('#archivoTarea').html('<a href="/docente/tarea/archivo/' + data.tarea.id_tarea + '" class="text-primary" cdownload="' + data.tarea.c_url_archivo + '">Descargar Archivo ' + data.tarea.c_url_archivo + '</a>')
+            }
             var htmlAlumnosEnviaron = '';
             var htmlAlumnosNoEnviaron = '';
             var countEnviaron = 0;
@@ -93,6 +98,11 @@ function fxAplicarRespuesta(id_pue) {
         if (data.correcto) {
             $('#id_puente').val(data.puente.id_alumno_docente_tarea);
             $('#respuestaObservacion').text(data.respuesta.c_observacion);
+            if (data.respuesta.c_url_archivo == null) {
+                $('#respuestaArchivo').text('No hay archivos adjuntos');
+            } else {
+                $('#respuestaArchivo').html('<a href="/alumno/tarea/respuestaarchivo/' + data.puente.id_tarea + '/' + data.respuesta.id_respuesta + '" class="text-primary" cdownload="' + data.respuesta.c_url_archivo + '">Descargar Archivo ' + data.respuesta.c_url_archivo + '</a>');
+            }
             $('#txtCalificacion').val(data.respuesta.c_calificacion);
             $('#txtComentario').val(data.respuesta.c_comentario_calificacion);
             $('#modal-tarea-pendiente-revisar').modal('show');
@@ -101,6 +111,11 @@ function fxAplicarRespuesta(id_pue) {
         }
     });
 }
+
+/**
+ * 
+ * 
+ */
 
 function fxConfirmarRevision(e) {
     $(e.target).attr('disabled', 'true');

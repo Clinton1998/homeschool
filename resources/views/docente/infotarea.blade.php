@@ -14,6 +14,15 @@
                         <div>
                         <h4 class="">{{$tarea->c_titulo}}</h4>
                         <p class="ul-task-manager__paragraph mb-3 text-justify">{{$tarea->c_observacion}}</p>
+                        @if(!is_null($tarea->c_url_archivo) && !empty($tarea->c_url_archivo))
+                            <h5>Archivo</h5>
+                            <p>
+                            <a href="{{url('/docente/tarea/archivo/'.$tarea->id_tarea)}}" class="text-primary" cdownload="{{$tarea->c_url_archivo}}">
+                                    Descargar Archivo {{$tarea->c_url_archivo}}
+                                    </a>
+                            </p>
+                        @endif
+
                         @if(is_null($tarea->docente->c_foto)  || empty($tarea->docente->c_foto))
                             @if(strtoupper($tarea->docente->c_sexo)=='M')
                                 <img  class="rounded-circle" width="50" height="50" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Foto del docente">

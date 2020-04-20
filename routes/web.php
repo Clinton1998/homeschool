@@ -78,8 +78,9 @@ Route::get('alumno/companieros', 'usuario\alumno\Companiero@index')->name('alumn
 
 Route::post('alumno/tarea/listar', 'usuario\alumno\Tarea@listar')->name('alumno/tarea/listar');
 Route::post('alumno/tarea/responder', 'usuario\alumno\Tarea@responder')->name('alumno/tarea/responder');
-Route::post('alumno/tarea/comentar','usuario\alumno\Tarea@comentar')->name('alumno/tarea/comentar');
+Route::post('alumno/tarea/comentarpendiente','usuario\alumno\Tarea@comentar_pendiente')->name('alumno/tarea/comentarpendiente');
 Route::get('alumno/tareapendiente/{id_tarea}', 'usuario\alumno\Tarea@info_pendiente')->name('alumno/tareapendiente/{id_tarea}');
+Route::get('alumno/tarea/respuestaarchivo/{id_tarea}/{id_respuesta}', 'usuario\alumno\Tarea@descargar_archivo')->name('alumno/tarea/respuestaarchivo/{id_tarea}/{id_respuesta}');
 
 Route::post('docente/docente/aplicar','usuario\docente\Docente@aplicar')->name('docente/docente/aplicar');
 Route::post('docente/docente/buscar','usuario\docente\Docente@buscar')->name('docente/docente/buscar');
@@ -90,6 +91,7 @@ Route::post('docente/tarea/aplicar_info','usuario\docente\Tarea@aplicar_info')->
 Route::post('docente/tarea/respuesta','usuario\docente\Tarea@respuesta')->name('docente/tarea/respuesta');
 Route::post('docente/tarea/calificarrespuesta','usuario\docente\Tarea@calificar_respuesta')->name('docente/tarea/calificarrespuesta');
 Route::get('docente/tarea/{id_tarea}', 'usuario\docente\Tarea@info')->name('docente/tarea/{id_tarea}');
+Route::get('docente/tarea/archivo/{id_tarea}', 'usuario\docente\Tarea@descargar_archivo')->name('docente/tarea/archivo/{id_tarea}');
 
 Route::post('docente/alumno/aplicar','usuario\docente\Alumno@aplicar')->name('docente/alumno/aplicar');
 Route::post('docente/tarea/comentar','usuario\docente\Tarea@comentar')->name('docente/tarea/comentar');

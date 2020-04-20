@@ -17,8 +17,8 @@
                         @if(!is_null($tarea->c_url_archivo) && !empty($tarea->c_url_archivo))
                             <h5>Archivo</h5>
                             <p>
-                                <a href="../pdfs/reporte2-05-10.pdf" class="text-primary" cdownload="Reporte2Mayo2010">
-                                    Descargar Archivo
+                                <a href="{{url('/docente/tarea/archivo/'.$tarea->id_tarea)}}" class="text-primary" cdownload="{{$tarea->c_url_archivo}}">
+                                    Descargar Archivo {{$tarea->c_url_archivo}}
                                     </a>
                             </p>
                         @endif
@@ -46,15 +46,14 @@
 
                 <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
                     <span>Fecha de entrega: <span class="font-weight-semibold text-primary">{{$tarea->t_fecha_hora_entrega}}</span></span>
-                    
-                    <button type="button" class="btn btn-primary btn-lg float-right" id="btnResponderTarea" onclick="fxResponder({{$tarea->id_tarea}});">Responder</button>
+                    <button type="button" class="btn btn-primary btn-lg float-right" id="btnResponderTarea" onclick="fxResponder({{$tarea->id_tarea}});">Editar respuesta</button>
                 </div>
                 
                 
                 <div class="card-body">
                     <strong>Escribe un comentario</strong>
 
-                    <form id="frmComentarTarea" method="post" action="{{url('/alumno/tarea/comentar')}}" class="needs-validation" novalidate>
+                    <form id="frmComentarTarea" method="post" action="{{url('/alumno/tarea/comentarpendiente')}}" class="needs-validation" novalidate>
                         @csrf
                         <input type="hidden" name="id_tarea" value="{{$tarea->id_tarea}}">
                         <input class="form-control form-control-lg mb-6" id="txtComentario" name="comentario" rows="2" placeholder="Escribe aquí..." required autofocus>

@@ -11,7 +11,7 @@
                                     <div class="card-body">
                                         <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
                                             <div>
-                                                <h6><a href="">{{$tarea->c_titulo}}</a></h6>
+                                                <h6 class="text-primary">{{$tarea->c_titulo}}</h6>
                                                 <p class="ul-task-manager__paragraph mb-3 text-justify">{{$tarea->c_observacion}}</p>
                                                 @if(is_null($tarea->docente->c_foto)  || empty($tarea->docente->c_foto))
                                                     @if(strtoupper($tarea->docente->c_sexo)=='M')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\usuario\docente;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App;
 use Auth;
 
@@ -28,7 +29,7 @@ class Tarea extends Controller
         $tarea->categoria;
         $tarea->alumnos_asignados;
         if (!is_null($tarea) && !empty($tarea)) {
-            
+
             $p_alumno = $tarea->alumnos_asignados()->first();
             $seccion_asignada = App\Seccion_d::findOrFail($p_alumno->id_seccion);
             $seccion_asignada->grado;
@@ -54,7 +55,7 @@ class Tarea extends Controller
             'id_docente' => $usuarioDocente->id_docente,
             'estado' => 1
         ])->first();
-        
+
         $tarea = App\Tarea_d::where([
             ['id_tarea', '=', $request->input('id_tarea')],
             ['id_docente', '=', $docente->id_docente],
@@ -64,7 +65,7 @@ class Tarea extends Controller
         $tarea->categoria;
         $tarea->alumnos_asignados;
         if (!is_null($tarea) && !empty($tarea)) {
-            
+
             $p_alumno = $tarea->alumnos_asignados()->first();
             $seccion_asignada = App\Seccion_d::findOrFail($p_alumno->id_seccion);
             $seccion_asignada->grado;
@@ -121,7 +122,7 @@ class Tarea extends Controller
 
     public function respuesta(Request $request)
     {
-        $puente = DB::table('alumno_tarea_respuesta_p')->select('id_alumno_docente_tarea', 'id_respuesta', 'c_estado')->where([
+        $puente = DB::table('alumno_tarea_respuesta_p')->select('id_alumno_docente_tarea', 'id_tarea','id_respuesta', 'c_estado')->where([
             ['id_alumno_docente_tarea', '=', $request->input('id_puente')],
             ['estado', '=', 1],
         ])->whereNotNull('id_respuesta')->first();
@@ -230,5 +231,11 @@ class Tarea extends Controller
         } else {
             return redirect('docente/asignartareas');;
         }
+    }
+
+    public function descargar_archivo($id_tarea)
+    {
+        $tarea = App\Tarea_d::findOrFail($id_tarea);
+        return Storage::download('tareaasignacion/' . $tarea->id_tarea . '/' . $tarea->c_url_archivo);
     }
 }
