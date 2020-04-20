@@ -70,6 +70,11 @@ Route::post('super/categorias/quitarcategoria', 'usuario\super\Categoria@quitar_
 Route::post('super/categorias/aplicarseccion', 'usuario\super\Seccion@aplicar')->name('super/categorias/aplicarseccion');
 Route::post('super/categorias/agregarcategoriaaseccion', 'usuario\super\Seccion@agregar_categoria')->name('super/categorias/agregarcategoriaaseccion');
 
+// AGREGANDO RUTAS SUPER ADMIN
+Route::get('super/gradoseccion', 'usuario\super\GradoSeccion@index')->name('super/gradoseccion');
+Route::get('super/videoconferencia', 'usuario\super\Videoconferencia@index')->name('super/videoconferencia');
+
+
 //rutas para el alumno
 Route::get('alumno/calendario', 'usuario\alumno\Calendario@index')->name('alumno/calendario');
 Route::get('alumno/tareas', 'usuario\alumno\Tarea@index')->name('alumno/tareas');
