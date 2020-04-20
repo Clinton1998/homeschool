@@ -62,4 +62,43 @@ class Tarea extends Controller
             return response()->json($events);
         }
     }
+
+    public function info_pendiente($id_tarea)
+    {
+        $usuarioAlumno = App\User::findOrFail(Auth::user()->id);
+        $alumno = App\Alumno_d::where([
+            'id_alumno' => $usuarioAlumno->id_alumno,
+            'estado' => 1
+        ])->first();
+
+        if (!is_null($alumno) && !empty($alumno)) {
+            $tarea = App\Tarea_d::where([
+                'id_tarea' => $id_tarea,
+                'estado' => 1
+            ])->first();
+            //comprobamos si la tarea pertenece al alumno
+            $alumno_de_tarea = $tarea->alumnos_asignados()->where([
+                'alumno_d.estado' => 1,
+                'alumno_tarea_respuesta_p.c_estado' => 'APEN',
+                'alumno_d.id_alumno' => $alumno->id_alumno
+            ])->first();
+
+            if (!is_null($alumno_de_tarea) && !empty($alumno_de_tarea)) {
+                return view('alumno.infotareapendiente', compact('tarea'));
+            } else {
+                return redirect('alumno/tareas');;
+            }
+        } else {
+            return redirect('alumno/tareas');;
+        }
+    }
+
+    public function responder(Request $request)
+    {
+        return response()->json($request->all());
+    }
+
+    public function comentar(Request $request){
+        return response()->json($request->all());
+    }
 }
