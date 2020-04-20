@@ -28,6 +28,7 @@ function fxActualizarDatosSegunSeccion(id_sec){
             console.error(error);
         }
     }).done(function(data){
+        console.log(data);
         if(data.correcto){
             htmlAlumnos = '';
             data.alumnos.forEach(function(alumno,indice){

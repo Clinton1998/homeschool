@@ -5,8 +5,8 @@
 <head>
     <link rel="stylesheet" href="{{asset('assets/styles/css/style.css')}}">
 </head>
-
-<body onload="ContadorSeleccionados()">
+<button type="button" class="btn btn-primary btn-lg" onclick="window.open('https://accounts.google.com/signin/v2/dentifier?service=talk&continue=https%3A%2F%2Fhangouts.google.com%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">Abrir hangout</button>
+<!--<body onload="ContadorSeleccionados()">
     <h2 class="titulo">Videoclase</h2>
 
     <div class="contenedor-estado-tareas row">
@@ -26,10 +26,10 @@
                         </p>
                     </div>
                     <div class="pasos-accion">
-                        <a type="button" class="abrir-hangoust btn btn-raised ripple btn-raised-secondary col col-lg-4 col-sm-12" target="_blank" href="https://accounts.google.com/signin/v2/identifier?service=talk&continue=https%3A%2F%2Fhangouts.google.com%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin">
+                        <a type="button" class="abrir-hangoust btn btn-raised ripple btn-raised-secondary col col-lg-4 col--12" target="_blank" href="https://accounts.google.com/signin/v2/identifier?service=talk&continue=https%3A%2F%2Fhangouts.google.com%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin">
                             Abrir Hangouts
                         </a>
-                    </div>
+                    </div>sm
 
                     <div class="pasos">
                         <strong class="pasos-numero-paso">
@@ -108,7 +108,7 @@
         </div>
     </div>
 
-     <!-- Modal -->
+    
      <div class="modal fade" id="Modal-Integrantes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -373,6 +373,9 @@
             }
         }
     </script>
-</body>
+</body>-->
+
+
+
 
 @endsection

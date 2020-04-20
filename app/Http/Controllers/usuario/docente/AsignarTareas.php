@@ -22,9 +22,9 @@ class AsignarTareas extends Controller
         $tareas = App\Tarea_d::where([
             'id_docente' => $docente->id_docente,
             'estado' => 1
-        ])->orderBy('created_at','DESC')->get();
-        
-        return view('docente.asignartareas', compact('docente','tareas'));
+        ])->orderBy('created_at', 'DESC')->get();
+
+        return view('docente.asignartareas', compact('docente', 'tareas'));
     }
 
     public function alumnos_categorias(Request $request)
@@ -42,11 +42,11 @@ class AsignarTareas extends Controller
 
         //verificamos si la seccion es manipulable por el docente
         $seccion_del = $docente->secciones->where('id_seccion', '=', $seccion->id_seccion)->first();
-
+            
         if (!is_null($seccion_del) && !empty($seccion_del)) {
             //obtenemos los alumnos y categorias para esa seccion
-            $alumnos = $seccion_del->alumnos->where('estado', '=', 1);
-            $categorias = $seccion_del->categorias->where('estado', '=', 1);
+            $alumnos = $seccion_del->alumnos()->where('alumno_d.estado', '=', 1)->get();
+            $categorias = $seccion_del->categorias()->where('categoria_d.estado', '=', 1)->get();
 
             $datos = array(
                 'correcto' => TRUE,
@@ -98,7 +98,7 @@ class AsignarTareas extends Controller
             //asignamos la tareas a todos los alumnos de la seccion
             foreach ($seccion->alumnos->where('estado', '=', 1) as $alumno) {
                 DB::table('alumno_tarea_respuesta_p')->insert(
-                    ['id_tarea' => $newtarea->id_tarea, 'id_alumno' => $alumno->id_alumno,'c_estado' => 'APEN', 'creador' => $usuarioDocente->id]
+                    ['id_tarea' => $newtarea->id_tarea, 'id_alumno' => $alumno->id_alumno, 'c_estado' => 'APEN', 'creador' => $usuarioDocente->id]
                 );
             }
         } else {
