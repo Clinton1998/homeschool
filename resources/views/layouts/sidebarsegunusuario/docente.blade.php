@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="{{asset('assets/styles/css/style-overwrite.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/styles/css/style-panel-docente.css')}}">
 </head>
 
 <div class="side-content-wrap">
@@ -49,59 +49,7 @@
                 </a>
             </li>
         </ul>
-        <!-- INICIO DE NUEVO MENU SLIDER -->
-        
-        <!--<ul class="navigation-left">
-
-            <li class="nav-item {{ request()->is('datatables/*') ? 'active' : '' }}" data-item="item-dashboard">
-                <a class="nav-item-hold" href="{{route('basic-tables')}}">
-                    <i class="nav-icon i-Optimization"></i>
-                    <span class="nav-text">Tablero</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-
-            <li class="nav-item {{ request()->is('docente/docente*') ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{route('docente/docente')}}">
-                    <i class="nav-icon i-Geek"></i>
-                    <span class="nav-text">Docentes</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-
-            <li class="nav-item {{ request()->is('docente/alumno*') ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{route('docente/alumno')}}">
-                    <i class="nav-icon i-Student-Hat-2"></i>
-                    <span class="nav-text">Mis alumnos</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            
-            <li class="nav-item {{ request()->is('docente/asignartareas*') ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{route('docente/asignartareas')}}">
-                    <i class="nav-icon i-Notepad"></i>
-                    <span class="nav-text">Asignación de tareas</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-
-            <li class="nav-item {{ request()->is('docente/estadotareas*') ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{route('docente/estadotareas')}}">
-                    <i class="nav-icon i-Folder-With-Document"></i>
-                    <span class="nav-text">Estado de tareas</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-
-            <li class="nav-item {{ request()->is('docente/videoclase*') ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{route('docente/videoclase')}}">
-                    <i class="nav-icon i-Movie"></i>
-                    <span class="nav-text">Videoclase</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-        </ul>-->
+        <!-- FIN DE NUEVO MENU SLIDER -->
     </div>
     <div class="sidebar-overlay"></div>
 </div>
-<!--=============== Left side End ================-->
