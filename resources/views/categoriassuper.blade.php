@@ -6,6 +6,247 @@
 @endsection
 
 @section('main-content')
+
+<head>
+  <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
+</head>
+
+<body>
+  <h2 class="hs_titulo">Materias</h2>
+
+  <div class="row hs_contenedor">
+      <div class="card  col col-lg-7 col-sm-12">
+          <div class="card-body">
+              <div class="ul-widget__head">
+                <div class="ul-widget__head-label">
+                    <h3 class="ul-widget__head-title">
+                        
+                    </h3>
+                </div>
+                <div class="ul-widget__head-toolbar">
+                    <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line ul-widget-nav-tabs-line"
+                        role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#ul-widget2-tab1-content"
+                                role="tab">
+                                Inicial
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#ul-widget2-tab2-content"
+                                role="tab">
+                                Primaria
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#ul-widget2-tab3-content"
+                                role="tab">
+                                Secundaria
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ul-widget__body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="ul-widget2-tab1-content">
+                      <div class="botonera-superior-derecha">
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#hs_MODAL">Agregar</button>
+                      </div>
+      
+                      <div class="table-responsive">
+                          <table id="zero_configuration_table" class=" hs_tabla display table table-striped table-bordered" style="width:100%;">
+                              <thead>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th>Grado</th>
+                                      <th>Sección</th>
+                                      <th><small></small></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td>
+                                          Ciencias naturales
+                                      </td>
+                                      <td>
+                                          Segundo
+                                      </td>
+                                      <td>
+                                          A
+                                      </td>
+                                      <td>
+                                          <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
+                                          <a href="#" class="badge badge-danger m-2">X</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          Matemática
+                                      </td>
+                                      <td>
+                                          Primero
+                                      </td>
+                                      <td>
+                                          A
+                                      </td>
+                                      <td>
+                                        <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
+                                        <a href="#" class="badge badge-danger m-2">X</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          Matemática
+                                      </td>
+                                      <td>
+                                          Primero
+                                      </td>
+                                      <td>
+                                          A
+                                      </td>
+                                      <td>
+                                        <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
+                                        <a href="#" class="badge badge-danger m-2">X</a>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+
+                    <div class="tab-pane" id="ul-widget2-tab2-content">
+                      <div class="botonera-superior-derecha">
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#hs_MODAL">Agregar</button>
+                      </div>
+      
+                      <div class="table-responsive">
+                          <table id="zero_configuration_table" class=" hs_tabla display table table-striped table-bordered" style="width:100%;">
+                              <thead>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th>Grado</th>
+                                      <th>Sección</th>
+                                      <th><small></small></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td>
+                                          Matemática
+                                      </td>
+                                      <td>
+                                          Primero
+                                      </td>
+                                      <td>
+                                          A
+                                      </td>
+                                      <td>
+                                        <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
+                                        <a href="#" class="badge badge-danger m-2">X</a>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+
+                    <div class="tab-pane " id="ul-widget2-tab3-content">
+                      <div class="botonera-superior-derecha">
+                        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#hs_MODAL">Agregar</button>
+                      </div>
+      
+                      <div class="table-responsive">
+                          <table id="zero_configuration_table" class=" hs_tabla display table table-striped table-bordered" style="width:100%;">
+                              <thead>
+                                  <tr>
+                                      <th>Nombre</th>
+                                      <th>Grado</th>
+                                      <th>Sección</th>
+                                      <th><small></small></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td>
+                                          Ciencias naturales
+                                      </td>
+                                      <td>
+                                          Segundo
+                                      </td>
+                                      <td>
+                                          A
+                                      </td>
+                                      <td>
+                                          <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
+                                          <a href="#" class="badge badge-danger m-2">X</a>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td>
+                                          Matemática
+                                      </td>
+                                      <td>
+                                          Primero
+                                      </td>
+                                      <td>
+                                          A
+                                      </td>
+                                      <td>
+                                        <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
+                                        <a href="#" class="badge badge-danger m-2">X</a>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+      </div>
+  </div>
+
+   <!-- Modal -->
+  <div class="modal fade" id="hs_MODAL" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{Crear nueva materia} ó {Editar materia}</h5> <!-- Según sea el botón que llame al MODAL -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="txtSeccion">Nombre de materia</label>
+                <input type="text" class="form-control" id="txtMateria" placeholder="Ejemplo: Matemática">
+              </div>  
+              <div class="form-group">
+                  <label for="picker1">Para la sección</label>
+                  <select class="form-control">
+                      <option>-- Eliga un Grado y Sección --</option>
+                      <option>Primero A</option>
+                      <option>Primero B</option>
+                      <option>Tercero A</option>
+                  </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="">Guardar</button>
+            </div>
+        </div>
+    </div>
+  </div>
+</body>
+
+
+
+
+
+
+
 <section class="contact-list">
     <div class="row">
         <div class="col-lg-12 col-md-12">
@@ -128,8 +369,6 @@
       </div>
     </div>
   </div>
-
-
   
   <!-- Modal -->
   <div class="modal fade" id="mdlEditarCategoria" tabindex="-1" role="dialog" aria-labelledby="mdlEditarCategoriaLabel" aria-hidden="true">
@@ -177,8 +416,6 @@
     </div>
   </div>
 
-
-  
   <!-- Modal -->
   <div class="modal fade" id="mdlAgregarCategoriaASeccion" tabindex="-1" role="dialog" aria-labelledby="mdlAgregarCategoriaASeccionLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">

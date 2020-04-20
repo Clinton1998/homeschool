@@ -123,6 +123,7 @@ a {
 .hs_tabla {
     border-radius: 8px;
     overflow: hidden;
+    text-align: center;
 }
 
 .hs_tabla th {
@@ -139,17 +140,18 @@ a {
 
 .hs_tabla th:last-child,
 .hs_tabla td:last-child {
-    max-width: 70px;
-    text-align: center;
+    width: 90px !important;
 }
 
 .hs_tabla th:last-child {
     cursor: default;
 }
 
-.hs_tabla td:nth-child(3) {
-    text-align: center;
+.hs_tabla td:nth-child(1),
+.hs_tabla td:nth-child(2) {
+    text-align: left;
 }
+
 
 /* Sobreescrito*/
 

@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
 </head>
 
-<body onload="ContadorSeleccionados()">
+<body>
     <h2 class="hs_titulo">Grados y secciones</h2>
 
     <div class="row hs_contenedor">
@@ -43,8 +43,8 @@
                                     A
                                 </td>
                                 <td>
-                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL">Editar</a>
-                                    <a href="#" class="badge badge-danger m-2">Eliminar</a>
+                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
+                                          <a href="#" class="badge badge-danger m-2">X</a>
                                 </td>
                             </tr>
                             <tr>
@@ -58,8 +58,8 @@
                                     A
                                 </td>
                                 <td>
-                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL">Editar</a>
-                                    <a href="#" class="badge badge-danger m-2">Eliminar</a>
+                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
+                                    <a href="#" class="badge badge-danger m-2">X</a>
                                 </td>
                             </tr>
                             <tr>
@@ -73,23 +73,8 @@
                                     A
                                 </td>
                                 <td>
-                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL">Editar</a>
-                                    <a href="#" class="badge badge-danger m-2">Eliminar</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Primaria
-                                </td>
-                                <td>
-                                    Tercero
-                                </td>
-                                <td>
-                                    A
-                                </td>
-                                <td>
-                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL">Editar</a>
-                                    <a href="#" class="badge badge-danger m-2">Eliminar</a>
+                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
+                                    <a href="#" class="badge badge-danger m-2">X</a>
                                 </td>
                             </tr>
                         </tbody>
