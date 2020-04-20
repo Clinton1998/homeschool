@@ -47,6 +47,42 @@ class Tarea extends Controller
         }
     }
 
+    public function aplicar_info(Request $request)
+    {
+        $usuarioDocente = App\User::findOrFail(Auth::user()->id);
+        $docente = App\Docente_d::where([
+            'id_docente' => $usuarioDocente->id_docente,
+            'estado' => 1
+        ])->first();
+        
+        $tarea = App\Tarea_d::where([
+            ['id_tarea', '=', $request->input('id_tarea')],
+            ['id_docente', '=', $docente->id_docente],
+            ['estado', '=', 1]
+        ])->first();
+
+        $tarea->categoria;
+        $tarea->alumnos_asignados;
+        if (!is_null($tarea) && !empty($tarea)) {
+            
+            $p_alumno = $tarea->alumnos_asignados()->first();
+            $seccion_asignada = App\Seccion_d::findOrFail($p_alumno->id_seccion);
+            $seccion_asignada->grado;
+            $datos = array(
+                'correcto' => TRUE,
+                'tarea' => $tarea,
+                'seccion_asignada' =>  $seccion_asignada
+            );
+
+            return response()->json($datos);
+        } else {
+            $datos = array(
+                'correcto' => FALSE
+            );
+            return response()->json($datos);
+        }
+    }
+
     public function comentar(Request $request)
     {
 

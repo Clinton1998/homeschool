@@ -97,6 +97,7 @@ class Seccion extends Controller
         }
 
         $categorias_no_utilizadas = DB::table('categoria_d')->select('id_categoria','c_nombre','c_nivel_academico')
+            ->where('categoria_d.estado','=',1)
             ->whereNotIn('id_categoria', $id_utilizados)
             ->get();
 

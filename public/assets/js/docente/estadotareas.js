@@ -129,7 +129,7 @@ function fxCalificarTareaDeAlumno() {
 function fxInfoTarea(id_tar) {
     $.ajax({
         type: 'POST',
-        url: '/docente/tarea/aplicar',
+        url: '/docente/tarea/aplicar_info',
         data: {
             id_tarea: id_tar
         },

@@ -32,7 +32,16 @@ class Categoria extends Controller
 
         //prueba
         //Obteniendo todas las secciones
-        $secciones = App\Seccion_d::where('estado','=',1)->orderBy('c_nombre','ASC')->get();
+        //$secciones = App\Seccion_d::where('estado','=',1)->orderBy('c_nombre','ASC')->get();
+
+
+        $secciones = DB::table('seccion_d')
+            ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+            ->select('seccion_d.*')
+            ->where([
+                'grado_m.id_colegio' => $colegio->id_colegio,
+                'seccion_d.estado' => 1
+            ])->get();
 
         return view('categoriassuper',compact('categorias','secciones','grados'));
     }

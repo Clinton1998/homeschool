@@ -39,29 +39,33 @@
                         <div class="col-sm-9">
                             <h3 class="text-primary">Categoria en las secciones</h3>
                             <div class="row">
-                                @foreach($secciones as $seccion)
-                                    <div class="col-sm-4">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <span class="text-primary">{{$seccion->c_nombre}} - {{$seccion->grado->c_nombre}} - {{$seccion->grado->c_nivel_academico}}</span>
-                                                <button type="button" class="btn btn-primary float-right" id="btnAgregarCategoriaASeccion{{$seccion->id_seccion}}" onclick="fxAplicarSeccion({{$seccion->id_seccion}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Agregar categoria a seccion {{$seccion->c_nombre}}">+</button>
-                                                </div>
-                                            </div>
-                                        <ul class="list-group">
-                                            @php
-                                                $fcat = 0;
-                                            @endphp
-                                            @foreach($seccion->categorias->where('estado','=',1) as $categoria)
-                                                @php
-                                                    $fcat++;
-                                                @endphp
-                                                <li class="list-group-item"><span class="text-primary">#{{$fcat}} {{$categoria->c_nombre}}</span> - <span class="text-info">{{$categoria->c_nivel_academico}}</span>
-                                                  <button type="button" class="btn btn-sm btn-danger float-right" id="btnConfirmacionQuitarCategoriaDeSeccion{{$categoria->id_categoria}}" onclick="fxQuitarCategoriaDeSeccion({{$seccion->id_seccion}},{{$categoria->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quitar"><i class="i-Eraser-2"></i></button>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
+
+                                @foreach($grados as $grado)
+                                      @foreach($grado->secciones()->where('estado','=',1)->get() as $seccion)
+                                      <div class="col-sm-4">
+                                              <div class="row">
+                                                  <div class="col-sm-12">
+                                                      <span class="text-primary">{{$seccion->c_nombre}} - {{$seccion->grado->c_nombre}} - {{$seccion->grado->c_nivel_academico}}</span>
+                                                  <button type="button" class="btn btn-primary float-right" id="btnAgregarCategoriaASeccion{{$seccion->id_seccion}}" onclick="fxAplicarSeccion({{$seccion->id_seccion}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Agregar categoria a seccion {{$seccion->c_nombre}}">+</button>
+                                                  </div>
+                                              </div>
+                                          <ul class="list-group">
+                                              @php
+                                                  $fcat = 0;
+                                              @endphp
+                                              @foreach($seccion->categorias->where('estado','=',1) as $categoria)
+                                                  @php
+                                                      $fcat++;
+                                                  @endphp
+                                                  <li class="list-group-item"><span class="text-primary">#{{$fcat}} {{$categoria->c_nombre}}</span> - <span class="text-info">{{$categoria->c_nivel_academico}}</span>
+                                                    <button type="button" class="btn btn-sm btn-danger float-right" id="btnConfirmacionQuitarCategoriaDeSeccion{{$categoria->id_categoria}}" onclick="fxQuitarCategoriaDeSeccion({{$seccion->id_seccion}},{{$categoria->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quitar"><i class="i-Eraser-2"></i></button>
+                                                  </li>
+                                              @endforeach
+                                          </ul>
+                                      </div>
+                                  @endforeach
                                 @endforeach
+                                
                             </div>
                         </div>
                     </div>
@@ -112,7 +116,7 @@
                 <select id="optgroups" name="optgroups[]" multiple>
                     @foreach($grados as $grado)
                     <optgroup label="{{$grado->c_nombre}} - {{$grado->c_nivel_academico}}">
-                            @foreach($grado->secciones->where('estado','=',1) as $seccion)
+                            @foreach($grado->secciones()->where('estado','=',1)->get() as $seccion)
                                 <option value="{{$seccion->id_seccion}}">{{$seccion->c_nombre}}</option>
                             @endforeach
                         </optgroup>
@@ -189,7 +193,7 @@
                 <input type="hidden" id="id_seccion" name="id_seccion">
                 <div class="row">
                 <div class="col-sm-2">
-                <h3>Añadir</h3>
+                <h3>Agregar</h3>
                 </div>
                 <div class="col-sm-4">
                 <select name="nombrecategoria" id="nombrecategoria" required>

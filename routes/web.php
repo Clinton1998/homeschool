@@ -83,6 +83,7 @@ Route::post('docente/docente/buscar','usuario\docente\Docente@buscar')->name('do
 Route::post('docente/docente/alumnoscategorias','usuario\docente\AsignarTareas@alumnos_categorias')->name('docente/docente/alumnoscategorias');
 Route::post('docente/tarea/registrar','usuario\docente\AsignarTareas@asignar')->name('docente/tarea/registrar');
 Route::post('docente/tarea/aplicar','usuario\docente\Tarea@aplicar')->name('docente/tarea/aplicar');
+Route::post('docente/tarea/aplicar_info','usuario\docente\Tarea@aplicar_info')->name('docente/tarea/aplicar_info');
 Route::post('docente/tarea/respuesta','usuario\docente\Tarea@respuesta')->name('docente/tarea/respuesta');
 Route::post('docente/tarea/calificarrespuesta','usuario\docente\Tarea@calificar_respuesta')->name('docente/tarea/calificarrespuesta');
 Route::get('docente/tarea/{id_tarea}', 'usuario\docente\Tarea@info')->name('docente/tarea/{id_tarea}');
