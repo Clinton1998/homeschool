@@ -44,7 +44,7 @@
                                 </td>
                                 <td>
                                     <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
-                                          <a href="#" class="badge badge-danger m-2">X</a>
+                                    <a href="#" class="badge badge-danger m-2">X</a>
                                 </td>
                             </tr>
                             <tr>
