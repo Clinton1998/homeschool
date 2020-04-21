@@ -46,7 +46,7 @@
 
                 <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
                     <span>Fecha de entrega: <span class="font-weight-semibold text-primary">{{$tarea->t_fecha_hora_entrega}}</span></span>
-                    <button type="button" class="btn btn-primary btn-lg float-right" id="btnResponderTarea" onclick="fxResponder({{$tarea->id_tarea}});">Editar respuesta</button>
+                    <button type="button" class="btn btn-primary btn-lg float-right" id="btnResponderTarea" onclick="fxResponder({{$tarea->id_tarea}});">Responder</button>
                 </div>
                 
                 

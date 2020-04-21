@@ -2,7 +2,7 @@
 @section('page-css')
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/styles/css/libreria/slim/slimselect.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/styles/vendor/toastr.css')}}">
 @endsection
 @section('main-content')
 
@@ -115,13 +115,10 @@
                     <div class="form-group">
                         <div class="alert alert-card alert-danger" role="alert" id="alertNoHayCategorias" style="display: none;">
                             <strong class="text-capitalize">Aviso!</strong> No tienes ninguna categoría para esta sección, pídele al super administrador de tu institución,que cree una categoría.
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
                         </div>
 
                         <label for="selCategoria">Categoría</label>
-                        <select name="categoria" id="selCategoria" class="form-control" required>
+                        <select name="categoria" id="selCategoria" class="form-control" disabled required>
                         </select>
                         <span class="invalid-feedback" role="alert">
                             Elige una categoría
@@ -129,13 +126,16 @@
                     </div>
                     <div class="form-group">
                         <label class="label-text" for="txtFechaEntrega">Fecha de entrega</label>
-                        <input class="form-control" id="txtFechaEntrega"  name="fecha_hora_entrega" type="date" placeholder="Ejemplo: Los planetas" required>
+                        <input class="form-control" id="txtFechaEntrega"  name="fecha_hora_entrega" type="date" placeholder="Ejemplo: Los planetas" disabled required>
+                        <span class="invalid-feedback" role="alert">
+                            Seleccionar una fecha
+                        </span>
                     </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="frmAsignarTarea">Asignar tarea</button>
+                    <button type="submit" class="btn btn-primary" id="btnSubmitAsignarTarea" form="frmAsignarTarea">Asignar tarea</button>
                 </div>
             </div>
         </div>
@@ -172,6 +172,6 @@
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
     <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
     <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
-    <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/toastr.min.js')}}"></script>
     <script src="{{asset('assets/js/docente/asignartareas.js')}}"></script>
 @endsection

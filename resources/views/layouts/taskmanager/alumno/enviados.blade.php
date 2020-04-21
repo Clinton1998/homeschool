@@ -37,7 +37,7 @@
 
                                     <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
                                         <span>Fecha de entrega: <span class="font-weight-semibold text-primary">{{$tarea->t_fecha_hora_entrega}}</span></span>
-                                        <a href="#" class="text-default " data-toggle="dropdown">Ver</a>
+                                        <a href="{{url('alumno/tareaenviada/'.$tarea->id_tarea)}}" class="text-default">Ver</a>
                                     </div>
                                 </div>
                             </div>    
