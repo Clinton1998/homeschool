@@ -42,7 +42,7 @@ class AsignarTareas extends Controller
 
         //verificamos si la seccion es manipulable por el docente
         $seccion_del = $docente->secciones->where('id_seccion', '=', $seccion->id_seccion)->first();
-            
+
         if (!is_null($seccion_del) && !empty($seccion_del)) {
             //obtenemos los alumnos y categorias para esa seccion
             $alumnos = $seccion_del->alumnos()->where('alumno_d.estado', '=', 1)->get();
@@ -65,6 +65,7 @@ class AsignarTareas extends Controller
 
     public function asignar(Request $request)
     {
+        //return response()->json($request->all());
         $docente = App\Docente_d::findOrFail($request->input('id_docente'));
         $usuarioDocente = App\User::findOrFail(Auth::user()->id);
         //creamos una tarea
@@ -73,22 +74,22 @@ class AsignarTareas extends Controller
         $newtarea->id_docente = $docente->id_docente;
         $newtarea->c_titulo = $request->input('titulo');
         $newtarea->c_observacion = $request->input('descripcion');
-        $newtarea->t_fecha_hora_entrega = $request->input('fecha_hora_entrega');
+        $newtarea->t_fecha_hora_entrega = date('Y-m-d', strtotime($request->input('fecha_hora_entrega')));
         $newtarea->c_estado = 'DENV';
         $newtarea->creador = $usuarioDocente->id;
-
+        $newtarea->save();
         //subida de archivo,si es que existe
         $archivo = $request->file('archivo');
 
         if (!is_null($archivo) && !empty($archivo)) {
             $nombre = $archivo->getClientOriginalName();
             //indicamos que queremos guardar un nuevo archivo en el disco local
-            \Storage::disk('local')->put($nombre,  \File::get($archivo));
-
+            //\Storage::disk('local')->put($nombre,  \File::get($archivo));
+            $archivo->storeAs('tareaasignacion/' . $newtarea->id_tarea.'/', $nombre);
             $newtarea->c_url_archivo = $nombre;
+            $newtarea->save();
         }
-        $newtarea->save();
-
+        
         //obtenemos la seccion
         $seccion = App\Seccion_d::findOrFail($request->input('seccion'));
         //obtenemos el radio elegido

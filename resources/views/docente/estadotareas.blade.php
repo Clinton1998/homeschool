@@ -34,6 +34,7 @@
                         </div>
                         <h4 style="margin-top: 10px;" id="nombreTarea"></h4>
                         <p id="observacionTarea"></p>
+                        <p id="archivoTarea"></p>
                         
                         <!--<div class="panel-botonera">
                             <button type="button" class="btn btn-sm btn-secondary" onclick="CerrarPanel()">Cancelar</button>
@@ -251,7 +252,7 @@
                     </div>
                     <strong>Archivo adjunto</strong>
                     <div class="tarea-pendiente-respuesta">
-                        <p>{No hay archivos adjuntos}</p>
+                        <p id="respuestaArchivo"></p>
                     </div>
                     <div class="input-group">
                         <div class="input-group-prepend">
