@@ -78,7 +78,7 @@
 }
 
 .hs_board {
-    border: solid 15px #000000;
+    border: solid 15px#2f3130;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

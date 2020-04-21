@@ -3,7 +3,7 @@
     --color-principal-dark: #2c3e50;
 }
 
-/* [1] GENERAL ---------------*/
+/* [0] GENERAL ---------------*/
 
 a {
     color: black;
@@ -111,6 +111,14 @@ a {
     cursor: default;
 }
 
+/* [1] COLEGIO ---------------*/
+
+.hs_upload {
+    height: 80px;
+    border-style: dashed;
+    text-align: center;
+}
+
 /* [3] GRADOS Y SECCIONES ---------------*/
 
 .botonera-superior-derecha {
@@ -121,9 +129,8 @@ a {
 }
 
 .hs_tabla {
-    border-radius: 8px;
-    overflow: hidden;
-    text-align: center;
+    border-radius: 8px !important;
+    overflow: hidden !important;
 }
 
 .hs_tabla th {
@@ -147,37 +154,26 @@ a {
     cursor: default;
 }
 
-.hs_tabla td:nth-child(1),
-.hs_tabla td:nth-child(2) {
-    text-align: left;
+/* [5] DOCENTES ---------------*/
+
+.hs_dos-botones {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
+.hs_barra-filtrado {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+}
 
-/* Sobreescrito*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.hs_barra-filtrado strong,
+.hs_barra-filtrado select {
+    min-width: 80px;
+    margin-right: 5px;
+}
 
 /* [7] VIDEOCONFERENCIA ---------------*/
 

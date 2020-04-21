@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('dashboard.dashboardv2');
+    return view('auth.login');
 });
 //rutas para la autenticacion del usuario
 Auth::routes();

@@ -2,7 +2,7 @@ $(document).ready(function () {
 
     // Toolbar extra buttons
     var btnFinish = $('<button></button>').text('Registrar')
-        .addClass('btn btn-info')
+        .addClass('btn btn-primary')
         .on('click', function () {
             if (!$(this).hasClass('disabled')) {
                 var elmForm = $("#myForm");
@@ -35,7 +35,7 @@ $(document).ready(function () {
         transitionEffect: 'fade',
         toolbarSettings: {
             toolbarPosition: 'bottom',
-            toolbarExtraButtons: [btnFinish, btnCancel]
+            toolbarExtraButtons: [btnCancel, btnFinish]
         },
         lang: {
             next: 'Siguiente',
@@ -76,7 +76,7 @@ $(document).ready(function () {
 });
 
 function fxEliminarDocente(id_doc) {
-    var l = Ladda.create(document.getElementById('btnEliminarDocente'+id_doc));
+    var l = Ladda.create(document.getElementById('btnEliminarDocente' + id_doc));
     l.start();
     $.ajax({
         type: 'POST',
@@ -111,7 +111,6 @@ function fxConfirmacionEliminarDocente(id_docente) {
         buttonsStyling: false
     }).then(function () {
         fxEliminarDocente(id_docente);
-    }, function (dismiss) {
-    });
+    }, function (dismiss) {});
 
 }

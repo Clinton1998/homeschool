@@ -6,115 +6,116 @@
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/smart.wizard/smart_wizard.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/smart.wizard/smart_wizard_theme_arrows.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
+
+    <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
 @endsection
 
 @section('main-content')
 
+<h2 class="hs_titulo">Alumnos</h2>
 
-<section class="contact-list">
-    <div class="row">
-            <div class="col-md-12 mb-4">
-                    <div class="card text-left">
-                        <div class="card-header bg-transparent">
-                            <div class="row">
-                                <div class="col-sm-1">Filtro</div>
-                                <div class="col-sm-3">
-                                    <select name="" id="" class="form-control">
-                                        <option value="">PRIMERO</option>
-                                        <option value="">SEGUNDO</option>
-                                        <option value="">TERCERO</option>
-                                        <option value="">CUARTO</option>
-                                        <option value="">QUINTO</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-2">
-                                    <select name="" id="" class="form-control">
-                                        <option value="">A</option>
-                                        <option value="">B</option>
-                                        <option value="">C</option>
-                                        <option value="">D</option>
-                                        <option value="">E</option>
-                                    </select>
-                                </div>
-                                <div class="col-sm-6 text-right">
-                                    <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-primary btn-md m-1"><i class="i-Add-User text-white mr-2"></i> Agregar alumno</button>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="card-body">
-                            
-                                <div class="table-responsive">
-                                    <table id="ul-contact-list" class="display table table-sm table-bordered" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>DNI</th>
-                                                <th>Nombre</th>
-                                                <th>Nacionalidad</th>
-                                                <th>Fecha Nacimiento</th>
-                                                <th>Dirección</th>
-                                                <th>Sección</th>
-                                                <th>Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($grados as $grado)
-                                                @foreach($grado->secciones->where('estado','=',1) as $seccion)
-                                                    @foreach($seccion->alumnos->where('estado','=',1) as $alumno)
-                                                    <tr>
-                                                        <td>{{$alumno->c_dni}}</td>
-                                                        <td>
-                                                            <a href="{{url('super/alumno/'.$alumno->id_alumno)}}">
-                                                                    <div class="ul-widget-app__profile-pic">
-                                                                        @if(is_null($alumno->c_foto)  || empty($alumno->c_foto))
-                                                                            @if(strtoupper($alumno->c_sexo)=='M')
-                                                                                <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{asset('assets/images/usuario/studentman.png')}}" alt="Foto del alumno">
-                                                                            @else
-                                                                                <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{asset('assets/images/usuario/studentwoman.png')}}" alt="Foto de alumna">
-                                                                            @endif
+<div class="row hs_contenedor">
+    <div class="card">
+        <div class="card-body">
+            <div class="hs_encabezado">
+                <h4 class="hs_encabezado-titulo">Alumnos de la institución</h4>
+                <div class="hs_encabezado-linea"></div>
+            </div>
             
-                                                                        @else
-                                                                            <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{url('super/alumno/foto/'.$alumno->c_foto)}}" alt="Foto del alumno">
-                                                                        @endif
-                                                                        {{$alumno->c_nombre}}
-                                                                    </div>
-                                                                </a>
-                                                        </td>
-                                                        <td>{{$alumno->c_nacionalidad}}</td>
-                                                        <td>{{$alumno->t_fecha_nacimiento}}</td>
-                                                        <td>{{$alumno->c_direccion}}</td>
-                                                        <td><span class="text-primary">{{$seccion->c_nombre}}</span> - <span class="text-success">{{$grado->c_nombre}} - {{$grado->c_nivel_academico}}</span></td>
-                                                        <td>
-                                                            <a href="{{url('super/alumno/'.$alumno->id_alumno)}}" class="ul-link-action text-success"  data-toggle="tooltip" data-placement="top" title="Editar">
-                                                                    <i class="i-Edit"></i>
-                                                                </a>
-                                                            <button class="btn btn-sm btn-danger" id="btnEliminarAlumno{{$alumno->id_alumno}}" onclick="fxConfirmacionEliminarAlumno({{$alumno->id_alumno}});" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                                                                <i class="i-Eraser-2"></i>
-                                                            </button>  
-                                                        </td>
-                                                    </tr>
-                                                    @endforeach
-                                                @endforeach
-                                            @endforeach
-                                        </tbody>
-                                    
-                                    </table>
-                                </div>
-                                
-                            
-                        
-                        </div>
-                    </div>
+            <div class="hs_dos-botones">
+                <div class="hs_barra-filtrado">
+                    <strong>Filtrar por:</strong>
+                    <select name="" id="" class="form-control">
+                        <option value="">Primero</option>
+                        <option value="">Segundo</option>
+                        <option value="">Tercero</option>
+                        <option value="">Cuarto</option>
+                        <option value="">Quinto</option>
+                    </select>
+                    <select name="" id="" class="form-control">
+                        <option value="">A</option>
+                        <option value="">B</option>
+                        <option value="">C</option>
+                        <option value="">D</option>
+                        <option value="">E</option>
+                    </select>
                 </div>
+
+                <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-primary"><i class="i-Add-User text-white mr-2"></i>Nuevo alumno</button>
+            </div>
+
+            <div class="table-responsive">
+                <table id="ul-contact-list" class="hs_tabla display table table-striped table-bordered" style="width:100%; text-align: left;">
+                    <thead>
+                        <tr>
+                            <th>DNI</th>
+                            <th>Nombre</th>
+                            <th>Nacionalidad</th>
+                            <th>Fecha Nacimiento</th>
+                            <th>Dirección</th>
+                            <th>Sección</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($grados as $grado)
+                            @foreach($grado->secciones->where('estado','=',1) as $seccion)
+                                @foreach($seccion->alumnos->where('estado','=',1) as $alumno)
+                                <tr>
+                                    <td>{{$alumno->c_dni}}</td>
+                                    <td>
+                                        <a href="{{url('super/alumno/'.$alumno->id_alumno)}}">
+                                                <div class="ul-widget-app__profile-pic">
+                                                    @if(is_null($alumno->c_foto)  || empty($alumno->c_foto))
+                                                        @if(strtoupper($alumno->c_sexo)=='M')
+                                                            <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{asset('assets/images/usuario/studentman.png')}}" alt="Foto del alumno">
+                                                        @else
+                                                            <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{asset('assets/images/usuario/studentwoman.png')}}" alt="Foto de alumna">
+                                                        @endif
+
+                                                    @else
+                                                        <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{url('super/alumno/foto/'.$alumno->c_foto)}}" alt="Foto del alumno">
+                                                    @endif
+                                                    {{$alumno->c_nombre}}
+                                                </div>
+                                            </a>
+                                    </td>
+                                    <td>{{$alumno->c_nacionalidad}}</td>
+                                    <td>{{$alumno->t_fecha_nacimiento}}</td>
+                                    <td>{{$alumno->c_direccion}}</td>
+                                    <td><span class="text-primary">{{$seccion->c_nombre}}</span> - <span class="text-success">{{$grado->c_nombre}} - {{$grado->c_nivel_academico}}</span></td>
+                                    <td>
+                                            
+                                        <a href="{{url('super/alumno/'.$alumno->id_alumno)}}" class="badge badge-warning m-2"  data-toggle="tooltip" data-placement="top" title="Editar">
+                                            <i class="nav-icon i-Pen-4"></i>
+                                        </a>
+                                        
+                                        <a href="#" class="badge badge-danger m-2" id="btnEliminarAlumno{{$alumno->id_alumno}}" onclick="fxConfirmacionEliminarAlumno({{$alumno->id_alumno}});" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                            X
+                                        </a>  
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @endforeach
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</section>
+</div>
 
 <!-- begin::modal -->
 <div class="ul-card-list__modal">
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
               <div class="modal-content">
-                
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nuevo alumno</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                     <div class="modal-body">
 
                         <div class="row">
@@ -352,10 +353,6 @@
                         </div>
 
                     </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    </div>
               </div>
             </div>
           </div>
@@ -368,8 +365,10 @@
 
 @section('page-js')
 
-
+    <!--
     <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
+    -->
+
     <!-- page script -->
     <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
     <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
