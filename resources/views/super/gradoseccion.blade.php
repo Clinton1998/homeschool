@@ -1,5 +1,8 @@
 @extends('reutilizable.principal')
-
+@section('page-css')
+<link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
+@endsection
 @section('main-content')
 
 <head>
@@ -18,7 +21,7 @@
                 </div>
                 
                 <div class="botonera-superior-derecha">
-                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#hs_MODAL">Agregar</button>
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#hs_MODAL" onclick="GradoSeccion()">Agregar</button>
                 </div>
 
                 <div class="table-responsive">
@@ -32,51 +35,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    Inicial
-                                </td>
-                                <td>
-                                    4 años
-                                </td>
-                                <td>
-                                    A
-                                </td>
-                                <td>
-                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
-                                    <a href="#" class="badge badge-danger m-2">X</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Inicial
-                                </td>
-                                <td>
-                                    5 años
-                                </td>
-                                <td>
-                                    A
-                                </td>
-                                <td>
-                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
-                                    <a href="#" class="badge badge-danger m-2">X</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Primaria
-                                </td>
-                                <td>
-                                    Segundo
-                                </td>
-                                <td>
-                                    A
-                                </td>
-                                <td>
-                                    <a href="#" class="badge badge-warning m-2" data-toggle="modal" data-target="#hs_MODAL"><i class="nav-icon i-Pen-4"></i></a>
-                                    <a href="#" class="badge badge-danger m-2">X</a>
-                                </td>
-                            </tr>
+                            @foreach ($TMP as $item)
+                                <tr>
+                                    <td>
+                                        {{$item->c_nivel_academico}}
+                                    </td>
+                                    <td>
+                                        {{$item->nom_grado}}
+                                    </td>
+                                    <td>
+                                        {{$item->nom_seccion}}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-warning" id="btnActualizarSeccion{{$item->id_seccion}}" onclick="fxActualizarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="i-Pen-4"></i></button>
+                                        <button type="button" class="btn btn-sm btn-danger" id="btnConfirmacionEliminarSeccion{{$item->id_seccion}}" onclick="fxEliminarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="i-Eraser-2"></i></button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -84,49 +59,106 @@
         </div>
     </div>
 
-     <!-- Modal -->
+    <!-- Guardar -->
     <div class="modal fade" id="hs_MODAL" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{Crear nueva sección} ó {Editar sección}</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <h5 class="modal-title" id="exampleModalLabel">Crear nueva sección</h5> <!-- Según sea el botón que llame al MODAL -->
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="picker2">Nivel - Grado</label>
-                        <select class="form-control">
-                            <option>-- Eliga el nivel-grado --</option>
-                            <option>Incial 3 años</option>  
-                            <option>Incial 4 años</option>  
-                            <option>Incial 5 años</option>
-                            <option>Primero de primaria</option>
-                            <option>Segundo de primaria</option>
-                            <option>Tercero de primaria</option>
-                            <option>Cuarto de primaria</option>
-                            <option>Quinto de primaria</option>
-                            <option>Sexto de primaria</option>
-                            <option>Primero de secundaria</option>
-                            <option>Segundo de secundaria</option>
-                            <option>Tercero de secundaria</option>
-                            <option>Cuarto de secundaria</option>
-                            <option>Quinto de secundaria</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="txtSeccion">Sección</label>
-                        <input type="text" class="form-control" id="txtSeccion" placeholder="Ejemplo: A">
-                    </div>
+                    <form id="frmAgregarSeccion" class="needs-validation" method="POST" action="{{route('super/gradoseccion/agregar')}}" novalidate>
+                        <div class="form-group">
+                            <label for="picker2">Nivel - Grado</label>
+                            <select class="form-control" id="id_grado" name="id_grado">
+                                <option>-- Eliga el nivel-grado --</option>
+                                @foreach ($TMP as $item)
+                                    <option value="{{$item->id_grado}}">{{$item->c_nivel_academico}} {{$item->nom_grado}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="nombre">Sección</label>
+                            <input type="text" class="form-control" id="nombre"name="nombre"  placeholder="Ejemplo: A" required>
+                            <div class="invalid-feedback">
+                                La sección es necesaria
+                            </div>
+                        </div>
+
+                        @csrf
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="">Guardar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" form="frmAgregarSeccion">Guardar</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Actualizar -->
+    <div class="modal fade" id="hs_MODAL-2" tabindex="-1" role="dialog" aria-labelledby="hs_MODAL-2Label" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crear nueva sección</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="frmActualizar" class="needs-validation" method="POST" action="{{route('super/gradoseccion/actualizar')}}" novalidate>
+                        
+                        @csrf
+                        <input type="hidden" id="id_seccion" name="id_seccion">
+    
+                        <div class="form-group">
+                            <label for="actnombre">Sección</label>
+                            <input type="text" class="form-control" id="actnombre" name="actnombre"  placeholder="Ejemplo: A" required>
+                            <div class="invalid-feedback">
+                                La sección es necesaria
+                            </div>
+                        </div>
+
+                        @csrf
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" form="frmActualizar">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
+
+@endsection
+
+@section('page-js')
+
+<script>
+    function GradoSeccion(){
+        var found = [];
+        $("select option").each(function() {
+            if($.inArray(this.value, found) != -1) $(this).remove();
+            found.push(this.value);
+        });
+    }
+</script>
+
+<script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
+<script src="{{asset('assets/js/form.validation.script.js')}}"></script>
+
+<script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
+
+<script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
+<script src="{{asset('assets/js/ladda.script.js')}}"></script>
+<script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
+<script src="{{asset('assets/js/superadmin/secciones.js')}}"></script>
 
 @endsection

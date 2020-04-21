@@ -43,7 +43,20 @@ class Categoria extends Controller
                 'seccion_d.estado' => 1
             ])->get();
 
-        return view('categoriassuper',compact('categorias','secciones','grados'));
+        $TMP = DB::table('seccion_categoria_p')
+        ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
+        ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
+        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
+        ->select('categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado','grado_m.*','colegio_m.*')
+        ->where([
+            'categoria_d.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1,
+            'categoria_d.estado' => 1])
+            ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
+
+        return view('categoriassuper',compact('categorias','secciones','grados', 'TMP'));
     }
 
     public function agregar(Request $request){

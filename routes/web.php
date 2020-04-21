@@ -61,6 +61,10 @@ Route::post('super/secciones/agregar', 'usuario\super\Seccion@agregar')->name('s
 Route::post('super/secciones/actualizar', 'usuario\super\Seccion@actualizar')->name('super/secciones/actualizar');
 Route::post('super/secciones/eliminar', 'usuario\super\Seccion@eliminar')->name('super/secciones/eliminar');
 
+Route::post('super/gradoseccion/agregar', 'usuario\super\GradoSeccion@agregar')->name('super/gradoseccion/agregar');
+Route::post('super/gradoseccion/actualizar', 'usuario\super\GradoSeccion@actualizar')->name('super/gradoseccion/actualizar');
+Route::post('super/gradoseccion/eliminar', 'usuario\super\GradoSeccion@eliminar')->name('super/gradoseccion/eliminar');
+
 Route::get('super/categorias', 'usuario\super\Categoria@index')->name('super/categorias');
 Route::post('super/categorias/agregar', 'usuario\super\Categoria@agregar')->name('super/categorias/agregar');
 Route::post('super/categorias/actualizar', 'usuario\super\Categoria@actualizar')->name('super/categorias/actualizar');
