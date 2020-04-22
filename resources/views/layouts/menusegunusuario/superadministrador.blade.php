@@ -113,7 +113,6 @@
                     <div class="dropdown-header">
                         <i class="i-Lock-User mr-1"></i> {{ Auth::user()->email }}
                     </div>
-                    <a class="dropdown-item">Cambiar contraseña</a>
                     <a class="dropdown-item">Acerca del software</a>
                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
