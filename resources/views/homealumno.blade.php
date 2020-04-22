@@ -5,17 +5,14 @@
 
 @endsection
 @section('main-content')
-       <!--<div class="breadcrumb">
-                <h1>Version 2 Alumno</h1>
-                <ul>
-                    <li><a href="">Dashboard</a></li>
-                    <li>Version 2</li>
-                </ul>
+        <div class="row">
+            <div class="col-xs-12">
+            <h4 class="text-primary">Bienvenido(a), en esta sección encontrarás tus progresos académicos</h4>
             </div>
-            <div class="separator-breadcrumb border-top"></div>-->
-            <div class="row">
+        </div>
+            <!--<div class="row">
                 <div class="col-lg-6 col-md-12">
-                    <!-- CARD ICON -->
+                    
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="card card-icon mb-4">
@@ -83,8 +80,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- end of row-->
+            </div>-->
+            
 @endsection
 
 @section('page-js')

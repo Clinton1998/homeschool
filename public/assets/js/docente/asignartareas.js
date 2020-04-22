@@ -39,6 +39,8 @@ function fxActualizarDatosSegunSeccion(id_sec) {
                 toastr.error("No tienes ningun alumno en la sección");
                 $('#selCategoria').attr('disabled', 'true');
                 $('#txtFechaEntrega').attr('disabled', 'true');
+                $('#txtHoraEntrega').attr('disabled', 'true');
+                $('#txtMinutoEntrega').attr('disabled', 'true');
                 $('#btnSubmitAsignarTarea').attr('disabled', 'true');
             }
             $('#divAlumnosDeSeccion').html(htmlAlumnos);
@@ -52,11 +54,15 @@ function fxActualizarDatosSegunSeccion(id_sec) {
                 $('#alertNoHayCategorias').show();
                 $('#selCategoria').attr('disabled', 'true');
                 $('#txtFechaEntrega').attr('disabled', 'true');
+                $('#txtHoraEntrega').attr('disabled', 'true');
+                $('#txtMinutoEntrega').attr('disabled', 'true');
                 $('#btnSubmitAsignarTarea').attr('disabled', 'true');
             } else {
                 $('#alertNoHayCategorias').attr('style', 'display:none;');
                 $('#selCategoria').removeAttr('disabled');
                 $('#txtFechaEntrega').removeAttr('disabled');
+                $('#txtHoraEntrega').removeAttr('disabled');
+                $('#txtMinutoEntrega').removeAttr('disabled');
                 $('#btnSubmitAsignarTarea').removeAttr('disabled');
             }
             $('#divRadioAlumno').find('input').removeAttr('disabled');

@@ -1,6 +1,11 @@
 @extends('reutilizable.principal')
 @section('main-content')
-           <div class="breadcrumb">
+        <div class="row">
+            <div class="col-xs-12">
+            <h4 class="text-primary">Bienvenido(a), en esta sección encontrarás el progreso de tus alumnos</h4>
+            </div>
+        </div>
+           <!--<div class="breadcrumb">
                 <h1>Version 1 Docente</h1>
                 <ul>
                     <li><a href="">Dashboard</a></li>
@@ -11,7 +16,7 @@
             <div class="separator-breadcrumb border-top"></div>
 
             <div class="row">
-                <!-- ICON BG -->
+                
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="card card-icon-bg card-icon-bg-primary o-hidden mb-4">
                         <div class="card-body text-center">
@@ -347,7 +352,7 @@
                     </div>
                 </div>
 
-            </div>
+            </div>-->
 
 
 @endsection

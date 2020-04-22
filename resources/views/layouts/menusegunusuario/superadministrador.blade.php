@@ -12,13 +12,13 @@
                 <div></div>
         <div></div>
     </div>
-
-    <div class="d-flex align-items-center">
+    <h3>{{$colegio->c_razon_social}}</h3>
+    <!--<div class="d-flex align-items-center">
         <div class="search-bar">
             <input type="text" placeholder="Search">
             <i class="search-icon text-muted i-Magnifi-Glass1"></i>
         </div>
-    </div>
+    </div>-->
 
     <div style="margin: auto"></div>
 
@@ -26,7 +26,7 @@
         <!-- Full screen toggle -->
         <i class="i-Full-Screen header-icon d-none d-sm-inline-block" data-fullscreen></i>
         <!-- Grid menu Dropdown -->
-        <div class="dropdown widget_dropdown">
+        <!--<div class="dropdown widget_dropdown">
             <i class="i-Safe-Box text-muted header-icon" role="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <div class="menu-icon-grid">
@@ -38,14 +38,14 @@
                     <a href="#"><i class="i-Ambulance"></i> Support</a>
                 </div>
             </div>
-        </div>
+        </div>-->
         <!-- Notificaiton -->
-        <div class="dropdown">
+        <!--<div class="dropdown">
             <div class="badge-top-container" role="button" id="dropdownNotification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="badge badge-primary">3</span>
                 <i class="i-Bell text-muted header-icon"></i>
             </div>
-            <!-- Notification dropdown -->
+            
             <div class="dropdown-menu dropdown-menu-right notification-dropdown rtl-ps-none" aria-labelledby="dropdownNotification" data-perfect-scrollbar data-suppress-scroll-x="true">
                 <div class="dropdown-item d-flex">
                     <div class="notification-icon">
@@ -104,8 +104,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Notificaiton End -->
+        </div>-->
+        
 
         <!-- User avatar dropdown -->
         <div class="dropdown">

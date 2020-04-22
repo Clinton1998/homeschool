@@ -124,13 +124,40 @@
                             Elige una categoría
                         </span>
                     </div>
-                    <div class="form-group">
-                        <label class="label-text" for="txtFechaEntrega">Fecha de entrega</label>
-                        <input class="form-control" id="txtFechaEntrega"  name="fecha_hora_entrega" type="date" placeholder="Ejemplo: Los planetas" disabled required>
-                        <span class="invalid-feedback" role="alert">
-                            Seleccionar una fecha
-                        </span>
+
+                    <h5>Fecha y hora de entrega</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="label-text" for="txtFechaEntrega">Fecha</label>
+                                <input class="form-control" id="txtFechaEntrega"  name="fecha_hora_entrega" type="date" disabled required>
+                                <span class="invalid-feedback" role="alert">
+                                    Seleccionar una fecha
+                                </span>
+                            </div>                            
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-text" for="txtHoraEntrega">Hora</label>
+                                <input class="form-control" id="txtHoraEntrega"  name="hora_entrega" type="number" min="0" max="23" disabled>
+                                <span class="invalid-feedback" role="alert">
+                                    Ingresa hora
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="label-text" for="txtMinutoEntrega">Minuto</label>
+                                <input class="form-control" id="txtMinutoEntrega"  name="minuto_entrega" type="number" min="0" max="59" disabled>
+                                <span class="invalid-feedback" role="alert">
+                                    Ingresa minuto    
+                                </span>
+                            </div>
+                        </div>
+
                     </div>
+                    
                     </form>
                 </div>
                 <div class="modal-footer">

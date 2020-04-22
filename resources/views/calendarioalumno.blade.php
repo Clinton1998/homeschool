@@ -28,6 +28,8 @@
                             <a href="#" class="list-group-item list-group-item-action {{$clase}}">
                                 <div>{{$tarea->c_titulo}}</div>
                                 <small>Asignado por {{$tarea->docente->c_nombre}}</small>
+                                <br>
+                                <small>Fecha de entrega: {{$tarea->t_fecha_hora_entrega}}</small>
                             </a>
                         </div>
                     @endforeach

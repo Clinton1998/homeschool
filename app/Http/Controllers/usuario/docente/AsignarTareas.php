@@ -74,7 +74,17 @@ class AsignarTareas extends Controller
         $newtarea->id_docente = $docente->id_docente;
         $newtarea->c_titulo = $request->input('titulo');
         $newtarea->c_observacion = $request->input('descripcion');
-        $newtarea->t_fecha_hora_entrega = date('Y-m-d', strtotime($request->input('fecha_hora_entrega')));
+        $hora = '';
+        $minuto = '';
+        if ($request->input('hora_entrega') == '' && $request->input('minuto_entrega') == '') {
+            $hora = 23;
+            $minuto = 59;
+        } else {
+            $hora = $request->input('hora_entrega');
+            $minuto = $request->input('minuto_entrega');
+        }
+        $fecha_hora_entrega = date('Y-m-d', strtotime($request->input('fecha_hora_entrega'))) . ' ' . $hora . ':' . $minuto . ':00';;
+        $newtarea->t_fecha_hora_entrega = $fecha_hora_entrega;
         $newtarea->c_estado = 'DENV';
         $newtarea->creador = $usuarioDocente->id;
         $newtarea->save();
@@ -85,11 +95,11 @@ class AsignarTareas extends Controller
             $nombre = $archivo->getClientOriginalName();
             //indicamos que queremos guardar un nuevo archivo en el disco local
             //\Storage::disk('local')->put($nombre,  \File::get($archivo));
-            $archivo->storeAs('tareaasignacion/' . $newtarea->id_tarea.'/', $nombre);
+            $archivo->storeAs('tareaasignacion/' . $newtarea->id_tarea . '/', $nombre);
             $newtarea->c_url_archivo = $nombre;
             $newtarea->save();
         }
-        
+
         //obtenemos la seccion
         $seccion = App\Seccion_d::findOrFail($request->input('seccion'));
         //obtenemos el radio elegido
