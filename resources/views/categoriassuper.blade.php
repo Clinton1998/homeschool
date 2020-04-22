@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
 </head>
 
-<body onload="GradoSeccion();">
+<body>
     <h2 class="hs_titulo">Materias</h2>
 
     <div class="row hs_contenedor">
@@ -66,24 +66,24 @@
                                 </thead>
                                 <tbody>
                                 @foreach ($TMP as $item)
-                                @if ($item->c_nivel_academico === "INICIAL")
-                                    <tr>
-                                        <td>
-                                            {{$item->nom_categoria}}
-                                        </td>
-                                        <td>
-                                            {{$item->nom_grado}}
-                                        </td>
-                                        <td>
-                                            {{$item->nom_seccion}}
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-warning" id="btnAplicarCategoria{{$item->id_categoria}}" onclick="fxAplicarCategoria({{$item->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="i-Pen-4"></i></button>
-                                            <button type="button" class="btn btn-sm btn-danger" id="btnConfirmacionEliminarCategoria{{$item->id_categoria}}" onclick="fxConfirmacionEliminarCategoria({{$item->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eliminar"><i class="i-Eraser-2"></i></button>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
+                                    @if ($item->c_nivel_academico === "INICIAL")
+                                        <tr>
+                                            <td>
+                                                {{$item->nom_categoria}}
+                                            </td>
+                                            <td>
+                                                {{$item->nom_grado}}
+                                            </td>
+                                            <td>
+                                                {{$item->nom_seccion}}
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-warning" id="btnAplicarCategoria{{$item->id_categoria}}" onclick="fxAplicarCategoria({{$item->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="i-Pen-4"></i></button>
+                                                <button type="button" class="btn btn-sm btn-danger" id="btnConfirmacionEliminarCategoria{{$item->id_categoria}}" onclick="fxConfirmacionEliminarCategoria({{$item->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eliminar"><i class="i-Eraser-2"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -91,7 +91,7 @@
 
                     <div class="tab-pane" id="ul-widget2-tab2-content">
                         <div class="botonera-superior-derecha">
-                            <button id="btnPrimaria" type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlAgregarCategoria"><i class="i-Add-User text-white mr-2"></i>Nuevo curso</button>
+                            <button id="btnPrimaria" type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlAgregarCategoria2"><i class="i-Add-User text-white mr-2"></i>Nuevo curso</button>
                         </div>
         
                         <div class="table-responsive">
@@ -131,7 +131,7 @@
 
                     <div class="tab-pane " id="ul-widget2-tab3-content">
                         <div class="botonera-superior-derecha">
-                            <button id="btnSecundaria" type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlAgregarCategoria"><i class="i-Add-User text-white mr-2"></i>Nuevo curso</button>
+                            <button id="btnSecundaria" type="button" class="btn btn-primary" data-toggle="modal" data-target="#mdlAgregarCategoria3"><i class="i-Add-User text-white mr-2"></i>Nuevo curso</button>
                         </div>
         
                         <div class="table-responsive">
@@ -174,7 +174,7 @@
         </div>
     </div>
 
-    <!-- Guardar -->
+    <!-- Guardar 1-->
     <div class="modal fade" id="mdlAgregarCategoria" tabindex="-1" role="dialog" aria-labelledby="mdlAgregarCategoriaLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -187,6 +187,8 @@
                 <div class="modal-body">
                     <form class="needs-validation" id="frmRegistroCategoria" method="POST" action="{{route('super/categorias/agregar')}}" novalidate>
                         @csrf
+                        <input type="hidden" id="frm" name="frm" value="1">
+
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
                             <label for="nombre">Nombre de materia</label>
@@ -196,14 +198,19 @@
                             </div>
                         </div>
         
+                        @foreach ($tmp_secciones as $item)
+                            @if ($item->c_nivel_academico == "INICIAL")
+                                <input type="hidden" id="nivel_academico" name="nivel_academico" value="{{$item->c_nivel_academico}}">
+                            @endif
+                        @endforeach
+
                         <!--Grados-Secciones-->
                         <div class="form-group">
                             <label for="grado-seccion">Para la sección</label>
                             <select id="optgroups" name="optgroups[]" multiple>
-                                @foreach ($TMP as $item)
+                                @foreach ($tmp_secciones as $item)
                                     @if ($item->c_nivel_academico == "INICIAL")
                                         <!--Nivel académico-->
-                                        <input type="hidden" id="nivel_academico" name="nivel_academico" value="{{$item->c_nivel_academico}}">
                                         <option value="{{$item->id_seccion}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
                                     @endif
                                 @endforeach
@@ -217,6 +224,115 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary btn-lg" form="frmRegistroCategoria">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guardar 2-->
+    <div class="modal fade" id="mdlAgregarCategoria2" tabindex="-1" role="dialog" aria-labelledby="mdlAgregarCategoria2Label" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nuevo curso o asignatura</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" id="frmRegistroCategoria2" method="POST" action="{{route('super/categorias/agregar')}}" novalidate>
+                        
+                        @csrf
+                        <input type="hidden" id="frm" name="frm" value="2">
+                        <!--Nombre de Asignatura-->
+                        <div class="form-group">
+                            <label for="nombre2">Nombre de materia</label>
+                            <input type="text" class="form-control" id="nombre2" name="nombre2" required placeholder="Ejemplo: Matemática">
+                            <div class="invalid-feedback">
+                                Es necesario poner un nombre
+                            </div>
+                        </div>
+        
+                        @foreach ($tmp_secciones as $item)
+                            @if ($item->c_nivel_academico == "PRIMARIA")
+                                <input type="hidden" id="nivel_academico2" name="nivel_academico2" value="{{$item->c_nivel_academico}}">
+                            @endif
+                        @endforeach
+
+                        <!--Grados-Secciones-->
+                        <div class="form-group">
+                            <label for="optgroups2">Para la sección</label>
+                            <select id="optgroups2" name="optgroups2[]" multiple>
+                                @foreach ($tmp_secciones as $item)
+                                    @if ($item->c_nivel_academico == "PRIMARIA")
+                                        <option value="{{$item->id_seccion}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">
+                                Seleccione un grado-sección
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-lg" form="frmRegistroCategoria2">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Guardar 3-->
+    <div class="modal fade" id="mdlAgregarCategoria3" tabindex="-1" role="dialog" aria-labelledby="mdlAgregarCategoria3Label" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nuevo curso o asignatura</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" id="frmRegistroCategoria3" method="POST" action="{{route('super/categorias/agregar')}}" novalidate>
+                        @csrf
+                        <input type="hidden" id="frm" name="frm" value="3">
+
+                        <!--Nombre de Asignatura-->
+                        <div class="form-group">
+                            <label for="nombre3">Nombre de materia</label>
+                            <input type="text" class="form-control" id="nombre3" name="nombre3" required placeholder="Ejemplo: Matemática">
+                            <div class="invalid-feedback">
+                                Es necesario poner un nombre
+                            </div>
+                        </div>
+        
+                        @foreach ($tmp_secciones as $item)
+                            @if ($item->c_nivel_academico == "SECUNDARIA")
+                                <input type="hidden" id="nivel_academico3" name="nivel_academico3" value="{{$item->c_nivel_academico}}">
+                            @endif
+                        @endforeach
+
+                        <!--Grados-Secciones-->
+                        <div class="form-group">
+                            <label for="optgroups3">Para la sección</label>
+                            <select id="optgroups3" name="optgroups3[]" multiple>
+                                @foreach ($tmp_secciones as $item)
+                                    @if ($item->c_nivel_academico == "SECUNDARIA")
+                                        <!--Nivel académico-->
+                                        <option value="{{$item->id_seccion}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">
+                                Seleccione un grado-sección
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-lg" form="frmRegistroCategoria3">Guardar</button>
                 </div>
             </div>
         </div>
@@ -247,7 +363,7 @@
                         </div>
 
                         <!--Grados-Secciones-->
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label for="actnivel_academico">Para la sección</label>
                             <select id="actnivel_academico" name="actnivel_academico" required>
                                 @foreach ($TMP as $item)
@@ -259,7 +375,7 @@
                             <div class="invalid-feedback">
                                 Seleccione un grado-sección
                             </div>
-                        </div>
+                        </div>-->
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -269,20 +385,107 @@
             </div>
         </div>
     </div>
+
+     <!-- Actualizar -->
+     <div class="modal fade" id="mdlEditarCategoria2" tabindex="-1" role="dialog" aria-labelledby="mdlEditarCategoria2Label" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar categoría</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" id="frmEdicionCategoria" method="POST" action="{{route('super/categorias/actualizar')}}" novalidate>
+                        @csrf
+                        <input type="hidden" id="id_categoria" name="id_categoria">
+        
+                        <!--Nombre de Asignatura-->
+                        <div class="form-group">
+                            <label for="actnombre2">Nombre de materia</label>
+                            <input type="text" class="form-control" id="actnombre2" name="actnombre2" required placeholder="Ejemplo: Matemática">
+                            <div class="invalid-feedback">
+                                Es necesario poner un nombre
+                            </div>
+                        </div>
+
+                        <!--Grados-Secciones-->
+                        <!--<div class="form-group">
+                            <label for="actnivel_academico">Para la sección</label>
+                            <select id="actnivel_academico" name="actnivel_academico" required>
+                                @foreach ($TMP as $item)
+                                    @if ($item->c_nivel_academico == "INICIAL")
+                                        <option value="{{$item->c_nivel_academico}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">
+                                Seleccione un grado-sección
+                            </div>
+                        </div>-->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" form="frmEdicionCategoria2">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Actualizar -->
+     <div class="modal fade" id="mdlEditarCategoria3" tabindex="-1" role="dialog" aria-labelledby="mdlEditarCategoria3Label" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editar categoría</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation" id="frmEdicionCategoria" method="POST" action="{{route('super/categorias/actualizar')}}" novalidate>
+                        @csrf
+                        <input type="hidden" id="id_categoria" name="id_categoria">
+        
+                        <!--Nombre de Asignatura-->
+                        <div class="form-group">
+                            <label for="actnombre">Nombre de materia</label>
+                            <input type="text" class="form-control" id="actnombre" name="actnombre" required placeholder="Ejemplo: Matemática">
+                            <div class="invalid-feedback">
+                                Es necesario poner un nombre
+                            </div>
+                        </div>
+
+                        <!--Grados-Secciones-->
+                        <!--<div class="form-group">
+                            <label for="actnivel_academico">Para la sección</label>
+                            <select id="actnivel_academico" name="actnivel_academico" required>
+                                @foreach ($TMP as $item)
+                                    @if ($item->c_nivel_academico == "INICIAL")
+                                        <option value="{{$item->c_nivel_academico}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">
+                                Seleccione un grado-sección
+                            </div>
+                        </div>-->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" form="frmEdicionCategoria">Actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 </body>
 @endsection
 
 @section('page-js')
-
-<script>
-    function GradoSeccion(){
-        var found = [];
-        $("select option").each(function() {
-            if($.inArray(this.value, found) != -1) $(this).remove();
-            found.push(this.value);
-        });
-    }
-</script>
 
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>

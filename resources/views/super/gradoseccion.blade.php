@@ -48,7 +48,7 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-warning" id="btnActualizarSeccion{{$item->id_seccion}}" onclick="fxActualizarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="i-Pen-4"></i></button>
-                                        <button type="button" class="btn btn-sm btn-danger" id="btnConfirmacionEliminarSeccion{{$item->id_seccion}}" onclick="fxEliminarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="i-Eraser-2"></i></button>
+                                        <button type="button" class="btn btn-sm btn-danger" id="btnConfirmacionEliminarSeccion{{$item->id_seccion}}" onclick="fxConfirmacionEliminarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="i-Eraser-2"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -73,10 +73,17 @@
                     <form id="frmAgregarSeccion" class="needs-validation" method="POST" action="{{route('super/gradoseccion/agregar')}}" novalidate>
                         <div class="form-group">
                             <label for="picker2">Nivel - Grado</label>
-                            <select class="form-control" id="id_grado" name="id_grado">
+                            <!--<select class="form-control" id="id_grado" name="id_grado">
                                 <option>-- Eliga el nivel-grado --</option>
                                 @foreach ($TMP as $item)
                                     <option value="{{$item->id_grado}}">{{$item->c_nivel_academico}} {{$item->nom_grado}}</option>
+                                @endforeach
+                            </select>-->
+
+                            <select class="form-control" id="id_grado" name="id_grado">
+                                <option>-- Eliga el nivel-grado --</option>
+                                @foreach ($grados as $item)
+                                    <option value="{{$item->id_grado}}">{{$item->c_nivel_academico}} {{$item->c_nombre}} </option>
                                 @endforeach
                             </select>
                         </div>
@@ -134,7 +141,6 @@
             </div>
         </div>
     </div>
-    
 </body>
 
 @endsection

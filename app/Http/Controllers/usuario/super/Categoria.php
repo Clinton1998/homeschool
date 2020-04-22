@@ -56,35 +56,104 @@ class Categoria extends Controller
             'categoria_d.estado' => 1])
             ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
 
-        return view('categoriassuper',compact('categorias','secciones','grados', 'TMP'));
+        $tmp_secciones = DB::table('seccion_d')
+        ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+        ->select('seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+        ->where([
+            'grado_m.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1
+        ])->get();
+        
+
+        return view('categoriassuper',compact('categorias','secciones','grados', 'TMP', 'tmp_secciones'));
     }
 
     public function agregar(Request $request){
-        $request->validate([
-            'nombre' => 'required',
-            'nivel_academico' => 'required'
-        ]);
+        if ($request->input('frm')=='1') {
+            $request->validate([
+                'nombre' => 'required',
+                'nivel_academico' => 'required'
+            ]);
+    
+            //ti todo esta bien
+            $usuario = App\User::findOrFail(Auth::user()->id);
+            //consultamos el colegio
+            $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+    
+            //registramos la categoria
+            $categoria = new App\Categoria_d;
+            $categoria->id_colegio = $colegio->id_colegio;
+            $categoria->c_nombre = $request->input('nombre');
+            $categoria->c_nivel_academico = $request->input('nivel_academico');
+            $categoria->creador = Auth::user()->id;
+            $categoria->save();
+    
+            $secciones = $request->input('optgroups');
+    
+            if(!is_null($secciones) && !empty($secciones)){
+                for($i=0; $i<count($secciones); $i++){
+                    DB::table('seccion_categoria_p')->insert([
+                        ['id_seccion' => $secciones[$i], 'id_categoria' => $categoria->id_categoria,'creador' => Auth::user()->id]
+                    ]);
+                }
+            }
 
-        //ti todo esta bien
-        $usuario = App\User::findOrFail(Auth::user()->id);
-        //consultamos el colegio
-        $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
-
-        //registramos la categoria
-        $categoria = new App\Categoria_d;
-        $categoria->id_colegio = $colegio->id_colegio;
-        $categoria->c_nombre = $request->input('nombre');
-        $categoria->c_nivel_academico = $request->input('nivel_academico');
-        $categoria->creador = Auth::user()->id;
-        $categoria->save();
-
-        $secciones = $request->input('optgroups');
-
-        if(!is_null($secciones) && !empty($secciones)){
-            for($i=0; $i<count($secciones); $i++){
-                DB::table('seccion_categoria_p')->insert([
-                    ['id_seccion' => $secciones[$i], 'id_categoria' => $categoria->id_categoria,'creador' => Auth::user()->id]
-                ]);
+        }elseif ($request->input('frm')=='2') {
+            $request->validate([
+                'nombre2' => 'required',
+                'nivel_academico2' => 'required'
+            ]);
+    
+            //ti todo esta bien
+            $usuario = App\User::findOrFail(Auth::user()->id);
+            //consultamos el colegio
+            $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+    
+            //registramos la categoria
+            $categoria = new App\Categoria_d;
+            $categoria->id_colegio = $colegio->id_colegio;
+            $categoria->c_nombre = $request->input('nombre2');
+            $categoria->c_nivel_academico = $request->input('nivel_academico2');
+            $categoria->creador = Auth::user()->id;
+            $categoria->save();
+    
+            $secciones = $request->input('optgroups2');
+    
+            if(!is_null($secciones) && !empty($secciones)){
+                for($i=0; $i<count($secciones); $i++){
+                    DB::table('seccion_categoria_p')->insert([
+                        ['id_seccion' => $secciones[$i], 'id_categoria' => $categoria->id_categoria,'creador' => Auth::user()->id]
+                    ]);
+                }
+            }
+        }else {
+            $request->validate([
+                'nombre3' => 'required',
+                'nivel_academico3' => 'required'
+            ]);
+    
+            //ti todo esta bien
+            $usuario = App\User::findOrFail(Auth::user()->id);
+            //consultamos el colegio
+            $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+    
+            //registramos la categoria
+            $categoria = new App\Categoria_d;
+            $categoria->id_colegio = $colegio->id_colegio;
+            $categoria->c_nombre = $request->input('nombre3');
+            $categoria->c_nivel_academico = $request->input('nivel_academico3');
+            $categoria->creador = Auth::user()->id;
+            $categoria->save();
+    
+            $secciones = $request->input('optgroups3');
+    
+            if(!is_null($secciones) && !empty($secciones)){
+                for($i=0; $i<count($secciones); $i++){
+                    DB::table('seccion_categoria_p')->insert([
+                        ['id_seccion' => $secciones[$i], 'id_categoria' => $categoria->id_categoria,'creador' => Auth::user()->id]
+                    ]);
+                }
             }
         }
 
@@ -93,14 +162,14 @@ class Categoria extends Controller
 
     public function actualizar(Request $request){
         $request->validate([
-            'actnombre' => 'required',
-            'actnivel_academico' => 'required'
+            'actnombre' => 'required'
+            //'actnivel_academico' => 'required'
         ]);
 
         //si todo esta bien
         $categoria = App\Categoria_d::findOrFail($request->input('id_categoria'));
         $categoria->c_nombre = $request->input('actnombre');
-        $categoria->c_nivel_academico = $request->input('actnivel_academico');
+        //$categoria->c_nivel_academico = $request->input('actnivel_academico');
         $categoria->modificador = Auth::user()->id;
         $categoria->save();
 
