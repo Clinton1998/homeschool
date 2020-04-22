@@ -14,18 +14,23 @@
                     @foreach($tareas_del_alumno as $tarea)
                         @php
                             $clase = '';
+                            $url = '';
                             if($tarea->pivot->c_estado=='APEN' && $tarea->t_fecha_hora_entrega>date('Y-m-d H:i:s')){
+                                $url = '/alumno/tareapendiente/'.$tarea->id_tarea;
                                 $clase  = 'list-group-item-warning';
                             }else if($tarea->pivot->c_estado=='APEN' && $tarea->t_fecha_hora_entrega<=date('Y-m-d H:i:s')){
+                                $url = '/alumno/tareas';
                                 $clase  = 'list-group-item-danger';
                             }else if($tarea->pivot->c_estado=='AENV'){
+                                $url = '/alumno/tareaenviada/'.$tarea->id_tarea;
                                 $clase  = 'list-group-item-info';
                             }else if($tarea->pivot->c_estado=='ACAL'){
+                                $url = '/alumno/tareas';
                                 $clase  = 'list-group-item-success';
                             }
                         @endphp
                         <div class="list-group">
-                            <a href="#" class="list-group-item list-group-item-action {{$clase}}">
+                            <a href="{{url($url)}}" class="list-group-item list-group-item-action {{$clase}}">
                                 <div><strong>{{$tarea->c_titulo}}</strong></div>
                                 <small>Asignado por {{$tarea->docente->c_nombre}}</small>
                                 <br>
