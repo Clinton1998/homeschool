@@ -7,6 +7,14 @@ $(document).ready(function () {
     });
 
     new SlimSelect({
+        select: '#optgroups2'
+    });
+
+    new SlimSelect({
+        select: '#optgroups3'
+    });
+
+    new SlimSelect({
         select: '#nombrecategoria',
         placeholder: 'Elige categoria'
     });
