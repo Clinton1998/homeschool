@@ -5,10 +5,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Home School</title>
         <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,400i,600,700,800,900" rel="stylesheet">
         <link rel="stylesheet" href="{{asset('assets/styles/css/themes/lite-purple.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/styles/vendor/toastr.css')}}">
     </head>
 
     <body>
@@ -170,8 +172,11 @@
         <script src="{{asset('assets/js/common-bundle-script.js')}}"></script>
         <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
         <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
+        <script src="{{asset('assets/js/vendor/toastr.min.js')}}"></script>
+        
         <script src="{{asset('assets/js/ladda.script.js')}}"></script>
         <script src="{{asset('assets/js/script.js')}}"></script>
+        
         <script src="{{asset('assets/js/auth/register.js')}}"></script>
     </body>
 

@@ -98,7 +98,7 @@
 
                                             {{$comentario->comenta->alumno->c_nombre}}
                                         @endif
-                                        escribió </strong>
+                                        ({{$comentario->created_at}})
                                     <p class="comentario-contenido">{{$comentario->c_descripcion}}</p>
                                     </div>
                                 @endforeach

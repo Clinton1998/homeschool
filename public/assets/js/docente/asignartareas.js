@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    Ladda.bind('button[type=submit]', { timeout: 20000 });
+    //Ladda.bind('button[type=submit]', { timeout: 20000 });
     new SlimSelect({
         select: '#cbGradoSeccion',
         placeholder: 'Elige seccion',

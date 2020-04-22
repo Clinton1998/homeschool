@@ -6,7 +6,7 @@
 @section('main-content')
             <h1>Tareas</h1>
             <div class="row">
-                <div class="col-xs-12 col-sm-4">
+                <div class="col-xs-12 col-sm-3">
                     <span class="badge badge-pill badge-warning p-1 m-1">Pendientes</span>
                     <span class="badge badge-pill badge-danger p-1 m-1">Vencidos</span>
                     <span class="badge badge-pill badge-info p-1 m-1">Enviados</span>
@@ -26,7 +26,7 @@
                         @endphp
                         <div class="list-group">
                             <a href="#" class="list-group-item list-group-item-action {{$clase}}">
-                                <div>{{$tarea->c_titulo}}</div>
+                                <div><strong>{{$tarea->c_titulo}}</strong></div>
                                 <small>Asignado por {{$tarea->docente->c_nombre}}</small>
                                 <br>
                                 <small>Fecha de entrega: {{$tarea->t_fecha_hora_entrega}}</small>
@@ -35,7 +35,7 @@
                     @endforeach
                     <a href="{{route('alumno/tareas')}}" class="btn btn-link">Ver todo</a>
                 </div>
-                <div class="col-xs-8 col-sm-8">
+                <div class="col-xs-8 col-sm-9">
                     <div class="card mb-4 o-hidden">
                         <div class="card-body">
                             <div id="calendar"></div>
