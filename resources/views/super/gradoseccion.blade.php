@@ -38,10 +38,13 @@
                             @foreach ($TMP as $item)
                                 <tr>
                                     <td>
-                                        {{$item->c_nivel_academico}}
+                                        {{ucfirst(strtolower($item->c_nivel_academico))}}
                                     </td>
                                     <td>
-                                        {{$item->nom_grado}}
+                                        @if ($item->c_nombre === '1-.3 AÑOS' || $item->c_nombre === '2-.4 AÑOS' || $item->c_nombre === '3-.5 AÑOS')
+                                            {{substr($item->nom_grado,3)}}
+                                        @endif
+                                        {{ucfirst(substr(strtolower($item->c_nombre),3))}}
                                     </td>
                                     <td>
                                         {{$item->nom_seccion}}
@@ -83,7 +86,10 @@
                             <select class="form-control" id="id_grado" name="id_grado">
                                 <option>-- Eliga el nivel-grado --</option>
                                 @foreach ($grados as $item)
-                                    <option value="{{$item->id_grado}}">{{$item->c_nivel_academico}} {{$item->c_nombre}} </option>
+                                    @if ($item->c_nombre === '1-.3 AÑOS' || $item->c_nombre === '2-.4 AÑOS' || $item->c_nombre === '3-.5 AÑOS')
+                                        <option value="{{$item->id_grado}}">{{ucfirst(strtolower($item->c_nivel_academico))}} - {{substr($item->c_nombre,3)}} </option>
+                                    @endif
+                                    <option value="{{$item->id_grado}}">{{ucfirst(strtolower($item->c_nivel_academico))}} - {{ucfirst(substr(strtolower($item->c_nombre),3))}} </option>
                                 @endforeach
                             </select>
                         </div>
