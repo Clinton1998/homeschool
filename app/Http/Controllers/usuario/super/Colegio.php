@@ -64,14 +64,16 @@ class Colegio extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-
+        
         //proceso para actualizar el colegio
         $colegio->c_ruc = $request->input('ruc');
+        $colegio->c_nombre = $request->input('nombrecolegio');
         $colegio->c_razon_social = $request->input('razon_social');
         $colegio->c_correo = $request->input('correo');
         $colegio->c_telefono = $request->input('telefono');
         $colegio->c_dni_representante = $request->input('dni');
         $colegio->c_representante_legal = $request->input('nombre');
+        $colegio->c_comentarios = $request->input('comentarios');
         $colegio->modificador = Auth::user()->id;
         $colegio->save();
         return redirect('super/colegio');

@@ -50,7 +50,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="nombrecolegio">Nombre colegio</label>
+                                            <label for="nombrecolegio">Nombre de la institución</label>
                                             <input type="text" id="nombrecolegio" name="nombrecolegio" class="form-control-rounded form-control @error('nombrecolegio') is-invalid @enderror">
 
                                             @error('nombrecolegio')

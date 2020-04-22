@@ -82,6 +82,18 @@
                                         @enderror
                                     </div>
                                 </div>
+
+                                <div class="form-group row">
+                                    <label for="inpNombreColegio" class="col-sm-2 col-form-label">Nombre de la institución</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control @error('nombrecolegio') is-invalid @enderror"  id="inpNombreColegio" name="nombrecolegio" value="{{$colegio->c_nombre}}">
+                                        @error('nombrecolegio')
+                                             <span class="invalid-feedback" role="alert">
+                                                 <strong>{{ $message }}</strong>
+                                             </span>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <hr>
                                 <h6 class="text-center text-primary">Representante legal</h6>
                                 <div class="form-group row">
@@ -113,7 +125,7 @@
                                 <div class="form-group row">
                                     <div class="col">
                                         <label for="comentarios">Comentarios adicionales</label>
-                                        <input type="text" class="form-control" id="txtComentarios" name="comentarios" value="">
+                                        <input type="text" class="form-control" id="txtComentarios" name="comentarios" value="{{$colegio->c_comentarios}}">
                                     </div>
                                 </div>
 
