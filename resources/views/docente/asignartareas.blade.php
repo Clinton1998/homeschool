@@ -130,9 +130,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="label-text" for="txtFechaEntrega">Fecha</label>
-                                <input class="form-control" id="txtFechaEntrega"  name="fecha_hora_entrega" type="date" disabled required>
+                            <input class="form-control" id="txtFechaEntrega"  name="fecha_hora_entrega" type="date" min="{{date('Y-m-d')}}" disabled required>
                                 <span class="invalid-feedback" role="alert">
-                                    Seleccionar una fecha
+                                    Selecciona una fecha correcta
                                 </span>
                             </div>                            
                         </div>
@@ -184,7 +184,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Listo</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Listo</button>
             </div>
         </div>
         </div>

@@ -79,11 +79,17 @@ class AsignarTareas extends Controller
         if ($request->input('hora_entrega') == '' && $request->input('minuto_entrega') == '') {
             $hora = 23;
             $minuto = 59;
+        } else if ($request->input('hora_entrega') != '' && $request->input('minuto_entrega') == '') {
+            $hora = $request->input('hora_entrega');
+            $minuto = '00';
+        } else if ($request->input('hora_entrega') == '' && $request->input('minuto_entrega') != '') {
+            $hora = '00';
+            $minuto = $request->input('minuto_entrega');
         } else {
             $hora = $request->input('hora_entrega');
             $minuto = $request->input('minuto_entrega');
         }
-        $fecha_hora_entrega = date('Y-m-d', strtotime($request->input('fecha_hora_entrega'))) . ' ' . $hora . ':' . $minuto . ':00';;
+        $fecha_hora_entrega = date('Y-m-d', strtotime($request->input('fecha_hora_entrega'))) . ' ' . $hora . ':' . $minuto . ':00';
         $newtarea->t_fecha_hora_entrega = $fecha_hora_entrega;
         $newtarea->c_estado = 'DENV';
         $newtarea->creador = $usuarioDocente->id;
