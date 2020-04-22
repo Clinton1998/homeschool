@@ -72,7 +72,7 @@
                                                 {{$item->nom_categoria}}
                                             </td>
                                             <td>
-                                                {{$item->nom_grado}}
+                                                {{substr($item->nom_grado,3)}}
                                             </td>
                                             <td>
                                                 {{$item->nom_seccion}}
@@ -112,7 +112,7 @@
                                             {{$item->nom_categoria}}
                                         </td>
                                         <td>
-                                            {{$item->nom_grado}}
+                                            {{ucfirst(substr(strtolower($item->nom_grado),3))}}
                                         </td>
                                         <td>
                                             {{$item->nom_seccion}}
@@ -152,7 +152,7 @@
                                             {{$item->nom_categoria}}
                                         </td>
                                         <td>
-                                            {{$item->nom_grado}}
+                                            {{ucfirst(substr(strtolower($item->nom_grado),3))}}
                                         </td>
                                         <td>
                                             {{$item->nom_seccion}}
@@ -211,7 +211,7 @@
                                 @foreach ($tmp_secciones as $item)
                                     @if ($item->c_nivel_academico == "INICIAL")
                                         <!--Nivel académico-->
-                                        <option value="{{$item->id_seccion}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
+                                        <option value="{{$item->id_seccion}}">{{substr($item->nom_grado,3)}} {{$item->nom_seccion}}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -265,7 +265,7 @@
                             <select id="optgroups2" name="optgroups2[]" multiple>
                                 @foreach ($tmp_secciones as $item)
                                     @if ($item->c_nivel_academico == "PRIMARIA")
-                                        <option value="{{$item->id_seccion}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
+                                        <option value="{{$item->id_seccion}}">{{ucfirst(substr(strtolower($item->nom_grado),3))}} {{$item->nom_seccion}}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -320,7 +320,7 @@
                                 @foreach ($tmp_secciones as $item)
                                     @if ($item->c_nivel_academico == "SECUNDARIA")
                                         <!--Nivel académico-->
-                                        <option value="{{$item->id_seccion}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
+                                        <option value="{{$item->id_seccion}}">{{ucfirst(substr(strtolower($item->nom_grado),3))}} {{$item->nom_seccion}}</option>
                                     @endif
                                 @endforeach
                             </select>
