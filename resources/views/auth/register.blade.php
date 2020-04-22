@@ -48,6 +48,17 @@
                                                 </span>
                                             @enderror
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="nombrecolegio">Nombre colegio</label>
+                                            <input type="text" id="nombrecolegio" name="nombrecolegio" class="form-control-rounded form-control @error('nombrecolegio') is-invalid @enderror">
+
+                                            @error('nombrecolegio')
+                                                <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
         
                                         <div class="form-group">
                                             <label for="correo">Correo electrónico</label>

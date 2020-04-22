@@ -12,7 +12,7 @@
                 <div></div>
         <div></div>
     </div>
-    <h3>{{$colegio->c_razon_social}}</h3>
+    <h3>{{$colegio->c_nombre}}</h3>
     <!--<div class="d-flex align-items-center">
         <div class="search-bar">
             <input type="text" placeholder="Search">
@@ -23,6 +23,7 @@
     <div style="margin: auto"></div>
 
     <div class="header-part-right">
+        <small>Bienvenido(a) {{$colegio->c_representante_legal}}</small>
         <!-- Full screen toggle -->
         <i class="i-Full-Screen header-icon d-none d-sm-inline-block" data-fullscreen></i>
         <!-- Grid menu Dropdown -->
