@@ -117,11 +117,11 @@
                             <strong class="text-capitalize">Aviso!</strong> No tienes ninguna categoría para esta sección, pídele al super administrador de tu institución,que cree una categoría.
                         </div>
 
-                        <label for="selCategoria">Categoría</label>
+                        <label for="selCategoria">Asignatura o curso</label>
                         <select name="categoria" id="selCategoria" class="form-control" disabled required>
                         </select>
                         <span class="invalid-feedback" role="alert">
-                            Elige una categoría
+                            Elige una asignatura o curso
                         </span>
                     </div>
 
