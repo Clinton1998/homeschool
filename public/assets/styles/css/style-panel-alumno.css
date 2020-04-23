@@ -1,10 +1,6 @@
 :root {
-    /*--color-principal-light: #e74c3c;
-    --color-principal-dark: #c0392b;*/
-    --color-principal-light: #1abc9c;
-    --color-principal-dark: #16a085;
-    /*--color-principal-light: #e74c3c;
-    --color-principal-dark: #c0392b;*/
+    --pa-color-secundario: #07B0F2;
+    --pa-color-primario: rgb(7, 160, 221);
 }
 
 * {
@@ -16,7 +12,7 @@
 /* MENÚ LATERAL */
 
 .menu-lateral {
-    background-color: var(--color-principal-light);
+    background-color: var(--pa-color-secundario);
     display: flex;
     flex-direction: column;
     width: 120px;
@@ -24,7 +20,7 @@
 
 .menu-lateral-item {
     list-style: none;
-    border-bottom: solid 1px var(--color-principal-dark);
+    border-bottom: solid 1px var(--pa-color-primario);
     max-height: 110px;
     overflow: hidden;
 }
@@ -42,7 +38,7 @@
 }
 
 .menu-lateral-item-link:hover {
-    background-color: var(--color-principal-dark);
+    background-color: var(--pa-color-primario);
 }
 
 .menu-lateral-item-link:hover {

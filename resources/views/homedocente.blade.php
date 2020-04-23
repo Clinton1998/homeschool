@@ -1,8 +1,8 @@
 @extends('reutilizable.principal')
 @section('main-content')
-        <div class="row">
+        <div style="text-align: center; width: 100%;">
             <div class="col-xs-12">
-            <h4 class="text-primary">Bienvenido(a), en esta sección encontrarás el progreso de tus alumnos</h4>
+            <h3 style="text-align: center;">Bienvenido(a), en esta sección encontrarás el progreso de tus alumnos</h3>
             </div>
         </div>
            <!--<div class="breadcrumb">

@@ -53,7 +53,7 @@
                 <a class="menu-lateral-item-link" href="#" onclick="window.open('https://meet.jit.si/','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">
                     <i class="nav-icon i-Movie"></i>
                     <br>
-                    <span>Videoclase Jitsi</span>
+                    <span>Videoclase <br> Jitsi</span>
                 </a>
             </li>
         </ul>

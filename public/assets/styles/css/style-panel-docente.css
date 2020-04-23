@@ -1,6 +1,6 @@
 :root {
-    --color-principal-light: #3498db;
-    --color-principal-dark: #2980b9;
+    --pd-color-secundario: #04BF45;
+    --pd-color-primario: rgb(4, 167, 61);
 }
 
 * {
@@ -12,7 +12,7 @@
 /* MENÚ LATERAL */
 
 .menu-lateral {
-    background-color: var(--color-principal-light);
+    background-color: var(--pd-color-secundario);
     display: flex;
     flex-direction: column;
     width: 120px;
@@ -20,7 +20,7 @@
 
 .menu-lateral-item {
     list-style: none;
-    border-bottom: solid 1px var(--color-principal-dark);
+    border-bottom: solid 1px var(--pd-color-primario);
     max-height: 110px;
     overflow: hidden;
 }
@@ -38,7 +38,7 @@
 }
 
 .menu-lateral-item-link:hover {
-    background-color: var(--color-principal-dark);
+    background-color: var(--pd-color-primario);
 }
 
 .menu-lateral-item-link:hover {
