@@ -1,24 +1,26 @@
-$(document).ready(function(){
-    Ladda.bind('button[type=submit]', {timeout: 5000});
+$(document).ready(function () {
+    Ladda.bind('button[type=submit]', {
+        timeout: 5000
+    });
 });
 
-function fxAplicarGrado(id_grado){
-    var l = Ladda.create(document.getElementById('btnAplicarGrado'+id_grado));
+function fxAplicarGrado(id_grado) {
+    var l = Ladda.create(document.getElementById('btnAplicarGrado' + id_grado));
     l.start();
-    
-    $('#btnAplicarGrado'+id_grado).attr('disabled','true');
+
+    $('#btnAplicarGrado' + id_grado).attr('disabled', 'true');
     $.ajax({
         type: 'POST',
-        url:'/super/grados/aplicar',
+        url: '/super/grados/aplicar',
         data: {
             id_grado: id_grado
         },
-        error: function(error){
+        error: function (error) {
             alert('Ocurrió un error');
             console.error(error);
             l.top();
         }
-    }).done(function(data){
+    }).done(function (data) {
         $('#actidgrado').val(data.id_grado);
         $('#actnombre').val(data.c_nombre);
         $('#actnivel_academico').val(data.c_nivel_academico);
@@ -27,7 +29,7 @@ function fxAplicarGrado(id_grado){
     });
 }
 
-function fxConfirmacionEliminarGrado(id_grado){
+function fxConfirmacionEliminarGrado(id_grado) {
     swal({
         title: '¿Estas seguro?',
         type: 'warning',
@@ -41,25 +43,24 @@ function fxConfirmacionEliminarGrado(id_grado){
         buttonsStyling: false
     }).then(function () {
         fxEliminarGrado(id_grado);
-    }, function (dismiss) {
-    });
+    }, function (dismiss) {});
 
 }
 
-function fxEliminarGrado(id){
-    $('#btnConfirmacionEliminarGrado'+id).attr('disabled','true');
+function fxEliminarGrado(id) {
+    $('#btnConfirmacionEliminarGrado' + id).attr('disabled', 'true');
     $.ajax({
         type: 'POST',
         url: '/super/grados/eliminar',
         data: {
             id_grado: id
         },
-        error: function(error){
+        error: function (error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function(data){
-        if(data.correcto){
+    }).done(function (data) {
+        if (data.correcto) {
             location.reload();
         }
     });

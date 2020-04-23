@@ -361,21 +361,6 @@
                                 Es necesario poner un nombre
                             </div>
                         </div>
-
-                        <!--Grados-Secciones-->
-                        <!--<div class="form-group">
-                            <label for="actnivel_academico">Para la sección</label>
-                            <select id="actnivel_academico" name="actnivel_academico" required>
-                                @foreach ($TMP as $item)
-                                    @if ($item->c_nivel_academico == "INICIAL")
-                                        <option value="{{$item->c_nivel_academico}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback">
-                                Seleccione un grado-sección
-                            </div>
-                        </div>-->
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -409,21 +394,6 @@
                                 Es necesario poner un nombre
                             </div>
                         </div>
-
-                        <!--Grados-Secciones-->
-                        <!--<div class="form-group">
-                            <label for="actnivel_academico">Para la sección</label>
-                            <select id="actnivel_academico" name="actnivel_academico" required>
-                                @foreach ($TMP as $item)
-                                    @if ($item->c_nivel_academico == "INICIAL")
-                                        <option value="{{$item->c_nivel_academico}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback">
-                                Seleccione un grado-sección
-                            </div>
-                        </div>-->
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -457,21 +427,6 @@
                                 Es necesario poner un nombre
                             </div>
                         </div>
-
-                        <!--Grados-Secciones-->
-                        <!--<div class="form-group">
-                            <label for="actnivel_academico">Para la sección</label>
-                            <select id="actnivel_academico" name="actnivel_academico" required>
-                                @foreach ($TMP as $item)
-                                    @if ($item->c_nivel_academico == "INICIAL")
-                                        <option value="{{$item->c_nivel_academico}}">{{$item->nom_grado}} {{$item->nom_seccion}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback">
-                                Seleccione un grado-sección
-                            </div>
-                        </div>-->
                     </form>
                 </div>
                 <div class="modal-footer">

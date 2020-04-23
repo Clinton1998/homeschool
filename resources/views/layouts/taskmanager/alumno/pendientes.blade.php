@@ -22,7 +22,7 @@
                                                 @else
                                                     <img class="rounded-circle" width="36" height="36" src="{{url('super/docente/foto/'.$tarea->docente->c_foto)}}" alt="Foto del docente">
                                                 @endif
-                                                {{$tarea->docente->c_nombre}}
+                                                {{ucwords($tarea->docente->c_nombre)}}
                                             </div>
 
                                             <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto">
@@ -36,7 +36,7 @@
                                     </div>
 
                                     <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
-                                        <span>Fecha de entrega: <span class="font-weight-semibold text-primary">{{$tarea->t_fecha_hora_entrega}}</span></span>
+                                        <span>Fecha de entrega: <span class="font-weight-semibold">{{$tarea->t_fecha_hora_entrega}}</span></span>
                                         <a href="{{url('alumno/tareapendiente/'.$tarea->id_tarea)}}" class="text-default ">Ver y responder</a>
                                     </div>
                                 </div>

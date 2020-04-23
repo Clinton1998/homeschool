@@ -83,6 +83,7 @@ function fxActualizarSeccion(id_seccion) {
 
     $.ajax({
         type: 'POST',
+        //url: 'super/gradoseccion/aplicar',
         url: 'super/gradoseccion/actualizar',
         data: {
             id_seccion: id_seccion

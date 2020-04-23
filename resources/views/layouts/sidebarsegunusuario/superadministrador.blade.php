@@ -57,61 +57,6 @@
             </li>
         </ul> 
         <!-- FIN DE NUEVO MENU SLIDER -->
-        
-        <!--<ul class="navigation-left">
-            <li class="nav-item ">
-            <a class="nav-item-hold" href="">
-                    <i class="nav-icon i-Bar-Chart"></i>
-            <span class="nav-text">Tablero</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-
-            <li class="nav-item ">
-                <a class="nav-item-hold" href="">
-                    <i class="nav-icon i-File-Horizontal-Text"></i>
-                    <span class="nav-text">Colegio</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-
-            <li class="nav-item ">
-                <a class="nav-item-hold" href="">
-                    <i class="nav-icon i-File-Horizontal-Text"></i>
-                    <span class="nav-text">Docentes</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-item-hold" href="">
-                    <i class="nav-icon i-File-Horizontal-Text"></i>
-                    <span class="nav-text">Alumnos</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            <li class="nav-item {{ request()->is('super/grados*') ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{route('super/grados')}}">
-                    <i class="nav-icon i-File-Horizontal-Text"></i>
-                    <span class="nav-text">Grados</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            <li class="nav-item {{ request()->is('super/secciones*') ? 'active' : '' }}">
-                <a class="nav-item-hold" href="{{route('super/secciones')}}">
-                    <i class="nav-icon i-File-Horizontal-Text"></i>
-                    <span class="nav-text">Secciones</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-item-hold" href="">
-                    <i class="nav-icon i-File-Horizontal-Text"></i>
-                    <span class="nav-text">Categorias y materias</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-            
-        </ul>-->
     </div>
 
     

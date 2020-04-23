@@ -11,7 +11,7 @@
                                     <div class="card-body">
                                         <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
                                             <div>
-                                                <h6 class="text-primary">{{$tarea->c_titulo}}</h6>
+                                                <h6 class="">{{$tarea->c_titulo}}</h6>
                                                 <p class="ul-task-manager__paragraph mb-3 text-justify">{{$tarea->c_observacion}}</p>
                                                 @if(is_null($tarea->docente->c_foto)  || empty($tarea->docente->c_foto))
                                                     @if(strtoupper($tarea->docente->c_sexo)=='M')
@@ -36,7 +36,7 @@
                                     </div>
 
                                     <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
-                                        <span>Fecha de entrega: <span class="font-weight-semibold text-primary">{{$tarea->t_fecha_hora_entrega}}</span></span>
+                                        <span>Fecha de entrega: <span class="font-weight-semibold">{{$tarea->t_fecha_hora_entrega}}</span></span>
                                     </div>
                                 </div>
                             </div>    

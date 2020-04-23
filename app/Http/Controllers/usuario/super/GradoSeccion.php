@@ -66,7 +66,7 @@ class GradoSeccion extends Controller
     public function actualizar(Request $request)
     {
         $request->validate([
-            'nombre' => 'required'
+            'actnombre' => 'required'
         ]);
 
         $seccion = App\Seccion_d::findOrFail($request->input('id_seccion'));
@@ -76,11 +76,16 @@ class GradoSeccion extends Controller
 
         $datos = array(
             'correcto' => TRUE,
-            'nombre' => $seccion->c_nombre
+            'actnombre' => $seccion->c_nombre
         );
         return redirect('super/gradoseccion');
     }
 
+    public function aplicar(Request $request){
+        $seccion  = App\Seccion_d::findOrFail($request->input('id_seccion'));
+        return response()->json($seccion);
+    }
+    
     public function eliminar(Request $request)
     {
         $seccion = App\Seccion_d::findOrfail($request->input('id_seccion'));

@@ -1,0 +1,239 @@
+:root {
+    --color-secundario: #1abc9c;
+    --color-primario: #16a085;
+}
+
+/* [0] GENERAL ---------------*/
+
+a {
+    color: black;
+}
+
+.btn-primary {
+    background-color: var(--color-secundario);
+    border: none;
+}
+
+.btn-primary:active,
+.btn-primary:link,
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color: var(--color-secundario) !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primario);
+    box-shadow: none;
+}
+
+.form-control:focus {
+    border-color: var(--color-secundario);
+    box-shadow: none;
+}
+
+.text-primary {
+    color: var(--color-secundario) !important;
+}
+
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+    color: #fff;
+    background-color: var(--color-secundario);
+    border-color: var(--color-secundario);
+}
+
+
+.nav-tabs .nav-item .nav-link.active {
+    color: #FFF;
+    background: var(--color-secundario);
+    border: 1px solid;
+    border-color: var(--color-secundario) var(--color-secundario) #fff;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid var(--color-primario);
+}
+
+
+
+
+
+
+
+
+/* SCROLL */
+
+.contenedor-scroll-grupo {
+    margin-top: 15px;
+    max-height: 280px;
+    overflow: auto;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar:vertical {
+    width: 10px;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar-button:increment,
+.contenedor-scroll-grupo::-webkit-scrollbar-button {
+    display: none;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+    border: 2px solid #f1f2f3;
+}
+
+.contenedor-scroll-grupo::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.hs_titulo {
+    color: var(--color-secundario);
+    width: 100%;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.hs_contenedor {
+    display: flex;
+    justify-content: center;
+}
+
+.hs_encabezado-titulo {
+    color: var(--color-secundario);
+}
+
+.hs_encabezado-linea {
+    width: 100%;
+    height: 1px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background-color: var(--color-secundario);
+}
+
+/* Contenido de una lista */
+
+.hs_item-lista {
+    padding: 10px;
+}
+
+.tarea-pendiente-alumno:hover {
+    background-color: #f7f7f7;
+    cursor: default;
+}
+
+/* [1] COLEGIO ---------------*/
+
+.hs_upload {
+    height: 80px;
+    border-style: dashed;
+    text-align: center;
+}
+
+/* [3] GRADOS Y SECCIONES ---------------*/
+
+.botonera-superior-derecha {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.hs_tabla {
+    border-radius: 8px !important;
+    overflow: hidden !important;
+}
+
+.hs_tabla th {
+    text-align: center;
+    background-color: var(--color-secundario);
+    color: #FFF;
+    cursor: s-resize;
+    font-weight: 400;
+}
+
+.hs_tabla td {
+    padding: 8px !important;
+}
+
+.hs_tabla th:last-child,
+.hs_tabla td:last-child {
+    width: 90px !important;
+}
+
+.hs_tabla th:last-child {
+    cursor: default;
+}
+
+/* [5] DOCENTES ---------------*/
+
+.hs_dos-botones {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.hs_barra-filtrado {
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+}
+
+.hs_barra-filtrado strong,
+.hs_barra-filtrado select {
+    min-width: 80px;
+    margin-right: 5px;
+}
+
+/* [7] VIDEOCONFERENCIA ---------------*/
+
+.pasos {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pasos .pasos-numero-paso {
+    margin-right: 10px;
+}
+
+.pasos .pasos-indicacion {
+    margin-bottom: 0;
+}
+
+.pasos-accion {
+    margin-bottom: 15px;
+}
+
+.GRUPO-SELECCIONADO {
+    display: flex;
+}
+
+.seleccionados {
+    padding: 5px 5px 5px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+#mostrar-contador-label {
+    margin-bottom: 10px;
+}
