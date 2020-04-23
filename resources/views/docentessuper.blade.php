@@ -13,7 +13,6 @@
 @section('main-content')
 
 <h2 class="hs_titulo">Docentes</h2>
-
 <div class="row hs_contenedor">
     <div class="card">
         <div class="card-body">
@@ -120,7 +119,6 @@
                                         <li><a href="#step-1">Paso 1<br /><small>Datos del docente</small></a></li>
                                         <li><a href="#step-2">Paso 2<br /><small>Dará clases en</small></a></li>
                                         <li><a href="#step-3">Paso 3<br /><small>Foto del docente</small></a></li>
-                                        <li><a href="#step-4">Paso 4<br /><small>Datos de acceso</small></a></li>
                                     </ul>
                                     <div>
                                         <div id="step-1">
@@ -135,7 +133,7 @@
                                                     
                                                     
                                                         <div class="form-group">
-                                                            <label for="nombre" >Nombre</label>
+                                                            <label for="nombre" >Nombres y apellidos</label>
                                                             <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required>
                                                             <div class="help-block with-errors text-danger"></div>
                                                         </div>     
@@ -215,18 +213,7 @@
                                             </div>                                                
 
                                         </div>
-                                        <div id="step-4" class="">                                                
-                                                <div class="form-group">
-                                                    <label for="usuariodocente">Usuario</label>
-                                                    <input type="text" class="form-control" id="usuariodocente" name="usuariodocente" required>
-                                                </div>                            
-
-                                                <div class="form-group">
-                                                    <label for="contrasenadocente">Contraseña</label>
-                                                    <input type="text" class="form-control" id="contrasenadocente" name="contrasenadocente" value="12345678" readonly>
-                                                </div>
-                                            
-                                        </div>
+                                        
 
                                     </div>
                                 </div>

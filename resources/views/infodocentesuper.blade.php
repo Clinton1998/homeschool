@@ -106,7 +106,7 @@
                                         <div class="col-sm-4">
                                             <div class="input-group mb-3">
                                                 <input type="text" id="dni" name="dni"
-                                                class="form-control @error('dni') is-invalid @enderror" value="{{$docente->c_dni}}" required>    
+                                                class="form-control @error('dni') is-invalid @enderror" value="{{$docente->c_dni}}" minlength="8" minlength="8" required>    
                                                
                                                 <div class="input-group-append">
                                                     <button type="button" class="btn btn-primary ladda-button"  data-style="expand-right" id="btnBuscarPorDNI">Buscar</button>

@@ -1,20 +1,20 @@
 $(document).ready(function () {
     Ladda.bind('button[type=submit]', { timeout: 10000 });
-   
+
     $('#btnBuscarPorDNI').on('click', function () {
         fxConsultaDni(this);
     });
 
 
-   $('#frmActualizarContraAlumno').submit(function(evt){
+    $('#frmActualizarContraAlumno').submit(function (evt) {
         evt.preventDefault();
         fxCambiarContrasena();
-   });
+    });
 
-   $('#frmActualizacionRepresentanteAlumno').submit(function(evt){
+    $('#frmActualizacionRepresentanteAlumno').submit(function (evt) {
         evt.preventDefault();
         fxActualizarRepresentante();
-   });
+    });
 
     //alert('Todo es correcto');
 });
@@ -23,10 +23,14 @@ function fxConsultaDni(obj) {
     var l = Ladda.create(obj);
     l.start();
     $.ajax({
-        type: 'GET',
-        url: 'https://dniruc.apisperu.com/api/v1/dni/' + $('#dni').val() + '?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImNsaW50b250YXBpYWxhZ2FyQGdtYWlsLmNvbSJ9.wEBYhpOvFDf_EpdRbDIDi6Oh5wYNUyFXqWa-V28_nV8',
+        type: 'POST',
+        url: '/dni/buscar',
+        data: {
+            dni: $('#dni').val()
+        },
+        dataType: 'JSON',
         error: function (error) {
-            alert('Ocurrió un error');
+            alert('No hay resultados');
             console.error(error);
             l.stop();
         }
@@ -38,26 +42,26 @@ function fxConsultaDni(obj) {
 
 /*REVIEW*/
 function fxCambiarContrasena() {
-    var datos  = {
+    var datos = {
         id_alumno: $('#infid_alumno').val(),
-        contrasena:$('#inpContra').val(),
+        contrasena: $('#inpContra').val(),
         repite_contrasena: $('#inpContraRepet').val()
     };
     $.ajax({
         type: 'POST',
-        url:'/super/alumno/cambiarcontrasena',
+        url: '/super/alumno/cambiarcontrasena',
         data: datos,
-        error: function(error){
+        error: function (error) {
             console.error(error);
         }
-    }).done(function(data){
-        if(data.correcto){
+    }).done(function (data) {
+        if (data.correcto) {
             location.reload();
         }
     });
 }
 
-function fxActualizarRepresentante(){
+function fxActualizarRepresentante() {
     /*
             $alumno->c_dni_representante1 = $request->input('dni_repre1');
             $alumno->c_nombre_representante1 = $request->input('nombre_repre1');
@@ -92,12 +96,12 @@ function fxActualizarRepresentante(){
         type: 'POST',
         url: '/super/alumno/actualizarrepresentante',
         data: datos,
-        error: function(error){
+        error: function (error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function(data){
-        if(data.correcto){
+    }).done(function (data) {
+        if (data.correcto) {
             location.reload();
         }
     });

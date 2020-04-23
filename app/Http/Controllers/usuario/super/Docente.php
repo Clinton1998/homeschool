@@ -14,7 +14,7 @@ use Auth;
 class Docente extends Controller
 {
     private $fotos_path;
-    
+
     public function __construct()
     {
         $this->fotos_path = storage_path('app/public/docente');
@@ -30,7 +30,7 @@ class Docente extends Controller
         $docentes = App\Docente_d::where([
             'id_colegio' => $colegio->id_colegio,
             'estado' => 1
-        ])->orderBy('created_at','DESC')->get();
+        ])->orderBy('created_at', 'DESC')->get();
 
         //obtenemos los grados de un colegio
         $grados = App\Grado_m::where([
@@ -70,15 +70,14 @@ class Docente extends Controller
             'fecha_nacimiento' => 'required',
             'correo' => 'required|email',
             'telefono' => 'required',
-            'direccion' => 'required',
-            'usuariodocente' => 'required|unique:users,email'
+            'direccion' => 'required'
         ]);
 
 
         $usuario = App\User::findOrFail(Auth::user()->id);
         $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
 
-            
+
         //registrando al docente
         $docente = new App\Docente_d;
         $docente->id_colegio = $colegio->id_colegio;
@@ -111,10 +110,9 @@ class Docente extends Controller
                 }
             }
         }
-
         //asignamos su foto de docente
         $foto = $request->file('fotodocente');
-        if(!is_null($foto) && !empty($foto)){
+        if (!is_null($foto) && !empty($foto)) {
             if (!is_dir($this->fotos_path)) {
                 mkdir($this->fotos_path, 0777);
             }
@@ -127,16 +125,41 @@ class Docente extends Controller
                 })
                 ->save($this->fotos_path . '/' . $resize_name);
             $foto->move($this->fotos_path, $save_name);
-    
+
             //actualizamos foto del docente
             $docente->c_foto = $resize_name;
             $docente->save();
         }
-
         //creamos un usuario con ese docente
         //password por defecto 12345678
+        $usuario_dni = App\User::where([
+            'email' => $request->input('dni'),
+            'estado' => 1
+        ])->first();
+        $name_usuario = '';
+        if (!is_null($usuario_dni) && !empty($usuario_dni)) {
+            $correlativo = 1;
+            $usuarios = DB::table('users')
+                ->where('email', 'like', $usuario_dni->email . '-%')
+                ->get();
+
+            $correlativos = array();
+            $i = 0;
+            foreach ($usuarios as $usuario_value) {
+                $correlativos[$i] = (int) (substr((stristr($usuario_value->email, "-")), 1));
+                $i++;
+            }
+            if ($i == 0) {
+                $name_usuario = $request->input('dni') . '-' . ($correlativo);
+            } else {
+                $correlativo = max($correlativos) + 1;
+                $name_usuario = $request->input('dni') . '-' . $correlativo;
+            }
+        } else {
+            $name_usuario = $request->input('dni');
+        }
         $newusuario = new App\User;
-        $newusuario->email = $request->input('usuariodocente');
+        $newusuario->email = $name_usuario;
         $newusuario->password = bcrypt('12345678');
         $newusuario->id_docente = $docente->id_docente;
         $newusuario->creador = $usuario->id;
@@ -184,7 +207,7 @@ class Docente extends Controller
             $docente->save();
         }
 
-        
+
         return redirect('super/docente/' . $request->input('id_docente'));
     }
     public function quitar_seccion(Request $request)

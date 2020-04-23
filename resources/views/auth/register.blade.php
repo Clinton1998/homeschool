@@ -27,7 +27,7 @@
                                             <label for="ruc">RUC</label>
                                              <div class="input-group mb-3">
                                                 <input type="text"id="ruc" name="ruc"
-                                             class="form-control-rounded form-control @error('ruc') is-invalid @enderror" value="{{old('ruc')}}" required autocomplete="ruc" autofocus>    
+                                             class="form-control-rounded form-control @error('ruc') is-invalid @enderror" value="{{old('ruc')}}" minlength="11" maxlength="11" required autocomplete="ruc" autofocus>    
                                                 <div class="input-group-append">
                                                     <button type="button" class="btn btn-primary ladda-button"  data-style="expand-right" id="btnBuscarPorRuc">Buscar</button>
                                                 </div>
@@ -98,7 +98,7 @@
                                                 <div class="input-group mb-3">
                                                     <input id="dni" type="text"
                                                     class="form-control-rounded form-control @error('dni') is-invalid @enderror"
-                                                    name="dni" value="{{ old('dni') }}" required autocomplete="dni" form="frmregistrocolegio">
+                                                    name="dni" value="{{ old('dni') }}" minlength="8" maxlength="8" required autocomplete="dni" form="frmregistrocolegio">
                                                     <div class="input-group-append">
                                                         <button type="button" class="btn btn-primary ladda-button"  data-style="expand-right" id="btnBuscarPorDni">Buscar</button>
                                                     </div>

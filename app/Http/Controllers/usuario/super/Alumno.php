@@ -32,7 +32,7 @@ class Alumno extends Controller
         $grados = App\Grado_m::where([
             'id_colegio' => $colegio->id_colegio,
             'estado' => 1
-        ])->orderBy('c_nivel_academico','ASC')->orderBy('c_nombre','ASC')->get();
+        ])->orderBy('c_nivel_academico', 'ASC')->orderBy('c_nombre', 'ASC')->get();
 
         //obteniendo los alumnos de ese colegio
 
@@ -51,8 +51,7 @@ class Alumno extends Controller
             'sexo' => 'required|string|size:1',
             'fecha_nacimiento' => 'required',
             'direccion' => 'required',
-            'optseccion' => 'required',
-            'usuarioalumno' => 'required|unique:users,email'
+            'optseccion' => 'required'
         ]);
 
         $usuario  = App\User::findOrFail(Auth::user()->id);
@@ -125,8 +124,36 @@ class Alumno extends Controller
 
             //creamos un usuario con ese alumno
             //password por defecto 12345678
+
+            $usuario_dni = App\User::where([
+                'email' => $request->input('dni'),
+                'estado' => 1
+            ])->first();
+            $name_usuario = '';
+            if (!is_null($usuario_dni) && !empty($usuario_dni)) {
+                $correlativo = 1;
+                $usuarios = DB::table('users')
+                    ->where('email', 'like', $usuario_dni->email . '-%')
+                    ->get();
+
+                $correlativos = array();
+                $i = 0;
+                foreach ($usuarios as $usuario_value) {
+                    $correlativos[$i] = (int) (substr((stristr($usuario_value->email, "-")), 1));
+                    $i++;
+                }
+                if ($i == 0) {
+                    $name_usuario = $request->input('dni') . '-' . ($correlativo);
+                } else {
+                    $correlativo = max($correlativos) + 1;
+                    $name_usuario = $request->input('dni') . '-' . $correlativo;
+                }
+            } else {
+                $name_usuario = $request->input('dni');
+            }
+
             $newusuario = new App\User;
-            $newusuario->email = $request->input('usuarioalumno');
+            $newusuario->email = $name_usuario;
             $newusuario->password = bcrypt('12345678');
             $newusuario->id_alumno = $alumno->id_alumno;
             $newusuario->creador = $usuario->id;
@@ -311,9 +338,9 @@ class Alumno extends Controller
             $alumno->c_direccion_representante2 = $request->input('direccion_repre2');
             $alumno->c_vinculo_representante2 = $request->input('vinculo_repre2');
             $alumno->modificador = $usuario->id;
-            $alumno->save();        
+            $alumno->save();
         }
-        
+
         $datos = array(
             'correcto' => TRUE
         );
@@ -328,17 +355,17 @@ class Alumno extends Controller
 
         //consultamos el colegio
         $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
-        
+
         //verificamos que el alumno pertenesca al colegio del superadministrador
         $alumno = App\Alumno_d::where([
-            'id_alumno'=> $request->input('id_alumno'),
+            'id_alumno' => $request->input('id_alumno'),
             'estado' => 1
         ])->first();
 
         $colegio_solicitante = $alumno->seccion->grado->colegio;
 
-        if($colegio->id_colegio==$colegio_solicitante->id_colegio){
-            if(!is_null($alumno) && !empty($alumno)){
+        if ($colegio->id_colegio == $colegio_solicitante->id_colegio) {
+            if (!is_null($alumno) && !empty($alumno)) {
                 $alumno->estado = 0;
                 $alumno->save();
             }

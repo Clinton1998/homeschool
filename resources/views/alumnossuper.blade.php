@@ -130,7 +130,6 @@
                                             <li><a href="#step-3">Paso 3<br /><small>Segundo representante</small></a></li>
                                             <li><a href="#step-4">Paso 4<br /><small>Pertenece a</small></a></li>
                                             <li><a href="#step-5">Paso 5<br /><small>Foto del alumno</small></a></li>
-                                            <li><a href="#step-6">Paso 6<br /><small>Datos de acceso</small></a></li>
                                         </ul>
                                         <div>
                                             <div id="step-1">
@@ -144,7 +143,7 @@
                                                      
                                                         
                                                             <div class="form-group">
-                                                                <label for="nombre" >Nombre</label>
+                                                                <label for="nombre" >Nombres y apellidos</label>
                                                                 <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required>
                                                                 <div class="help-block with-errors text-danger"></div>
                                                             </div>     
@@ -330,18 +329,6 @@
                                             <div id="step-5">
                                                 <div class="form-group">
                                                     <input type="file" class="form-control form-control-lg" id="fotoalumno" name="fotoalumno">
-                                                </div>
-                                            </div>
-
-                                            <div id="step-6">
-                                                <div class="form-group">
-                                                    <label for="usuarioalumno">Usuario</label>
-                                                    <input type="text" class="form-control" id="usuarioalumno" name="usuarioalumno" required>
-                                                </div>                            
-
-                                                <div class="form-group">
-                                                    <label for="contrasenaalumno">Contraseña</label>
-                                                    <input type="text" class="form-control" id="contrasenaalumno" name="contrasenaalumno" value="12345678" readonly>
                                                 </div>
                                             </div>
 

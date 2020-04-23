@@ -19,6 +19,8 @@ Auth::routes();
 
 //para verificar si el colegio ha pagado la plataforma, para usarse
 Route::post('verificaractivo','Pago@verificar')->name('verificaractivo');
+Route::post('ruc/buscar','api\Ruc@buscar')->name('ruc/buscar');
+Route::post('dni/buscar','api\Dni@buscar')->name('dni/buscar');
 
 //rutas para el superadministrador
 Route::get('super/colegio', 'usuario\super\Colegio@index')->name('super/colegio');
