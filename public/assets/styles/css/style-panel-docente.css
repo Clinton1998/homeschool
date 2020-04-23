@@ -49,6 +49,12 @@
     font-size: 32px;
 }
 
+.layout-sidebar-large .sidebar-left.open {
+    left: 0;
+    background-color: var(--pd-color-secundario);
+}
+
+
 /* LOGIN */
 
 .hs_logo-innova-container {

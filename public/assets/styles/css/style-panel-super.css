@@ -48,3 +48,8 @@
 .menu-lateral-item-link i {
     font-size: 32px;
 }
+
+.layout-sidebar-large .sidebar-left.open {
+    left: 0;
+    background-color: var(--ps-color-secundario);
+}

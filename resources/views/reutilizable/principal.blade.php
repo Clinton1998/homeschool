@@ -102,7 +102,7 @@
 
         <!-- ============ Large Sidebar Layout End ============= -->
 
-        @include('layouts.herramientas.customizer')
+
 
 
 
