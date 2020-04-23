@@ -76,20 +76,14 @@
                     <form id="frmAgregarSeccion" class="needs-validation" method="POST" action="{{route('super/gradoseccion/agregar')}}" novalidate>
                         <div class="form-group">
                             <label for="picker2">Nivel - Grado</label>
-                            <!--<select class="form-control" id="id_grado" name="id_grado">
-                                <option>-- Eliga el nivel-grado --</option>
-                                @foreach ($TMP as $item)
-                                    <option value="{{$item->id_grado}}">{{$item->c_nivel_academico}} {{$item->nom_grado}}</option>
-                                @endforeach
-                            </select>-->
-
                             <select class="form-control" id="id_grado" name="id_grado">
                                 <option>-- Eliga el nivel-grado --</option>
                                 @foreach ($grados as $item)
                                     @if ($item->c_nombre === '1-.3 AÑOS' || $item->c_nombre === '2-.4 AÑOS' || $item->c_nombre === '3-.5 AÑOS')
                                         <option value="{{$item->id_grado}}">{{ucfirst(strtolower($item->c_nivel_academico))}} - {{substr($item->c_nombre,3)}} </option>
+                                    @else
+                                        <option value="{{$item->id_grado}}">{{ucfirst(strtolower($item->c_nivel_academico))}} - {{ucfirst(substr(strtolower($item->c_nombre),3))}} </option>
                                     @endif
-                                    <option value="{{$item->id_grado}}">{{ucfirst(strtolower($item->c_nivel_academico))}} - {{ucfirst(substr(strtolower($item->c_nombre),3))}} </option>
                                 @endforeach
                             </select>
                         </div>
@@ -153,21 +147,9 @@
 
 @section('page-js')
 
-<script>
-    function GradoSeccion(){
-        var found = [];
-        $("select option").each(function() {
-            if($.inArray(this.value, found) != -1) $(this).remove();
-            found.push(this.value);
-        });
-    }
-</script>
-
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
-
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
-
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/ladda.script.js')}}"></script>
 <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>

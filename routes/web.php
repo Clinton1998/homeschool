@@ -53,19 +53,21 @@ Route::post('super/alumno/actualizar', 'usuario\super\Alumno@actualizar')->name(
 Route::post('super/alumno/actualizarrepresentante', 'usuario\super\Alumno@actualizar_representante')->name('super/alumno/actualizarrepresentante');
 Route::post('super/alumno/eliminar', 'usuario\super\Alumno@eliminar')->name('super/alumno/eliminar');
 
-Route::get('super/grados', 'usuario\super\Grado@index')->name('super/grados');
-Route::post('super/grados/agregar', 'usuario\super\Grado@agregar')->name('super/grados/agregar');
-Route::post('super/grados/actualizar', 'usuario\super\Grado@actualizar')->name('super/grados/actualizar');
-Route::post('super/grados/aplicar', 'usuario\super\Grado@aplicar')->name('super/grados/aplicar');
-Route::post('super/grados/eliminar', 'usuario\super\Grado@eliminar')->name('super/grados/eliminar');
+//Route::get('super/grados', 'usuario\super\Grado@index')->name('super/grados');
+//Route::post('super/grados/agregar', 'usuario\super\Grado@agregar')->name('super/grados/agregar');
+//Route::post('super/grados/actualizar', 'usuario\super\Grado@actualizar')->name('super/grados/actualizar');
+//Route::post('super/grados/aplicar', 'usuario\super\Grado@aplicar')->name('super/grados/aplicar');
+//Route::post('super/grados/eliminar', 'usuario\super\Grado@eliminar')->name('super/grados/eliminar');
 
-Route::get('super/secciones', 'usuario\super\Seccion@index')->name('super/secciones');
-Route::post('super/secciones/agregar', 'usuario\super\Seccion@agregar')->name('super/secciones/agregar');
-Route::post('super/secciones/actualizar', 'usuario\super\Seccion@actualizar')->name('super/secciones/actualizar');
-Route::post('super/secciones/eliminar', 'usuario\super\Seccion@eliminar')->name('super/secciones/eliminar');
+//Route::get('super/secciones', 'usuario\super\Seccion@index')->name('super/secciones');
+//Route::post('super/secciones/agregar', 'usuario\super\Seccion@agregar')->name('super/secciones/agregar');
+//Route::post('super/secciones/actualizar', 'usuario\super\Seccion@actualizar')->name('super/secciones/actualizar');
+//Route::post('super/secciones/eliminar', 'usuario\super\Seccion@eliminar')->name('super/secciones/eliminar');
 
+Route::get('super/gradoseccion', 'usuario\super\GradoSeccion@index')->name('super/gradoseccion');
 Route::post('super/gradoseccion/agregar', 'usuario\super\GradoSeccion@agregar')->name('super/gradoseccion/agregar');
 Route::post('super/gradoseccion/actualizar', 'usuario\super\GradoSeccion@actualizar')->name('super/gradoseccion/actualizar');
+Route::post('super/gradoseccion/aplicar', 'usuario\super\GradoSeccion@aplicar')->name('super/gradoseccion/aplicar');
 Route::post('super/gradoseccion/eliminar', 'usuario\super\GradoSeccion@eliminar')->name('super/gradoseccion/eliminar');
 
 Route::get('super/categorias', 'usuario\super\Categoria@index')->name('super/categorias');
@@ -78,7 +80,6 @@ Route::post('super/categorias/aplicarseccion', 'usuario\super\Seccion@aplicar')-
 Route::post('super/categorias/agregarcategoriaaseccion', 'usuario\super\Seccion@agregar_categoria')->name('super/categorias/agregarcategoriaaseccion');
 
 // AGREGANDO RUTAS SUPER ADMIN
-Route::get('super/gradoseccion', 'usuario\super\GradoSeccion@index')->name('super/gradoseccion');
 Route::get('super/videoconferencia', 'usuario\super\Videoconferencia@index')->name('super/videoconferencia');
 
 

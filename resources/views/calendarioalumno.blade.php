@@ -1,12 +1,31 @@
 @extends('reutilizable.principal')
 @section('page-css')
   <link rel="stylesheet" href="{{asset('assets/styles/vendor/calendar/fullcalendar.min.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/styles/css/style-alumno.css')}}">
 @endsection
 
 @section('main-content')
-            <h1>Tareas</h1>
-            <div class="row">
-                <div class="col-xs-12 col-sm-3">
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="card mb-4 o-hidden">
+            <div class="card-body">
+                <div class="hs_encabezado">
+                    <h4 class="hs_encabezado-titulo">Mi calendario</h4>
+                    <div class="hs_encabezado-linea"></div>
+                </div>
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="hs_encabezado">
+                    <h4 class="hs_encabezado-titulo">Etiquetas</h4>
+                    <div class="hs_encabezado-linea"></div>
+                </div>
+                <div class="col">
                     <span class="badge badge-pill badge-warning p-1 m-1">Pendientes</span>
                     <span class="badge badge-pill badge-danger p-1 m-1">Vencidos</span>
                     <span class="badge badge-pill badge-info p-1 m-1">Enviados</span>
@@ -30,24 +49,21 @@
                             }
                         @endphp
                         <div class="list-group">
+                            <br>
                             <a href="{{url($url)}}" class="list-group-item list-group-item-action {{$clase}}">
-                                <div><strong>{{$tarea->c_titulo}}</strong></div>
+                                <div><strong>{{ucfirst(strtolower($tarea->c_titulo))}}</strong></div>
                                 <small>Asignado por {{$tarea->docente->c_nombre}}</small>
                                 <br>
                                 <small>Fecha de entrega: {{$tarea->t_fecha_hora_entrega}}</small>
                             </a>
                         </div>
                     @endforeach
-                    <a href="{{route('alumno/tareas')}}" class="btn btn-link">Ver todo</a>
-                </div>
-                <div class="col-xs-8 col-sm-9">
-                    <div class="card mb-4 o-hidden">
-                        <div class="card-body">
-                            <div id="calendar"></div>
-                        </div>
-                    </div>
+                    <a href="{{route('alumno/tareas')}}" class="btn btn-link float-right">Ver todo</a>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('page-js')

@@ -2,86 +2,23 @@
 
 @section('page-css')
  <link rel="stylesheet" href="{{asset('assets/styles/vendor/datatables.min.css')}}">
+ <link rel="stylesheet" href="{{asset('assets/styles/css/style-alumno.css')}}">
 
 @endsection
 @section('main-content')
-        <div class="row">
-            <div class="col-xs-12">
-            <h4 class="text-primary">Bienvenido(a), en esta sección encontrarás tus progresos académicos</h4>
+
+<h2 class="hs_titulo">!Bienvenido(a)!</h2>
+
+<div class="row hs_contenedor">
+    <div class="card  col col-lg-7 col-sm-12">
+        <div class="card-body">
+            <div class="alert alert-dark" role="alert">
+                <h4>En esta sección encontrarás tus progresos académicos</h4>
             </div>
         </div>
-            <!--<div class="row">
-                <div class="col-lg-6 col-md-12">
-                    
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card card-icon mb-4">
-                                <div class="card-body text-center">
-                                    <i class="i-Data-Upload"></i>
-                                    <p class="text-muted mt-2 mb-2">Tareas pendientes</p>
-                                    <p class="text-primary text-24 line-height-1 m-0">21</p>
-                                </div>
-                            </div>
-                        </div>
+    </div>
+</div>
 
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card card-icon mb-4">
-                                <div class="card-body text-center">
-                                    <i class="i-Add-User"></i>
-                                    <p class="text-muted mt-2 mb-2">Tareas enviados</p>
-                                    <p class="text-primary text-24 line-height-1 m-0">21</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card card-icon mb-4">
-                                <div class="card-body text-center">
-                                    <i class="i-Money-2"></i>
-                                    <p class="text-muted mt-2 mb-2">Tareas completados</p>
-                                    <p class="text-primary text-24 line-height-1 m-0">4021</p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card card-icon-big mb-4">
-                                <div class="card-body text-center">
-                                    <i class="i-Money-2"></i>
-                                    <p class="line-height-1 text-title text-18 mt-2 mb-0">4021</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card card-icon-big mb-4">
-                                <div class="card-body text-center">
-                                    <i class="i-Gear"></i>
-                                    <p class="line-height-1 text-title text-18 mt-2 mb-0">4021</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="card card-icon-big mb-4">
-                                <div class="card-body text-center">
-                                    <i class="i-Bell"></i>
-                                    <p class="line-height-1 text-title text-18 mt-2 mb-0">4021</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-body p-0">
-                            <h5 class="card-title m-0 p-3">Sales</h5>
-                            <div id="echart4" style="height: 300px"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-            
 @endsection
 
 @section('page-js')

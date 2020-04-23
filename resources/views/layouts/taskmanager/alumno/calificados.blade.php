@@ -37,8 +37,8 @@
                                         @php
                                             $respuesta = App\Respuesta_d::findOrFail($tarea->pivot->id_respuesta);
                                         @endphp
-                                        <p><span class="text-primary">Calificación:</span> {{$respuesta->c_calificacion}}</p>
-                                        <p><span class="text-primary">Comentario:</span> {{$respuesta->c_comentario_calificacion}}</p>
+                                        <p><strong class="">Calificación:</strong> {{$respuesta->c_calificacion}}</p>
+                                        <p><strong class="">Comentario:</strong> {{$respuesta->c_comentario_calificacion}}</p>
                                     </div>
                                 </div>
                             </div>    
