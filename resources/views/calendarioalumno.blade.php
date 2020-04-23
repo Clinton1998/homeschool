@@ -51,8 +51,8 @@
                         <div class="list-group">
                             <br>
                             <a href="{{url($url)}}" class="list-group-item list-group-item-action {{$clase}}">
-                                <div><strong>{{ucfirst(strtolower($tarea->c_titulo))}}</strong></div>
-                                <small>Asignado por {{$tarea->docente->c_nombre}}</small>
+                                <div><strong class="hs_upper">{{$tarea->c_titulo}}</strong></div>
+                                <small>Asignado por: <span class="hs_capitalize">{{strtolower($tarea->docente->c_nombre)}}</span></small>
                                 <br>
                                 <small>Fecha de entrega: {{$tarea->t_fecha_hora_entrega}}</small>
                             </a>

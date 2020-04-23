@@ -32,19 +32,19 @@
                                 <div class="user-profile">
                                     @if(is_null($companiero->c_foto)  || empty($companiero->c_foto))
                                         @if(strtoupper($companiero->c_sexo)=='M')
-                                            <img class="profile-picture mb-1" src="{{asset('assets/images/usuario/studentman.png')}}" alt="Foto del alumno">
+                                            <img class="profile-picture mb-1" src="{{asset('assets/images/usuario/studentman.png')}}" alt="Fotografía">
                                         @else
-                                            <img class="profile-picture mb-1" src="{{asset('assets/images/usuario/studentwoman.png')}}" alt="Foto de la alumna">
+                                            <img class="profile-picture mb-1" src="{{asset('assets/images/usuario/studentwoman.png')}}" alt="Fotografía">
                                         @endif
         
                                     @else
-                                        <img class="profile-picture mb-1" src="{{url('super/alumno/foto/'.$companiero->c_foto)}}" alt="Foto del alumno">
+                                        <img class="profile-picture mb-1" src="{{url('super/alumno/foto/'.$companiero->c_foto)}}" alt="Fotografía">
                                     @endif
                                 </div>
                                 <div class="ul-contact-page__info">
-                                    <p class="m-0 text-24">{{ucwords(strtolower($companiero->c_nombre))}}</p>
-                                    <p class="text-muted m-0">{{$companiero->c_nacionalidad}}</p>
-                                    <p class="text-muted mt-3">{{$companiero->c_direccion}}</p>
+                                    <h4 class="">{{ucwords(strtolower($companiero->c_nombre))}}</h4>
+                                    <p class="text-muted m-0 hs_capitalize">{{strtolower($companiero->c_nacionalidad)}}</p>
+                                    <p class="text-muted mt-3">{{ucfirst(strtolower($companiero->c_direccion))}}</p>
                                 </div>
                             </div>
                         </div>
