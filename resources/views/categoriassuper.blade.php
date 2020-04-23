@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <h2 class="hs_titulo">Materias</h2>
+    <h2 class="hs_titulo">Asignaturas o cursos</h2>
 
     <div class="row hs_contenedor">
         <div class="card  col col-lg-7 col-sm-12">
@@ -179,7 +179,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nuevo curso o asignatura</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva asignatura o curso</h5> <!-- Según sea el botón que llame al MODAL -->
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -191,7 +191,7 @@
 
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
-                            <label for="nombre">Nombre de materia</label>
+                            <label for="nombre">Nombre de asignatura o curso</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" required placeholder="Ejemplo: Matemática">
                             <div class="invalid-feedback">
                                 Es necesario poner un nombre
@@ -234,7 +234,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nuevo curso o asignatura</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva asignatura o curso</h5> <!-- Según sea el botón que llame al MODAL -->
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -246,7 +246,7 @@
                         <input type="hidden" id="frm" name="frm" value="2">
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
-                            <label for="nombre2">Nombre de materia</label>
+                            <label for="nombre2">Nombre de asignatura o curso</label>
                             <input type="text" class="form-control" id="nombre2" name="nombre2" required placeholder="Ejemplo: Matemática">
                             <div class="invalid-feedback">
                                 Es necesario poner un nombre
@@ -288,7 +288,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nuevo curso o asignatura</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva asignatura o curso</h5> <!-- Según sea el botón que llame al MODAL -->
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -300,7 +300,7 @@
 
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
-                            <label for="nombre3">Nombre de materia</label>
+                            <label for="nombre3">Nombre de asignatura o curso</label>
                             <input type="text" class="form-control" id="nombre3" name="nombre3" required placeholder="Ejemplo: Matemática">
                             <div class="invalid-feedback">
                                 Es necesario poner un nombre
@@ -343,7 +343,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar categoría</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <h5 class="modal-title" id="exampleModalLabel">Editar asignatura o curso</h5> <!-- Según sea el botón que llame al MODAL -->
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -355,7 +355,7 @@
         
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
-                            <label for="actnombre">Nombre de materia</label>
+                            <label for="actnombre">Nombre de asignatura o curso</label>
                             <input type="text" class="form-control" id="actnombre" name="actnombre" required placeholder="Ejemplo: Matemática">
                             <div class="invalid-feedback">
                                 Es necesario poner un nombre
@@ -376,7 +376,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar categoría</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <h5 class="modal-title" id="exampleModalLabel">Editar asignatura o curso</h5> <!-- Según sea el botón que llame al MODAL -->
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -388,7 +388,7 @@
         
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
-                            <label for="actnombre2">Nombre de materia</label>
+                            <label for="actnombre2">Nombre de asignatura o curso</label>
                             <input type="text" class="form-control" id="actnombre2" name="actnombre2" required placeholder="Ejemplo: Matemática">
                             <div class="invalid-feedback">
                                 Es necesario poner un nombre
@@ -409,7 +409,7 @@
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar categoría</h5> <!-- Según sea el botón que llame al MODAL -->
+                    <h5 class="modal-title" id="exampleModalLabel">Editar asignatura o curso</h5> <!-- Según sea el botón que llame al MODAL -->
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -421,7 +421,7 @@
         
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
-                            <label for="actnombre">Nombre de materia</label>
+                            <label for="actnombre">Nombre de asignatura o curso</label>
                             <input type="text" class="form-control" id="actnombre" name="actnombre" required placeholder="Ejemplo: Matemática">
                             <div class="invalid-feedback">
                                 Es necesario poner un nombre

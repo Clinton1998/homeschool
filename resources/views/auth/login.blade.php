@@ -10,7 +10,41 @@
         <link rel="stylesheet" href="{{asset('assets/styles/css/themes/lite-purple.min.css')}}">
 
         <link rel="stylesheet" href="{{asset('assets/styles/css/style-panel-docente.css')}}">
-        <link rel="stylesheet" href="{{asset('assets/styles/css/style.css')}}">
+
+        <style>
+            a {
+                color: black;
+            }
+
+            .btn-primary {
+                background-color: #3498db;
+                border: none;
+            }
+
+            .btn-primary:active,
+            .btn-primary:link,
+            .btn-primary:visited,
+            .btn-primary:focus {
+                background-color: #2980b9 !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .btn-primary:hover {
+                background-color: #2980b9;
+                box-shadow: none;
+            }
+
+            .form-control:focus {
+                border-color: #3498db;
+                box-shadow: none;
+            }
+
+            .text-primary {
+                color: #3498db; !important;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -19,7 +53,7 @@
                 <img id="hs_logo-innova" src="{{asset('assets/images/Logo-Innova.png')}}" alt="">
             </div>
 
-            <div class="hs_board col col-lg-8 " >
+            <div class="hs_board col col-lg-8" >
                 <div class="hs_wallpaper col col-lg-7 col-sm-6 col-mb-0 " style="background-image: url({{asset('assets/images/photo-wide-4.jpeg')}})">
                 </div>
 

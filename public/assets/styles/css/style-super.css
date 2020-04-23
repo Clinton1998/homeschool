@@ -1,6 +1,6 @@
 :root {
-    --color-principal-light: #34495e;
-    --color-principal-dark: #2c3e50;
+    --s-color-secundario: #4563BF;
+    --s-color-primario: #4557BF;
 }
 
 /* [0] GENERAL ---------------*/
@@ -10,7 +10,7 @@ a {
 }
 
 .btn-primary {
-    background-color: var(--color-principal-light);
+    background-color: var(--s-color-secundario);
     border: none;
 }
 
@@ -18,27 +18,27 @@ a {
 .btn-primary:link,
 .btn-primary:visited,
 .btn-primary:focus {
-    background-color: var(--color-principal-light) !important;
+    background-color: var(--s-color-secundario) !important;
     box-shadow: none !important;
     border: none !important;
 }
 
 .btn-primary:hover {
-    background-color: var(--color-principal-dark);
+    background-color: var(--s-color-primario);
     box-shadow: none;
 }
 
 .form-control:focus {
-    border-color: var(--color-principal-light);
+    border-color: var(--s-color-secundario);
     box-shadow: none;
 }
 
 .text-primary {
-    color: var(--color-principal-light) !important;
+    color: var(--s-color-secundario) !important;
 }
 
 .nav-link .active {
-    background-color: var(--color-principal-light);
+    background-color: var(--s-color-secundario);
 }
 
 /* SCROLL */
@@ -77,7 +77,7 @@ a {
 }
 
 .hs_titulo {
-    color: var(--color-principal-light);
+    color: var(--s-color-secundario);
     width: 100%;
     padding: 10px 15px;
     text-align: center;
@@ -89,7 +89,7 @@ a {
 }
 
 .hs_encabezado-titulo {
-    color: var(--color-principal-light);
+    color: var(--s-color-secundario);
 }
 
 .hs_encabezado-linea {
@@ -97,7 +97,7 @@ a {
     height: 1px;
     margin: 0 auto;
     margin-bottom: 20px;
-    background-color: var(--color-principal-light);
+    background-color: var(--s-color-secundario);
 }
 
 /* Contenido de una lista */
@@ -135,7 +135,7 @@ a {
 
 .hs_tabla th {
     text-align: center;
-    background-color: var(--color-principal-light);
+    background-color: var(--s-color-secundario);
     color: #FFF;
     cursor: s-resize;
     font-weight: 400;
