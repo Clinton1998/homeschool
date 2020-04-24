@@ -13,7 +13,7 @@
                     <div class="" style="display: flex; flex-wrap: wrap;">
                         <div class="col-lg-8 col-sm-12" style="padding-left: 0;">
                             <h4 class="hs_upper">{{$tarea->c_titulo}}</h4>
-                            <p class="ul-task-manager__paragraph mb-3 text-justify">{{ucfirst($tarea->c_observacion)}}</p>
+                            <p class="ul-task-manager__paragraph mb-3 text-justify hs_capitalize-first">{{$tarea->c_observacion}}</p>
                             @if(!is_null($tarea->c_url_archivo) && !empty($tarea->c_url_archivo))
                                 <h5>Archivo</h5>
                                 <p>
@@ -24,14 +24,14 @@
                             @endif
                             @if(is_null($tarea->docente->c_foto)  || empty($tarea->docente->c_foto))
                                 @if(strtoupper($tarea->docente->c_sexo)=='M')
-                                    <img  class="rounded-circle" width="50" height="50" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Foto del docente">
+                                    <img  class="rounded-circle" width="50" height="50" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Docente">
                                 @else
-                                    <img class="rounded-circle" width="50" height="50" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Foto del docente">
+                                    <img class="rounded-circle" width="50" height="50" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Docente">
                                 @endif
                             @else
-                                    <img class="rounded-circle" width="50" height="50" src="{{url('super/docente/foto/'.$tarea->docente->c_foto)}}" alt="Foto del docente">
+                                    <img class="rounded-circle" width="50" height="50" src="{{url('super/docente/foto/'.$tarea->docente->c_foto)}}" alt="Docente">
                             @endif
-                                {{ucwords(strtolower($tarea->docente->c_nombre))}}
+                                <p class="hs_capitalize">{{$tarea->docente->c_nombre}}</p>
                         </div>
                         <ul class="col-lg-4 col-sm-12 list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto" style="text-align: right; padding-right: 0;">
                             <li><span class="ul-task-manager__font-date text-muted">{{$tarea->created_at}}</span></li>
@@ -109,7 +109,7 @@
                                             @else
                                                 <img class="rounded-circle" width="36" height="36" src="{{url('super/docente/foto/'.$comentario->comenta->docente->c_foto)}}" alt="Fotografía">
                                             @endif
-                                            {{ucwords(strtolower($comentario->comenta->docente->c_nombre))}}
+                                            <span class="hs_capitalize">{{$comentario->comenta->docente->c_nombre}}</span>
                                         @else
                                             @if(is_null($comentario->comenta->alumno->c_foto)  || empty($comentario->comenta->alumno->c_foto))
                                                 @if(strtoupper($comentario->comenta->alumno->c_sexo)=='M')
@@ -121,7 +121,7 @@
                                                 <img class="rounded-circle" width="36" height="36"  src="{{url('super/alumno/foto/'.$comentario->comenta->alumno->c_foto)}}" alt="Fotografía">
                                             @endif
 
-                                            {{ucwords(strtolower($comentario->comenta->alumno->c_nombre))}}
+                                            <span class="hs_capitalize">{{$comentario->comenta->alumno->c_nombre}}</span>
                                         @endif
                                         ({{$comentario->created_at}})
                                     </strong>

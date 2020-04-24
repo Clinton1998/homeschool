@@ -5,6 +5,22 @@
 
 /* [0] GENERAL ---------------*/
 
+.hs_lower {
+    text-transform: lowercase;
+}
+
+.hs_upper {
+    text-transform: uppercase;
+}
+
+.hs_capitalize {
+    text-transform: capitalize;
+}
+
+.hs_capitalize-first::first-letter {
+    text-transform: uppercase;
+}
+
 a {
     color: black;
 }

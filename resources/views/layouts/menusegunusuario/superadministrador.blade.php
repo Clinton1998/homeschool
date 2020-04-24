@@ -1,9 +1,29 @@
+<head>
+    <style>
+        .hs_lower {
+            text-transform: lowercase;
+        }
+
+        .hs_upper {
+            text-transform: uppercase;
+        }
+
+        .hs_capitalize {
+            text-transform: capitalize;
+        }
+
+        .hs_capitalize-first::first-letter {
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
 <div class="main-header">
     <div class="logo">
         @if(is_null($colegio->c_logo)  || empty($colegio->c_logo))
-            <img class="" src="{{asset('assets/images/colegio/school.png')}}" alt="Logo de la institución educativa">
+            <img class="" src="{{asset('assets/images/colegio/school.png')}}" alt="Institución Educativa">
         @else
-            <img class="" src="{{url('super/colegio/logo/'.$colegio->c_logo)}}" alt="Logo de la institución educativa">
+            <img class="" src="{{url('super/colegio/logo/'.$colegio->c_logo)}}" alt="Institución Educativa">
         @endif
     </div>
 
@@ -107,7 +127,7 @@
         <!-- User avatar dropdown -->
         <div class="dropdown">
             <div  class="user col align-self-end">
-            <img src="{{url('super/colegio/logo/'.$colegio->c_logo)}}" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Avatar del usuario superadministrador">
+            <img src="{{url('super/colegio/logo/'.$colegio->c_logo)}}" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Usuario">
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <div class="dropdown-header">

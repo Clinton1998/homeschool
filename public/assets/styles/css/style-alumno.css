@@ -17,6 +17,10 @@
     text-transform: capitalize;
 }
 
+.hs_capitalize-first::first-letter {
+    text-transform: uppercase;
+}
+
 a {
     color: black;
 }

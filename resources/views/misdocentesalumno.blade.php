@@ -46,9 +46,9 @@
                                 @endif
                                 </div>
                                 <div class="ul-contact-page__info">
-                                    <h4 class="hs_capitalize">{{strtolower($docente->c_nombre)}}</h4>
+                                    <h4 class="hs_capitalize">{{$docente->c_nombre}}</h4>
                                     <p class="text-muted hs_capitalize">{{$docente->c_nacionalidad}}</p>
-                                    <p class="text-muted">{{ucfirst(strtolower($docente->c_direccion))}}</p>
+                                    <p class="text-muted hs_capitalize-first">{{$docente->c_direccion}}</p>
                                     <p class="text-muted hs_lower"><a href="mailto:{{$docente->c_correo}}">{{$docente->c_correo}}</a></p>
                                     <p class="text-muted">{{$docente->c_telefono}}</p>
                                 </div>

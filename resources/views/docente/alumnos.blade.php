@@ -3,7 +3,7 @@
 @section('main-content')
 
 <head>
-    <link rel="stylesheet" href="{{asset('assets/styles/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/styles/css/style-docente.css')}}">
 </head>
 
 <body>

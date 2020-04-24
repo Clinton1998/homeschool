@@ -12,7 +12,7 @@
                                         <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
                                             <div>
                                                 <h5 class="hs_upper"><a href="{{url('alumno/tareaenviada/'.$tarea->id_tarea)}}">{{$tarea->c_titulo}}</a></h5>
-                                                <p class="ul-task-manager__paragraph mb-3 text-justify">{{ucfirst($tarea->c_observacion)}}</p>
+                                                <p class="ul-task-manager__paragraph mb-3 text-justify hs_capitalize-first">{{$tarea->c_observacion}}</p>
                                                 @if(is_null($tarea->docente->c_foto)  || empty($tarea->docente->c_foto))
                                                     @if(strtoupper($tarea->docente->c_sexo)=='M')
                                                         <img class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Fotografía">
@@ -23,7 +23,7 @@
                                                     <img class="rounded-circle" width="36" height="36" src="{{url('super/docente/foto/'.$tarea->docente->c_foto)}}" alt="Fotografía">
                                                 @endif
                                                 <br>
-                                                <p>{{ucwords(strtolower($tarea->docente->c_nombre))}}</p>
+                                                <p class="hs_capitalize">{{$tarea->docente->c_nombre}}</p>
                                             </div>
 
                                             <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto" style="text-align: right;">

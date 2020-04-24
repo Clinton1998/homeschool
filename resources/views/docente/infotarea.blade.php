@@ -1,7 +1,7 @@
 @extends('reutilizable.principal')
 @section('page-css')
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">   
-    <link rel="stylesheet" href="{{asset('assets/styles/css/style.css')}}"> 
+    <link rel="stylesheet" href="{{asset('assets/styles/css/style-docente.css')}}"> 
 @endsection
 
 @section('main-content')

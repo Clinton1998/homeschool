@@ -42,9 +42,9 @@
                                     @endif
                                 </div>
                                 <div class="ul-contact-page__info">
-                                    <h4 class="">{{ucwords(strtolower($companiero->c_nombre))}}</h4>
-                                    <p class="text-muted m-0 hs_capitalize">{{strtolower($companiero->c_nacionalidad)}}</p>
-                                    <p class="text-muted mt-3">{{ucfirst(strtolower($companiero->c_direccion))}}</p>
+                                    <h4 class="hs_capitalize">{{$companiero->c_nombre}}</h4>
+                                    <p class="text-muted m-0 hs_capitalize">{{$companiero->c_nacionalidad}}</p>
+                                    <p class="text-muted mt-3 hs_capitalize-first">{{$companiero->c_direccion}}</p>
                                 </div>
                             </div>
                         </div>
