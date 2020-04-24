@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    new SlimSelect({
+        select: '#optsecciones'
+    });
+
     // Toolbar extra buttons
     var btnFinish = $('<button></button>').text('Registrar')
         .addClass('btn btn-primary')

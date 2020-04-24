@@ -113,7 +113,7 @@
                                     </div>
                                     <label for="inpActNombreRepresentante" class="col-sm-2 col-form-label">Nombre</label>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" id="inpActNombreRepresentante" name="nombre" value="{{$colegio->c_representante_legal}}">
+                                        <input type="text" class="form-control hs_capitalize @error('nombre') is-invalid @enderror" id="inpActNombreRepresentante" name="nombre" value="{{$colegio->c_representante_legal}}">
                                         @error('nombre')
                                              <span class="invalid-feedback" role="alert">
                                                  <strong>{{ $message }}</strong>
@@ -249,8 +249,9 @@
                             </div>
                             <div class="col-12 text-center">
                                 <div class="ul-contact-detail__info-1">
-                                        <h5>Representante legal</h5>
-                                <span class="text-primary">{{$colegio->c_dni_representante}}</span> <span>{{$colegio->c_representante_legal}}</span>
+                                    <h5>Representante legal</h5>
+                                    <span class="hs_capitalize">{{$colegio->c_representante_legal}}</span><br>
+                                    <span class="text-primary">DNI N° {{$colegio->c_dni_representante}}</span>
                                 </div>
                             </div>
                             <!--<div class="col-12 text-center">

@@ -38,7 +38,18 @@ class Docente extends Controller
             'estado' => 1
         ])->orderBy('c_nivel_academico')->orderBy('c_nombre')->get();
 
-        return view('docentessuper', compact('docentes', 'grados'));
+        $TMP = DB::table('seccion_d')
+        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
+        ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+        ->where([
+            'grado_m.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1])
+            ->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
+
+
+        return view('docentessuper', compact('docentes', 'grados', 'TMP'));
     }
 
     public function info($id_docente)
@@ -56,7 +67,19 @@ class Docente extends Controller
             'id_colegio' => $colegio->id_colegio,
             'estado' => 1
         ])->get();
-        return view('infodocentesuper', compact('docente', 'usuario_del_docente', 'grados'));
+
+
+        $TMP = DB::table('seccion_d')
+        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
+        ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+        ->where([
+            'grado_m.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1])
+            ->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
+
+        return view('infodocentesuper', compact('docente', 'usuario_del_docente', 'grados', 'TMP'));
     }
 
     public function agregar(Request $request)
