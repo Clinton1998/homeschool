@@ -15,6 +15,10 @@
     text-transform: capitalize;
 }
 
+.hs_capitalize-first::first-letter {
+    text-transform: uppercase;
+}
+
 a {
     color: black;
 }
@@ -119,7 +123,7 @@ a {
     margin-bottom: 15px;
     padding: 10px;
     border: solid 1px #ecf0f1;
-    border-left: solid 5px var(--d-color-secundario);
+    /*border-left: solid 5px var(--d-color-secundario);*/
 }
 
 .tarea:hover {

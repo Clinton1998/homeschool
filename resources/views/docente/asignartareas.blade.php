@@ -15,12 +15,12 @@
     
     <div class="mis-alumnos-contenedor card col col-lg-6">
         <div class="card-body">
-            <div class="tareas-encabezado">
+            <!--<div class="tareas-encabezado">
                 <h4>Lista de tareas asignadas</h4>
                 <div class="tareas-linea"></div>
-            </div>
+            </div>-->
 
-            <a href="" class="btn btn-primary" id="btn-nueva-tarea" data-toggle="modal" data-target="#modal-tarea-nueva">+ Crear nueva tarea</a>
+            <a href="" class="btn btn-primary float-right" id="btn-nueva-tarea" data-toggle="modal" data-target="#modal-tarea-nueva">+ Crear nueva tarea</a>
             <br>
             <br>
 
@@ -31,8 +31,8 @@
                         <div>
                             <span class="badge badge-success">{{$tarea->categoria->c_nombre}} - {{$tarea->categoria->c_nivel_academico}}</span>
                         </div>
-                        <h4 class="tarea-titulo">{{$tarea->c_titulo}}</h4>
-                        <p class="tarea-descripcion">{{$tarea->c_observacion}}</p>
+                        <h5 class="tarea-titulo hs_upper">{{$tarea->c_titulo}}</h5>
+                        <p class="tarea-descripcion hs_capitalize-first">{{$tarea->c_observacion}}</p>
                         <div class="tarea-fechas">
                             <div class="tarea-fecha-publicacion">
                                 <small>Fecha de publicación: </small>
@@ -87,7 +87,7 @@
                         <select id="cbGradoSeccion" name="seccion" required>
                                 <option value=""></option>
                             @foreach($docente->secciones->where('estado','=',1) as $seccion)
-                                <option value="{{$seccion->id_seccion}}">{{$seccion->c_nombre}} - {{$seccion->grado->c_nombre}} - {{$seccion->grado->c_nivel_academico}}</option>
+                                <option value="{{$seccion->id_seccion}}">{{substr($seccion->grado->c_nombre,3)}} "{{$seccion->c_nombre}}" - {{$seccion->grado->c_nivel_academico}}</option>
                             @endforeach
                         </select>
                         <span class="invalid-feedback" role="alert">
@@ -114,7 +114,8 @@
 
                     <div class="form-group">
                         <div class="alert alert-card alert-danger" role="alert" id="alertNoHayCategorias" style="display: none;">
-                            <strong class="text-capitalize">Aviso!</strong> No tienes ninguna categoría para esta sección, pídele al super administrador de tu institución,que cree una categoría.
+                            <strong class="text-capitalize">Aviso!</strong> 
+                            Aun no existen cursos o asignaturas para esta sección. Solicita al administrador de tu institución que cree o asigne un curso o asignatura
                         </div>
 
                         <label for="selCategoria">Asignatura o curso</label>

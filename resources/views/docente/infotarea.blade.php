@@ -12,10 +12,10 @@
                 <div class="card-body">
                     <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
                         <div>
-                        <h4 class="">{{$tarea->c_titulo}}</h4>
-                        <p class="ul-task-manager__paragraph mb-3 text-justify">{{$tarea->c_observacion}}</p>
+                        <h4 class="hs_upper">{{$tarea->c_titulo}}</h4>
+                        <p class="hs_capitalize-first ul-task-manager__paragraph mb-3 text-justify">{{$tarea->c_observacion}}</p>
                         @if(!is_null($tarea->c_url_archivo) && !empty($tarea->c_url_archivo))
-                            <h5>Archivo</h5>
+                            <strong>Archivo</strong>
                             <p>
                             <a href="{{url('/docente/tarea/archivo/'.$tarea->id_tarea)}}" class="text-primary" cdownload="{{$tarea->c_url_archivo}}">
                                     Descargar Archivo {{$tarea->c_url_archivo}}
@@ -25,20 +25,19 @@
 
                         @if(is_null($tarea->docente->c_foto)  || empty($tarea->docente->c_foto))
                             @if(strtoupper($tarea->docente->c_sexo)=='M')
-                                <img  class="rounded-circle" width="50" height="50" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Foto del docente">
+                                <img  class="rounded-circle" width="50" height="50" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Docente">
                             @else
-                                <img class="rounded-circle" width="50" height="50" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Foto del docente">
+                                <img class="rounded-circle" width="50" height="50" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Docente">
                             @endif
                         @else
-                                <img class="rounded-circle" width="50" height="50" src="{{url('super/docente/foto/'.$tarea->docente->c_foto)}}" alt="Foto del docente">
+                                <img class="rounded-circle" width="50" height="50" src="{{url('super/docente/foto/'.$tarea->docente->c_foto)}}" alt="Docente">
                         @endif
-                                {{$tarea->docente->c_nombre}}
+                                <span class="hs_capitalize">{{$tarea->docente->c_nombre}}</span>
                         </div>
 
-                        <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto">
+                        <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto" style="text-align: right;">
                             <li><span class="ul-task-manager__font-date text-muted">{{$tarea->created_at}}</span></li>
                             <li class="dropdown">
-                                Categoria: &nbsp;
                                 <span class="badge badge-pill badge-danger p-1 m-1">{{$tarea->categoria->c_nombre}}</span>
                             </li>
                         </ul>
@@ -72,7 +71,7 @@
                     <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
                         <div class="caja-comentarios">
                             @if($tarea->comentarios()->count()<=0)
-                                <h4 class="text-secondary">Sin comentarios</h4>
+                                <h5 class="text-secondary">Sin comentarios</h5>
                             @else
                                 @foreach($tarea->comentarios()->orderBy('created_at','DESC')->get() as $comentario)
                                     <div class="comentario mb-4">
@@ -80,14 +79,14 @@
                                         @if(!is_null($comentario->comenta->id_docente))
                                             @if(is_null($comentario->comenta->docente->c_foto)  || empty($comentario->comenta->docente->c_foto))
                                                 @if(strtoupper($comentario->comenta->docente->c_sexo)=='M')
-                                                <img  class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Foto del docente">
+                                                <img  class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Docente">
                                                 @else
-                                                <img class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Foto del docente">
+                                                <img class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Docente">
                                                 @endif
                                             @else
-                                                <img class="rounded-circle" width="36" height="36" src="{{url('super/docente/foto/'.$comentario->comenta->docente->c_foto)}}" alt="Foto del docente">
+                                                <img class="rounded-circle" width="36" height="36" src="{{url('super/docente/foto/'.$comentario->comenta->docente->c_foto)}}" alt="Docente">
                                             @endif
-                                            {{$comentario->comenta->docente->c_nombre}}
+                                            <span class="hs_capitalize">{{$comentario->comenta->docente->c_nombre}}</span>
                                         @else
                                             @if(is_null($comentario->comenta->alumno->c_foto)  || empty($comentario->comenta->alumno->c_foto))
                                                 @if(strtoupper($comentario->comenta->alumno->c_sexo)=='M')
@@ -99,9 +98,9 @@
                                                 <img class="rounded-circle" width="36" height="36"  src="{{url('super/alumno/foto/'.$comentario->comenta->alumno->c_foto)}}" alt="Foto del alumno">
                                             @endif
 
-                                            {{$comentario->comenta->alumno->c_nombre}}
+                                            <span class="hs_capitalize">{{$comentario->comenta->alumno->c_nombre}}</span>
                                         @endif
-                                        ({{$comentario->created_at}})
+                                        ({{$comentario->created_at}})</strong>
                                     <p class="comentario-contenido">{{$comentario->c_descripcion}}</p>
                                     </div>
                                 @endforeach

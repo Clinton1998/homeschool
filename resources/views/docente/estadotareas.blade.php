@@ -32,9 +32,9 @@
                         <div>
                             <span class="badge badge-success w-badge" id="spanCategoria">{categoria}</span>
                         </div>
-                        <h4 style="margin-top: 10px;" id="nombreTarea"></h4>
-                        <p id="observacionTarea"></p>
-                        <p id="archivoTarea"></p>
+                        <h4 style="margin-top: 10px;" id="nombreTarea" class="hs_upper"></h4>
+                        <p id="observacionTarea" class="hs_capitalize-first"></p>
+                        <p id="archivoTarea" class="hs_capitalize-first"></p>
                         
                         <!--<div class="panel-botonera">
                             <button type="button" class="btn btn-sm btn-secondary" onclick="CerrarPanel()">Cancelar</button>
@@ -56,7 +56,7 @@
                                     <div class="card-body">
                                         <ul id="alumnos-que-enviaron" class="contenedor-scroll list-group">
                                             <!-- CUANDO FALTA REVISAR LA TAREA -->
-                                            <li class="tarea-pendiente-alumno list-group-item" >
+                                            <li class="tarea-pendiente-alumno list-group-item hs_capitalize" >
                                                 {nombre-de-alumno}
                                                 <a href="#" class="badge badge-success" style="margin-left: 5px;">
                                                     Revisarxd
@@ -64,7 +64,7 @@
                                             </li>
                                                                                     
                                             <!-- CUANDO YA SE HA REVISADO LA TAREA -->
-                                            <li class="tarea-pendiente-alumno list-group-item">
+                                            <li class="tarea-pendiente-alumno list-group-item hs_capitalize">
                                                 {nombre-de-alumno}
                                                 <span class="btn-revisar badge badge-light" style="margin: auto 5px;">Revisado</span>
                                                 <a href="#" class="badge badge-warning" >
@@ -90,7 +90,7 @@
                                 <div id="lista-pendientes-2" class="collapse " data-parent="#accordionRightIcon" style="">
                                     <div class="card-body">
                                         <ul id="alumnos-que-no-enviaron" class="contenedor-scroll list-group">
-                                            <li class="tarea-pendiente-alumno list-group-item">
+                                            <li class="tarea-pendiente-alumno list-group-item hs_capitalize">
                                                 {nombre-de-alumno}
                                             </li>
                                         </ul>
@@ -150,7 +150,7 @@
                                     @foreach($tareas_enviadas as $tarea)
                                         <div class="card card-tarea" onclick="fxInfoTarea({{$tarea->id_tarea}});">
                                             <div class="card-body">
-                                            <h6 class="mb-3">{{$tarea->c_titulo}}</h6>
+                                            <h5 class="mb-3 hs_upper">{{$tarea->c_titulo}}</h5>
                                                 <p class="text-20 text-warning line-height-1 mb-3"><i class="i-Arrow-Up-in-Circle"></i> Enviado</p>
                                             <small class="text-muted">Fecha de envio: {{$tarea->created_at}}</small>
                                             </div>
@@ -169,7 +169,7 @@
                                         <div class="card-body">
                                         <h6 class="mb-3">
                                         <span class="badge badge-success w-badge">{{$tarea->categoria->c_nombre}}</span>
-                                        {{$tarea->c_titulo}}
+                                        <h5 class="hs_upper">{{$tarea->c_titulo}}</h5>
                                         </h6>
                                         <p class="text-20 text-success line-height-1 mb-3"><i class="i-Arrow-Down-in-Circle"></i> Calificado</p>
                                         <small class="text-muted">Fecha de calificación: {{$tarea->updated_at}}</small>
@@ -209,7 +209,7 @@
                                         <div class="card-body">
                                         <h6 class="mb-2 text-muted">
                                         <span class="badge badge-success w-badge">{{$tarea->categoria->c_nombre}}</span>
-                                        {{$tarea->c_titulo}}
+                                        <h5 class="hs_upper">{{$tarea->c_titulo}}</h5>
                                         </h6>
                                         <p class="mb-1 text-22 font-weight-light">{{$porcentaje_revision}}%</p>
                                         <div class="progress mb-1" style="height: 4px">
@@ -289,8 +289,8 @@
                 </div>
                 <div class="modal-body">
                     <span href="#" class="badge badge-success" id="infCategoria">{categoria}</span>
-                    <h4 class="enviados-titulo" id="infTitulo">{Título de tarea}</h4>
-                    <p class="enviados-descripcion" id="infDescripcion">{Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam ea deleniti, fugiat consectetur officiis harum praesentium! Quas nesciunt hic inventore fuga, magnam aliquam, iure natus blanditiis dolorem rem, assumenda vitae.}</p>
+                    <h4 class="enviados-titulo hs_upper" id="infTitulo">{Título de tarea}</h4>
+                    <p class="enviados-descripcion hs_capitalize-first" id="infDescripcion">{Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam ea deleniti, fugiat consectetur officiis harum praesentium! Quas nesciunt hic inventore fuga, magnam aliquam, iure natus blanditiis dolorem rem, assumenda vitae.}</p>
                     <div class="enviados-detalle" id="infGrupo"><strong>Grupo: </strong><p>{1 - c}</p></div>
                     <div class="enviados-detalle" id="infFechaEnvio"><strong>Fecha de envio: </strong><p>{dd-mm-yyyy}</p></div>
                     <div class="enviados-detalle" id="infFechaEntrega"><strong>Fecha de entrega: </strong><p>{dd-mm-yyyy}</p></div>

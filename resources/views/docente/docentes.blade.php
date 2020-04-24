@@ -43,7 +43,7 @@
                         @else
                             <img class="foto-perfil" src="{{url('super/docente/foto/'.$docente->c_foto)}}" alt="Fotografía">
                         @endif
-                        {{$docente->c_nombre}}
+                        <span class="hs_capitalize">{{$docente->c_nombre}}</span>
                         </a>
                     </li>
                 @endforeach
@@ -78,11 +78,11 @@
                         @else
                             <img class="foto-perfil-lg" id="imgInfoDocente" src="{{url('super/docente/foto/'.$docente_default->c_foto)}}" alt="Fotografía">
                         @endif
-                        <h3 id="infoNombreDocente">{{$docente_default->c_nombre}}</h3>
+                        <h3 id="infoNombreDocente" class="hs_capitalize">{{$docente_default->c_nombre}}</h3>
                         <h4>Especialidad</h4>
-                        <p id="infoEspecilidadDocente">{{$docente_default->c_especialidad}}</p>
+                        <p id="infoEspecilidadDocente" class="hs_capitalize">{{$docente_default->c_especialidad}}</p>
                         <h4>Correo electrónico</h4>
-                        <p id="infoCorreoDocente">{{$docente_default->c_correo}}</p>
+                        <p id="infoCorreoDocente" class="hs_lower">{{$docente_default->c_correo}}</p>
                         <h4>Teléfono</h4>
                         <p id="infoTelefonoDocente">{{$docente_default->c_telefono}}</p>
                     </div>
