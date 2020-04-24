@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\usuario\docente;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\NuevaTareaParaAlumnoNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App;
@@ -127,6 +128,17 @@ class AsignarTareas extends Controller
                 );
             }
         }
-        return redirect('docente/asignartareas');
+        //event(new App\Events\NuevaNotificacionAlumno(array('titulo' =>'Nueva tarea','mensaje' =>  'Tu docente '.$docente->c_nombre.' te acaba de asignar una tarea.','created_at' => date('Y-m-d H:i:s'))));
+        //consultando la tarea
+        $search_tarea = App\Tarea_d::findOrFail($newtarea->id_tarea);
+        $alumnos_asignados = $search_tarea->alumnos_asignados()->select('alumno_d.id_alumno')->where('alumno_d.estado','=',1)->get();
+        $usuarios_a_notificar = App\User::where('id','<>',Auth::user()->id)->get();
+        \Notification::send($usuarios_a_notificar,new NuevaTareaParaAlumnoNotification(array(
+            'titulo' => 'Nueva tarea',
+            'mensaje'=> 'Tu docente '.$docente->c_nombre.' te acaba de asignar esta tarea',
+            'url' => 'prueba'
+        )));
+        return response()->json($alumnos_asignados);
+        //return redirect('docente/asignartareas');
     }
 }
