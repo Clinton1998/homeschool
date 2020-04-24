@@ -67,7 +67,7 @@ function fxConsultaRuc(obj) {
                 l.stop();
             });
         } else {
-            toastr.info('Para poder usar el RUC en esta plataforma, comunicate con el gerente de la empresa Innova Sistemas Integrales, Puedes llamar al +51 930 274 447');
+            toastr.info('Para tener acceso a la PLATAFORMA EDUCATIVA HOMESCHOOL V.1.0 comunícate con nosotros al  973477015 o escríbenos a soporte@innovaqp.com');
             l.stop();
         }
     });
