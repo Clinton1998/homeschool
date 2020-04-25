@@ -36,9 +36,17 @@ class Alumno extends Controller
 
         //obteniendo los alumnos de ese colegio
 
+        $TMP = DB::table('seccion_d')
+        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
+        ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+        ->where([
+            'grado_m.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1])
+            ->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
 
-
-        return view('alumnossuper', compact('grados'));
+        return view('alumnossuper', compact('grados', 'TMP'));
     }
 
     public function agregar(Request $request)
@@ -195,7 +203,19 @@ class Alumno extends Controller
         //obtenemos el usuario del alumno
         $usuario_del_alumno = App\User::where('id_alumno', '=', $alumno->id_alumno)->first();
 
-        return view('infoalumnosuper', compact('alumno', 'grados', 'usuario_del_alumno'));
+
+        $TMP = DB::table('seccion_d')
+        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
+        ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+        ->where([
+            'grado_m.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1])
+            ->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
+
+
+        return view('infoalumnosuper', compact('alumno', 'grados', 'usuario_del_alumno', 'TMP'));
     }
 
     public function cambiar_foto(Request $request)

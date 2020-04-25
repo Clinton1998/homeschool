@@ -46,7 +46,7 @@
                                         @endif
                                         {{ucfirst(substr(strtolower($item->c_nombre),3))}}
                                     </td>
-                                    <td>
+                                    <td class="hs_upper">
                                         {{$item->nom_seccion}}
                                     </td>
                                     <td>
@@ -125,7 +125,7 @@
     
                         <div class="form-group">
                             <label for="actnombre">Sección</label>
-                            <input type="text" class="form-control" id="actnombre" name="actnombre"  placeholder="Ejemplo: A" required>
+                            <input type="text" class=" hs_upper form-control" id="actnombre" name="actnombre"  placeholder="Ejemplo: A" required>
                             <div class="invalid-feedback">
                                 La sección es necesaria
                             </div>

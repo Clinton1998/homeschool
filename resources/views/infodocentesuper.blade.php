@@ -172,7 +172,8 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <div class="col">
+                                        <div class="col" style="display:flex; justify-content: space-between;">
+                                            <a href="{{route('super/docentes')}}" class="btn btn-light float-right">Atrás</a>
                                             <button type="submit" class="btn btn-primary float-right">Actualizar datos</button>
                                         </div>
                                     </div>

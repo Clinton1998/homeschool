@@ -66,15 +66,15 @@
                                 </thead>
                                 <tbody>
                                 @foreach ($TMP as $item)
-                                    @if ($item->c_nivel_academico === "INICIAL")
+                                    @if (strtoupper($item->c_nivel_academico) === "INICIAL")
                                         <tr>
-                                            <td>
+                                            <td class="hs_capitalize">
                                                 {{$item->nom_categoria}}
                                             </td>
-                                            <td>
+                                            <td class="hs_capitalize">
                                                 {{substr($item->nom_grado,3)}}
                                             </td>
-                                            <td>
+                                            <td class="hs_upper">
                                                 {{$item->nom_seccion}}
                                             </td>
                                             <td>
@@ -106,15 +106,15 @@
                                 </thead>
                                 <tbody>
                                 @foreach ($TMP as $item)
-                                @if ($item->c_nivel_academico === "PRIMARIA")
+                                @if (strtoupper($item->c_nivel_academico) === "PRIMARIA")
                                     <tr>
-                                        <td>
+                                        <td class="hs_capitalize">
                                             {{$item->nom_categoria}}
                                         </td>
-                                        <td>
-                                            {{ucfirst(substr(strtolower($item->nom_grado),3))}}
+                                        <td class="hs_capitalize">
+                                            {{ucfirst(strtolower(substr($item->nom_grado,3)))}}
                                         </td>
-                                        <td>
+                                        <td class="hs_upper">
                                             {{$item->nom_seccion}}
                                         </td>
                                         <td>
@@ -146,18 +146,18 @@
                                 </thead>
                                 <tbody>
                                 @foreach ($TMP as $item)
-                                @if ($item->c_nivel_academico === "SECUNDARIA")
+                                @if (strtoupper($item->c_nivel_academico) === "SECUNDARIA")
                                     <tr>
-                                        <td>
+                                        <td class="hs_capitalize">
                                             {{$item->nom_categoria}}
                                         </td>
-                                        <td>
+                                        <td class="hs_capitalize">
                                             {{ucfirst(substr(strtolower($item->nom_grado),3))}}
                                         </td>
                                         <td>
                                             {{$item->nom_seccion}}
                                         </td>
-                                        <td>
+                                        <td class="hs_upper">
                                             <button type="button" class="btn btn-sm btn-warning" id="btnAplicarCategoria{{$item->id_categoria}}" onclick="fxAplicarCategoria({{$item->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="i-Pen-4"></i></button>
                                             <button type="button" class="btn btn-sm btn-danger" id="btnConfirmacionEliminarCategoria{{$item->id_categoria}}" onclick="fxConfirmacionEliminarCategoria({{$item->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eliminar"><i class="i-Eraser-2"></i></button>
                                         </td>
@@ -199,7 +199,7 @@
                         </div>
         
                         @foreach ($tmp_secciones as $item)
-                            @if ($item->c_nivel_academico == "INICIAL")
+                            @if (strtoupper($item->c_nivel_academico) == "INICIAL")
                                 <input type="hidden" id="nivel_academico" name="nivel_academico" value="{{$item->c_nivel_academico}}">
                             @endif
                         @endforeach
@@ -209,9 +209,9 @@
                             <label for="grado-seccion">Para la sección</label>
                             <select id="optgroups" name="optgroups[]" multiple>
                                 @foreach ($tmp_secciones as $item)
-                                    @if ($item->c_nivel_academico == "INICIAL")
+                                    @if (strtoupper($item->c_nivel_academico) == "INICIAL")
                                         <!--Nivel académico-->
-                                        <option value="{{$item->id_seccion}}">{{substr($item->nom_grado,3)}} {{$item->nom_seccion}}</option>
+                                        <option value="{{$item->id_seccion}}">{{substr($item->nom_grado,3)}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
                                     @endif
                                 @endforeach
                             </select>
@@ -254,7 +254,7 @@
                         </div>
         
                         @foreach ($tmp_secciones as $item)
-                            @if ($item->c_nivel_academico == "PRIMARIA")
+                            @if (strtoupper($item->c_nivel_academico) == "PRIMARIA")
                                 <input type="hidden" id="nivel_academico2" name="nivel_academico2" value="{{$item->c_nivel_academico}}">
                             @endif
                         @endforeach
@@ -264,8 +264,8 @@
                             <label for="optgroups2">Para la sección</label>
                             <select id="optgroups2" name="optgroups2[]" multiple>
                                 @foreach ($tmp_secciones as $item)
-                                    @if ($item->c_nivel_academico == "PRIMARIA")
-                                        <option value="{{$item->id_seccion}}">{{ucfirst(substr(strtolower($item->nom_grado),3))}} {{$item->nom_seccion}}</option>
+                                    @if (strtoupper($item->c_nivel_academico) == "PRIMARIA")
+                                        <option value="{{$item->id_seccion}}">{{ucfirst(substr(strtolower($item->nom_grado),3))}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
                                     @endif
                                 @endforeach
                             </select>
@@ -308,7 +308,7 @@
                         </div>
         
                         @foreach ($tmp_secciones as $item)
-                            @if ($item->c_nivel_academico == "SECUNDARIA")
+                            @if (strtoupper($item->c_nivel_academico) == "SECUNDARIA")
                                 <input type="hidden" id="nivel_academico3" name="nivel_academico3" value="{{$item->c_nivel_academico}}">
                             @endif
                         @endforeach
@@ -318,9 +318,9 @@
                             <label for="optgroups3">Para la sección</label>
                             <select id="optgroups3" name="optgroups3[]" multiple>
                                 @foreach ($tmp_secciones as $item)
-                                    @if ($item->c_nivel_academico == "SECUNDARIA")
+                                    @if (strtoupper($item->c_nivel_academico) == "SECUNDARIA")
                                         <!--Nivel académico-->
-                                        <option value="{{$item->id_seccion}}">{{ucfirst(substr(strtolower($item->nom_grado),3))}} {{$item->nom_seccion}}</option>
+                                        <option value="{{$item->id_seccion}}">{{ucfirst(substr(strtolower($item->nom_grado),3))}} {{strtoupper($item->nom_seccion)}}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -356,7 +356,7 @@
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
                             <label for="actnombre">Nombre de asignatura o curso</label>
-                            <input type="text" class="form-control" id="actnombre" name="actnombre" required placeholder="Ejemplo: Matemática">
+                            <input type="text" class="form-control hs_capitalize" id="actnombre" name="actnombre" required placeholder="Ejemplo: Matemática">
                             <div class="invalid-feedback">
                                 Es necesario poner un nombre
                             </div>
@@ -389,7 +389,7 @@
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
                             <label for="actnombre2">Nombre de asignatura o curso</label>
-                            <input type="text" class="form-control" id="actnombre2" name="actnombre2" required placeholder="Ejemplo: Matemática">
+                            <input type="text" class="form-control hs_capitalize" id="actnombre2" name="actnombre2" required placeholder="Ejemplo: Matemática">
                             <div class="invalid-feedback">
                                 Es necesario poner un nombre
                             </div>
@@ -422,7 +422,7 @@
                         <!--Nombre de Asignatura-->
                         <div class="form-group">
                             <label for="actnombre">Nombre de asignatura o curso</label>
-                            <input type="text" class="form-control" id="actnombre" name="actnombre" required placeholder="Ejemplo: Matemática">
+                            <input type="text" class="form-control hs_capitalize" id="actnombre" name="actnombre" required placeholder="Ejemplo: Matemática">
                             <div class="invalid-feedback">
                                 Es necesario poner un nombre
                             </div>

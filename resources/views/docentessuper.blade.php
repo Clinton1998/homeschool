@@ -14,7 +14,7 @@
 
 <h2 class="hs_titulo">Docentes</h2>
 <div class="row hs_contenedor">
-    <div class="card">
+    <div class="card col-lg-11 col-sm-12">
         <div class="card-body">
             <div class="hs_encabezado">
                 <h4 class="hs_encabezado-titulo">Docentes de la Institución</h4>

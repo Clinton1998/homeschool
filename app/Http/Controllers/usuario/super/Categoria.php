@@ -63,7 +63,7 @@ class Categoria extends Controller
             'grado_m.id_colegio' => $colegio->id_colegio,
             'grado_m.estado' => 1,
             'seccion_d.estado' => 1
-        ])->get();
+        ])->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
         
 
         return view('categoriassuper',compact('categorias','secciones','grados', 'TMP', 'tmp_secciones'));
