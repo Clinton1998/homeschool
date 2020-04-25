@@ -32,15 +32,45 @@ const app = new Vue({
     data: {
         notificaciones: [],
     },
-    created(){
-        if(window.Laravel.userId){
+    created() {
+        if (window.Laravel.userId) {
             //recuperar las notificaciones no leidas
-
+            axios.post('/notificacionesdelusuario').then((response) => {
+                this.notificaciones = response.data;
+            });
             //estar pendiente de nuevas notificaciones
-            Echo.private('App,User.'+window.Laravel.userId).notification((response) => {
-                console.log('Los datos devuelto son: ');
+            Echo.private('App.User.' + window.Laravel.userId).notification((response) => {
+                data = { "data": response };
+                this.notificaciones.push(data);
                 console.log(response);
-            });        
+                if (Push.Permission.has()) {
+                    Push.create(response.notificacion.titulo, {
+                        body: response.notificacion.mensaje,
+                        icon: '/assets/images/Logo-HS.png',
+                        timeout: 30000,
+                        vibrate: [200, 100],
+                        onClick: function () {
+                            window.focus();
+                            this.close();
+                        }
+                    });
+                } else {
+                    Push.Permission.request(function () {
+                        Push.create(response.notificacion.titulo, {
+                            body: response.notificacion.mensaje,
+                            icon: '/assets/images/Logo-HS.png',
+                            timeout: 30000,
+                            vibrate: [200, 100],
+                            onClick: function () {
+                                window.focus();
+                                this.close();
+                            }
+                        });
+                    }, function () {
+                        console.log('Ha sido negado');
+                    });
+                }
+            });
         }
     }
 });

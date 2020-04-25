@@ -24,7 +24,8 @@
         <!-- Full screen toggle -->
         <i class="i-Full-Screen header-icon d-none d-sm-inline-block" data-fullscreen></i>
         <!-- Notificaiton -->
-        <div class="dropdown" id="app">
+        
+        <div id="app">
             <notificacion v-bind:notificaciones="notificaciones"></notificacion>
         </div>
         <!-- Notificaiton End -->

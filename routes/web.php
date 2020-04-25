@@ -16,14 +16,9 @@ Route::get('/', function () {
 });
 //rutas para la autenticacion del usuario
 Auth::routes();
-//**DELETE */
-/*Route::view('notificaciones/probar', 'welcome')->name('notificacionesprobar');
-Route::get('ocasionarevento', function () {
-    event(new App\Events\StatusLiked('Clinton'));
-    return "El evento ha ocurrido!";
-});*/
 
-
+//notificaciones del usuario
+Route::post('notificacionesdelusuario','Notificacion@listar')->name('notificacionesdelusuario');
 //para verificar si el colegio ha pagado la plataforma, para usarse
 Route::post('verificaractivo','Pago@verificar')->name('verificaractivo');
 Route::post('ruc/buscar','api\Ruc@buscar')->name('ruc/buscar');

@@ -11,15 +11,15 @@ use Illuminate\Queue\SerializesModels;
 class NuevaTareaParaAlumnoNotification extends Notification
 {
     use Queueable,SerializesModels;
-    protected $tarea;
+    protected $notificacion;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($tarea)
+    public function __construct($notificacion)
     {
-        $this->tarea = $tarea;
+        $this->notificacion = $notificacion;
     }
 
     /**
@@ -42,15 +42,14 @@ class NuevaTareaParaAlumnoNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'tarea' => $this->tarea,
+            'notificacion' => $this->notificacion,
         ];
     }
 
     public function toBroadcast($notifiable)
     {
-        return new BroadcastMessage([
-            'invoice_id' =>2,
-            'amount' => 3
-        ]);
+        return [
+            'notificacion' => $this->notificacion,
+        ];
     }
 }
