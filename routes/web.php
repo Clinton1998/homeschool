@@ -19,6 +19,9 @@ Auth::routes();
 
 //notificaciones del usuario
 Route::post('notificacionesdelusuario','Notificacion@listar')->name('notificacionesdelusuario');
+Route::post('notificacionesdelusuario/marcarcomoleido', 'Notificacion@marcar_como_leido')->name('notificacionesdelusuario/marcarcomoleido');
+Route::post('notificacionesdelusuario/marcartodocomoleido', 'Notificacion@marcar_todo_como_leido')->name('notificacionesdelusuario/marcartodocomoleido');
+
 //para verificar si el colegio ha pagado la plataforma, para usarse
 Route::post('verificaractivo','Pago@verificar')->name('verificaractivo');
 Route::post('ruc/buscar','api\Ruc@buscar')->name('ruc/buscar');
@@ -85,7 +88,6 @@ Route::post('super/categorias/agregarcategoriaaseccion', 'usuario\super\Seccion@
 
 // AGREGANDO RUTAS SUPER ADMIN
 Route::get('super/videoconferencia', 'usuario\super\Videoconferencia@index')->name('super/videoconferencia');
-
 
 //rutas para el alumno
 Route::get('alumno/calendario', 'usuario\alumno\Calendario@index')->name('alumno/calendario');

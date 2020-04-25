@@ -128,18 +128,18 @@ class AsignarTareas extends Controller
         }
         //consultando la tarea
         $search_tarea = App\Tarea_d::findOrFail($newtarea->id_tarea);
-        $alumnos_asignados = $search_tarea->alumnos_asignados()->select('alumno_d.id_alumno')->where('alumno_d.estado','=',1)->get();
+        $alumnos_asignados = $search_tarea->alumnos_asignados()->select('alumno_d.id_alumno')->where('alumno_d.estado', '=', 1)->get();
         $id_usuarios = array();
         $i = 0;
-        foreach($alumnos_asignados as $alumno){
+        foreach ($alumnos_asignados as $alumno) {
             $id_usuarios[$i] = $alumno->usuario->id;
             $i++;
         }
         $usuarios_a_notificar = App\User::whereIn('id', $id_usuarios)->get();
-        \Notification::send($usuarios_a_notificar,new NuevaTareaParaAlumnoNotification(array(
+        \Notification::send($usuarios_a_notificar, new NuevaTareaParaAlumnoNotification(array(
             'titulo' => 'Nueva tarea',
-            'mensaje'=> 'Tu docente '.$docente->c_nombre.' te acaba de asignar esta tarea',
-            'url' => 'prueba'
+            'mensaje' => $search_tarea->c_titulo,
+            'url' => '/alumno/tareapendiente/' . $search_tarea->id_tarea
         )));
         return redirect('docente/asignartareas');
     }

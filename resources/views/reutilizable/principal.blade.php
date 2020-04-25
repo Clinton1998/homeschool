@@ -3,33 +3,23 @@
 
     <head>
         @php
-            $tipo_usuario = '';            
-            if(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0){
-                //se trata de un superadministrador del colegio
-                $tipo_usuario = 'superadministrador';
-            }else if(!is_null(Auth::user()->id_docente)){
-                $tipo_usuario = 'docente';
-            }else if(!is_null(Auth::user()->id_alumno)){
-                $tipo_usuario = 'alumno';
-            }else{
-                //es un usuario root de Innova Sistemas  Integrales
-                $tipo_usuario = 'root';
-            }
             $colegio = '';
             $re_alumno = '';
             $re_docente = '';
-            //consulta del usuario
-            $imagen_usuario = 'user.png';
-            if($tipo_usuario=='docente'){
+            $tipo_usuario = '';
+            if(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0){
+                //se trata de un superadministrador del colegio
+                $colegio = App\Colegio_m::where('id_superadministrador','=',Auth::user()->id)->first();
+                $tipo_usuario ='superadministrador';
+            }else if(!is_null(Auth::user()->id_docente)){
                 $re_docente = App\Docente_d::findOrFail(Auth::user()->id_docente);
                 $colegio = $re_docente->colegio;
-            }else if($tipo_usuario=='alumno'){
+                $tipo_usuario ='docente';
+            }else if(!is_null(Auth::user()->id_alumno)){
                 $re_alumno = App\Alumno_d::findOrFail(Auth::user()->id_alumno);
                 $colegio = $re_alumno->seccion->grado->colegio;
-            }else if($tipo_usuario=='superadministrador'){
-                $colegio = App\Colegio_m::where('id_superadministrador','=',Auth::user()->id)->first();
+                $tipo_usuario ='alumno';
             }
-
         @endphp
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -92,10 +82,6 @@
             <!-- ============ Body content End ============= -->
         </div>
         <!--=============== End app-admin-wrap ================-->
-
-        <!-- ============ Search UI Start ============= -->
-        @include('layouts.search')
-        <!-- ============ Search UI End ============= -->
 
         <!-- ============ Large Sidebar Layout End ============= -->
 

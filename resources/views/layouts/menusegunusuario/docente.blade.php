@@ -27,6 +27,7 @@
       
         
         <!-- Notificaiton -->
+        
         <div id="app">
             <notificacion v-bind:notificaciones="notificaciones"></notificacion>
         </div>
@@ -46,8 +47,6 @@
                 @else
                     <img src="{{url('super/docente/foto/'.$re_docente->c_foto)}}" alt="Foto del docente" id="userDropdown" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 @endif
-
-                <!--<img src="{{asset('assets/images/faces/1.jpg')}}" id="userDropdown" alt="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <div class="dropdown-header">

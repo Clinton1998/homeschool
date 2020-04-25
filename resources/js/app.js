@@ -40,36 +40,22 @@ const app = new Vue({
             });
             //estar pendiente de nuevas notificaciones
             Echo.private('App.User.' + window.Laravel.userId).notification((response) => {
-                data = { "data": response };
-                this.notificaciones.push(data);
-                console.log(response);
-                if (Push.Permission.has()) {
-                    Push.create(response.notificacion.titulo, {
-                        body: response.notificacion.mensaje,
-                        icon: '/assets/images/Logo-HS.png',
-                        timeout: 30000,
-                        vibrate: [200, 100],
-                        onClick: function () {
-                            window.focus();
-                            this.close();
-                        }
-                    });
-                } else {
-                    Push.Permission.request(function () {
-                        Push.create(response.notificacion.titulo, {
-                            body: response.notificacion.mensaje,
-                            icon: '/assets/images/Logo-HS.png',
-                            timeout: 30000,
-                            vibrate: [200, 100],
-                            onClick: function () {
-                                window.focus();
-                                this.close();
-                            }
-                        });
-                    }, function () {
-                        console.log('Ha sido negado');
-                    });
-                }
+                var data = {
+                    "id": response.id, "data": {
+                        "notificacion": response.notificacion
+                    }, "created_at": 'Reciente'
+                };
+                this.notificaciones.unshift(data);
+                Push.create(response.notificacion.titulo, {
+                    body: response.notificacion.mensaje,
+                    icon: '/assets/images/Logo-HS.png',
+                    timeout: 30000,
+                    vibrate: [200, 100],
+                    onClick: function () {
+                        this.close();
+                    }
+                });
+
             });
         }
     }

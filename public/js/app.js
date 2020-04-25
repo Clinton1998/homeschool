@@ -1890,8 +1890,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['notificaciones']
+  props: ['notificaciones'],
+  methods: {
+    fxMarcarComoLeido: function fxMarcarComoLeido(notificacion) {
+      var data = {
+        id_notification: notificacion.id
+      };
+      axios.post('/notificacionesdelusuario/marcarcomoleido', data).then(function (response) {
+        if (notificacion.data.notificacion.url != '') {
+          window.location.href = notificacion.data.notificacion.url;
+        }
+      });
+    },
+    fxMarcarTodoComoLeido: function fxMarcarTodoComoLeido() {
+      axios.post('/notificacionesdelusuario/marcartodocomoleido').then(function (response) {
+        location.reload();
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -29014,36 +29039,68 @@ var render = function() {
           "data-suppress-scroll-x": "true"
         }
       },
-      _vm._l(_vm.notificaciones, function(notificacion) {
-        return _c("div", { staticClass: "dropdown-item d-flex" }, [
-          _vm._m(0, true),
-          _vm._v(" "),
-          _c("div", { staticClass: "notification-details flex-grow-1" }, [
-            _c("p", { staticClass: "m-0 d-flex align-items-center" }, [
-              _c("span", [
-                _vm._v(_vm._s(notificacion.data["notificacion"]["titulo"]))
-              ]),
+      [
+        _vm._l(_vm.notificaciones, function(notificacion) {
+          return _c(
+            "div",
+            {
+              staticClass: "dropdown-item d-flex",
+              on: {
+                click: function($event) {
+                  return _vm.fxMarcarComoLeido(notificacion)
+                }
+              }
+            },
+            [
+              _vm._m(0, true),
               _vm._v(" "),
-              _c(
-                "span",
-                { staticClass: "badge badge-pill badge-primary ml-1 mr-1" },
-                [_vm._v("new")]
-              ),
-              _vm._v(" "),
-              _c("span", { staticClass: "flex-grow-1" }),
-              _vm._v(" "),
-              _c("span", { staticClass: "text-small text-muted ml-auto" }, [
-                _vm._v(_vm._s(notificacion.created_at))
+              _c("div", { staticClass: "notification-details flex-grow-1" }, [
+                _c("p", { staticClass: "m-0 d-flex align-items-center" }, [
+                  _c("span", [
+                    _vm._v(_vm._s(notificacion.data["notificacion"]["titulo"]))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    { staticClass: "badge badge-pill badge-primary ml-1 mr-1" },
+                    [_vm._v("new")]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "flex-grow-1" }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "text-small text-muted ml-auto" }, [
+                    _vm._v(_vm._s(notificacion.created_at))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-small text-muted m-0" }, [
+                  _vm._v(_vm._s(notificacion.data["notificacion"]["mensaje"]))
+                ])
               ])
-            ]),
-            _vm._v(" "),
-            _c("p", { staticClass: "text-small text-muted m-0" }, [
-              _vm._v(_vm._s(notificacion.data["notificacion"]["mensaje"]))
-            ])
-          ])
-        ])
-      }),
-      0
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _vm.notificaciones.length != 0
+          ? _c("div", { staticClass: "dropdown-divider" })
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.notificaciones.length != 0
+          ? _c(
+              "div",
+              {
+                staticClass: "dropdown-item",
+                on: {
+                  click: function($event) {
+                    return _vm.fxMarcarTodoComoLeido()
+                  }
+                }
+              },
+              [_vm._v("\n            Marcar todo como leido\n        ")]
+            )
+          : _vm._e()
+      ],
+      2
     )
   ])
 }
@@ -41267,41 +41324,25 @@ var app = new Vue({
       }); //estar pendiente de nuevas notificaciones
 
       Echo.private('App.User.' + window.Laravel.userId).notification(function (response) {
-        data = {
-          "data": response
+        var data = {
+          "id": response.id,
+          "data": {
+            "notificacion": response.notificacion
+          },
+          "created_at": 'Reciente'
         };
 
-        _this.notificaciones.push(data);
+        _this.notificaciones.unshift(data);
 
-        console.log(response);
-
-        if (Push.Permission.has()) {
-          Push.create(response.notificacion.titulo, {
-            body: response.notificacion.mensaje,
-            icon: '/assets/images/Logo-HS.png',
-            timeout: 30000,
-            vibrate: [200, 100],
-            onClick: function onClick() {
-              window.focus();
-              this.close();
-            }
-          });
-        } else {
-          Push.Permission.request(function () {
-            Push.create(response.notificacion.titulo, {
-              body: response.notificacion.mensaje,
-              icon: '/assets/images/Logo-HS.png',
-              timeout: 30000,
-              vibrate: [200, 100],
-              onClick: function onClick() {
-                window.focus();
-                this.close();
-              }
-            });
-          }, function () {
-            console.log('Ha sido negado');
-          });
-        }
+        Push.create(response.notificacion.titulo, {
+          body: response.notificacion.mensaje,
+          icon: '/assets/images/Logo-HS.png',
+          timeout: 30000,
+          vibrate: [200, 100],
+          onClick: function onClick() {
+            this.close();
+          }
+        });
       });
     }
   }
@@ -41434,26 +41475,14 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/app.scss":
-/*!*********************************!*\
-  !*** ./resources/sass/app.scss ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!***********************************!*\
+  !*** multi ./resources/js/app.js ***!
+  \***********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\gull_html_laravel\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\gull_html_laravel\resources\sass\app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! C:\laragon\www\gull_html_laravel\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })
