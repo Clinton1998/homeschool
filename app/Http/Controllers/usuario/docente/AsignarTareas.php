@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\usuario\docente;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\NuevaTareaParaAlumnoNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App;
@@ -99,8 +100,6 @@ class AsignarTareas extends Controller
 
         if (!is_null($archivo) && !empty($archivo)) {
             $nombre = $archivo->getClientOriginalName();
-            //indicamos que queremos guardar un nuevo archivo en el disco local
-            //\Storage::disk('local')->put($nombre,  \File::get($archivo));
             $archivo->storeAs('tareaasignacion/' . $newtarea->id_tarea . '/', $nombre);
             $newtarea->c_url_archivo = $nombre;
             $newtarea->save();
@@ -127,6 +126,21 @@ class AsignarTareas extends Controller
                 );
             }
         }
+        //consultando la tarea
+        $search_tarea = App\Tarea_d::findOrFail($newtarea->id_tarea);
+        $alumnos_asignados = $search_tarea->alumnos_asignados()->select('alumno_d.id_alumno')->where('alumno_d.estado', '=', 1)->get();
+        $id_usuarios = array();
+        $i = 0;
+        foreach ($alumnos_asignados as $alumno) {
+            $id_usuarios[$i] = $alumno->usuario->id;
+            $i++;
+        }
+        $usuarios_a_notificar = App\User::whereIn('id', $id_usuarios)->get();
+        \Notification::send($usuarios_a_notificar, new NuevaTareaParaAlumnoNotification(array(
+            'titulo' => 'Nueva tarea',
+            'mensaje' => $search_tarea->c_titulo,
+            'url' => '/alumno/tareapendiente/' . $search_tarea->id_tarea
+        )));
         return redirect('docente/asignartareas');
     }
 }

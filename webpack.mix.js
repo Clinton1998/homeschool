@@ -1,4 +1,4 @@
-let mix = require("laravel-mix");
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -11,34 +11,16 @@ let mix = require("laravel-mix");
  |
  */
 
-mix
-    /* CSS */
-    .js("resources/js/app.js", "public/js")
-    .sass("resources/sass/app.scss", "public/css")
-    .sass(
-        "resources/gull/assets/styles/sass/themes/lite-purple.scss",
-        "public/assets/styles/css/themes/lite-purple.min.css"
-    )
-    .sass(
-        "resources/gull/assets/styles/sass/themes/lite-blue.scss",
-        "public/assets/styles/css/themes/lite-blue.min.css"
-    )
-    .sass(
-        "resources/gull/assets/styles/sass/themes/dark-purple.scss",
-        "public/assets/styles/css/themes/dark-purple.min.css"
-    );
-
-/* JS */
-
-/* Laravel JS */
+mix.js('resources/js/app.js', 'public/js');
+   //.sass('resources/sass/app.scss', 'public/css');
 
 mix.combine(
-    [
-        "resources/gull/assets/js/vendor/jquery-3.3.1.min.js",
-        "resources/gull/assets/js/vendor/bootstrap.bundle.min.js",
-        "resources/gull/assets/js/vendor/perfect-scrollbar.min.js"
-    ],
-    "public/assets/js/common-bundle-script.js"
-);
-
-mix.js(["resources/gull/assets/js/script.js"], "public/assets/js/script.js");
+      [
+          "resources/gull/assets/js/vendor/jquery-3.3.1.min.js",
+          "resources/gull/assets/js/vendor/bootstrap.bundle.min.js",
+          "resources/gull/assets/js/vendor/perfect-scrollbar.min.js"
+      ],
+      "public/assets/js/common-bundle-script.js"
+  );
+  
+  mix.js(["resources/gull/assets/js/script.js"], "public/assets/js/script.js");

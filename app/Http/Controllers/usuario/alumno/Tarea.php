@@ -313,4 +313,5 @@ class Tarea extends Controller
         $respuesta = App\Respuesta_d::findOrFail($id_respuesta);
         return Storage::download('tarearespuesta/' . $tarea->id_tarea . '/' . $respuesta->id_respuesta . '/' . $respuesta->c_url_archivo);
     }
+    
 }
