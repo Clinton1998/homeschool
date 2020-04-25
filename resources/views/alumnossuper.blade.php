@@ -22,8 +22,8 @@
                 <div class="hs_encabezado-linea"></div>
             </div>
             
-            <div class="hs_dos-botones">
-                <div class="hs_barra-filtrado">
+            <div class="col" style="padding-right: 0;">
+                <!--<div class="hs_barra-filtrado">
                     <strong>Filtrar por:</strong>
                     <select name="" id="" class="form-control">
                         <option value="">Primero</option>
@@ -39,13 +39,13 @@
                         <option value="">D</option>
                         <option value="">E</option>
                     </select>
-                </div>
+                </div>-->
 
-                <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-primary"><i class="i-Add-User text-white mr-2"></i>Nuevo alumno</button>
+                <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-primary float-right mb-3" ><i class="i-Add-User text-white mr-2"></i>Nuevo alumno</button>
             </div>
 
             <div class="table-responsive">
-                <table id="ul-contact-list" class="hs_tabla display table table-striped table-bordered" style="width:100%; text-align: left;">
+                <table id="ul-contact-list" class="hs_tabla display table table-striped" style="width:100%; text-align: left;">
                     <thead>
                         <tr>
                             <th>DNI</th>
@@ -67,7 +67,7 @@
                                     <td>{{$alumno->c_dni}}</td>
                                     <td>
                                         <a href="{{url('super/alumno/'.$alumno->id_alumno)}}">
-                                                <div class="ul-widget-app__profile-pic">
+                                                <!--<div class="ul-widget-app__profile-pic">
                                                     @if(is_null($alumno->c_foto)  || empty($alumno->c_foto))
                                                         @if(strtoupper($alumno->c_sexo)=='M')
                                                             <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{asset('assets/images/usuario/studentman.png')}}" alt="Fotografía">
@@ -78,8 +78,8 @@
                                                     @else
                                                         <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{url('super/alumno/foto/'.$alumno->c_foto)}}" alt="Fotografía">
                                                     @endif
-                                                    <span class="hs_capitalize">{{$alumno->c_nombre}}</span>
-                                                </div>
+                                                </div>-->
+                                                <span class="hs_capitalize">{{$alumno->c_nombre}}</span>
                                             </a>
                                     </td>
                                     <!--<td class="hs_capitalize-first">{{$alumno->c_nacionalidad}}</td>-->
@@ -97,11 +97,11 @@
                                     <!--<td>{{$alumno->t_fecha_nacimiento}}</td>-->
                                     <td>
                                             
-                                        <a href="{{url('super/alumno/'.$alumno->id_alumno)}}" class="badge badge-warning m-2"  data-toggle="tooltip" data-placement="top" title="Editar">
+                                        <a href="{{url('super/alumno/'.$alumno->id_alumno)}}" class="btn btn-sm btn-warning mr-2"  data-toggle="tooltip" data-placement="top" title="Editar">
                                             <i class="nav-icon i-Pen-4"></i>
                                         </a>
                                         
-                                        <a href="#" class="badge badge-danger m-2" id="btnEliminarAlumno{{$alumno->id_alumno}}" onclick="fxConfirmacionEliminarAlumno({{$alumno->id_alumno}});" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                        <a href="#" class="btn btn-sm btn-danger" id="btnEliminarAlumno{{$alumno->id_alumno}}" onclick="fxConfirmacionEliminarAlumno({{$alumno->id_alumno}});" data-toggle="tooltip" data-placement="top" title="Eliminar">
                                             X
                                         </a>  
                                     </td>
@@ -209,7 +209,7 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="dni_repre1">Número de DNI</label>
-                                                        <input type="text" class="form-control form-control-sm" id="dni_repre1" name="dni_repre1">
+                                                        <input type="text" class="form-control form-control-sm" id="dni_repre1" name="dni_repre1" minlength="8" maxlength="8">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
     
@@ -272,7 +272,7 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="dni_repre2">Número de DNI</label>
-                                                        <input type="text" class="form-control form-control-sm" id="dni_repre2" name="dni_repre2">
+                                                        <input type="text" class="form-control form-control-sm" id="dni_repre2" name="dni_repre2" maxlength="8">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
     
@@ -390,9 +390,8 @@
 
 @section('page-js')
 
-    <!--
+
     <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
-    -->
 
     <!-- page script -->
     <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>

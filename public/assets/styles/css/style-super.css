@@ -5,6 +5,18 @@
 
 /* [0] GENERAL ---------------*/
 
+.container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: var(--s-color-secundario) !important;
+    border-color: var(--s-color-secundario) !important;
+}
+
 .hs_lower {
     text-transform: lowercase;
 }
@@ -164,6 +176,7 @@ a {
 .hs_tabla th:last-child,
 .hs_tabla td:last-child {
     width: 90px !important;
+    text-align: center !important;
 }
 
 .hs_tabla th:last-child {

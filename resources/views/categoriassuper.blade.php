@@ -9,6 +9,7 @@
 
 <head>
   <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 </head>
 
 <body>
@@ -55,7 +56,7 @@
                         </div>
         
                         <div class="table-responsive">
-                            <table id="zero_configuration_table" class=" hs_tabla display table table-striped table-bordered" style="width:100%;">
+                            <table id="ul-contact-list" class=" hs_tabla display table table-striped" style="width:100%;">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -95,7 +96,7 @@
                         </div>
         
                         <div class="table-responsive">
-                            <table id="zero_configuration_table" class=" hs_tabla display table table-striped table-bordered" style="width:100%;">
+                            <table id="ul-contact-list1" class=" hs_tabla display table table-striped" style="width:100%;">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -135,7 +136,7 @@
                         </div>
         
                         <div class="table-responsive">
-                            <table id="zero_configuration_table" class=" hs_tabla display table table-striped table-bordered" style="width:100%;">
+                            <table id="ul-contact-list2" class=" hs_tabla display table table-striped" style="width:100%;">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
@@ -441,6 +442,23 @@
 @endsection
 
 @section('page-js')
+<script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
+
+<script>
+
+    $('#ul-contact-list').DataTable( {
+        //paging: false,
+        //"bInfo" : false
+    } );
+    $('#ul-contact-list1').DataTable( {
+        //paging: false,
+        //"bInfo" : false
+    } );
+    $('#ul-contact-list2').DataTable( {
+        //paging: false,
+        //"bInfo" : false
+    } );
+</script>
 
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>

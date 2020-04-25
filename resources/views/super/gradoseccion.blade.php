@@ -1,12 +1,14 @@
 @extends('reutilizable.principal')
 @section('page-css')
-<link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
+    
+    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
 @endsection
 @section('main-content')
 
 <head>
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 </head>
 
 <body>
@@ -21,11 +23,11 @@
                 </div>
                 
                 <div class="botonera-superior-derecha">
-                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#hs_MODAL" onclick="GradoSeccion()">Agregar</button>
+                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#hs_MODAL" onclick="GradoSeccion()">Nueva sección</button>
                 </div>
 
                 <div class="table-responsive">
-                    <table id="zero_configuration_table" class=" hs_tabla display table table-striped table-bordered" style="width:100%">
+                    <table id="ul-contact-list" class="hs_tabla display table table-striped" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Nivel</th>
@@ -146,6 +148,15 @@
 @endsection
 
 @section('page-js')
+<script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
+
+<script>
+
+    $('#ul-contact-list').DataTable( {
+        //paging: false,
+        //"bInfo" : false
+    } );
+</script>
 
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
