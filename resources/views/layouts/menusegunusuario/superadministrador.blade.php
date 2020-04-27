@@ -33,11 +33,26 @@
         <div></div>
     </div>
     <div class="d-flex align-items-center">
-        {{$colegio->c_nombre}}
+        {{$colegio->c_nombre}} 
+        @if(is_null($colegio->t_corte_normal) && !is_null($colegio->t_corte_prueba))
+            @php
+                $fecha1= new DateTime($colegio->t_corte_prueba);
+                $fecha2= new DateTime( date('Y-m-d'));
+                $diff = $fecha1->diff($fecha2);    
+            @endphp
+            @if($diff->days==0)
+                <span class="badge badge-danger">Te quedan pocos minutos gratis</span>
+            @elseif($diff->days==1)
+                <span class="badge badge-danger">Te quedan 1 día gratis</span>
+            @else
+                <span class="badge badge-danger">Te quedan {{$diff->days}} días gratis</span>  
+            @endif
+        @endif
     </div>
 
-    <div style="margin: auto"></div>
+    
 
+    <div style="margin: auto"></div>
     <div class="header-part-right">
         <div class="d-flex align-items-center">Bienvenido(a) {{$colegio->c_representante_legal}}</div>
         <!-- Full screen toggle -->
@@ -54,8 +69,11 @@
         <!-- User avatar dropdown -->
         <div class="dropdown">
             <div  class="user col align-self-end">
-            <img src="{{url('super/colegio/logo/'.$colegio->c_logo)}}" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Usuario">
-
+            @if(is_null($colegio->c_logo)  || empty($colegio->c_logo))
+                <img class="" src="{{asset('assets/images/colegio/school.png')}}" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Usuario">
+            @else
+                <img class="" src="{{url('super/colegio/logo/'.$colegio->c_logo)}}" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" alt="Usuario">
+            @endif
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <div class="dropdown-header">
                         <i class="i-Lock-User mr-1"></i> {{ Auth::user()->email }}

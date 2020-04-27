@@ -37,41 +37,23 @@ $(document).ready(function () {
 function fxConsultaRuc(obj) {
     var l = Ladda.create(obj);
     l.start();
-    //proceso para verificar si haz pagado por usar la plataforma
+
     $.ajax({
         type: 'POST',
-        url: '/verificaractivo',
+        url: '/ruc/buscar',
         data: {
             ruc: $('#ruc').val()
         },
+        dataType: 'JSON',
         error: function (error) {
-            alert('Ocurrió un error');
+            toastr.error('No hay resultados');
             console.error(error);
-        }
-    }).done(function (data) {
-        if (data.permitido) {
-            $.ajax({
-                type: 'POST',
-                url: '/ruc/buscar',
-                data: {
-                    ruc: $('#ruc').val()
-                },
-                dataType: 'JSON',
-                error: function (error) {
-                    toastr.error('No hay resultados');
-                    console.error(error);
-                    l.stop();
-                }
-            }).done(function (data) {
-                $('#razonsocial').val(data.razonSocial);
-                l.stop();
-            });
-        } else {
-            toastr.info('Para tener acceso a la PLATAFORMA EDUCATIVA HOMESCHOOL V.1.0 comunícate con nosotros al  973477015 o escríbenos a soporte@innovaqp.com');
             l.stop();
         }
+    }).done(function (data) {
+        $('#razonsocial').val(data.razonSocial);
+        l.stop();
     });
-
 }
 
 function fxConsultaDni(obj) {

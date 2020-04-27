@@ -63,6 +63,12 @@
                         <img class="hs_logo-homeschool" src="{{asset('assets/images/Logo-HomeSchool.png')}}" alt="">
                     </div>
                     <h1 class="mb-3 text-18 text-center">Ingresar a mi colegio</h1>
+                        @if(Session::has('message'))
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{Session::get('message')}}
+                        </div>
+                        @endif
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group text-left">

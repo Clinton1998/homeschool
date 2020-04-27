@@ -3,6 +3,9 @@
 
     <head>
         @php
+
+
+
             $colegio = '';
             $re_alumno = '';
             $re_docente = '';
@@ -20,6 +23,17 @@
                 $colegio = $re_alumno->seccion->grado->colegio;
                 $tipo_usuario ='alumno';
             }
+            $fecha_corte = '';
+            if (!is_null($colegio->t_corte_prueba) && is_null($colegio->t_corte_normal)) {
+                //version prueba del usuario, con dias gratuitos
+                $fecha_corte = $colegio->t_corte_prueba;
+            } else if (is_null($colegio->t_corte_prueba) && !is_null($colegio->t_corte_normal)) {
+                //version normal cuando ya se pagó por el sistema
+                $fecha_corte = $colegio->t_corte_normal;
+            }
+            if (date('Y-m-d H:i:s') >= $fecha_corte) {
+                Session::flush();
+            }  
         @endphp
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -50,7 +64,6 @@
         </script>
     </head>
     <body class="text-left">
-    
         <div class='loadscreen' id="preloader">
             <div class="loader spinner-bubble spinner-bubble-primary">
             </div>
