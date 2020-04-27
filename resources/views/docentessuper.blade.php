@@ -184,16 +184,7 @@
                                     </div>
                                     <div id="step-2">
                                         <div class="form-group">
-                                            <!--<select id="optsecciones" name="optsecciones[]" multiple>
-                                                @foreach($grados as $grado)
-                                                    <optgroup label="{{$grado->c_nombre}} - {{$grado->c_nivel_academico}}">
-                                                        @foreach($grado->secciones->where('estado','=',1) as $seccion)
-                                                            <option value="{{$seccion->id_seccion}}">{{$seccion->c_nombre}}</option>
-                                                        @endforeach
-                                                    </optgroup>
-                                                @endforeach
-                                            </select> --> 
-                                            
+                                        
                                             <label for="optsecciones"><strong>Asignar secciones</strong></label>
                                             <select id="optsecciones" name="optsecciones[]" multiple>
                                                 @foreach($TMP as $seccion)
@@ -201,14 +192,36 @@
                                                 @endforeach
                                             </select> 
                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="optcategorias"><strong>Asignar asignaturas o cursos</strong></label>
+                                            <select name="optcategorias[]" id="optcategorias" multiple>
+                                                @foreach($TMP_categorias as $item)
+                                                    @if(strtoupper($item->c_nivel_academico) === "INICIAL")
+                                                        <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
+                                                    @endif
+                                                @endforeach
+
+                                                @foreach($TMP_categorias as $item)
+                                                    @if(strtoupper($item->c_nivel_academico) === "PRIMARIA")
+                                                        <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
+                                                    @endif
+                                                @endforeach
+
+                                                @foreach($TMP_categorias as $item)
+                                                    @if(strtoupper($item->c_nivel_academico) === "SECUNDARIA")
+                                                        <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
                                     </div>
+
                                     <div id="step-3">
                                         <div class="form-group">
                                             <input type='file' class="hs_upload form-control form-control-lg" id="fotodocente" name="fotodocente">
                                         </div>                                                
-
-                                    </div>
-                                    
+                                    </div>                                    
 
                                 </div>
                             </div>
@@ -232,20 +245,6 @@
 
 <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
 
-<script>
-    $('#tabla').DataTable( {
-            //paging: false,
-            //"bInfo" : false
-        } );
-    
-    new SlimSelect({
-        select: '#optsecciones',
-        placeholder: 'Elige secciones'
-    });
-    
-    $('#ul-contact-list').DataTable();
-</script>
-
 <!-- page script -->
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
@@ -256,8 +255,4 @@
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/superadmin/docentes.js')}}"></script>
-
-
-
-
 @endsection

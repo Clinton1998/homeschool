@@ -3,6 +3,9 @@ $(document).ready(function () {
     new SlimSelect({
         select: '#optsecciones'
     });
+    new SlimSelect({
+        select: '#optcategorias'
+    });
     $('#btnBuscarPorDNI').on('click', function () {
         fxConsultaDni(this);
     });
@@ -10,6 +13,11 @@ $(document).ready(function () {
     $("#frmAgregarSeccionADocente").submit(function (evt) {
         evt.preventDefault();
         fxAgregarSeccion();
+    });
+
+    $("#frmAgregarCategoriaADocente").submit(function (evt) {
+        evt.preventDefault();
+        fxAgregarCategoria();
     });
 
     $('#frmActulizarContraDocente').submit(function (evt) {
@@ -65,20 +73,65 @@ function fxQuitarSeccionDeDocente(id_doc, id_sec) {
     });
 }
 
+function fxQuitarCategoriaDeDocente(id_doc, id_cat) {
+    var l = Ladda.create(document.getElementById('btnQuitarCategoriaDeDocente' + id_cat));
+    l.start();
+
+    $.ajax({
+        type: 'POST',
+        url: '/super/docente/quitarcategoria',
+        data: {
+            id_docente: id_doc,
+            id_categoria: id_cat
+        },
+        error: function (error) {
+            alert('Ocurrió un error');
+            console.error(error);
+            l.stop();
+        }
+    }).done(function (data) {
+        if (data.correcto) {
+            $('#cardCategoria' + id_cat).remove();
+        }
+        l.stop();
+    });
+}
+
 function fxMostrarSeccionesAAgregar(id_doc, nom_doc) {
-    $('#id_docente').val(id_doc);
-    $('#spanNombreDocente').text(nom_doc);
+    $('#sec_id_docente').val(id_doc);
     $('#mdlAgregarCategoriaASeccion').modal('show');
 }
 
-
+function fxMostrarCategoriasAAgregar(id_doc, nom_doc) {
+    $('#cat_id_docente').val(id_doc);
+    $('#mdlAgregarCategoriaADocente').modal('show');
+}
 function fxAgregarSeccion() {
     $.ajax({
         type: 'POST',
         url: '/super/docente/agregarseccion',
         data: {
-            id_docente: $('#id_docente').val(),
+            id_docente: $('#sec_id_docente').val(),
             optsecciones: $('#optsecciones').val()
+        },
+        error: function (error) {
+            alert('Ocurrió un error');
+            console.error(error);
+        }
+    }).done(function (data) {
+        if (data.correcto) {
+            location.reload();
+        }
+    });
+}
+
+function fxAgregarCategoria() {
+    $.ajax({
+        type: 'POST',
+        url: '/super/docente/agregarcategoria',
+        data: {
+            id_docente: $('#cat_id_docente').val(),
+            optcategorias: $('#optcategorias').val()
         },
         error: function (error) {
             alert('Ocurrió un error');

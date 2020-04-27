@@ -15,6 +15,7 @@
                             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                 <a class="nav-item nav-link active show" id="nav-editar-tab" data-toggle="tab" href="#nav-editar" role="tab" aria-controls="nav-editar" aria-selected="true">Editar</a>
                                 <a class="nav-item nav-link " id="nav-dicta-tab" data-toggle="tab" href="#nav-dicta" role="tab" aria-controls="nav-dicta" aria-selected="false">Secciones asignadas</a>
+                                <a class="nav-item nav-link " id="nav-asignaturas-tab" data-toggle="tab" href="#nav-asignaturas" role="tab" aria-controls="nav-asignaturas" aria-selected="false">Asignaturas asignadas</a>
                                 <a class="nav-item nav-link" id="nav-foto-tab" data-toggle="tab" href="#nav-foto" role="tab" aria-controls="nav-foto" aria-selected="false">Foto</a>
                                 <a class="nav-item nav-link" id="nav-acceso-tab" data-toggle="tab" href="#nav-acceso" role="tab" aria-controls="nav-acceso" aria-selected="false">Datos de acceso</a>
                             </div>
@@ -188,13 +189,7 @@
                                 </div>
                                 <br>
                                 <div class="accordion" id="accordionRightIcon">
-                                    @php
-                                        $fs = 0;
-                                    @endphp
-                                    @foreach($docente->secciones->where('estado','=',1) as $seccion)
-                                        @php
-                                            $fs++;
-                                        @endphp
+                                    @foreach($docente->secciones->where('estado','=',1) as $seccion)                                        
                                         <div class="card " id="cardSeccion{{$seccion->id_seccion}}">
                                             <div class="card-header header-elements-inline">
                                                 <span class="card-title ul-collapse__icon--size ul-collapse__right-icon mb-0">
@@ -204,6 +199,32 @@
                                                     </span> 
                                                 </span>
                                                 <button type="button" class="btn btn-sm btn-danger float-right" id="btnQuitarSeccionDeDocente{{$seccion->id_seccion}}" onclick="fxQuitarSeccionDeDocente({{$docente->id_docente}},{{$seccion->id_seccion}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quitar"><i class="i-Eraser-2"></i></button>
+                                            </div>
+                                        </div>
+                                        <br>
+                                    @endforeach
+                                </div>
+                            </div>
+
+
+                            <div class="tab-pane fade" id="nav-asignaturas" role="tabpanel" aria-labelledby="nav-asignaturas-tab">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="button" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Agregar asignatura a {{$docente->c_nombre}}" onclick="fxMostrarCategoriasAAgregar({{$docente->id_docente}},'{{$docente->c_nombre}}')">+</button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="accordion" id="accordionRightIcon">
+                                    @foreach($docente->categorias()->where('categoria_d.estado','=',1)->orderBy('categoria_d.c_nivel_academico','ASC')->orderBy('categoria_d.c_nombre','ASC')->get() as $categoria)
+                                        <div class="card " id="cardCategoria{{$categoria->id_categoria}}">
+                                            <div class="card-header header-elements-inline">
+                                                <span class="card-title ul-collapse__icon--size ul-collapse__right-icon mb-0">
+                                                    <span class="collapsed">
+                                                        <strong>{{$categoria->c_nombre}}</strong>
+                                                        <small>({{strtoupper($categoria->c_nivel_academico)}})</small>
+                                                    </span> 
+                                                </span>
+                                                <button type="button" class="btn btn-sm btn-danger float-right" id="btnQuitarCategoriaDeDocente{{$categoria->id_categoria}}" onclick="fxQuitarCategoriaDeDocente({{$docente->id_docente}},{{$categoria->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quitar"><i class="i-Eraser-2"></i></button>
                                             </div>
                                         </div>
                                         <br>
@@ -392,7 +413,7 @@
         <div class="modal-body">
             <form id="frmAgregarSeccionADocente" class="needs-validation" method="POST" action="{{route('super/docente/agregarseccion')}}" novalidate>
                 @csrf
-                <input type="hidden" id="id_docente" name="id_docente">
+                <input type="hidden" id="sec_id_docente" name="sec_id_docente">
                 
                 <div class="form-group">
                     <label for="optsecciones">Eliga una o varias secciones</label>
@@ -403,21 +424,11 @@
                         @endforeach
                     </select>
                     
-                    <!--<select id="optsecciones" name="optsecciones[]" multiple required>
-                        @foreach($grados as $grado)
-                        <optgroup label="{{$grado->c_nombre}} - {{$grado->c_nivel_academico}}">
-                                @foreach($grado->secciones->where('estado','=',1) as $seccion)
-                                    <option value="{{$seccion->id_seccion}}">{{$seccion->c_nombre}}</option>
-                                @endforeach
-                            </optgroup>
-                        @endforeach
-                    </select>-->
                     <span class="invalid-feedback" role="alert">
                         Seccion es necesario
                     </span>
                 </div>
                 
-                <span class="text-primary" id="spanNombreDocente" style="display: none;">PRIMER</span>
             </form>
         </div>
         <div class="modal-footer">
@@ -427,6 +438,57 @@
       </div>
     </div>
   </div>
+  <!--modal Asignar Asignaturas-->
+  <div class="modal fade" id="mdlAgregarCategoriaADocente" tabindex="-1" role="dialog" aria-labelledby="mdlAgregarCategoriaADocenteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="mdlAgregarCategoriaADocenteLabel">Asignar asignatura</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <div class="modal-body">
+            <form id="frmAgregarCategoriaADocente" class="needs-validation" method="POST" action="{{route('super/docente/agregarcategoria')}}" novalidate>
+                @csrf
+                <input type="hidden" id="cat_id_docente" name="cat_id_docente">
+                
+                <div class="form-group">
+                    <label for="optcategorias">Eliga una o varias asignaturas</label>
+                    
+                    <select id="optcategorias" name="optcategorias[]" multiple required>
+                        @foreach($TMP_categorias as $item)
+                            @if(strtoupper($item->c_nivel_academico) === "INICIAL")
+                                <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
+                            @endif
+                        @endforeach
+
+                        @foreach($TMP_categorias as $item)
+                            @if(strtoupper($item->c_nivel_academico) === "PRIMARIA")
+                                <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
+                            @endif
+                        @endforeach
+
+                        @foreach($TMP_categorias as $item)
+                            @if(strtoupper($item->c_nivel_academico) === "SECUNDARIA")
+                                <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                    <span class="invalid-feedback" role="alert">
+                        Asignatura es necesario
+                    </span>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-lg" form="frmAgregarCategoriaADocente">Agregar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--endModal-->
 
 @endsection
 @section('page-js')

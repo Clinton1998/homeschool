@@ -313,7 +313,7 @@
                                 <input type="hidden" id="nivel_academico3" name="nivel_academico3" value="{{$item->c_nivel_academico}}">
                             @endif
                         @endforeach
-
+                        
                         <!--Grados-Secciones-->
                         <div class="form-group">
                             <label for="optgroups3">Para la sección</label>

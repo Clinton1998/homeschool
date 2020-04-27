@@ -1,9 +1,18 @@
 $(document).ready(function () {
-
+    $('#tabla').DataTable( {
+        //paging: false,
+        //"bInfo" : false
+    } );
     new SlimSelect({
-        select: '#optsecciones'
+        select: '#optsecciones',
+        placeholder: 'Elige secciones'
     });
 
+    new SlimSelect({
+        select: '#optcategorias',
+        placeholder: 'Elige asignaturas'
+    });
+    
     // Toolbar extra buttons
     var btnFinish = $('<button></button>').text('Registrar')
         .addClass('btn btn-primary')

@@ -44,6 +44,8 @@ Route::post('super/docente/agregar', 'usuario\super\Docente@agregar')->name('sup
 Route::post('super/docente/actualizar', 'usuario\super\Docente@actualizar')->name('super/docente/actualizar');
 Route::post('super/docente/quitarseccion', 'usuario\super\Docente@quitar_seccion')->name('super/docente/quitarseccion');
 Route::post('super/docente/agregarseccion', 'usuario\super\Docente@agregar_seccion')->name('super/docente/agregarseccion');
+Route::post('super/docente/quitarcategoria', 'usuario\super\Docente@quitar_categoria')->name('super/docente/quitarcategoria');
+Route::post('super/docente/agregarcategoria', 'usuario\super\Docente@agregar_categoria')->name('super/docente/agregarcategoria');
 Route::post('super/docente/cambiarfoto', 'usuario\super\Docente@cambiar_foto')->name('super/docente/cambiarfoto');
 Route::get('super/docente/foto/{fileName}', 'usuario\super\Docente@foto')->name('super/docente/foto/{fileName}');
 Route::post('super/docente/cambiarcontrasena', 'usuario\super\Docente@cambiar_contrasena')->name('super/docente/cambiarcontrasena');
