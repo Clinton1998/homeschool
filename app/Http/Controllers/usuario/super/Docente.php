@@ -87,6 +87,7 @@ class Docente extends Controller
         //validamos los datos
         $request->validate([
             'dni' => 'required|string|size:8',
+            'apellido' => 'required',
             'nombre' => 'required',
             'nacionalidad' => 'required',
             'sexo' => 'required|string|size:1',
@@ -105,7 +106,7 @@ class Docente extends Controller
         $docente = new App\Docente_d;
         $docente->id_colegio = $colegio->id_colegio;
         $docente->c_dni = $request->input('dni');
-        $docente->c_nombre = $request->input('nombre');
+        $docente->c_nombre = $request->input('apellido')." ".$request->input('nombre');
         $docente->c_nacionalidad = $request->input('nacionalidad');
         $docente->c_sexo = $request->input('sexo');
         $docente->c_especialidad = $request->input('especialidad');

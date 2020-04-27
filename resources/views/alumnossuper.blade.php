@@ -49,7 +49,7 @@
                     <thead>
                         <tr>
                             <th>DNI</th>
-                            <th>Nombre</th>
+                            <th>Apellidos y nombres</th>
                             <!--<th>Nacionalidad</th>-->
                             <th>Grado</th>
                             <th>Sección</th>
@@ -153,15 +153,21 @@
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>  
                                                     
-                                                    <div class="form-group col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding: 0;">
-                                                        <label for="nombre" ><strong>Nombre(s) y Apellidos</strong></label>
+                                                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
+                                                        <label for="apellido" >Apellidos</label>
+                                                        <input type="text" class="form-control form-control-sm" id="apellido" name="apellido" required>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                    </div>
+
+                                                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
+                                                        <label for="nombre" >Nombre(s)</label>
                                                         <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
                                                 </div>     
                                                 
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
-                                                    <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
+                                                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nacionalidad" >Nacionalidad</label>
                                                         <input type="text" class="form-control form-control-sm" id="nacionalidad" name="nacionalidad" required placeholder="Peruano(a)" value="Peruano(a)">
                                                         <div class="help-block with-errors text-danger"></div>
@@ -213,8 +219,14 @@
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
     
-                                                    <div class="form-group col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding: 0;">
-                                                        <label for="nombre_repre1"><strong>Nombre(s) y Apellidos</strong></label>
+                                                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
+                                                        <label for="apellido_repre1">Apellidos</label>
+                                                        <input type="text" class="form-control form-control-sm" id="apellido_repre1" name="apellido_repre1">
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                    </div>
+
+                                                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
+                                                        <label for="nombre_repre1">Nombre(s)</label>
                                                         <input type="text" class="form-control form-control-sm" id="nombre_repre1" name="nombre_repre1">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
@@ -276,8 +288,14 @@
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
     
-                                                    <div class="form-group col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding: 0;">
-                                                        <label for="nombre_repre2">Nombre(s) y Apellidos</label>
+                                                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
+                                                        <label for="apellido_repre2">Apellidos</label>
+                                                        <input type="text" class="form-control form-control-sm" id="apellido_repre2" name="apellido_repre2">
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                    </div>
+
+                                                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
+                                                        <label for="nombre_repre2">Nombre(s)</label>
                                                         <input type="text" class="form-control form-control-sm" id="nombre_repre2" name="nombre_repre2">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
@@ -290,7 +308,7 @@
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
     
-                                                    <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
+                                                    <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nacionalidad_repre2">Nacionalidad</label>
                                                         <input type="text" class="form-control form-control-sm" id="nacionalidad_repre2" name="nacionalidad_repre2" value="Peruano(a)">
                                                         <div class="help-block with-errors text-danger"></div>

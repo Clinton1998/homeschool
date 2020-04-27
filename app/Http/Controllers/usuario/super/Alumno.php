@@ -54,6 +54,7 @@ class Alumno extends Controller
         //validamos los datos
         $request->validate([
             'dni' => 'required|string|size:8',
+            'apellido' => 'required',
             'nombre' => 'required',
             'nacionalidad' => 'required',
             'sexo' => 'required|string|size:1',
@@ -78,7 +79,7 @@ class Alumno extends Controller
             $alumno = new App\Alumno_d;
             $alumno->id_seccion = $seccion_enviada->id_seccion;
             $alumno->c_dni = $request->input('dni');
-            $alumno->c_nombre = $request->input('nombre');
+            $alumno->c_nombre = $request->input('apellido')." ".$request->input('nombre');
             $alumno->c_nacionalidad = $request->input('nacionalidad');
             $alumno->c_correo = $request->input('correo_alumno');
             $alumno->c_sexo = $request->input('sexo');
@@ -87,7 +88,7 @@ class Alumno extends Controller
             $alumno->c_informacion_adicional = $request->input('adicional');
 
             $alumno->c_dni_representante1 = $request->input('dni_repre1');
-            $alumno->c_nombre_representante1 = $request->input('nombre_repre1');
+            $alumno->c_nombre_representante1 = $request->input('apellido_repre1')." ".$request->input('nombre_repre1');
             $alumno->c_nacionalidad_representante1 = $request->input('nacionalidad_repre1');
             $alumno->c_sexo_representante1 = $request->input('sexo_repre1');
             $alumno->c_telefono_representante1 = $request->input('telefono_repre1');
@@ -96,7 +97,7 @@ class Alumno extends Controller
             $alumno->c_vinculo_representante1 = $request->input('vinculo_repre1');
 
             $alumno->c_dni_representante2 = $request->input('dni_repre2');
-            $alumno->c_nombre_representante2 = $request->input('nombre_repre2');
+            $alumno->c_nombre_representante2 = $request->input('apellido_repre2')." ".$request->input('nombre_repre2');
             $alumno->c_nacionalidad_representante2 = $request->input('nacionalidad_repre2');
             $alumno->c_sexo_representante2 = $request->input('sexo_repre2');
             $alumno->c_telefono_representante2 = $request->input('telefono_repre2');
