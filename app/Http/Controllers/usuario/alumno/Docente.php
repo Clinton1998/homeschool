@@ -9,6 +9,10 @@ use Auth;
 
 class Docente extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index(){
         $usuarioAlumno = App\User::findOrFail(Auth::user()->id);
         $alumno = App\Alumno_d::where([

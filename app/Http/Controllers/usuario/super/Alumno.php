@@ -17,6 +17,7 @@ class Alumno extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->fotos_path = storage_path('app/public/alumno');
     }
 
@@ -37,14 +38,15 @@ class Alumno extends Controller
         //obteniendo los alumnos de ese colegio
 
         $TMP = DB::table('seccion_d')
-        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
-        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
-        ->where([
-            'grado_m.id_colegio' => $colegio->id_colegio,
-            'grado_m.estado' => 1,
-            'seccion_d.estado' => 1])
-            ->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
+            ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+            ->join('colegio_m', 'grado_m.id_colegio', '=', 'colegio_m.id_colegio')
+            ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+            ->where([
+                'grado_m.id_colegio' => $colegio->id_colegio,
+                'grado_m.estado' => 1,
+                'seccion_d.estado' => 1
+            ])
+            ->orderBy('grado_m.c_nivel_academico', 'ASC')->orderBy('grado_m.c_nombre', 'ASC')->orderBy('seccion_d.c_nombre', 'ASC')->get();
 
         return view('alumnossuper', compact('grados', 'TMP'));
     }
@@ -79,7 +81,7 @@ class Alumno extends Controller
             $alumno = new App\Alumno_d;
             $alumno->id_seccion = $seccion_enviada->id_seccion;
             $alumno->c_dni = $request->input('dni');
-            $alumno->c_nombre = $request->input('apellido')." ".$request->input('nombre');
+            $alumno->c_nombre = $request->input('apellido') . " " . $request->input('nombre');
             $alumno->c_nacionalidad = $request->input('nacionalidad');
             $alumno->c_correo = $request->input('correo_alumno');
             $alumno->c_sexo = $request->input('sexo');
@@ -88,7 +90,7 @@ class Alumno extends Controller
             $alumno->c_informacion_adicional = $request->input('adicional');
 
             $alumno->c_dni_representante1 = $request->input('dni_repre1');
-            $alumno->c_nombre_representante1 = $request->input('apellido_repre1')." ".$request->input('nombre_repre1');
+            $alumno->c_nombre_representante1 = $request->input('apellido_repre1') . " " . $request->input('nombre_repre1');
             $alumno->c_nacionalidad_representante1 = $request->input('nacionalidad_repre1');
             $alumno->c_sexo_representante1 = $request->input('sexo_repre1');
             $alumno->c_telefono_representante1 = $request->input('telefono_repre1');
@@ -97,7 +99,7 @@ class Alumno extends Controller
             $alumno->c_vinculo_representante1 = $request->input('vinculo_repre1');
 
             $alumno->c_dni_representante2 = $request->input('dni_repre2');
-            $alumno->c_nombre_representante2 = $request->input('apellido_repre2')." ".$request->input('nombre_repre2');
+            $alumno->c_nombre_representante2 = $request->input('apellido_repre2') . " " . $request->input('nombre_repre2');
             $alumno->c_nacionalidad_representante2 = $request->input('nacionalidad_repre2');
             $alumno->c_sexo_representante2 = $request->input('sexo_repre2');
             $alumno->c_telefono_representante2 = $request->input('telefono_repre2');
@@ -206,14 +208,15 @@ class Alumno extends Controller
 
 
         $TMP = DB::table('seccion_d')
-        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
-        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
-        ->where([
-            'grado_m.id_colegio' => $colegio->id_colegio,
-            'grado_m.estado' => 1,
-            'seccion_d.estado' => 1])
-            ->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
+            ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+            ->join('colegio_m', 'grado_m.id_colegio', '=', 'colegio_m.id_colegio')
+            ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+            ->where([
+                'grado_m.id_colegio' => $colegio->id_colegio,
+                'grado_m.estado' => 1,
+                'seccion_d.estado' => 1
+            ])
+            ->orderBy('grado_m.c_nivel_academico', 'ASC')->orderBy('grado_m.c_nombre', 'ASC')->orderBy('seccion_d.c_nombre', 'ASC')->get();
 
 
         return view('infoalumnosuper', compact('alumno', 'grados', 'usuario_del_alumno', 'TMP'));
@@ -389,6 +392,8 @@ class Alumno extends Controller
             if (!is_null($alumno) && !empty($alumno)) {
                 $alumno->estado = 0;
                 $alumno->save();
+                //eliminamos el usuario del docente
+                (App\User::where('id_alumno', '=', $alumno->id_alumno)->first())->delete();
             }
         }
 

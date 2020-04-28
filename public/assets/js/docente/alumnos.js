@@ -12,18 +12,16 @@ function fxAplicarAlumno(id_alm){
             console.error(error);
         }
     }).done(function(data){
-        console.log('Los datos devueltos son: ');
-        console.log(data);
         if(data.correcto){
             var srcFoto = '';
             if (data.alumno.c_foto == null) {
                 if (data.alumno.c_sexo.toUpperCase() == 'M') {
-                    srcFoto = '../assets/images/usuario/teacherman.png';
+                    srcFoto = '../assets/images/usuario/studentman.png';
                 } else {
-                    srcFoto = '../assets/images/usuario/teacherwoman.png';
+                    srcFoto = '../assets/images/usuario/studentwoman.png';
                 }
             } else {
-                srcFoto = '../super/docente/foto/' + data.alumno.c_foto;
+                srcFoto = '../super/alumno/foto/' + data.alumno.c_foto;
             }
             $('#fotoAlumno').attr('src',srcFoto);
             $('#nombreAlumno').text(data.alumno.c_nombre);

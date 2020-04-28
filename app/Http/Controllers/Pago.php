@@ -8,6 +8,10 @@ use Auth;
 
 class Pago extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function verificar(Request $request)
     {
         $permitido = App\Permitido_m::where([

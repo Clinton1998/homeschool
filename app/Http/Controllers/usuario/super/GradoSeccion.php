@@ -10,6 +10,10 @@ use Auth;
 
 class GradoSeccion extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index(){
         //proceso para consultar los grados del colegio
         $usuario = App\User::findOrFail(Auth::user()->id);

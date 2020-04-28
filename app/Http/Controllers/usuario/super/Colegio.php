@@ -16,9 +16,9 @@ use Auth;
 class Colegio extends Controller
 {
     private $logos_path;
-
     public function __construct()
     {
+        $this->middleware('auth');
         $this->logos_path = storage_path('app/public/colegio');
     }
 

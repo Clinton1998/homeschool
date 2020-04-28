@@ -63,7 +63,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <img class="modal-foto-alumno" src="http://127.0.0.1:8000/assets/images/usuario/studentman.png" alt="fotografía" id="fotoAlumno">
+                    <img class="modal-foto-alumno" src="" alt="fotografía" id="fotoAlumno">
                     <h4 id="nombreAlumno" class="hs_capitalize"></h4>
                     <br>
                     <strong>Correo electrónico</strong>

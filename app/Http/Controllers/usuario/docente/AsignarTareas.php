@@ -11,6 +11,10 @@ use Auth;
 
 class AsignarTareas extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $usuarioDocente = App\User::findOrFail(Auth::user()->id);

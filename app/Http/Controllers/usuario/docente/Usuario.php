@@ -8,8 +8,13 @@ use App;
 use Auth;
 class Usuario extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function cambiar_contrasena(Request $request)
     {
+        
         $request->validate([
             'nueva_contrasena' => 'required|string|min:6',
             'repite_nueva_contrasena' => 'required|string|min:6|same:nueva_contrasena',

@@ -10,6 +10,10 @@ use Auth;
 
 class Categoria extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index(){
         //mostrar las categorias del colegio
         $usuario = App\User::findOrFail(Auth::user()->id);

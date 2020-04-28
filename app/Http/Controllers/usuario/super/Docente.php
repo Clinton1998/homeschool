@@ -14,9 +14,9 @@ use Auth;
 class Docente extends Controller
 {
     private $fotos_path;
-
     public function __construct()
     {
+        $this->middleware('auth');
         $this->fotos_path = storage_path('app/public/docente');
     }
 
@@ -31,21 +31,22 @@ class Docente extends Controller
             'id_colegio' => $colegio->id_colegio,
             'estado' => 1
         ])->orderBy('created_at', 'DESC')->get();
-            
+
         //obtenemos las categorias del colegio
         /*COPY CODIGO DE ANTONI del metodo index de la ruta super/categorias */
         $TMP_categorias = DB::table('seccion_categoria_p')
-        ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
-        ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
-        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
-        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado','grado_m.*','colegio_m.*')
-        ->where([
-            'categoria_d.id_colegio' => $colegio->id_colegio,
-            'grado_m.estado' => 1,
-            'seccion_d.estado' => 1,
-            'categoria_d.estado' => 1])
-            ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
+            ->join('seccion_d', 'seccion_categoria_p.id_seccion', '=', 'seccion_d.id_seccion')
+            ->join('categoria_d', 'seccion_categoria_p.id_categoria', '=', 'categoria_d.id_categoria')
+            ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+            ->join('colegio_m', 'grado_m.id_colegio', '=', 'colegio_m.id_colegio')
+            ->select('categoria_d.c_nombre as nom_categoria', 'categoria_d.*', 'seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*', 'colegio_m.*')
+            ->where([
+                'categoria_d.id_colegio' => $colegio->id_colegio,
+                'grado_m.estado' => 1,
+                'seccion_d.estado' => 1,
+                'categoria_d.estado' => 1
+            ])
+            ->orderBy('nom_grado', 'ASC')->orderBy('nom_seccion', 'ASC')->get();
         //obtenemos los grados de un colegio
         /*$grados = App\Grado_m::where([
             'id_colegio' => $colegio->id_colegio,
@@ -53,14 +54,15 @@ class Docente extends Controller
         ])->orderBy('c_nivel_academico')->orderBy('c_nombre')->get();*/
 
         $TMP = DB::table('seccion_d')
-        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
-        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
-        ->where([
-            'grado_m.id_colegio' => $colegio->id_colegio,
-            'grado_m.estado' => 1,
-            'seccion_d.estado' => 1])
-            ->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
+            ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+            ->join('colegio_m', 'grado_m.id_colegio', '=', 'colegio_m.id_colegio')
+            ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+            ->where([
+                'grado_m.id_colegio' => $colegio->id_colegio,
+                'grado_m.estado' => 1,
+                'seccion_d.estado' => 1
+            ])
+            ->orderBy('grado_m.c_nivel_academico', 'ASC')->orderBy('grado_m.c_nombre', 'ASC')->orderBy('seccion_d.c_nombre', 'ASC')->get();
 
 
         return view('docentessuper', compact('docentes', 'TMP_categorias', 'TMP'));
@@ -76,31 +78,33 @@ class Docente extends Controller
 
         //obtenemos el usuario
         $usuario_del_docente = App\User::where('id_docente', '=', $docente->id_docente)->first();
-        
+
         /*COPY CODIGO DE ANTONI del metodo index de la ruta super/categorias */
         $TMP_categorias = DB::table('seccion_categoria_p')
-        ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
-        ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
-        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
-        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado','grado_m.*','colegio_m.*')
-        ->where([
-            'categoria_d.id_colegio' => $colegio->id_colegio,
-            'grado_m.estado' => 1,
-            'seccion_d.estado' => 1,
-            'categoria_d.estado' => 1])
-            ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
+            ->join('seccion_d', 'seccion_categoria_p.id_seccion', '=', 'seccion_d.id_seccion')
+            ->join('categoria_d', 'seccion_categoria_p.id_categoria', '=', 'categoria_d.id_categoria')
+            ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+            ->join('colegio_m', 'grado_m.id_colegio', '=', 'colegio_m.id_colegio')
+            ->select('categoria_d.c_nombre as nom_categoria', 'categoria_d.*', 'seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*', 'colegio_m.*')
+            ->where([
+                'categoria_d.id_colegio' => $colegio->id_colegio,
+                'grado_m.estado' => 1,
+                'seccion_d.estado' => 1,
+                'categoria_d.estado' => 1
+            ])
+            ->orderBy('nom_grado', 'ASC')->orderBy('nom_seccion', 'ASC')->get();
 
 
         $TMP = DB::table('seccion_d')
-        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
-        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
-        ->where([
-            'grado_m.id_colegio' => $colegio->id_colegio,
-            'grado_m.estado' => 1,
-            'seccion_d.estado' => 1])
-            ->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
+            ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+            ->join('colegio_m', 'grado_m.id_colegio', '=', 'colegio_m.id_colegio')
+            ->select('seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+            ->where([
+                'grado_m.id_colegio' => $colegio->id_colegio,
+                'grado_m.estado' => 1,
+                'seccion_d.estado' => 1
+            ])
+            ->orderBy('grado_m.c_nivel_academico', 'ASC')->orderBy('grado_m.c_nombre', 'ASC')->orderBy('seccion_d.c_nombre', 'ASC')->get();
 
         return view('infodocentesuper', compact('docente', 'usuario_del_docente', 'TMP_categorias', 'TMP'));
     }
@@ -129,7 +133,7 @@ class Docente extends Controller
         $docente = new App\Docente_d;
         $docente->id_colegio = $colegio->id_colegio;
         $docente->c_dni = $request->input('dni');
-        $docente->c_nombre = $request->input('apellido')." ".$request->input('nombre');
+        $docente->c_nombre = $request->input('apellido') . " " . $request->input('nombre');
         $docente->c_nacionalidad = $request->input('nacionalidad');
         $docente->c_sexo = $request->input('sexo');
         $docente->c_especialidad = $request->input('especialidad');
@@ -452,6 +456,11 @@ class Docente extends Controller
         ])->first();
         $docente->estado = 0;
         $docente->save();
+
+        //eliminamos el usuario del docente
+        if (!is_null($docente) && !empty($docente)) {
+            (App\User::where('id_docente', '=', $docente->id_docente)->first())->delete();
+        }
 
         $datos = array(
             'correcto' => TRUE
