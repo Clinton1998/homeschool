@@ -3,9 +3,6 @@
 
     <head>
         @php
-
-
-
             $colegio = '';
             $re_alumno = '';
             $re_docente = '';

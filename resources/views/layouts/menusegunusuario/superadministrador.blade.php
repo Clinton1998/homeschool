@@ -15,6 +15,9 @@
         .hs_capitalize-first::first-letter {
             text-transform: uppercase;
         }
+        .cursos-badge-comunicado{
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -41,11 +44,11 @@
                 $diff = $fecha1->diff($fecha2);    
             @endphp
             @if($diff->days==0)
-                <span class="badge badge-danger">Te quedan pocos minutos gratis</span>
+                <span class="badge badge-danger cursos-badge-comunicado" data-toggle="modal" data-target="#mdlInfoComunicadoSistema">Te quedan pocos minutos gratis</span>
             @elseif($diff->days==1)
-                <span class="badge badge-danger">Te quedan 1 día gratis</span>
+                <span class="badge badge-danger cursos-badge-comunicado" data-toggle="modal" data-target="#mdlInfoComunicadoSistema">Te quedan 1 día gratis</span>
             @else
-                <span class="badge badge-danger">Te quedan {{$diff->days}} días gratis</span>  
+                <span class="badge badge-danger cursos-badge-comunicado" data-toggle="modal" data-target="#mdlInfoComunicadoSistema">Te quedan {{$diff->days}} días gratis</span>  
             @endif
         @endif
     </div>
@@ -94,3 +97,20 @@
 
 </div>
 <!-- header top menu end -->
+
+<!--modal para mostrar informacion de sistema-->
+<div class="modal" tabindex="-1" role="dialog" id="mdlInfoComunicadoSistema">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>
+          <strong>Estimado (a), <span id="spnNombreInfo">{{$colegio->c_representante_legal}}</span> esta es una versión gratuita de la PLATAFORMA EDUCATIVA HOMESCHOOL V.1.0. Podrás tener acceso a la misma por 6 días. Luego de este plazo deberás comunicarte al 973 477 015, para poder extender el plazo por todo el {{date('Y')}}.</strong>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--endInformacionSistema-->
