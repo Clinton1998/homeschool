@@ -49,7 +49,7 @@
                     <thead>
                         <tr>
                             <th>DNI</th>
-                            <th>Nombre</th>
+                            <th>Apellidos y nombres</th>
                             <th>Nacionalidad</th>
                             <th>Fecha Nacimiento</th>
                             <th>Correo</th>
@@ -130,8 +130,14 @@
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>  
                                                 
-                                                <div class="form-group col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding: 0;">
-                                                    <label for="nombre" ><strong>Nombres y Apellidos</strong></label>
+                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
+                                                    <label for="apellido" >Apellidos</label>
+                                                    <input type="text" class="form-control form-control-sm" id="apellido" name="apellido" required>
+                                                    <div class="help-block with-errors text-danger"></div>
+                                                </div> 
+
+                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
+                                                    <label for="nombre" >Nombre(s)</label>
                                                     <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required>
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div> 
@@ -143,7 +149,7 @@
                                                     <input type="text" class="form-control form-control-sm" id="nacionalidad" name="nacionalidad" value="Peruano(a)" required>
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
-                                                <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
+                                                <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="sexo">Sexo</label>
                                                     <select name="sexo" id="sexo" class="form-control form-control-sm">
                                                         <option value="M">Masculino</option>

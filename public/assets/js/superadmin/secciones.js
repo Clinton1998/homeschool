@@ -76,17 +76,16 @@ function fxEliminarSeccion(id) {
     });
 }
 
-function fxActualizarSeccion(id_seccion) {
-    var l = Ladda.create(document.getElementById('btnActualizarSeccion' + id_seccion));
+function fxActualizarSeccion(id) {
+    var l = Ladda.create(document.getElementById('btnActualizarSeccion' + id));
     l.start();
-    $('#btnActualizarSeccion' + id_seccion).attr('disabled', 'true');
+    $('#btnActualizarSeccion' + id).attr('disabled', 'true');
 
     $.ajax({
         type: 'POST',
-        //url: 'super/gradoseccion/aplicar',
-        url: 'super/gradoseccion/actualizar',
+        url: '/super/gradoseccion/aplicar',
         data: {
-            id_seccion: id_seccion
+            id_seccion: id
         },
         error: function (error) {
             alert('Ocurrió un error');
