@@ -7,6 +7,9 @@ $(document).ready(function () {
     tbl_asignaturas = $("#tbl_asignaturas").DataTable({
 
         "dom": 'tp',
+        "order": [
+            [4, "desc"]
+        ],
         "ajax": {
             "url": "/super/categorias/read_asignatura",
             "method": 'GET',
@@ -19,11 +22,20 @@ $(document).ready(function () {
                 "data": "c_nombre"
             },
             {
-                "data": "c_nivel_academico"
+                "data": "c_nivel_academico",
+            },
+            {
+                "data": "created_at"
+            },
+            {
+                "data": "c_nivel_academico",
+                "render": function (data, type, row, meta) {
+                    return '<input type="color" value="' + data + '" class="Muestra" disabled>';
+                }
             },
             {
                 "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-warning btn-sm btn_edit_asignatura' style='margin: 0 5px;'><i class='i-Pen-4'></i></button><button class='btn btn-danger btn-sm btn_del_asignatura' style='margin: 0 5px;'><i class='i-Eraser-2'></i></button></div></div>"
-            }
+            },
         ]
     });
 
@@ -128,7 +140,6 @@ $(document).ready(function () {
             }
         ]
     });
-
 });
 
 // CRUD: Categorias (asignaturas)
@@ -521,7 +532,7 @@ $(document).on("click", ".btn_del_secundaria", function () {
 
 function Clear() {
     $('#nom_asignatura').val('');
-    $('#color_asignatura').val('');
+    $('#color_asignatura').val('#ffffff');
     $('#btn_update_asignatura').hide();
     $('#btn_create_asignatura').show();
 };
@@ -632,12 +643,6 @@ function Eliminar() {
         timer: 1500
     })
 };
-
-
-
-
-
-
 
 
 

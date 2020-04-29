@@ -45,8 +45,9 @@
                                     <td>
                                         @if ($item->c_nombre === '1-.3 AÑOS' || $item->c_nombre === '2-.4 AÑOS' || $item->c_nombre === '3-.5 AÑOS')
                                             {{substr($item->nom_grado,3)}}
+                                        @else
+                                            {{ucfirst(substr(strtolower($item->c_nombre),3))}}
                                         @endif
-                                        {{ucfirst(substr(strtolower($item->c_nombre),3))}}
                                     </td>
                                     <td class="hs_upper">
                                         {{$item->nom_seccion}}
