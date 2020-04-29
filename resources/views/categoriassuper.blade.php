@@ -307,18 +307,7 @@
                                 Seleccione uno o varias asignaturas
                             </div>
                         </div>
-<<<<<<< HEAD
-        
-                        @foreach ($tmp_secciones as $item)
-                            @if (strtoupper($item->c_nivel_academico) == "SECUNDARIA")
-                                <input type="hidden" id="nivel_academico3" name="nivel_academico3" value="{{$item->c_nivel_academico}}">
-                            @endif
-                        @endforeach
-                        
-                        <!--Grados-Secciones-->
-=======
 
->>>>>>> AntoniLuizar
                         <div class="form-group">
                             <label for="secciones2">Sección(es)</label>
                             <select id="secciones2" name="secciones2[]" multiple>
