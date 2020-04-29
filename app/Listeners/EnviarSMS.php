@@ -36,15 +36,15 @@ class EnviarSMS
 
             if(!is_null($telefono_representante1) && !empty($telefono_representante1)){
                 Nexmo::message()->send([
-                    'to'   => '51920192637',
-                    'from' => $telefono_representante1,
+                    'to'   => $telefono_representante1,
+                    'from' => '51920192637',
                     'text' => 'Al alumno '.$alumno->c_nombre.' le acaban de asignar una nueva tarea, Asignado por '.$docente
                 ]);
             }
             if(!is_null($telefono_representante2) && !empty($telefono_representante2)){
                 Nexmo::message()->send([
-                    'to'   => '51920192637',
-                    'from' => $telefono_representante2,
+                    'to'   => $telefono_representante2,
+                    'from' => '51920192637',
                     'text' => 'Al alumno '.$alumno->c_nombre.' le acaban de asignar una nueva tarea, Asignado por '.$docente
                 ]);
             }
