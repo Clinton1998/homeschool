@@ -4,8 +4,7 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-
-    Ladda.bind('button[type=submit]', { timeout: 3000 });
+    //Ladda.bind('button[type=submit]', { timeout: 3000 });
     //eventos para botones
     $('#btnBuscarPorRuc').on('click', function () {
         fxConsultaRuc(this);
@@ -14,7 +13,12 @@ $(document).ready(function () {
     $('#btnBuscarPorDni').on('click', function () {
         fxConsultaDni(this);
     });
-
+    $('#dni').on('keypress', function () {
+        limpiarDatos();
+    });
+    $('#dni').on('change', function () {
+        limpiarDatos();
+    });
     toastr.options = {
         "closeButton": false,
         "debug": false,
@@ -33,6 +37,18 @@ $(document).ready(function () {
         "hideMethod": "fadeOut"
     };
 });
+
+function limpiarDatos() {
+    $('#nombre').val('');
+    $('#email').val('');
+    $('#password').val('');
+    $('#password-confirm').val('');
+
+    $('#nombre').attr('readonly', 'true');
+    $('#email').attr('readonly', 'true');
+    $('#password').attr('disabled','true');
+    $('#password-confirm').attr('disabled','true');
+}
 
 function fxConsultaRuc(obj) {
     var l = Ladda.create(obj);
@@ -57,6 +73,7 @@ function fxConsultaRuc(obj) {
 }
 
 function fxConsultaDni(obj) {
+    limpiarDatos();
     var l = Ladda.create(obj);
     l.start();
     $.ajax({
@@ -72,7 +89,26 @@ function fxConsultaDni(obj) {
             l.stop();
         }
     }).done(function (data) {
-        $('#nombre').val(data.nombres + ' ' + data.apellidoPaterno + ' ' + data.apellidoMaterno);
-        l.stop();
+        //proceso para generar un usuario segun dni del representante
+        var apiconsulta = data;
+        $.ajax({
+            type: 'POST',
+            url: '/register/generarusuario',
+            data: {
+                dni: $('#dni').val()
+            },
+            error: function (error) {
+                toastr.error('Ups! algo salió mal. Intenta nuevamente');
+                console.error(error);
+            }
+        }).done(function (repsonse) {
+            console.log('Los datos devueltos son: ');
+            console.log(repsonse);
+            $('#nombre').val(apiconsulta.nombres + ' ' + apiconsulta.apellidoPaterno + ' ' + apiconsulta.apellidoMaterno);
+            $('#email').val(repsonse.usuario_generado);
+            $('#password').removeAttr('disabled');
+            $('#password-confirm').removeAttr('disabled');
+            l.stop();
+        });
     });
 }

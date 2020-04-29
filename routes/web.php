@@ -19,9 +19,10 @@ Auth::routes();
 Route::post('notificacionesdelusuario','Notificacion@listar')->name('notificacionesdelusuario');
 Route::post('notificacionesdelusuario/marcarcomoleido', 'Notificacion@marcar_como_leido')->name('notificacionesdelusuario/marcarcomoleido');
 Route::post('notificacionesdelusuario/marcartodocomoleido', 'Notificacion@marcar_todo_como_leido')->name('notificacionesdelusuario/marcartodocomoleido');
-
+//para generar un usuario superadministrado del colegio
+Route::post('register/generarusuario', 'SuperAdmin@generar_usuario')->name('register/generarusuario');
 //para verificar si el colegio ha pagado la plataforma, para usarse
-Route::post('verificaractivo','Pago@verificar')->name('verificaractivo');
+//Route::post('verificaractivo','Pago@verificar')->name('verificaractivo');
 Route::post('ruc/buscar','api\Ruc@buscar')->name('ruc/buscar');
 Route::post('dni/buscar','api\Dni@buscar')->name('dni/buscar');
 
