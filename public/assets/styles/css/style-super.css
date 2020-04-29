@@ -39,7 +39,7 @@ a {
 
 .btn-primary {
     background-color: var(--s-color-secundario);
-    border: none;
+    border: 1px solid var(--s-color-secundario);
 }
 
 .btn-primary:active,
@@ -51,9 +51,18 @@ a {
     border: none !important;
 }
 
+.btn-secondary:active,
+.btn-secondary:hover,
+.btn-secondary:link,
+.btn-secondary:visited,
+.btn-secondary:focus {
+    box-shadow: none !important;
+}
+
 .btn-primary:hover {
     background-color: var(--s-color-primario);
     box-shadow: none;
+    border-color: var(--s-color-primario);
 }
 
 .form-control:focus {
@@ -153,7 +162,7 @@ a {
     width: 100%;
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .hs_tabla {
@@ -182,6 +191,68 @@ a {
 .hs_tabla th:last-child {
     cursor: default;
 }
+
+#tbl_asignaturas th:nth-child(1),
+#tbl_asignaturas td:nth-child(1),
+#tbl_asignaturas th:nth-child(3),
+#tbl_asignaturas td:nth-child(3) {
+    display: none;
+}
+
+#tbl_asignaturas td:nth-child(2) {
+    text-transform: capitalize;
+}
+
+#tbl_inicial th:nth-child(1),
+#tbl_inicial th:nth-child(2),
+#tbl_inicial th:nth-child(3),
+#tbl_inicial td:nth-child(1),
+#tbl_inicial td:nth-child(2),
+#tbl_inicial td:nth-child(3),
+#tbl_primaria th:nth-child(1),
+#tbl_primaria th:nth-child(2),
+#tbl_primaria th:nth-child(3),
+#tbl_primaria td:nth-child(1),
+#tbl_primaria td:nth-child(2),
+#tbl_primaria td:nth-child(3),
+#tbl_secundaria th:nth-child(1),
+#tbl_secundaria th:nth-child(2),
+#tbl_secundaria th:nth-child(3),
+#tbl_secundaria td:nth-child(1),
+#tbl_secundaria td:nth-child(2),
+#tbl_secundaria td:nth-child(3) {
+    display: none;
+}
+
+#tbl_asignaturas th {
+    background-color: #88989c;
+}
+
+#tbl_inicial td:nth-child(6),
+#tbl_primaria td:nth-child(6),
+#tbl_secundaria td:nth-child(6) {
+    text-transform: uppercase;
+}
+
+#tbl_inicial td:nth-child(4),
+#tbl_primaria td:nth-child(4),
+#tbl_secundaria td:nth-child(4) {
+    text-transform: capitalize;
+}
+
+/* [4] CATEGORIAS --------------*/
+
+#btn_plus {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+#btn_plus:hover {
+    transform: scale(1.1);
+    transition: all 0.5s ease-in-out;
+}
+
 
 /* [5] DOCENTES ---------------*/
 

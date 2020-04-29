@@ -10,65 +10,264 @@ use Auth;
 
 class Categoria extends Controller
 {
-    public function index(){
-        //mostrar las categorias del colegio
+    //
+    public function read_asignatura(){
         $usuario = App\User::findOrFail(Auth::user()->id);
+        $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+        $asignaturas = App\Categoria_d::where([
+            'id_colegio' => $colegio->id_colegio,
+            'estado'=> 1
+        ])->orderBy('c_nombre','ASC')->get();
 
-        //consultamos el colegio
+        return response()->json($asignaturas);
+    }
+
+    public function create_asignatura(Request $request){
+        
+        $usuario = App\User::findOrFail(Auth::user()->id);
         $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
 
-        //consultamos las categorias del colegio
-        $categorias = App\Categoria_d::where([
+        $asignatura = new App\Categoria_d;
+        $asignatura->id_colegio = $colegio->id_colegio;
+        $asignatura->c_nombre = $request->c_nombre;
+        $asignatura->c_nivel_academico = $request->c_nivel_academico;
+        $asignatura->creador = Auth::user()->id;
+        $asignatura->save();
+
+        $asignaturas = App\Categoria_d::where([
             'id_colegio' => $colegio->id_colegio,
             'estado'=> 1
-        ])->orderBy('c_nivel_academico','ASC')->orderBy('c_nombre','ASC')->get();
+        ])->orderBy('c_nombre','ASC')->get();
 
-        //consultamos las secciones del colegio
-        //obtenemos el grado de esos colegios
-        $grados = App\Grado_m::where([
+        return response()->json($asignaturas);
+    }
+
+    public function update_asignatura(Request $request){
+
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+
+        $asignatura = App\Categoria_d::findOrFail($request->id_categoria);
+        $asignatura->c_nombre = $request->c_nombre;
+        $asignatura->c_nivel_academico = $request->c_nivel_academico;
+        $asignatura->modificador = Auth::user()->id;
+        $asignatura->save();
+       
+        $asignaturas = App\Categoria_d::where([
             'id_colegio' => $colegio->id_colegio,
             'estado'=> 1
-        ])->orderBy('c_nivel_academico','ASC')->orderBy('c_nombre','ASC')->get();
+        ])->orderBy('c_nombre','ASC')->get();
 
-        //prueba
-        //Obteniendo todas las secciones
-        //$secciones = App\Seccion_d::where('estado','=',1)->orderBy('c_nombre','ASC')->get();
+        return response()->json($asignaturas);
+    }
 
+    public function delete_asignatura(Request $request){
 
-        $secciones = DB::table('seccion_d')
-            ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
-            ->select('seccion_d.*')
-            ->where([
-                'grado_m.id_colegio' => $colegio->id_colegio,
-                'seccion_d.estado' => 1
-            ])->get();
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
 
-        $TMP = DB::table('seccion_categoria_p')
+        $asignatura = App\Categoria_d::findOrFail($request->id_categoria);
+        $asignatura->estado = 0;
+        $asignatura->save();
+
+        $asignaturas = App\Categoria_d::where([
+            'id_colegio' => $colegio->id_colegio,
+            'estado'=> 1
+        ])->orderBy('c_nombre','ASC')->get();
+
+        return response()->json($asignaturas);
+    }
+
+    public function read_seccion_categoria(Request $request){
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+
+        $NIVEL = null;
+
+        if ($request->c_nivel_academico == '1')
+            $NIVEL = 'INICIAL';
+        elseif ($request->c_nivel_academico == '2')
+            $NIVEL = 'PRIMARIA';
+        else 
+            $NIVEL = 'SECUNDARIA';
+
+        $asignaturas = DB::table('seccion_categoria_p')
         ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
         ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
         ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
         ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado','grado_m.*','colegio_m.*')
+        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
         ->where([
             'categoria_d.id_colegio' => $colegio->id_colegio,
             'grado_m.estado' => 1,
             'seccion_d.estado' => 1,
-            'categoria_d.estado' => 1])
+            'categoria_d.estado' => 1,
+            'grado_m.c_nivel_academico' => $NIVEL])
             ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
 
-        $tmp_secciones = DB::table('seccion_d')
+        return response()->json($asignaturas);
+    }
+
+    public function create_seccion_categoria(Request $request){
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+
+        $NIVEL = '';
+
+        if ($request->c_nivel_academico == '1')
+            $NIVEL = 'INICIAL';
+        elseif ($request->c_nivel_academico == '2')
+            $NIVEL = 'PRIMARIA';
+        else 
+            $NIVEL = 'SECUNDARIA';
+
+        $sec = $request->id_seccion;
+        $cat = $request->id_categoria;
+
+        if(!is_null($sec) && !empty($sec) && !is_null($cat) && !empty($cat)){
+            for($i=0; $i<count($sec); $i++){
+                for ($j=0; $j<count($cat); $j++) { 
+                    DB::table('seccion_categoria_p')->insert([
+                        ['id_seccion' => $sec[$i], 'id_categoria' => $cat[$j],'creador' => Auth::user()->id]
+                    ]);
+                }
+            }
+        }
+
+        $asignaturas = DB::table('seccion_categoria_p')
+        ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
+        ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
+        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
+        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        ->where([
+            'categoria_d.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1,
+            'categoria_d.estado' => 1,
+            'grado_m.c_nivel_academico' => $NIVEL])
+            ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
+
+        return response()->json($asignaturas);
+    }
+
+    public function update_seccion_categoria(Request $request){
+
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+
+        $NIVEL = '';
+
+        if ($request->c_nivel_academico == '1')
+            $NIVEL = 'INICIAL';
+        elseif ($request->c_nivel_academico == '2')
+            $NIVEL = 'PRIMARIA';
+        else 
+            $NIVEL = 'SECUNDARIA';
+
+        $idc = $request->id_seccion_categoria;
+        $sec = $request->id_seccion;
+        $cat = $request->id_categoria;
+
+        DB::table('seccion_categoria_p')->where(['id_seccion_categoria' => $idc])->update([
+            'id_seccion' => $sec, 'id_categoria'=>$cat, 'creador' => Auth::user()->id
+        ]);
+
+        $asignaturas = DB::table('seccion_categoria_p')
+        ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
+        ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
+        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
+        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        ->where([
+            'categoria_d.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1,
+            'categoria_d.estado' => 1,
+            'grado_m.c_nivel_academico' => $NIVEL])
+            ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
+
+        return response()->json($asignaturas);
+    }
+
+    public function delete_seccion_categoria(Request $request){
+
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+
+        $NIVEL = '';
+
+        if ($request->c_nivel_academico == '1')
+            $NIVEL = 'INICIAL';
+        elseif ($request->c_nivel_academico == '2')
+            $NIVEL = 'PRIMARIA';
+        else 
+            $NIVEL = 'SECUNDARIA';
+
+        $idc = $request->id_seccion_categoria;
+
+        DB::table('seccion_categoria_p')->where(['id_seccion_categoria' => $idc])->delete();
+
+        $asignaturas = DB::table('seccion_categoria_p')
+        ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
+        ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
+        ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+        ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
+        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        ->where([
+            'categoria_d.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1,
+            'categoria_d.estado' => 1,
+            'grado_m.c_nivel_academico' => $NIVEL])
+            ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
+
+        return response()->json($asignaturas);
+    }
+
+    //
+
+    public function index(){
+        $usuario = App\User::findOrFail(Auth::user()->id);
+        $colegio = App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first();
+
+        //
+
+        $inicial = DB::table('seccion_d')
         ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
         ->select('seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
         ->where([
             'grado_m.id_colegio' => $colegio->id_colegio,
             'grado_m.estado' => 1,
-            'seccion_d.estado' => 1
+            'seccion_d.estado' => 1,
+            'grado_m.c_nivel_academico' => 'INICIAL'
         ])->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
         
+        $primaria = DB::table('seccion_d')
+        ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+        ->select('seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+        ->where([
+            'grado_m.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1,
+            'grado_m.c_nivel_academico' => 'PRIMARIA'
+        ])->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
 
-        return view('categoriassuper',compact('categorias','secciones','grados', 'TMP', 'tmp_secciones'));
+        $secundaria = DB::table('seccion_d')
+        ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
+        ->select('seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*')
+        ->where([
+            'grado_m.id_colegio' => $colegio->id_colegio,
+            'grado_m.estado' => 1,
+            'seccion_d.estado' => 1,
+            'grado_m.c_nivel_academico' => 'SECUNDARIA'
+        ])->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
+
+
+        return view('categoriassuper',compact('inicial', 'primaria', 'secundaria'));
     }
 
+    /*
     public function agregar(Request $request){
         if ($request->input('frm')=='1') {
             $request->validate([
@@ -204,4 +403,5 @@ class Categoria extends Controller
 
         return response()->json($datos);
     }
+    */
 }
