@@ -69,7 +69,7 @@
                                             <th>Asignatura</th>
                                             <th>Grado</th>
                                             <th>Sección</th>
-                                            <th></th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,7 +94,7 @@
                                             <th>Asignatura</th>
                                             <th>Grado</th>
                                             <th>Sección</th>
-                                            <th></th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -119,7 +119,7 @@
                                             <th>Asignatura</th>
                                             <th>Grado</th>
                                             <th>Sección</th>
-                                            <th></th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -184,7 +184,7 @@
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Color</th>
-                                    <th></th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
