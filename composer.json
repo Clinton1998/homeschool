@@ -12,8 +12,9 @@
         "fideloper/proxy": "^4.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.2",
+        "laravel/nexmo-notification-channel": "^2.3",
         "laravel/tinker": "^1.0",
-        "laravel/ui": "^2.0",
+        "nexmo/laravel": "^2.2",
         "pusher/pusher-php-server": "~4.0"
     },
     "require-dev": {

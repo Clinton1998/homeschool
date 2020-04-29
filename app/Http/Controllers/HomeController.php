@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Auth;
+
 class HomeController extends Controller
 {
     /**
@@ -23,14 +23,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0){
+        if (is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root == 0) {
             //se trata de un superadministrador del colegio
             return view('homesuperadministrador');
-        }else if(!is_null(Auth::user()->id_docente)){
+        } else if (!is_null(Auth::user()->id_docente)) {
             return view('homedocente');
-        }else if(!is_null(Auth::user()->id_alumno)){
+        } else if (!is_null(Auth::user()->id_alumno)) {
             return view('homealumno');
-        }else{
+        } else {
             //es un usuario root de Innova Sistemas  Integrales
             return view('homeroot');
         }

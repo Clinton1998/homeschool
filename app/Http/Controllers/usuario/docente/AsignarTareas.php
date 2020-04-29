@@ -4,6 +4,7 @@ namespace App\Http\Controllers\usuario\docente;
 
 use App\Http\Controllers\Controller;
 use App\Notifications\NuevaTareaParaAlumnoNotification;
+use App\Events\NuevaTareaAsignada;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App;
@@ -132,7 +133,7 @@ class AsignarTareas extends Controller
         }
         //consultando la tarea
         $search_tarea = App\Tarea_d::findOrFail($newtarea->id_tarea);
-        $alumnos_asignados = $search_tarea->alumnos_asignados()->select('alumno_d.id_alumno')->where('alumno_d.estado', '=', 1)->get();
+        $alumnos_asignados = $search_tarea->alumnos_asignados()->select('alumno_d.id_alumno','alumno_d.c_nombre','alumno_d.c_telefono_representante1','alumno_d.c_telefono_representante2')->where('alumno_d.estado', '=', 1)->get();
         $id_usuarios = array();
         $i = 0;
         foreach ($alumnos_asignados as $alumno) {
@@ -145,6 +146,8 @@ class AsignarTareas extends Controller
             'mensaje' => $search_tarea->c_titulo,
             'url' => '/alumno/tareapendiente/' . $search_tarea->id_tarea
         )));
+        //sms para los representantes
+        event(new NuevaTareaAsignada($alumnos_asignados,$docente->c_nombre));
         return redirect('docente/asignartareas');
     }
 }

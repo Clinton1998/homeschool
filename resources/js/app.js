@@ -55,7 +55,6 @@ const app = new Vue({
                         this.close();
                     }
                 });
-
             });
         }
     }
