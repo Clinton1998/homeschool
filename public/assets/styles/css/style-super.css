@@ -195,12 +195,18 @@ a {
 #tbl_asignaturas th:nth-child(1),
 #tbl_asignaturas td:nth-child(1),
 #tbl_asignaturas th:nth-child(3),
-#tbl_asignaturas td:nth-child(3) {
+#tbl_asignaturas td:nth-child(3),
+#tbl_asignaturas th:nth-child(4),
+#tbl_asignaturas td:nth-child(4) {
     display: none;
 }
 
 #tbl_asignaturas td:nth-child(2) {
     text-transform: capitalize;
+}
+
+#tbl_asignaturas td:nth-child(5) {
+    text-align: center;
 }
 
 #tbl_inicial th:nth-child(1),

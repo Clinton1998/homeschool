@@ -14,6 +14,7 @@ class Categoria extends Controller
     {
         $this->middleware('auth');
     }
+
     public function read_asignatura(){
         //mostrar las categorias del colegio
         $usuario = App\User::findOrFail(Auth::user()->id);
@@ -21,7 +22,8 @@ class Categoria extends Controller
         $asignaturas = App\Categoria_d::where([
             'id_colegio' => $colegio->id_colegio,
             'estado'=> 1
-        ])->orderBy('c_nombre','ASC')->get();
+        //])->orderBy('c_nombre','ASC')->get();
+        ])->orderBy('created_at','DESC')->get();
 
         return response()->json($asignaturas);
     }
@@ -41,7 +43,8 @@ class Categoria extends Controller
         $asignaturas = App\Categoria_d::where([
             'id_colegio' => $colegio->id_colegio,
             'estado'=> 1
-        ])->orderBy('c_nombre','ASC')->get();
+        //])->orderBy('c_nombre','ASC')->get();
+        ])->orderBy('created_at','DESC')->get();
 
         return response()->json($asignaturas);
     }
@@ -267,8 +270,13 @@ class Categoria extends Controller
             'grado_m.c_nivel_academico' => 'SECUNDARIA'
         ])->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
 
+        $asignaturas = App\Categoria_d::where([
+            'id_colegio' => $colegio->id_colegio,
+            'estado'=> 1
+        //])->orderBy('c_nombre','ASC')->get();
+        ])->orderBy('created_at','DESC')->get();
 
-        return view('categoriassuper',compact('inicial', 'primaria', 'secundaria'));
+        return view('categoriassuper',compact('inicial', 'primaria', 'secundaria', 'asignaturas'));
     }
 
     /*

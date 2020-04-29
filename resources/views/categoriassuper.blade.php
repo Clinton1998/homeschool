@@ -14,6 +14,7 @@
 
 <body onload="LlenarSelects()">
 
+    <!--Contendor principal de los Cards-->
     <div class="row justify-content-center">
         <!--Section: Asignaturas - Secciones-->
         <div class="mb-3 col col-lg-7 col-md-7 col-sm-12">
@@ -140,7 +141,7 @@
                 <div class="card-body">
                     <div class="hs_encabezado">
                         <br>
-                        <h4 class="text-center">Cursos</h4>
+                        <h4 class="text-center">Cursos y asignaturas</h4>
                         <div class="hs_encabezado-linea"></div>
                     </div>
     
@@ -150,7 +151,7 @@
                         <div class="row">
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                                 <div class="form-group">
-                                    <label for="nom_asignatura">Nombre</label>
+                                    <label for="nom_asignatura">Crear nuevo curso o asignatura</label>
                                     <input type="text" class="form-control" id="nom_asignatura" name="nom_asignatura" required placeholder="Ejemplo: Matemática">
                                     <div class="invalid-feedback">
                                         El curso necesita un nombre
@@ -160,7 +161,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-3">
                                 <div class="form-group">
                                     <label for="nom_asignatura">Color</label>
-                                    <input type="color" class="form-control" id="color_asignatura" name="color_asignatura" required>
+                                    <input type="color" class="form-control" id="color_asignatura" name="color_asignatura" value="#ffffff" required>
                                     <div class="invalid-feedback">
                                         Necesitas establecer un color
                                     </div>
@@ -178,11 +179,13 @@
     
                     <!--Tabla de asignaturas-->
                     <div class="table-responsive">
-                        <table id="tbl_asignaturas" class="hs_tabla display table table-striped" style="width:100%;">
+                        <table id="tbl_asignaturas" class="hs_tabla display table table-striped nowrap hover" style="width:100%;">
                             <thead>
                                 <tr>
                                     <th>Id</th>
-                                    <th>Nombre</th>
+                                    <th>Curso o Asignatura</th>
+                                    <th>Color</th>
+                                    <th>Fecha</th>
                                     <th>Color</th>
                                     <th>Acciones</th>
                                 </tr>
@@ -473,5 +476,4 @@
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
-<!--<script src="{{asset('assets/js/superadmin/categorias.js')}}"></script>-->
 @endsection
