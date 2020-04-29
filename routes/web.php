@@ -77,6 +77,20 @@ Route::post('super/gradoseccion/actualizar', 'usuario\super\GradoSeccion@actuali
 Route::post('super/gradoseccion/aplicar', 'usuario\super\GradoSeccion@aplicar')->name('super/gradoseccion/aplicar');
 Route::post('super/gradoseccion/eliminar', 'usuario\super\GradoSeccion@eliminar')->name('super/gradoseccion/eliminar');
 
+//
+
+Route::get('super/categorias/read_asignatura', 'usuario\super\Categoria@read_asignatura')->name('super/categorias/read_asignatura');
+Route::post('super/categorias/create_asignatura', 'usuario\super\Categoria@create_asignatura')->name('super/categorias/create_asignatura');
+Route::post('super/categorias/update_asignatura', 'usuario\super\Categoria@update_asignatura')->name('super/categorias/update_asignatura');
+Route::post('super/categorias/delete_asignatura', 'usuario\super\Categoria@delete_asignatura')->name('super/categorias/delete_asignatura');
+
+Route::post('super/categorias/read_seccion_categoria', 'usuario\super\Categoria@read_seccion_categoria')->name('super/categorias/read_seccion_categoria');
+Route::post('super/categorias/create_seccion_categoria', 'usuario\super\Categoria@create_seccion_categoria')->name('super/categorias/create_seccion_categoria');
+Route::post('super/categorias/update_seccion_categoria', 'usuario\super\Categoria@update_seccion_categoria')->name('super/categorias/update_seccion_categoria');
+Route::post('super/categorias/delete_seccion_categoria', 'usuario\super\Categoria@delete_seccion_categoria')->name('super/categorias/delete_seccion_categoria');
+
+//
+
 Route::get('super/categorias', 'usuario\super\Categoria@index')->name('super/categorias');
 Route::post('super/categorias/agregar', 'usuario\super\Categoria@agregar')->name('super/categorias/agregar');
 Route::post('super/categorias/actualizar', 'usuario\super\Categoria@actualizar')->name('super/categorias/actualizar');

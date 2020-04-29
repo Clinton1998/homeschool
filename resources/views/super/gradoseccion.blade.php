@@ -33,7 +33,7 @@
                                 <th>Nivel</th>
                                 <th>Grado</th>
                                 <th>Sección</th>
-                                <th><small></small></th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
