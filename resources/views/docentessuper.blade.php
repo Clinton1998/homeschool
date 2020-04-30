@@ -50,6 +50,7 @@
                         <tr>
                             <th>DNI</th>
                             <th>Apellidos y nombres</th>
+                            <th>Usuario de acceso</th>
                             <th>Nacionalidad</th>
                             <th>Fecha Nacimiento</th>
                             <th>Correo</th>
@@ -80,6 +81,7 @@
                                         </div>
                                     </a>
                                 </td>
+                                <td>{{$docente->usuario->email}}</td>
                                 <td><span class="hs_capitalize-first">{{$docente->c_nacionalidad}}</span></td>
                                 <td>{{$docente->t_fecha_nacimiento}}</td>
                                 <td><a href="mailto:{{$docente->c_correo}}">{{$docente->c_correo}}</a></td>

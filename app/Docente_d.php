@@ -22,4 +22,9 @@ class Docente_d extends Model
     public function tareas(){
         return $this->hasMany('App\Tarea_d','id_docente');
     }
+
+    public function usuario()
+    {
+        return $this->hasOne('App\User','id_docente');
+    }
 }

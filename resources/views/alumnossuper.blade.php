@@ -50,6 +50,7 @@
                         <tr>
                             <th>DNI</th>
                             <th>Apellidos y nombres</th>
+                            <th>Usuario de acceso</th>
                             <!--<th>Nacionalidad</th>-->
                             <th>Grado</th>
                             <th>Sección</th>
@@ -82,6 +83,7 @@
                                                 <span class="hs_capitalize">{{$alumno->c_nombre}}</span>
                                             </a>
                                     </td>
+                                    <td>{{$alumno->usuario->email}}</td>
                                     <!--<td class="hs_capitalize-first">{{$alumno->c_nacionalidad}}</td>-->
 
                                     @if (strtoupper($grado->c_nivel_academico) === 'INICIAL')
