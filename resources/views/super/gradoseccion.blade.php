@@ -76,7 +76,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="frmAgregarSeccion" class="needs-validation" method="POST" action="{{route('super/gradoseccion/agregar')}}" novalidate>
+                    <form id="frmAgregarSeccion" class="needs-validation" method="POST" action="{{url('/super/gradoseccion/agregar')}}" novalidate>
                         <div class="form-group">
                             <label for="picker2">Nivel - Grado</label>
                             <select class="form-control" id="id_grado" name="id_grado">
@@ -121,7 +121,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="frmActualizar" class="needs-validation" method="POST" action="{{route('super/gradoseccion/actualizar')}}" novalidate>
+                    <form id="frmActualizar" class="needs-validation" method="POST" action="{{url('/super/gradoseccion/actualizar')}}" novalidate>
                         
                         @csrf
                         <input type="hidden" id="id_seccion" name="id_seccion">
