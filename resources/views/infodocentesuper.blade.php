@@ -221,7 +221,6 @@
                                                 <span class="card-title ul-collapse__icon--size ul-collapse__right-icon mb-0">
                                                     <span class="collapsed">
                                                         <strong>{{$categoria->c_nombre}}</strong>
-                                                        <small>({{strtoupper($categoria->c_nivel_academico)}})</small>
                                                     </span> 
                                                 </span>
                                                 <button type="button" class="btn btn-sm btn-danger float-right" id="btnQuitarCategoriaDeDocente{{$categoria->id_categoria}}" onclick="fxQuitarCategoriaDeDocente({{$docente->id_docente}},{{$categoria->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quitar"><i class="i-Eraser-2"></i></button>
@@ -438,6 +437,7 @@
       </div>
     </div>
   </div>
+
   <!--modal Asignar Asignaturas-->
   <div class="modal fade" id="mdlAgregarCategoriaADocente" tabindex="-1" role="dialog" aria-labelledby="mdlAgregarCategoriaADocenteLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
@@ -457,22 +457,8 @@
                     <label for="optcategorias">Eliga una o varias asignaturas</label>
                     
                     <select id="optcategorias" name="optcategorias[]" multiple required>
-                        @foreach($TMP_categorias as $item)
-                            @if(strtoupper($item->c_nivel_academico) === "INICIAL")
-                                <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
-                            @endif
-                        @endforeach
-
-                        @foreach($TMP_categorias as $item)
-                            @if(strtoupper($item->c_nivel_academico) === "PRIMARIA")
-                                <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
-                            @endif
-                        @endforeach
-
-                        @foreach($TMP_categorias as $item)
-                            @if(strtoupper($item->c_nivel_academico) === "SECUNDARIA")
-                                <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
-                            @endif
+                        @foreach($CURSOS as $item)
+                            <option value="{{$item->id_categoria}}">{{$item->c_nombre}}</option>
                         @endforeach
                     </select>
                     <span class="invalid-feedback" role="alert">

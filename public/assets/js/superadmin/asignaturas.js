@@ -2,6 +2,9 @@ $(document).ready(function () {
 
     ActivarSelect();
 
+    $('#hs_aside_cursos').hide();
+    $('#hs_separator').show();
+
     $('#btn_update_asignatura').hide();
 
     tbl_asignaturas = $("#tbl_asignaturas").DataTable({
@@ -187,6 +190,9 @@ $("#btn_update_asignatura").click(function (e) {
         },
         success: function (data) {
             tbl_asignaturas.ajax.reload(null, false);
+            tbl_inicial.ajax.reload(null, false);
+            tbl_primaria.ajax.reload(null, false);
+            tbl_secundaria.ajax.reload(null, false);
             Clear();
             LlenarSelects();
             Actualizar();
@@ -232,6 +238,9 @@ $(document).on("click", ".btn_del_asignatura", function () {
                 },
                 success: function () {
                     tbl_asignaturas.ajax.reload(null, false);
+                    tbl_inicial.ajax.reload(null, false);
+                    tbl_primaria.ajax.reload(null, false);
+                    tbl_secundaria.ajax.reload(null, false);
                     LlenarSelects();
                     Eliminar();
                 }
@@ -644,11 +653,25 @@ function Eliminar() {
     })
 };
 
+// Paleta de colores
 
+$(document).on("click", ".hs_muestra", function () {
+    color = $(this).text();
+    $("#color_asignatura").val(color);
+    $('#modal-color').modal('hide');
+});
 
+// Panel de Cursos
 
+$(document).on("click", "#hs_separator", function () {
+    $('#hs_aside_cursos').fadeIn();
+    $('#hs_separator').hide();
+});
 
-
+$(document).on("click", ".hs_box_close", function () {
+    $('#hs_aside_cursos').hide();
+    $('#hs_separator').show();
+});
 
 
 /*$(document).on("click", ".btn_del_asignatura", function () {

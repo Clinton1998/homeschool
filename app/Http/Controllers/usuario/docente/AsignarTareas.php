@@ -147,7 +147,7 @@ class AsignarTareas extends Controller
             'url' => '/alumno/tareapendiente/' . $search_tarea->id_tarea
         )));
         //sms para los representantes
-        event(new NuevaTareaAsignada($alumnos_asignados,$docente->c_nombre));
+        //event(new NuevaTareaAsignada($alumnos_asignados,$docente->c_nombre));
         return redirect('docente/asignartareas');
     }
 }

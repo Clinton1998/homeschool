@@ -29,7 +29,7 @@
                 @foreach($tareas as $tarea)
                     <div class="tarea" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">
                         <div>
-                            <span class="badge badge-success">{{$tarea->categoria->c_nombre}} - {{$tarea->categoria->c_nivel_academico}}</span>
+                        <span class="badge" style="padding: 5px 10px; color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span><span>{Grado y nivel }</span>
                         </div>
                         <h5 class="tarea-titulo hs_upper">{{$tarea->c_titulo}}</h5>
                         <p class="tarea-descripcion hs_capitalize-first">{{$tarea->c_observacion}}</p>
@@ -39,8 +39,8 @@
                                 <small>{{$tarea->created_at}}</small>
                             </div>
                             <div class="tarea-fecha-entrega">
-                                <small>Fecha de entrega: </small>
-                                <small>{{$tarea->t_fecha_hora_entrega}}</small>
+                                <strong>Fecha de entrega: </strong>
+                                <strong>{{$tarea->t_fecha_hora_entrega}}</strong>
                             </div>
                         </div>
                     </div>

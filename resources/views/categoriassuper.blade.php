@@ -16,15 +16,127 @@
 
     <!--Contendor principal de los Cards-->
     <div class="row justify-content-center">
+        
+        <!--Aside: Asignaturas o cursos-->
+        <div id="hs_aside_cursos" class="mb-3 col col-lg-5 col-md-5 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="hs_box_close">
+                        <span id="hs_btn_close">X</span>
+                    </div>
+
+                    <div class="hs_encabezado">
+                        <h4 class="text-center">Cursos</h4>
+                        <div class="hs_encabezado-linea" style="margin-bottom: 5px;"></div>
+                        <small>En este apartado, usted puede registrar cursos, áreas o asignaturas.</small>
+                    </div>
+    
+                    <br>
+
+                    <!--Formulario de asignaturas-->
+                    <form id="frm_create_asignatura" method="POST" action="{{route('super/categorias/create_asignatura')}}" class="mb-2">
+                        @csrf
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="nom_asignatura">Nombre del curso</label>
+                                    <input type="text" class="form-control" id="nom_asignatura" name="nom_asignatura" required placeholder="Ejemplo: Matemática">
+                                    <div class="invalid-feedback">
+                                        El curso necesita un nombre
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="nom_asignatura">Color</label>
+                                    <input disabled type="color" class="form-control" id="color_asignatura" name="color_asignatura" value="#ffffff">
+                                    <div class="hs_mask" data-toggle="modal" data-target="#modal-color"></div>
+                                    <div class="invalid-feedback">
+                                        Necesitas establecer un color
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-group">
+                                    <label for="nom_asignatura"> </label>
+                                    <div>
+                                        <button type="button" class="btn btn-secondary mr-1" onclick="Clear();">Cancelar</button>
+                                        <button type="submit" id="btn_create_asignatura" class="btn btn-primary">Guardar</button>
+                                        <button type="submit" id="btn_update_asignatura" class="btn btn-warning">Actualizar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!--Modal de Color-->
+                    <div id="modal-color" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Color de etiqueta</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="hs_paleta">
+                                        <div class="hs_muestra" style="background-color: #1abc9c;">#1abc9c</div>
+                                        <div class="hs_muestra" style="background-color: #16a085;">#16a085</div>
+                                        <div class="hs_muestra" style="background-color: #2ecc71;">#2ecc71</div>
+                                        <div class="hs_muestra" style="background-color: #27ae60;">#27ae60</div>
+                                        <div class="hs_muestra" style="background-color: #3498db;">#3498db</div>
+                                        <div class="hs_muestra" style="background-color: #2980b9;">#2980b9</div>
+                                        <div class="hs_muestra" style="background-color: #9b59b6;">#9b59b6</div>
+                                        <div class="hs_muestra" style="background-color: #8e44ad;">#8e44ad</div>
+                                        <div class="hs_muestra" style="background-color: #f1c40f;">#f1c40f</div>
+                                        <div class="hs_muestra" style="background-color: #f39c12;">#f39c12</div>
+                                        <div class="hs_muestra" style="background-color: #e67e22;">#e67e22</div>
+                                        <div class="hs_muestra" style="background-color: #d35400;">#d35400</div>
+                                        <div class="hs_muestra" style="background-color: #e74c3c;">#e74c3c</div>
+                                        <div class="hs_muestra" style="background-color: #c0392b;">#c0392b</div>
+                                        <div class="hs_muestra" style="background-color: #95a5a6;">#95a5a6</div>
+                                        <div class="hs_muestra" style="background-color: #7f8c8d;">#7f8c8d</div>
+                                        <div class="hs_muestra" style="background-color: #34495e;">#34495e</div>
+                                        <div class="hs_muestra" style="background-color: #2c3e50;">#2c3e50</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="table-responsive">
+                        <table id="tbl_asignaturas" class="hs_tabla nowrap table table-striped table-hover" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Curso</th>
+                                    <th>Color</th>
+                                    <th>Fecha</th>
+                                    <th>Color</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!--Section: Asignaturas - Secciones-->
         <div class="mb-3 col col-lg-7 col-md-7 col-sm-12">
             <div class="card">
                 <div class="card-body">
                     <div class="ul-widget__head">
                         <div class="ul-widget__head-label">
-                            <h3 class="ul-widget__head-title">
-    
-                            </h3>
+                            <div id="hs_separator">
+                                <strong>AGREGAR CURSOS</strong>
+                            </div>
                         </div>
                         <div class="ul-widget__head-toolbar">
                             <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold ul-widget-nav-tabs-line ul-widget-nav-tabs-line"
@@ -134,70 +246,7 @@
                 </div>
             </div>
         </div>
-
-        <!--Aside: Asignaturas o cursos-->
-        <div class="col col-lg-4 col-md-5 col-sm-12">
-            <div class="card" style="background-color: #edeff2;">
-                <div class="card-body">
-                    <div class="hs_encabezado">
-                        <br>
-                        <h4 class="text-center">Cursos y asignaturas</h4>
-                        <div class="hs_encabezado-linea"></div>
-                    </div>
-    
-                    <!--Formulario de asignaturas-->
-                    <form id="frm_create_asignatura" method="POST" action="{{route('super/categorias/create_asignatura')}}" class="mb-2">
-                        @csrf
-                        <div class="row">
-                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-                                <div class="form-group">
-                                    <label for="nom_asignatura">Crear nuevo curso o asignatura</label>
-                                    <input type="text" class="form-control" id="nom_asignatura" name="nom_asignatura" required placeholder="Ejemplo: Matemática">
-                                    <div class="invalid-feedback">
-                                        El curso necesita un nombre
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-3">
-                                <div class="form-group">
-                                    <label for="nom_asignatura">Color</label>
-                                    <input type="color" class="form-control" id="color_asignatura" name="color_asignatura" value="#ffffff" required>
-                                    <div class="invalid-feedback">
-                                        Necesitas establecer un color
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <button type="submit" id="btn_create_asignatura" class="btn btn-primary btn-sm float-right">Guardar</button>
-                                <button type="submit" id="btn_update_asignatura" class="btn btn-warning btn-sm float-right">Actualizar</button>
-                                <button type="button" class="btn btn-secondary btn-sm" onclick="Clear();">Cancelar</button>
-                            </div>
-                        </div>
-                    </form>
-    
-                    <!--Tabla de asignaturas-->
-                    <div class="table-responsive">
-                        <table id="tbl_asignaturas" class="hs_tabla display table table-striped nowrap hover" style="width:100%;">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Curso o Asignatura</th>
-                                    <th>Color</th>
-                                    <th>Fecha</th>
-                                    <th>Color</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 
     <!--Crear asignación de Asignaturas para Inicial-->
