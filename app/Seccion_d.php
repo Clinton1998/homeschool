@@ -12,7 +12,6 @@ class Seccion_d extends Model
     public function grado(){
         return $this->belongsTo('App\Grado_m','id_grado');
     }
-
     public function categorias(){
         return $this->belongsToMany('App\Categoria_d', 'seccion_categoria_p', 'id_seccion', 'id_categoria');
     }
