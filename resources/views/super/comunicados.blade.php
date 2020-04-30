@@ -1,5 +1,6 @@
 @extends('reutilizable.principal')
 @section('page-css')
+    <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
 @endsection
 
@@ -12,7 +13,7 @@
         <div class="col-lg-12 col-md-12 mb-3">
             <div class="card">
                 <div class="card-header">
-                    <button type="button" class="btn btn-primary float-right">Nuevo comunicado</button>
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#mdlNuevoComunicado">Nuevo comunicado</button>
                 </div>
                 <div class="card-body">
                     <nav>
@@ -61,8 +62,77 @@
 
     </div>
 </section>
+
+  <!-- Modal Nuevo Comunicado -->
+  <div class="modal" id="mdlNuevoComunicado" tabindex="-1" role="dialog" aria-labelledby="mdlNuevoComunicadoTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="mdlNuevoComunicadoTitle">Nuevo comunicado</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+        <form id="frmNuevoComunicado" class="needs-validation" method="POST" action="{{route('super/comunicados/agregar')}}" enctype="multipart/form-data" novalidate>
+            <div class="form-group">
+                <label for="titulo_comunicado">Título</label>
+                <input type="text" class="form-control" id="titulo_comunicado" name="titulo_comunicado" required>
+                <div class="invalid-feedback">
+                    El título es necesario
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="descripcion_comunicado">Descripción</label>
+                <textarea name="descripcion_comunicado" class="form-control" id="descripcion_comunicado" cols="30" rows="10"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="imagen_comunicado">Imagen</label>
+                <input type="file" class="form-control" id="imagen_comunicado" name="imagen_comunicado" accept="image/png, .jpeg, .jpg">
+            </div>
+            <br>
+            <h3>Para</h3>
+            <div class="radio-alumnos form-group" id="divRadioAlumno">
+                <div class="radio-btn form-check form-check-inline">
+                    <label class="radio radio-success">
+                        <input type="radio" name="opt_destino_comunicado" [value]="1" formcontrolname="radio" class="form-check-input" value="TODO" required checked >
+                        <span>Todos</span>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+                <div class="radio-btn form-check form-check-inline">
+                    <label class="radio radio-success">
+                        <input type="radio" name="opt_destino_comunicado" [value]="1" formcontrolname="radio" class="form-check-input" value="DOCE" required >
+                        <span>Docentes</span>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+
+                <div class="radio-btn form-check form-check-inline">
+                    <label class="radio radio-success">
+                        <input type="radio" name="opt_destino_comunicado" [value]="1" formcontrolname="radio" class="form-check-input" value="ALUM" required >
+                        <span>Alumnos</span>
+                        <span class="checkmark"></span>
+                    </label>
+                </div>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-lg" form="frmNuevoComunicado" id="btnEnviarComunicado">Enviar a <span>todos</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- endModal Nuevo Comunicado-->
+
 @endsection
 
 @section('page-js')
-
+    <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
+    <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
+    <script src="{{asset('assets/js/superadmin/comunicados.js')}}"></script>
 @endsection

@@ -48,4 +48,7 @@ class Comunicado extends Controller
         }
         return redirect('home');
     }
+    public function agregar(Request $request){
+        return response()->json($request->all());
+    }
 }
