@@ -55,6 +55,15 @@
                     <span>Videoconferencia</span>
                 </a>
             </li>
+
+            <li class="menu-lateral-item {{ request()->is('super/comunicados*') ? 'item-activo' : '' }}">
+                <a class="menu-lateral-item-link" href="{{route('super/comunicados')}}">
+                    <i class="nav-icon i-Movie"></i>
+                    <br>
+                    <span>Comunicados</span>
+                </a>
+            </li>
+
         </ul> 
         <!-- FIN DE NUEVO MENU SLIDER -->
     </div>

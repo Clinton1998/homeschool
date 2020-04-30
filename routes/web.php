@@ -103,6 +103,7 @@ Route::post('super/categorias/agregarcategoriaaseccion', 'usuario\super\Seccion@
 
 // AGREGANDO RUTAS SUPER ADMIN
 Route::get('super/videoconferencia', 'usuario\super\Videoconferencia@index')->name('super/videoconferencia');
+Route::get('super/comunicados', 'usuario\super\Comunicado@index')->name('super/comunicados');
 
 //rutas para el alumno
 Route::get('alumno/calendario', 'usuario\alumno\Calendario@index')->name('alumno/calendario');
