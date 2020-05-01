@@ -2,6 +2,13 @@
 @section('page-css')
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
+    <style>
+        .continua {
+        overflow:hidden;
+        white-space:nowrap;
+        text-overflow: ellipsis;
+    }
+    </style>
 @endsection
 
 @section('main-content')
@@ -26,33 +33,98 @@
                     <div class="tab-content ul-tab__content" id="nav-tabContent">
                         <div class="tab-pane fade active show" id="nav-paratodo" role="tabpanel" aria-labelledby="nav-paratodo-tab">
                             <div class="row">
-
-                                <div class="col-xl-12">
-                                    <div class="card mt-3 mb-3">
-                                        <div class="card-body">
-                                            <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
-                                                <div>
-                                                    <h5 class="hs_upper"><a href="#">titulo</a></h5>
-                                                    <p class="ul-task-manager__paragraph mb-3 text-justify hs_capitalize-first">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos, nobis! Cupiditate ullam est non sequi voluptatibus provident deleniti. Facere, tempora corrupti error at magnam pariatur nesciunt vel rerum molestias culpa?</p>
+                                @if($comunicados_todos->count()<=0)
+                                    <div class="col-12"><h5>No hay comunicados</h5></div>
+                                @else
+                                    @foreach($comunicados_todos as $comunicado)
+                                        <div class="col-xl-12">
+                                            <div class="card mt-3 mb-3">
+                                                <div class="card-body">
+                                                    <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
+                                                        <div class="continua">
+                                                            <h5 class="hs_upper "><a href="{{url('/comunicado/ver/'.$comunicado->id_comunicado)}}" class="text-primary">{{$comunicado->c_titulo}}</a></h5>
+                                                            <p class="ul-task-manager__paragraph mb-3 text-justify hs_capitalize-first">{{$comunicado->c_descripcion}}</p>
+                                                        </div>
+            
+                                                        <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto" style="text-align: right;">
+                                                            <li><span class="ul-task-manager__font-date text-muted">{{$comunicado->created_at}}</span></li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-    
-                                                <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto" style="text-align: right;">
-                                                    <li><span class="ul-task-manager__font-date text-muted">29/04/2020 19:00:00</span></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> 
 
+                                                <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
+                                                    <a href="{{url('/comunicado/ver/'.$comunicado->id_comunicado)}}" class="text-primary">Ver</a>
+                                                </div>
+
+                                            </div>
+                                        </div> 
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-paradocentes" role="tabpanel" aria-labelledby="nav-paradocentes-tab">
-                            <h1>Comunicado para docentes</h1>
+                            <div class="row">
+                                @if($comunicados_solo_docentes->count()<=0)
+                                    <div class="col-12"><h5>No hay comunicados</h5></div>
+                                @else
+                                    @foreach($comunicados_solo_docentes as $comunicado)
+                                    <div class="col-xl-12">
+                                        <div class="card mt-3 mb-3">
+                                            <div class="card-body">
+                                                <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
+                                                    <div class="continua">
+                                                        <h5 class="hs_upper "><a href="{{url('/comunicado/ver/'.$comunicado->id_comunicado)}}" class="text-primary">{{$comunicado->c_titulo}}</a></h5>
+                                                        <p class="ul-task-manager__paragraph mb-3 text-justify hs_capitalize-first">{{$comunicado->c_descripcion}}</p>
+                                                    </div>
+        
+                                                    <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto" style="text-align: right;">
+                                                        <li><span class="ul-task-manager__font-date text-muted">{{$comunicado->created_at}}</span></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
+                                                <a href="{{url('/comunicado/ver/'.$comunicado->id_comunicado)}}" class="text-primary">Ver</a>
+                                            </div>
+
+                                        </div>
+                                    </div> 
+                                    @endforeach
+                                @endif
+                            </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-paraalumnos" role="tabpanel" aria-labelledby="nav-paraalumnos-tab">
-                            <h1>Comunicado para alumnos</h1>
+                            <div class="row">
+                                @if($comunicados_solo_alumnos->count()<=0)
+                                    <div class="col-12"><h5>No hay comunicados</h5></div>
+                                @else
+                                    @foreach($comunicados_solo_alumnos as $comunicado)
+                                    <div class="col-xl-12">
+                                        <div class="card mt-3 mb-3">
+                                            <div class="card-body">
+                                                <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
+                                                    <div class="continua">
+                                                        <h5 class="hs_upper "><a href="{{url('/comunicado/ver/'.$comunicado->id_comunicado)}}" class="text-primary">{{$comunicado->c_titulo}}</a></h5>
+                                                        <p class="ul-task-manager__paragraph mb-3 text-justify hs_capitalize-first">{{$comunicado->c_descripcion}}</p>
+                                                    </div>
+        
+                                                    <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto" style="text-align: right;">
+                                                        <li><span class="ul-task-manager__font-date text-muted">{{$comunicado->created_at}}</span></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
+                                                <a href="{{url('/comunicado/ver/'.$comunicado->id_comunicado)}}" class="text-primary">Ver</a>
+                                            </div>
+
+                                        </div>
+                                    </div> 
+                                    @endforeach
+                                @endif
+                            </div>
                         </div>
 
                     </div>
@@ -74,7 +146,8 @@
           </button>
         </div>
         <div class="modal-body">
-        <form id="frmNuevoComunicado" class="needs-validation" method="POST" action="{{route('super/comunicados/agregar')}}" enctype="multipart/form-data" novalidate>
+        <form id="frmNuevoComunicado" class="needs-validation" method="POST" action="{{url('/super/comunicados/agregar')}}" enctype="multipart/form-data" novalidate>
+            @csrf
             <div class="form-group">
                 <label for="titulo_comunicado">Título</label>
                 <input type="text" class="form-control" id="titulo_comunicado" name="titulo_comunicado" required>
@@ -84,12 +157,12 @@
             </div>
             <div class="form-group">
                 <label for="descripcion_comunicado">Descripción</label>
-                <textarea name="descripcion_comunicado" class="form-control" id="descripcion_comunicado" cols="30" rows="10"></textarea>
+                <textarea name="descripcion_comunicado" class="form-control" id="descripcion_comunicado" cols="30" rows="7"></textarea>
             </div>
 
             <div class="form-group">
-                <label for="imagen_comunicado">Imagen</label>
-                <input type="file" class="form-control" id="imagen_comunicado" name="imagen_comunicado" accept="image/png, .jpeg, .jpg">
+                <label for="archivo_comunicado">Archivo</label>
+                <input type="file" class="form-control" id="archivo_comunicado" name="archivo_comunicado" accept="image/png, .jpeg, .jpg">
             </div>
             <br>
             <h3>Para</h3>

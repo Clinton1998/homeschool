@@ -1898,18 +1898,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['notificaciones'],
   methods: {
     fxMarcarComoLeido: function fxMarcarComoLeido(notificacion) {
-      var data = {
-        id_notification: notificacion.id
-      };
-      axios.post('/notificacionesdelusuario/marcarcomoleido', data).then(function (response) {
-        if (notificacion.data.notificacion.url != '') {
-          window.location.href = notificacion.data.notificacion.url;
-        }
-      });
+      if (notificacion.data.notificacion.tipo == 'comunicado') {
+        window.location.href = notificacion.data.notificacion.url;
+      } else {
+        var data = {
+          id_notification: notificacion.id
+        };
+        axios.post('/notificacionesdelusuario/marcarcomoleido', data).then(function (response) {
+          if (notificacion.data.notificacion.url != '') {
+            window.location.href = notificacion.data.notificacion.url;
+          }
+        });
+      }
     },
     fxMarcarTodoComoLeido: function fxMarcarTodoComoLeido() {
       axios.post('/notificacionesdelusuario/marcartodocomoleido').then(function (response) {
@@ -29052,7 +29058,15 @@ var render = function() {
               }
             },
             [
-              _vm._m(0, true),
+              notificacion.data["notificacion"]["tipo"] == "comunicado"
+                ? _c("div", { staticClass: "notification-icon" }, [
+                    _c("i", { staticClass: "i-Receipt-3 text-success mr-1" })
+                  ])
+                : _c("div", { staticClass: "notification-icon" }, [
+                    _c("i", {
+                      staticClass: "i-Speach-Bubble-6 text-primary mr-1"
+                    })
+                  ]),
               _vm._v(" "),
               _c("div", { staticClass: "notification-details flex-grow-1" }, [
                 _c("p", { staticClass: "m-0 d-flex align-items-center" }, [
@@ -29104,16 +29118,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "notification-icon" }, [
-      _c("i", { staticClass: "i-Speach-Bubble-6 text-primary mr-1" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -41334,15 +41339,29 @@ var app = new Vue({
 
         _this.notificaciones.unshift(data);
 
-        Push.create(response.notificacion.titulo, {
-          body: response.notificacion.mensaje,
-          icon: '/assets/images/Logo-HS.png',
-          timeout: 30000,
-          vibrate: [200, 100],
-          onClick: function onClick() {
-            this.close();
+        if (response.notificacion.tipo == 'comunicado') {
+          $('#tituloShowComunicado').text(response.notificacion.comunicado.c_titulo);
+          $('#descripcionShowComunicado').text(response.notificacion.comunicado.c_descripcion);
+
+          if (response.notificacion.comunicado.c_url_archivo != null) {
+            //Mostramos un enlace de descarga
+            $('#archivoShowComunicado').html('<a href="/comunicado/archivo/' + response.notificacion.comunicado.id_comunicado + '" class="text-primary" cdownload="' + response.notificacion.comunicado.c_url_archivo + '">Descargar Archivo</a>');
+          } else {
+            $('#archivoShowComunicado').text('');
           }
-        });
+
+          $('#mdlShowComunicado').modal('show');
+        } else {
+          Push.create(response.notificacion.titulo, {
+            body: response.notificacion.mensaje,
+            icon: '/assets/images/Logo-HS.png',
+            timeout: 30000,
+            vibrate: [200, 100],
+            onClick: function onClick() {
+              this.close();
+            }
+          });
+        }
       });
     }
   }

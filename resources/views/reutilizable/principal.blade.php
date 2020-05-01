@@ -95,7 +95,26 @@
         <!-- ============ Large Sidebar Layout End ============= -->
 
 
-
+<div class="modal fade" id="mdlShowComunicado" tabindex="-1" role="dialog" aria-labelledby="mdlShowComunicadoTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="mdlShowComunicadoTitle">Nuevo comunicado</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 class="text-primary" id="tituloShowComunicado"></h5>
+        <p id="descripcionShowComunicado"></p>
+        <div id="archivoShowComunicado"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
         {{-- common js --}}

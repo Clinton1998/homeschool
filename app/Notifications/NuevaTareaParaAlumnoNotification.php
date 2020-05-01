@@ -10,6 +10,7 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Queue\SerializesModels;
 class NuevaTareaParaAlumnoNotification extends Notification
 {
+    /*Esta clase es reutilizable para todo tipo de notificaciones,no solo tareas*/
     use Queueable,SerializesModels;
     protected $notificacion;
     /**
