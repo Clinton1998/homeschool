@@ -144,7 +144,8 @@ class AsignarTareas extends Controller
         \Notification::send($usuarios_a_notificar, new NuevaTareaParaAlumnoNotification(array(
             'titulo' => 'Nueva tarea',
             'mensaje' => $search_tarea->c_titulo,
-            'url' => '/alumno/tareapendiente/' . $search_tarea->id_tarea
+            'url' => '/alumno/tareapendiente/' . $search_tarea->id_tarea,
+            'tipo' => 'nuevatarea'
         )));
         //sms para los representantes
         //event(new NuevaTareaAsignada($alumnos_asignados,$docente->c_nombre));
