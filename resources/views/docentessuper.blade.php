@@ -196,7 +196,12 @@
                                             <label for="optsecciones"><strong>Asignar secciones</strong></label>
                                             <select id="optsecciones" name="optsecciones[]" multiple>
                                                 @foreach($TMP as $seccion)
-                                                    <option value="{{$seccion->id_seccion}}">{{substr($seccion->nom_grado,3)}} "{{$seccion->nom_seccion}}" <span class="hs_lower">{{$seccion->c_nivel_academico}}</span></option>
+                                                    @if (strtoupper($seccion->c_nivel_academico) == 'INICIAL')
+                                                        <option value="{{$seccion->id_seccion}}"><span class="hs_lower">{{ucfirst(strtolower($seccion->c_nivel_academico))}} </span> {{substr($seccion->nom_grado,3)}} "{{strtoupper($seccion->nom_seccion)}}" </option>
+                                                    @else
+                                                        <option value="{{$seccion->id_seccion}}"><span class="hs_lower">{{ucfirst(strtolower($seccion->c_nivel_academico))}} </span> {{ucfirst(strtolower(substr($seccion->nom_grado,3)))}} "{{strtoupper($seccion->nom_seccion)}}" </option>
+                                                    @endif
+
                                                 @endforeach
                                             </select> 
                                         </div>
@@ -204,7 +209,7 @@
                                         <div class="form-group">
                                             <label for="optcategorias"><strong>Asignar curso(s)</strong></label>
                                             <select name="optcategorias[]" id="optcategorias" multiple>
-                                                @foreach($TMP_categorias as $item)
+                                                {{--@foreach($TMP_categorias as $item)
                                                     @if(strtoupper($item->c_nivel_academico) === "INICIAL")
                                                         <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
                                                     @endif
@@ -220,6 +225,10 @@
                                                     @if(strtoupper($item->c_nivel_academico) === "SECUNDARIA")
                                                         <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
                                                     @endif
+                                                @endforeach--}}
+
+                                                @foreach($CURSOS as $item)
+                                                    <option class="hs_capitalize" value="{{$item->id_categoria}}">{{$item->c_nombre}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

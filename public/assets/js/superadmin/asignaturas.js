@@ -73,6 +73,9 @@ $(document).ready(function () {
             {
                 "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-warning btn-sm btn_edit_asi_sec' style='margin: 0 5px;'><i class='i-Pen-4'></i></button><button class='btn btn-danger btn-sm btn_del_asi_sec' style='margin: 0 5px;'><i class='i-Eraser-2'></i></button></div></div>"
             }
+        ],
+        "order": [
+            [4, "asc"]
         ]
     });
 
@@ -107,6 +110,9 @@ $(document).ready(function () {
             {
                 "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-warning btn-sm btn_edit_asig_primaria' style='margin: 0 5px;'><i class='i-Pen-4'></i></button><button class='btn btn-danger btn-sm btn_del_asig_primaria' style='margin: 0 5px;'><i class='i-Eraser-2'></i></button></div></div>"
             }
+        ],
+        "order": [
+            [4, "asc"]
         ]
     });
 
@@ -141,6 +147,9 @@ $(document).ready(function () {
             {
                 "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-warning btn-sm btn_edit_secundaria' style='margin: 0 5px;'><i class='i-Pen-4'></i></button><button class='btn btn-danger btn-sm btn_del_secundaria' style='margin: 0 5px;'><i class='i-Eraser-2'></i></button></div></div>"
             }
+        ],
+        "order": [
+            [4, "asc"]
         ]
     });
 });
@@ -672,6 +681,7 @@ $(document).on("click", ".hs_box_close", function () {
     $('#hs_aside_cursos').hide();
     $('#hs_separator').show();
 });
+
 
 
 /*$(document).on("click", ".btn_del_asignatura", function () {

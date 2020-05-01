@@ -103,14 +103,15 @@ class Categoria extends Controller
         ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
         ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
         ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        //->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado','grado_m.*','colegio_m.*')
         ->where([
             'categoria_d.id_colegio' => $colegio->id_colegio,
             'grado_m.estado' => 1,
             'seccion_d.estado' => 1,
             'categoria_d.estado' => 1,
             'grado_m.c_nivel_academico' => $NIVEL])
-            ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
+            ->orderBy('grado_m.c_nivel_academico','ASC')->orderBy('grado_m.c_nombre','ASC')->orderBy('seccion_d.c_nombre','ASC')->get();
 
         return response()->json($asignaturas);
     }
@@ -146,7 +147,8 @@ class Categoria extends Controller
         ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
         ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
         ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        //->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado','grado_m.*','colegio_m.*')
         ->where([
             'categoria_d.id_colegio' => $colegio->id_colegio,
             'grado_m.estado' => 1,
@@ -185,7 +187,8 @@ class Categoria extends Controller
         ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
         ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
         ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        //->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado','grado_m.*','colegio_m.*')
         ->where([
             'categoria_d.id_colegio' => $colegio->id_colegio,
             'grado_m.estado' => 1,
@@ -220,7 +223,8 @@ class Categoria extends Controller
         ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
         ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
         ->join('colegio_m','grado_m.id_colegio','=','colegio_m.id_colegio')
-        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        //->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', DB::raw('substr(grado_m.c_nombre, 4) as nom_grado'),'grado_m.*','colegio_m.*')
+        ->select('seccion_categoria_p.id_seccion_categoria','categoria_d.c_nombre as nom_categoria', 'categoria_d.*','seccion_d.c_nombre as nom_seccion','seccion_d.*', 'grado_m.c_nombre as nom_grado','grado_m.*','colegio_m.*')
         ->where([
             'categoria_d.id_colegio' => $colegio->id_colegio,
             'grado_m.estado' => 1,
