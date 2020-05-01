@@ -152,6 +152,31 @@
         //paging: false,
         //"bInfo" : false
     } );
+
+    $(document).ready( function () {
+        $("#nombre").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toUpperCase());
+            });
+        });
+        $("#actnombre").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toUpperCase());
+            });
+        })
+    });
+
+    jQuery(document).ready(function() {
+        jQuery('#nombre').keypress(function(tecla) {
+            if((tecla.charCode < 48 || tecla.charCode > 57) && (tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90)) return false;
+        });
+        jQuery('#actnombre').keypress(function(tecla) {
+            if((tecla.charCode < 48 || tecla.charCode > 57) && (tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90)) return false;
+        });
+    });
+
 </script>
 
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>

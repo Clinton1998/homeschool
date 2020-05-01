@@ -169,7 +169,7 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nacionalidad" >Nacionalidad</label>
-                                                        <input type="text" class="form-control form-control-sm" id="nacionalidad" name="nacionalidad" required placeholder="Peruano(a)" value="Peruano(a)">
+                                                        <input type="text" class="form-control form-control-sm" id="nacionalidad" name="nacionalidad" required placeholder="Peruano(a)">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
                                                 
@@ -241,7 +241,7 @@
 
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nacionalidad_repre1">Nacionalidad</label>
-                                                        <input  type="text" class="form-control form-control-sm" id="nacionalidad_repre1" name="nacionalidad_repre1" value="Peruano(a)">
+                                                        <input  type="text" class="form-control form-control-sm" id="nacionalidad_repre1" name="nacionalidad_repre1" placeholder="Peruano(a)">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
     
@@ -310,7 +310,7 @@
     
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nacionalidad_repre2">Nacionalidad</label>
-                                                        <input type="text" class="form-control form-control-sm" id="nacionalidad_repre2" name="nacionalidad_repre2" value="Peruano(a)">
+                                                        <input type="text" class="form-control form-control-sm" id="nacionalidad_repre2" name="nacionalidad_repre2" placeholder="Peruano(a)">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
     
@@ -408,25 +408,245 @@
 
 @section('page-js')
 
+<script>
+    $(document).ready( function () {
+        $("#apellido").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
 
-    <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
+        $("#nombre").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
 
-    <!-- page script -->
-    <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
-    <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
-    <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
-    <script src="{{asset('assets/js/libreria/validator/validator.min.js')}}"></script>
-    <script src="{{asset('assets/js/vendor/jquery.smartWizard.min.js')}}"></script>
+        $("#nacionalidad").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
 
-    <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
-    <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
-    <script src="{{asset('assets/js/superadmin/alumnos.js')}}"></script>
+        $("#especialidad").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
 
-    <script>
-    $('#ul-contact-list').DataTable();
-    /*new SlimSelect({
-            select: '#optseccion',
-            placeholder: 'Elige seccion'
-          });*/
-    </script>
+        $("#correo_alumno").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#direccion").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#adicional").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        // 
+
+        $("#apellido_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nombre_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#vinculo_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nacionalidad_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#correo_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#direccion_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        // 
+
+        $("#apellido_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nombre_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#vinculo_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nacionalidad_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#correo_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#direccion_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+    });
+
+    jQuery(document).ready(function() {
+        jQuery('#dni').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        jQuery('#apellido').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nombre').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nacionalidad').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#especialidad').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#telefono').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        //
+
+        jQuery('#dni_repre1').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        jQuery('#apellido_repre1').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nombre_repre1').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#vinculo_repre1').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nacionalidad_repre1').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+        
+        jQuery('#telefono_repre1').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        //
+
+        jQuery('#dni_repre2').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        jQuery('#apellido_repre2').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nombre_repre2').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#vinculo_repre2').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nacionalidad_repre2').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+        
+        jQuery('#telefono_repre2').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+    });
+</script>
+
+
+<script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
+
+<!-- page script -->
+<script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
+<script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
+<script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
+<script src="{{asset('assets/js/libreria/validator/validator.min.js')}}"></script>
+<script src="{{asset('assets/js/vendor/jquery.smartWizard.min.js')}}"></script>
+
+<script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
+<script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
+<script src="{{asset('assets/js/superadmin/alumnos.js')}}"></script>
+
+<script>
+$('#ul-contact-list').DataTable();
+/*new SlimSelect({
+        select: '#optseccion',
+        placeholder: 'Elige seccion'
+        });*/
+</script>
 @endsection

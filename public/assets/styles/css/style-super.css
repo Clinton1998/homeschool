@@ -259,6 +259,7 @@ a {
 #tbl_primaria td:nth-child(5)::first-letter,
 #tbl_secundaria td:nth-child(5)::first-letter {
     color: transparent;
+    cursor: none;
 }
 
 /* [4] CATEGORIAS --------------*/

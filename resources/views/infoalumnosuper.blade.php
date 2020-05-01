@@ -49,7 +49,7 @@
                                     <label for="nombre" class="hs_capitalize col-sm-2 col-form-label  ">Nombre</label>
                                     <div class="col-sm-4">
                                         <input type="text" id="nombre" name="nombre"
-                                            class="form-control @error('nombre') is-invalid @enderror" value="{{$alumno->c_nombre}}" required>    
+                                            class="form-control hs_capitalize @error('nombre') is-invalid @enderror" value="{{$alumno->c_nombre}}" required>    
                                             <span class="invalid-feedback" role="alert">
                                                 El nombre es requerido
                                                 </span>
@@ -65,7 +65,7 @@
                                 <div class="form-group row">
                                     <label for="nacionalidad" class="col-sm-2 col-form-label  ">Nacionalidad</label>
                                     <div class="col-sm-4">
-                                    <input type="text" id="nacionalidad" name="nacionalidad" class="hs_capitalize-first form-control @error('nacionalidad') is-invalid @enderror" value="{{$alumno->c_nacionalidad}}" required>
+                                    <input type="text" id="nacionalidad" name="nacionalidad" class="hs_capitalize form-control @error('nacionalidad') is-invalid @enderror" value="{{$alumno->c_nacionalidad}}" required>
                                     <span class="invalid-feedback" role="alert">
                                         La nacionalida es requerido
                                         </span>
@@ -146,7 +146,7 @@
                                 <div class="form-group row">
                                     <label for="adicional" class="col-sm-2 col-form-label  ">Información adicional</label>
                                     <div class="col-sm-4">
-                                    <input type="text" class="form-control @error('adicional') is-invalid @enderror" id="adicional" name="adicional" value="{{$alumno->c_informacion_adicional}}">
+                                    <input type="text" class="form-control hs_capitalize-first @error('adicional') is-invalid @enderror" id="adicional" name="adicional" value="{{$alumno->c_informacion_adicional}}">
                                     </div>
 
                                     <label for="seccion" class="col-sm-2 col-form-label  ">Sección</label>
@@ -216,16 +216,16 @@
                                 <input type="text" class="form-control form-control-sm" id="dni_repre1" name="dni_repre1" minlength="8" maxlength="8" value="{{$alumno->c_dni_representante1}}">
                                 </div>
 
-                                <label for="nombre_repre1" class="col-sm-2 col-form-label">Nombre</label>
+                                <label for="nombre_repre1" class="col-sm-2 col-form-label ">Nombre</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="nombre_repre1" name="nombre_repre1" value="{{$alumno->c_nombre_representante1}}">
+                                <input type="text" class=" hs_capitalize form-control form-control-sm" id="nombre_repre1" name="nombre_repre1" value="{{$alumno->c_nombre_representante1}}">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="nacionalidad_repre1" class="col-sm-2 col-form-label">Nacionalidad</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="nacionalidad_repre1" name="nacionalidad_repre1" value="{{$alumno->c_nacionalidad_representante1}}">
+                                <input type="text" class=" hs_capitalize form-control form-control-sm" id="nacionalidad_repre1" name="nacionalidad_repre1" value="{{$alumno->c_nacionalidad_representante1}}">
                                 </div>
 
                                 <label for="sexo_repre1" class="col-sm-2 col-form-label">Sexo</label>
@@ -264,12 +264,12 @@
                             <div class="form-group row">
                                 <label for="direccion_repre1" class="col-sm-2 col-form-label">Dirección</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="direccion_repre1" name="direccion_repre1" value="{{$alumno->c_direccion_representante1}}">
+                                <input type="text" class=" hs_capitalize-first form-control form-control-sm" id="direccion_repre1" name="direccion_repre1" value="{{$alumno->c_direccion_representante1}}">
                                 </div>
 
                                 <label for="vinculo_repre1" class="col-sm-2 col-form-label">Vínculo</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="vinculo_repre1" name="vinculo_repre1" value="{{$alumno->c_vinculo_representante1}}">
+                                <input type="text" class=" hs_capitalize form-control form-control-sm" id="vinculo_repre1" name="vinculo_repre1" value="{{$alumno->c_vinculo_representante1}}">
                                 </div>
                             </div>
 
@@ -284,14 +284,14 @@
 
                                 <label for="nombre_repre2" class="col-sm-2 col-form-label">Nombre</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="nombre_repre2" name="nombre_repre2" value="{{$alumno->c_nombre_representante2}}">
+                                <input type="text" class=" hs_capitalize form-control form-control-sm" id="nombre_repre2" name="nombre_repre2" value="{{$alumno->c_nombre_representante2}}">
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="nacionalidad_repre2" class="col-sm-2 col-form-label">Nacionalidad</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="nacionalidad_repre2" name="nacionalidad_repre2" value="{{$alumno->c_nacionalidad_representante2}}">
+                                <input type="text" class=" hs_capitalize form-control form-control-sm" id="nacionalidad_repre2" name="nacionalidad_repre2" value="{{$alumno->c_nacionalidad_representante2}}">
                                 </div>
 
                                 <label for="sexo_repre2" class="col-sm-2 col-form-label">Sexo</label>
@@ -329,12 +329,12 @@
                             <div class="form-group row">
                                 <label for="direccion_repre2" class="col-sm-2 col-form-label">Dirección</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="direccion_repre2" name="direccion_repre2" value="{{$alumno->c_direccion_representante2}}">
+                                <input type="text" class=" hs_capitalize-first form-control form-control-sm" id="direccion_repre2" name="direccion_repre2" value="{{$alumno->c_direccion_representante2}}">
                                 </div>
 
                                 <label for="vinculo_repre2" class="col-sm-2 col-form-label">Vínculo</label>
                                 <div class="col-sm-4">
-                                <input type="text" class="form-control form-control-sm" id="vinculo_repre2" name="vinculo_repre2"value="{{$alumno->c_vinculo_representante2}}">
+                                <input type="text" class=" hs_capitalize form-control form-control-sm" id="vinculo_repre2" name="vinculo_repre2"value="{{$alumno->c_vinculo_representante2}}">
                                 </div>
                             </div>
 
@@ -478,14 +478,14 @@
                                 </div>
                                 <div class="ul-contact-detail__info-1">
                                     <h5>Nombre</h5>
-                                    <span>{{$alumno->c_nombre}}</span>
+                                    <span class="hs_capitalize">{{$alumno->c_nombre}}</span>
                                 </div>
                             </div>
 
                             <div class="col-6 text-center">
                                 <div class="ul-contact-detail__info-1">
                                     <h5>Nacionalidad</h5>
-                                    <span>{{$alumno->c_nacionalidad}}</span>
+                                    <span class="hs_capitalize">{{$alumno->c_nacionalidad}}</span>
                                 </div>
                                 <div class="ul-contact-detail__info-1">
                                     <h5>Sexo</h5>
@@ -503,14 +503,14 @@
                             <div class="col-12 text-center">
                                 <div class="ul-contact-detail__info-1">
                                         <h5>Dirección</h5>
-                                        <span>{{$alumno->c_direccion}}</span>
+                                        <span class="hs_capitalize-first">{{$alumno->c_direccion}}</span>
                                 </div>
                             </div>
 
                             <div class="col-12 text-center">
                                 <div class="ul-contact-detail__info-1">
                                     <h5>Información adicional</h5>
-                                    <span>{{$alumno->c_informacion_adicional}}</span>
+                                    <span class="hs_capitalize-first">{{$alumno->c_informacion_adicional}}</span>
                                 </div>
                             </div>
                             
@@ -527,6 +527,227 @@
 
 @endsection
 @section('page-js')
+
+<script>
+    $(document).ready( function () {
+        $("#apellido").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nombre").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nacionalidad").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#especialidad").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#correo_alumno").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#direccion").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#adicional").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        // 
+
+        $("#apellido_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nombre_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#vinculo_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nacionalidad_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#correo_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#direccion_repre1").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        // 
+
+        $("#apellido_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nombre_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#vinculo_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nacionalidad_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#correo_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#direccion_repre2").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+    });
+
+    jQuery(document).ready(function() {
+        jQuery('#dni').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        jQuery('#apellido').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nombre').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nacionalidad').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#especialidad').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#telefono').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        //
+
+        jQuery('#dni_repre1').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        jQuery('#apellido_repre1').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nombre_repre1').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#vinculo_repre1').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nacionalidad_repre1').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+        
+        jQuery('#telefono_repre1').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        //
+
+        jQuery('#dni_repre2').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        jQuery('#apellido_repre2').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nombre_repre2').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#vinculo_repre2').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nacionalidad_repre2').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+        
+        jQuery('#telefono_repre2').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+    });
+</script>
+
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>

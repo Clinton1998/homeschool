@@ -47,7 +47,7 @@
                                             @enderror
                                         </div>
 
-                                        <label for="nombre" class="col-sm-2 col-form-label ">Nombre completo</label>
+                                        <label for="nombre" class="col-sm-2 col-form-label ">Apellidos y Nombres</label>
                                         <div class="col-sm-4">
                                             <input type="text" id="nombre" name="nombre"
                                                 class="form-control hs_capitalize @error('nombre') is-invalid @enderror" value="{{$docente->c_nombre}}" required>    
@@ -65,7 +65,7 @@
                                     <div class="form-group row">
                                         <label for="nacionalidad" class="col-sm-2 col-form-label ">Nacionalidad</label>
                                         <div class="col-sm-4">
-                                        <input type="text" id="nacionalidad" name="nacionalidad" class="form-control hs_capitalize-first @error('nacionalidad') is-invalid @enderror" value="{{$docente->c_nacionalidad}}" required>
+                                        <input type="text" id="nacionalidad" name="nacionalidad" class="hs_capitalize form-control  @error('nacionalidad') is-invalid @enderror" value="{{$docente->c_nacionalidad}}" required>
                                         <span class="invalid-feedback" role="alert">
                                             La nacionalidad es requerido
                                             </span>
@@ -353,7 +353,7 @@
                                 <div class="col-6 text-center">
                                     <div class="ul-contact-detail__info-1">
                                         <h5>Nacionalidad</h5>
-                                        <span>{{$docente->c_nacionalidad}}</span>
+                                        <span class="hs_capitalize">{{$docente->c_nacionalidad}}</span>
                                     </div>
                                     <div class="ul-contact-detail__info-1">
                                         <h5>Sexo</h5>
@@ -478,6 +478,79 @@
 
 @endsection
 @section('page-js')
+
+<script>
+    $(document).ready( function () {
+        $("#apellido").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nombre").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nacionalidad").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#especialidad").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#correo").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#direccion").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+    });
+
+    jQuery(document).ready(function() {
+        jQuery('#dni').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        jQuery('#apellido').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nombre').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nacionalidad').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#especialidad').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#telefono').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+    });
+</script>
+
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>

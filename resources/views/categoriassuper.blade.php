@@ -173,7 +173,7 @@
                             </div>
             
                             <div class="table-responsive">
-                                <table id="tbl_inicial" class=" hs_tabla display table table-striped" style="width:100%;">
+                                <table id="tbl_inicial" class=" hs_tabla display table table-striped nowrap" style="width:100%;">
                                     <thead>
                                         <tr>
                                             <th>id_s_c</th>
@@ -364,7 +364,7 @@
                             <label for="secciones2">Sección(es)</label>
                             <select id="secciones2" name="secciones2[]" multiple>
                                 @foreach ($primaria as $item)
-                                    <option value="{{$item->id_seccion}}">{{substr($item->nom_grado,3)}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
+                                    <option value="{{$item->id_seccion}}">{{ucfirst(strtolower(substr($item->nom_grado,3)))}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">
@@ -408,7 +408,7 @@
                             <label for="seccion2">Sección</label>
                             <select id="seccion2" name="seccion2" class="form-control">
                                 @foreach ($primaria as $item)
-                                    <option value="{{$item->id_seccion}}">{{substr($item->nom_grado,3)}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
+                                    <option value="{{$item->id_seccion}}">{{ucfirst(strtolower(substr($item->nom_grado,3)))}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">
@@ -452,7 +452,7 @@
                             <label for="secciones3">Sección(es)</label>
                             <select id="secciones3" name="secciones3[]" multiple>
                                 @foreach ($secundaria as $item)
-                                    <option value="{{$item->id_seccion}}">{{substr($item->nom_grado,3)}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
+                                    <option value="{{$item->id_seccion}}">{{ucfirst(strtolower(substr($item->nom_grado,3)))}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">
@@ -496,7 +496,7 @@
                             <label for="seccion3">Sección</label>
                             <select id="seccion3" name="seccion3" class="form-control">
                                 @foreach ($secundaria as $item)
-                                    <option value="{{$item->id_seccion}}">{{substr($item->nom_grado,3)}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
+                                    <option value="{{$item->id_seccion}}">{{ucfirst(strtolower(substr($item->nom_grado,3)))}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
                                 @endforeach
                             </select>
                             <div class="invalid-feedback">
@@ -517,6 +517,18 @@
 @endsection
 
 @section('page-js')
+
+<script>
+    $(document).ready( function () {
+        $("#nom_asignatura").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+    });
+</script>
+
 <script src="{{asset('assets/js/superadmin/asignaturas.js')}}"></script>
 <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
 <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
