@@ -255,6 +255,12 @@ a {
     text-transform: capitalize;
 }
 
+#tbl_inicial td:nth-child(5)::first-letter,
+#tbl_primaria td:nth-child(5)::first-letter,
+#tbl_secundaria td:nth-child(5)::first-letter {
+    color: transparent;
+}
+
 /* [4] CATEGORIAS --------------*/
 
 #btn_plus {

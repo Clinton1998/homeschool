@@ -64,8 +64,18 @@ class Docente extends Controller
             ])
             ->orderBy('grado_m.c_nivel_academico', 'ASC')->orderBy('grado_m.c_nombre', 'ASC')->orderBy('seccion_d.c_nombre', 'ASC')->get();
 
+        ///
+        $CURSOS = DB::table('categoria_d')
+            ->join('colegio_m', 'categoria_d.id_colegio', '=', 'colegio_m.id_colegio')
+            ->select( 'categoria_d.*')
+            ->where([
+                'categoria_d.id_colegio' => $colegio->id_colegio,
+                'categoria_d.estado' => 1
+        ])
+        ->orderBy('categoria_d.c_nombre', 'ASC')->get();
+        ///
 
-        return view('docentessuper', compact('docentes', 'TMP_categorias', 'TMP'));
+        return view('docentessuper', compact('docentes', 'TMP_categorias', 'TMP', 'CURSOS'));
     }
 
     public function info($id_docente)
