@@ -30,7 +30,7 @@
                             </span>
                         </div>
                         <div>
-                            <span class="badge badge-success w-badge" id="spanCategoria">{categoria}</span>
+                            <span class="badge badge-light text-dark w-badge" id="spanCategoria">{categoria}</span>
                         </div>
                         <h4 style="margin-top: 10px;" id="nombreTarea" class="hs_upper"></h4>
                         <p id="observacionTarea" class="hs_capitalize-first"></p>
@@ -148,11 +148,18 @@
                                     <h4 class="text-primary">No hay enviados</h4>
                                 @else
                                     @foreach($tareas_enviadas as $tarea)
-                                        <div class="card card-tarea" onclick="fxInfoTarea({{$tarea->id_tarea}});">
+                                        <div class="card card-tarea" onclick="fxInfoTarea({{$tarea->id_tarea}});" >
                                             <div class="card-body">
-                                            <h5 class="mb-3 hs_upper">{{$tarea->c_titulo}}</h5>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5 class="mb-3 hs_upper">{{$tarea->c_titulo}}</h5>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="badge hs_capitalize" style="padding: 5px 10px; color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                    </div>
+                                                </div>
                                                 <p class="text-20 text-warning line-height-1 mb-3"><i class="i-Arrow-Up-in-Circle"></i> Enviado</p>
-                                            <small class="text-muted">Fecha de envio: {{$tarea->created_at}}</small>
+                                                <small class="text-muted">Fecha de envio: {{$tarea->created_at}}</small>
                                             </div>
                                         </div>
                                     @endforeach
@@ -166,14 +173,18 @@
                                     @foreach($tareas_calificadas as $tarea)
                                         <!-- Card -->
                                         <div class="card card-tarea" id="cardTareaCalificada{{$tarea->id_tarea}}"  onclick="fxAplicarTarea({{$tarea->id_tarea}})">
-                                        <div class="card-body">
-                                        <h6 class="mb-3">
-                                        <span class="badge badge-success w-badge">{{$tarea->categoria->c_nombre}}</span>
-                                        <h5 class="hs_upper">{{$tarea->c_titulo}}</h5>
-                                        </h6>
-                                        <p class="text-20 text-success line-height-1 mb-3"><i class="i-Arrow-Down-in-Circle"></i> Calificado</p>
-                                        <small class="text-muted">Fecha de calificación: {{$tarea->updated_at}}</small>
-                                        </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5 class="hs_upper">{{$tarea->c_titulo}}</h5>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="badge hs_capitalize" style="padding: 5px 10px; color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                    </div>
+                                                </div>
+                                                <p class="text-20 text-success line-height-1 mb-3"><i class="i-Arrow-Down-in-Circle"></i> Calificado</p>
+                                                <small class="text-muted">Fecha de calificación: {{$tarea->updated_at}}</small>
+                                            </div>
                                         </div>
                                     @endforeach
                                 @endif
@@ -206,20 +217,25 @@
                                         @endphp
                                         <!-- Card -->
                                         <div class="card-tarea card" id="cardTareaPendiente{{$tarea->id_tarea}}" onclick="fxAplicarTarea({{$tarea->id_tarea}})">
-                                        <div class="card-body">
-                                        <h6 class="mb-2 text-muted">
-                                        <span class="badge badge-success w-badge">{{$tarea->categoria->c_nombre}}</span>
-                                        <h5 class="hs_upper">{{$tarea->c_titulo}}</h5>
-                                        </h6>
-                                        <p class="mb-1 text-22 font-weight-light">{{$porcentaje_revision}}%</p>
-                                        <div class="progress mb-1" style="height: 4px">
-                                        <div class="progress-bar bg-danger" style="width: {{$porcentaje_revision}}%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                                        </div>
-                                        </div>
-                                        <small class="text-muted">
-                                        Calificados: {{$count_revisados}}  |  Por calificar: {{$total-$count_revisados}}
-                                        </small>
-                                        </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5 class="hs_upper">{{$tarea->c_titulo}}</h5>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="badge hs_capitalize" style="padding: 5px 10px; color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                    </div>
+                                                </div>
+
+                                                <p class="mb-1 text-22 font-weight-light">{{$porcentaje_revision}}%</p>
+                                                <div class="progress mb-1" style="height: 4px">
+                                                <div class="progress-bar bg-danger" style="width: {{$porcentaje_revision}}%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                                </div>
+                                                <small class="text-muted">
+                                                Calificados: {{$count_revisados}}  |  Por calificar: {{$total-$count_revisados}}
+                                                </small>
+                                            </div>
                                         </div>
                                     @endforeach
                                 @endif
@@ -288,7 +304,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <span href="#" class="badge badge-success" id="infCategoria">{categoria}</span>
+                    <span href="#" class="hs_capitalize badge badge-light text-dark p-2" id="infCategoria">{categoria}</span>
                     <h4 class="enviados-titulo hs_upper" id="infTitulo">{Título de tarea}</h4>
                     <p class="enviados-descripcion hs_capitalize-first" id="infDescripcion">{Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam ea deleniti, fugiat consectetur officiis harum praesentium! Quas nesciunt hic inventore fuga, magnam aliquam, iure natus blanditiis dolorem rem, assumenda vitae.}</p>
                     <div class="enviados-detalle" id="infGrupo"><strong>Grupo: </strong><p>{1 - c}</p></div>

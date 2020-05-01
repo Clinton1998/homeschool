@@ -27,11 +27,16 @@
             <div id="tareas">
                 <!-- Tarea -->
                 @foreach($tareas as $tarea)
-                    <div class="tarea" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">
-                        <div>
-                        <span class="badge" style="padding: 5px 10px; color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span><span>{Grado y nivel }</span>
+                    <div style="border-color: {{$tarea->categoria->c_nivel_academico}}; border-left: solid 4px {{$tarea->categoria->c_nivel_academico}};" class="tarea" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="tarea-titulo hs_upper">{{$tarea->c_titulo}}</h5>
+                            </div>
+                            <div class="col-auto">
+                                <span class="badge hs_capitalize" style="padding: 5px 10px; color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                            </div>
                         </div>
-                        <h5 class="tarea-titulo hs_upper">{{$tarea->c_titulo}}</h5>
+                        
                         <p class="tarea-descripcion hs_capitalize-first">{{$tarea->c_observacion}}</p>
                         <div class="tarea-fechas">
                             <div class="tarea-fecha-publicacion">

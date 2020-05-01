@@ -31,7 +31,7 @@
                 <a class="menu-lateral-item-link" href="{{route('super/categorias')}}">
                     <i class="nav-icon i-Library"></i>
                     <br>
-                    <span>Asignaturas o cursos</span>
+                    <span>Cursos</span>
                 </a>
             </li>
             <li class="menu-lateral-item {{ request()->is('super/docente*') ? 'item-activo' : '' }}">

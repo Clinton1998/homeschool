@@ -462,7 +462,7 @@
                         @endforeach
                     </select>
                     <span class="invalid-feedback" role="alert">
-                        Asignatura es necesario
+                        Curso es necesario
                     </span>
                 </div>
             </form>

@@ -1,7 +1,7 @@
 @extends('reutilizable.principal')
 @section('page-css')
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">   
-    <link rel="stylesheet" href="{{asset('assets/styles/css/style-docente.css')}}"> 
+    <link rel="stylesheet" href="{{asset('assets/styles/css/style-alumno.css')}}"> 
 @endsection
 
 @section('main-content')
@@ -37,8 +37,7 @@
                         <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto">
                             <li><span class="ul-task-manager__font-date text-muted">{{$tarea->created_at}}</span></li>
                             <li class="dropdown">
-                                Categoria: &nbsp;
-                                <span class="badge badge-pill badge-danger p-1 m-1">{{$tarea->categoria->c_nombre}}</span>
+                            <span style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}}" class="badge badge-pill badge-danger p-1 m-1">{{$tarea->categoria->c_nombre}}</span>
                             </li>
                         </ul>
                     </div>

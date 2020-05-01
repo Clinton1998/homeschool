@@ -1,6 +1,5 @@
 @extends('reutilizable.principal')
 @section('page-css')
-    
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
 @endsection
@@ -49,7 +48,7 @@
                                             {{ucfirst(substr(strtolower($item->c_nombre),3))}}
                                         @endif
                                     </td>
-                                    <td class="hs_upper">
+                                    <td class="hs_upper text-center">
                                         {{$item->nom_seccion}}
                                     </td>
                                     <td>
@@ -78,6 +77,7 @@
                 <div class="modal-body">
                     <form id="frmAgregarSeccion" class="needs-validation" method="POST" action="{{url('/super/gradoseccion/agregar')}}" novalidate>
                         <div class="form-group">
+                            @csrf
                             <label for="picker2">Nivel - Grado</label>
                             <select class="form-control" id="id_grado" name="id_grado">
                                 <option>-- Eliga el nivel-grado --</option>
@@ -98,8 +98,6 @@
                                 La sección es necesaria
                             </div>
                         </div>
-
-                        @csrf
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -122,7 +120,6 @@
                 </div>
                 <div class="modal-body">
                     <form id="frmActualizar" class="needs-validation" method="POST" action="{{url('/super/gradoseccion/actualizar')}}" novalidate>
-                        
                         @csrf
                         <input type="hidden" id="id_seccion" name="id_seccion">
     
@@ -133,8 +130,6 @@
                                 La sección es necesaria
                             </div>
                         </div>
-
-                        @csrf
                     </form>
                 </div>
                 <div class="modal-footer">
