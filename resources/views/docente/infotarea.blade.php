@@ -38,7 +38,7 @@
                         <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto" style="text-align: right;">
                             <li><span class="ul-task-manager__font-date text-muted">{{$tarea->created_at}}</span></li>
                             <li class="dropdown">
-                                <span class="badge badge-pill badge-danger p-1 m-1">{{$tarea->categoria->c_nombre}}</span>
+                                <span style="padding: 5px 10px; color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};" class="hs_capitalize badge m-1">{{$tarea->categoria->c_nombre}}</span>
                             </li>
                         </ul>
                     </div>

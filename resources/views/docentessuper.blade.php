@@ -202,7 +202,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="optcategorias"><strong>Asignar asignaturas o cursos</strong></label>
+                                            <label for="optcategorias"><strong>Asignar curso(s)</strong></label>
                                             <select name="optcategorias[]" id="optcategorias" multiple>
                                                 @foreach($TMP_categorias as $item)
                                                     @if(strtoupper($item->c_nivel_academico) === "INICIAL")

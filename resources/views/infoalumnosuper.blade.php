@@ -447,7 +447,7 @@
                     <div class="row">
                         <div class="col-12 text-center">
                             <h4>
-                                <span>{{ucfirst(strtolower(substr($alumno->seccion->grado->c_nombre,3)))}}</span>
+                                <span>{{substr($alumno->seccion->grado->c_nombre,3)}}</span>
                                 <span>"{{strtoupper($alumno->seccion->c_nombre)}}"</span>
                             </h4>
                             <h5><small>({{strtoupper($alumno->seccion->grado->c_nivel_academico)}})</small></h5>

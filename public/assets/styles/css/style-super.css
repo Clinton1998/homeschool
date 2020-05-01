@@ -1,6 +1,6 @@
 :root {
     --s-color-secundario: #4563BF;
-    --s-color-primario: #4557BF;
+    --s-color-primario: rgb(56, 86, 177);
 }
 
 /* [0] GENERAL ---------------*/
@@ -209,6 +209,14 @@ a {
     text-align: center;
 }
 
+#tbl_asignaturas td {
+    padding: 5px 12px !important;
+}
+
+#tbl_asignaturas th {
+    padding: 10px 30px 10px 12px !important;
+}
+
 #tbl_inicial th:nth-child(1),
 #tbl_inicial th:nth-child(2),
 #tbl_inicial th:nth-child(3),
@@ -238,6 +246,7 @@ a {
 #tbl_primaria td:nth-child(6),
 #tbl_secundaria td:nth-child(6) {
     text-transform: uppercase;
+    text-align: center;
 }
 
 #tbl_inicial td:nth-child(4),
@@ -257,6 +266,73 @@ a {
 #btn_plus:hover {
     transform: scale(1.1);
     transition: all 0.5s ease-in-out;
+}
+
+#hs_separator {
+    background-image: url('../../images/mark.png');
+    background-position: center;
+    background-size: cover;
+    color: #FFF;
+    padding: 12px 45px 12px 15px;
+    border-radius: 8px 0 0 8px;
+    font-size: 12px;
+    font-weight: 300;
+    white-space: nowrap;
+    margin-left: -35px;
+    margin-top: -5px;
+}
+
+#hs_separator:hover {
+    cursor: pointer;
+    margin-left: -33px;
+    transition: all 0.2s ease-in-out;
+}
+
+.hs_box_close {
+    text-align: right;
+}
+
+#hs_btn_close {
+    color: #7a7a7a;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 3px 10px;
+    cursor: pointer;
+}
+
+#hs_btn_close:hover {
+    color: #313131;
+}
+
+.hs_mask {
+    width: 100%;
+    height: 33px;
+    background-color: red;
+    opacity: 0;
+    position: absolute;
+    margin-top: -33px;
+    cursor: pointer;
+}
+
+.hs_paleta {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.hs_muestra {
+    font-size: 5px;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+    color: transparent;
+}
+
+.hs_muestra:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: all 0.2s ease-in-out;
 }
 
 
