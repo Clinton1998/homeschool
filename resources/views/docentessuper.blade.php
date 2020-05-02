@@ -148,7 +148,7 @@
                                             <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                 <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="nacionalidad" >Nacionalidad</label>
-                                                    <input type="text" class="form-control form-control-sm" id="nacionalidad" name="nacionalidad" value="Peruano(a)" required>
+                                                    <input type="text" class="hs_capitalize form-control form-control-sm" id="nacionalidad" name="nacionalidad" required placeholder="Peruano(a)">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
@@ -179,7 +179,7 @@
                                                 </div>
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="telefono">Teléfono</label>
-                                                    <input type="text" class="form-control form-control-sm" id="telefono" name="telefono" required>
+                                                    <input type="text" class="form-control form-control-sm" id="telefono" name="telefono" required maxlength="15">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                             </div>
@@ -190,6 +190,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div id="step-2">
                                         <div class="form-group">
                                         
@@ -259,6 +260,80 @@
 @endsection
 
 @section('page-js')
+
+<script>
+    $(document).ready( function () {
+        $("#apellido").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nombre").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#nacionalidad").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#especialidad").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#correo").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+
+        $("#direccion").on("keypress", function () {
+            $input=$(this);
+            setTimeout(function () {
+                $input.val($input.val().toLocaleLowerCase());
+            });
+        });
+    });
+
+    jQuery(document).ready(function() {
+        jQuery('#dni').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+
+        jQuery('#apellido').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nombre').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#nacionalidad').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#especialidad').keypress(function(tecla) {
+            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
+        });
+
+        jQuery('#telefono').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+    });
+</script>
+
+
 
 <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
 

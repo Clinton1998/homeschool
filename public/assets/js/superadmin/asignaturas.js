@@ -62,10 +62,18 @@ $(document).ready(function () {
                 "data": "id_categoria"
             },
             {
-                "data": "nom_categoria"
+                "data": "nom_categoria",
             },
             {
-                "data": "nom_grado"
+                "data": "nom_grado",
+                "render": function (data, type, row, meta) {
+
+                    n = data.charAt(0);
+                    data_cut = data.substr(3, 10)
+
+                    //return '<span>' + data + "-" + n + data_cut + '</span>';
+                    return '<span>' + n + data_cut + '</span>';
+                }
             },
             {
                 "data": "nom_seccion"
@@ -77,6 +85,7 @@ $(document).ready(function () {
         "order": [
             [4, "asc"]
         ]
+
     });
 
     tbl_primaria = $("#tbl_primaria").DataTable({
@@ -102,7 +111,15 @@ $(document).ready(function () {
                 "data": "nom_categoria"
             },
             {
-                "data": "nom_grado"
+                "data": "nom_grado",
+                "render": function (data, type, row, meta) {
+                    n = data.charAt(0);
+                    data_cut = data.substr(3, 10);
+                    u = data_cut.charAt(0).toLocaleUpperCase();
+                    data_cut_cut = data_cut.substr(1, 10).toLocaleLowerCase();
+
+                    return '<span>' + n + u + data_cut_cut + '</span>';
+                }
             },
             {
                 "data": "nom_seccion"
@@ -139,7 +156,15 @@ $(document).ready(function () {
                 "data": "nom_categoria"
             },
             {
-                "data": "nom_grado"
+                "data": "nom_grado",
+                "render": function (data, type, row, meta) {
+                    n = data.charAt(0);
+                    data_cut = data.substr(3, 10);
+                    u = data_cut.charAt(0).toLocaleUpperCase();
+                    data_cut_cut = data_cut.substr(1, 10).toLocaleLowerCase();
+
+                    return '<span>' + n + u + data_cut_cut + '</span>';
+                }
             },
             {
                 "data": "nom_seccion"
@@ -152,6 +177,7 @@ $(document).ready(function () {
             [4, "asc"]
         ]
     });
+
 });
 
 // CRUD: Categorias (asignaturas)
@@ -607,12 +633,12 @@ function LlenarSelects() {
             asignatura3.find('option').remove();
 
             $(data).each(function (i, v) {
-                asignaturas.append('<option value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignatura.append('<option value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignaturas2.append('<option value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignatura2.append('<option value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignaturas3.append('<option value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignatura3.append('<option value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignaturas.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignatura.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignaturas2.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignatura2.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignaturas3.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignatura3.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
             })
         },
         error: function () {

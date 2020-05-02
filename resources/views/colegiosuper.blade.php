@@ -74,7 +74,7 @@
 
                                     <label for="inpActTelefono" class="col-sm-2 col-form-label">Teléfono</label>
                                     <div class="col-sm-4">
-                                    <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="inpActTelefono" name="telefono" value="{{$colegio->c_telefono}}">
+                                    <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="inpActTelefono" name="telefono" value="{{$colegio->c_telefono}}" maxlength="15">
                                         @error('telefono')
                                              <span class="invalid-feedback" role="alert">
                                                  <strong>{{ $message }}</strong>
@@ -284,6 +284,14 @@
 @endsection
 
 @section('page-js')
+
+<script>
+    jQuery(document).ready(function() {
+        jQuery('#inpActTelefono').keypress(function(tecla) {
+            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
+        });
+    });
+</script>
 
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
