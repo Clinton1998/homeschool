@@ -19,9 +19,10 @@ Auth::routes();
 Route::post('notificacionesdelusuario','Notificacion@listar')->name('notificacionesdelusuario');
 Route::post('notificacionesdelusuario/marcarcomoleido', 'Notificacion@marcar_como_leido')->name('notificacionesdelusuario/marcarcomoleido');
 Route::post('notificacionesdelusuario/marcartodocomoleido', 'Notificacion@marcar_todo_como_leido')->name('notificacionesdelusuario/marcartodocomoleido');
-
+//para generar un usuario superadministrado del colegio
+Route::post('register/generarusuario', 'SuperAdmin@generar_usuario')->name('register/generarusuario');
 //para verificar si el colegio ha pagado la plataforma, para usarse
-Route::post('verificaractivo','Pago@verificar')->name('verificaractivo');
+//Route::post('verificaractivo','Pago@verificar')->name('verificaractivo');
 Route::post('ruc/buscar','api\Ruc@buscar')->name('ruc/buscar');
 Route::post('dni/buscar','api\Dni@buscar')->name('dni/buscar');
 
@@ -102,6 +103,10 @@ Route::post('super/categorias/agregarcategoriaaseccion', 'usuario\super\Seccion@
 
 // AGREGANDO RUTAS SUPER ADMIN
 Route::get('super/videoconferencia', 'usuario\super\Videoconferencia@index')->name('super/videoconferencia');
+Route::get('super/comunicados', 'usuario\super\Comunicado@index')->name('super/comunicados');
+Route::post('super/comunicados/agregar', 'usuario\super\Comunicado@agregar')->name('super/comunicados/agregar');
+Route::get('comunicado/ver/{id_comunicado}', 'usuario\super\Comunicado@info')->name('comunicado/ver/{id_comunicado}');
+Route::get('comunicado/archivo/{id_comunicado}', 'usuario\super\Comunicado@descargar_archivo')->name('comunicado/archivo/{id_comunicado}');
 
 //rutas para el alumno
 Route::get('alumno/calendario', 'usuario\alumno\Calendario@index')->name('alumno/calendario');

@@ -9,10 +9,12 @@
 
         <div class="dropdown-menu dropdown-menu-right notification-dropdown rtl-ps-none"
             aria-labelledby="dropdownNotification" data-perfect-scrollbar data-suppress-scroll-x="true">
-
             <div class="dropdown-item d-flex" v-on:click="fxMarcarComoLeido(notificacion)"
                 v-for="notificacion in notificaciones">
-                <div class="notification-icon">
+                <div class="notification-icon" v-if="notificacion.data['notificacion']['tipo']=='comunicado'">
+                    <i class="i-Receipt-3 text-success mr-1"></i>
+                </div>
+                <div class="notification-icon" v-else>
                     <i class="i-Speach-Bubble-6 text-primary mr-1"></i>
                 </div>
                 <div class="notification-details flex-grow-1">
@@ -41,14 +43,18 @@
         props: ['notificaciones'],
         methods: {
             fxMarcarComoLeido: function (notificacion) {
-                var data = {
-                    id_notification: notificacion.id
-                };
-                axios.post('/notificacionesdelusuario/marcarcomoleido', data).then((response) => {
-                    if (notificacion.data.notificacion.url != '') {
-                        window.location.href = notificacion.data.notificacion.url;
-                    }
-                });
+                if (notificacion.data.notificacion.tipo == 'comunicado') {
+                    window.location.href = notificacion.data.notificacion.url;
+                } else {
+                    var data = {
+                        id_notification: notificacion.id
+                    };
+                    axios.post('/notificacionesdelusuario/marcarcomoleido', data).then((response) => {
+                        if (notificacion.data.notificacion.url != '') {
+                            window.location.href = notificacion.data.notificacion.url;
+                        }
+                    });
+                }
             },
 
             fxMarcarTodoComoLeido: function () {

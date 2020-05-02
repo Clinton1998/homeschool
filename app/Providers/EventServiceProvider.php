@@ -21,6 +21,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\NuevaTareaAsignada' =>[
             'App\Listeners\EnviarSMS',
         ],
+        'App\Events\NuevoComunicado' => [
+            'App\Listeners\EnviarNotificacion'
+        ],
     ];
 
     /**

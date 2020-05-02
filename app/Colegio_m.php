@@ -13,6 +13,9 @@ class Colegio_m extends Model
         return $this->hasMany('App\Grado_m');
     }
     public function docentes(){
-        return $this->hasMany('App\Docente_d');
+        return $this->hasMany('App\Docente_d','id_colegio');
+    }
+    public function comunicados(){
+        return $this->hasMany('App\Comunicado_d','id_colegio');
     }
 }

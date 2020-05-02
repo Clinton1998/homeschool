@@ -46,15 +46,28 @@ const app = new Vue({
                     }, "created_at": 'Reciente'
                 };
                 this.notificaciones.unshift(data);
-                Push.create(response.notificacion.titulo, {
-                    body: response.notificacion.mensaje,
-                    icon: '/assets/images/Logo-HS.png',
-                    timeout: 30000,
-                    vibrate: [200, 100],
-                    onClick: function () {
-                        this.close();
+
+                if (response.notificacion.tipo == 'comunicado') {
+                    $('#tituloShowComunicado').text(response.notificacion.comunicado.c_titulo);
+                    $('#descripcionShowComunicado').text(response.notificacion.comunicado.c_descripcion);
+                    if (response.notificacion.comunicado.c_url_archivo != null) {
+                        //Mostramos un enlace de descarga
+                        $('#archivoShowComunicado').html('<a href="/comunicado/archivo/' + response.notificacion.comunicado.id_comunicado + '" class="text-primary" cdownload="' + response.notificacion.comunicado.c_url_archivo + '">Descargar Archivo</a>');
+                    } else {
+                        $('#archivoShowComunicado').text('');
                     }
-                });
+                    $('#mdlShowComunicado').modal('show');
+                } else {
+                    Push.create(response.notificacion.titulo, {
+                        body: response.notificacion.mensaje,
+                        icon: '/assets/images/Logo-HS.png',
+                        timeout: 30000,
+                        vibrate: [200, 100],
+                        onClick: function () {
+                            this.close();
+                        }
+                    });
+                }
             });
         }
     }
