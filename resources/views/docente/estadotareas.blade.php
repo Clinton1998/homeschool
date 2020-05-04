@@ -148,7 +148,7 @@
                                     <h4 class="text-primary">No hay enviados</h4>
                                 @else
                                     @foreach($tareas_enviadas as $tarea)
-                                        <div class="card card-tarea" onclick="fxInfoTarea({{$tarea->id_tarea}});" >
+                                        <div class="card card-tarea" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col">
@@ -287,32 +287,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" onclick="fxConfirmarRevision(event);">Tarea revisada</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    
-    <!-- MODAL: Detalle de Tareas ENVIADAS -->
-    <div class="modal fade" id="modal-tarea-enviada-detalle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detalle de tarea</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <span href="#" class="hs_capitalize badge badge-light text-dark p-2" id="infCategoria">{categoria}</span>
-                    <h4 class="enviados-titulo hs_upper" id="infTitulo">{Título de tarea}</h4>
-                    <p class="enviados-descripcion hs_capitalize-first" id="infDescripcion">{Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quisquam ea deleniti, fugiat consectetur officiis harum praesentium! Quas nesciunt hic inventore fuga, magnam aliquam, iure natus blanditiis dolorem rem, assumenda vitae.}</p>
-                    <div class="enviados-detalle" id="infGrupo"><strong>Grupo: </strong><p>{1 - c}</p></div>
-                    <div class="enviados-detalle" id="infFechaEnvio"><strong>Fecha de envio: </strong><p>{dd-mm-yyyy}</p></div>
-                    <div class="enviados-detalle" id="infFechaEntrega"><strong>Fecha de entrega: </strong><p>{dd-mm-yyyy}</p></div>
-                </div>
-                <div class="modal-footer">
-                    
                 </div>
             </div>
         </div>
