@@ -130,6 +130,40 @@ class Tarea extends Controller
         }
     }
 
+    public function info_vencido($id_tarea)
+    {
+        $usuarioAlumno = App\User::findOrFail(Auth::user()->id);
+        $alumno = App\Alumno_d::where([
+            'id_alumno' => $usuarioAlumno->id_alumno,
+            'estado' => 1
+        ])->first();
+        if (!is_null($alumno) && !empty($alumno)) {
+            $tarea = App\Tarea_d::where([
+                ['id_tarea', '=', $id_tarea],
+                ['estado', '=', 1],
+                ['t_fecha_hora_entrega', '<=', date('Y-m-d H:i:s')]
+            ])->first();
+            if (!is_null($tarea) && !empty($tarea)) {
+                //comprobamos si la tarea pertenece al alumno
+                $alumno_de_tarea = $tarea->alumnos_asignados()->where([
+                    'alumno_d.estado' => 1,
+                    'alumno_tarea_respuesta_p.c_estado' => 'APEN',
+                    'alumno_d.id_alumno' => $alumno->id_alumno
+                ])->first();
+
+                if (!is_null($alumno_de_tarea) && !empty($alumno_de_tarea)) {
+                    return view('alumno.infotareavencido', compact('tarea'));
+                } else {
+                    return redirect('alumno/tareas');;
+                }
+            } else {
+                return redirect('alumno/tareas');
+            }
+        } else {
+            return redirect('alumno/tareas');
+        }
+    }
+
     public function responder(Request $request)
     {
         $usuarioAlumno = App\User::findOrFail(Auth::user()->id);
@@ -174,10 +208,11 @@ class Tarea extends Controller
                 ])
                 ->update([
                     'id_respuesta' => $respuesta->id_respuesta,
-                    'c_estado' => 'AENV'
+                    'c_estado' => 'AENV',
+                    'updated_at' => date('Y-m-d H:i:s'),
+                    'modificador' => $usuarioAlumno->id
                 ]);
-
-            return redirect('alumno/tareapendiente/' . $tarea->id_tarea);
+            return redirect('alumno/tareas');
         } else {
             return redirect('home');
         }
@@ -263,6 +298,51 @@ class Tarea extends Controller
         return redirect('alumno/tareapendiente/' . $request->input('id_tarea'));
     }
 
+    public function comentar_vencido(Request $request)
+    {
+
+        $usuarioAlumno = App\User::findOrFail(Auth::user()->id);
+        $alumno = App\Alumno_d::where([
+            'id_alumno' => $usuarioAlumno->id_alumno,
+            'estado' => 1
+        ])->first();
+
+        if (!is_null($alumno) && !empty($alumno)) {
+            //aplicando la tarea
+            $tarea = App\Tarea_d::where([
+                ['id_tarea', '=', $request->input('id_tarea')],
+                ['estado', '=', 1],
+                ['t_fecha_hora_entrega', '<=', date('Y-m-d H:i:s')]
+            ])->first();
+
+            if (!is_null($tarea) && !empty($tarea)) {
+
+                //comprobamos si la tarea pertenece al alumno
+                $alumno_de_tarea = $tarea->alumnos_asignados()->where([
+                    'alumno_d.estado' => 1,
+                    'alumno_tarea_respuesta_p.c_estado' => 'APEN',
+                    'alumno_d.id_alumno' => $alumno->id_alumno
+                ])->first();
+
+                if (!is_null($alumno_de_tarea) && !empty($alumno_de_tarea)) {
+                    //agregamos el comentario
+                    $comentario = new App\Comentario_d;
+                    $comentario->id_tarea = $tarea->id_tarea;
+                    $comentario->id_usuario = $usuarioAlumno->id;
+                    $comentario->c_descripcion = $request->input('comentario');
+                    $id_referencia =  $request->input('id_comentario_referncia');
+                    if (!is_null($id_referencia) && !empty($id_referencia)) {
+                        $ref_com = App\Comentario_d::findOrFail($id_referencia);
+                        $comentario->id_comentario_referencia = $ref_com->id_comentario;
+                    }
+                    $comentario->creador = $usuarioAlumno->id;
+                    $comentario->save();
+                }
+            }
+        }
+        return redirect('alumno/tareavencida/' . $request->input('id_tarea'));
+    }
+
     public function comentar_enviado(Request $request)
     {
 
@@ -317,5 +397,4 @@ class Tarea extends Controller
         $respuesta = App\Respuesta_d::findOrFail($id_respuesta);
         return Storage::download('tarearespuesta/' . $tarea->id_tarea . '/' . $respuesta->id_respuesta . '/' . $respuesta->c_url_archivo);
     }
-    
 }

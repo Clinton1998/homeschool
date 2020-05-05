@@ -1,6 +1,5 @@
 @extends('reutilizable.principal')
 @section('page-css')
-    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">   
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-alumno.css')}}"> 
 @endsection
 
@@ -179,9 +178,6 @@
 
 @section('page-js')
 <!-- page script -->
-
-<script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
-<script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
 <script src="{{asset('assets/js/alumno/infotareaenviado.js')}}"></script>
 @endsection

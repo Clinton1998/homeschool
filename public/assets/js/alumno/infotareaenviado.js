@@ -1,7 +1,3 @@
-$(document).ready(function () {
-    //alert('Ok');
-});
-
 function fxEditarRespuesta(id_res) {
     $('#btnEditarRespuesta').attr('disabled', 'true');
     $.ajax({
