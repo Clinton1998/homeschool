@@ -15,6 +15,12 @@ Route::get('/', 'HomeController@index');
 //rutas para la autenticacion del usuario
 Auth::routes();
 
+//rutas para el chat
+Route::get('chat','ChatController@index')->name('chat');
+Route::get('chat/contacts','ContactsController@get')->name('chat/contacts');
+Route::get('chat/conversation/{id}','ContactsController@getMessagesFor')->name('chat/conversation/{id}');
+Route::post('chat/conversation/send','ContactsController@send')->name('chat/conversation/send');
+
 //notificaciones del usuario
 Route::post('notificacionesdelusuario','Notificacion@listar')->name('notificacionesdelusuario');
 Route::post('notificacionesdelusuario/marcarcomoleido', 'Notificacion@marcar_como_leido')->name('notificacionesdelusuario/marcarcomoleido');
