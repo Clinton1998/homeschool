@@ -30345,27 +30345,39 @@ var render = function() {
                   contact.id_docente == null &&
                   contact.id_alumno == null &&
                   contact.b_root == 0
-                    ? _c("figure", { staticClass: "avatar" }, [
-                        contact.colegio.c_logo == null
-                          ? _c("img", {
-                              staticClass: "rounded-circle",
-                              attrs: {
-                                src: "/assets/images/colegio/school.png"
-                              }
-                            })
-                          : _c("img", {
-                              staticClass: "rounded-circle",
-                              attrs: {
-                                src:
-                                  "/super/colegio/logo/" +
-                                  contact.colegio.c_logo
-                              }
-                            })
-                      ])
+                    ? _c(
+                        "figure",
+                        {
+                          class:
+                            "avatar " +
+                            (contact.is_online ? "avatar-state-success" : "")
+                        },
+                        [
+                          contact.colegio.c_logo == null
+                            ? _c("img", {
+                                staticClass: "rounded-circle",
+                                attrs: {
+                                  src: "/assets/images/colegio/school.png"
+                                }
+                              })
+                            : _c("img", {
+                                staticClass: "rounded-circle",
+                                attrs: {
+                                  src:
+                                    "/super/colegio/logo/" +
+                                    contact.colegio.c_logo
+                                }
+                              })
+                        ]
+                      )
                     : contact.id_docente != null
                       ? _c(
                           "figure",
-                          { staticClass: "avatar" },
+                          {
+                            class:
+                              "avatar " +
+                              (contact.is_online ? "avatar-state-success" : "")
+                          },
                           [
                             contact.docente.c_foto == null
                               ? [
@@ -30399,7 +30411,13 @@ var render = function() {
                       : contact.id_alumno != null
                         ? _c(
                             "figure",
-                            { staticClass: "avatar" },
+                            {
+                              class:
+                                "avatar " +
+                                (contact.is_online
+                                  ? "avatar-state-success"
+                                  : "")
+                            },
                             [
                               contact.alumno.c_foto == null
                                 ? [

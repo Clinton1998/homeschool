@@ -33,14 +33,14 @@
                     <li class="list-group-item" v-for="contact in sortedContacts" :key="contact.id"
                         @click="selectContact(contact)" :class="{ 'open-chat': contact== selected }">
                         <div>
-                            <figure class="avatar"
+                            <figure :class="`avatar ${(contact.is_online)?'avatar-state-success': ''}`"
                                 v-if="contact.id_docente==null && contact.id_alumno==null && contact.b_root==0">
                                 <img src="/assets/images/colegio/school.png" class="rounded-circle"
                                     v-if="contact.colegio.c_logo==null">
                                 <img :src="`/super/colegio/logo/${contact.colegio.c_logo}`" class="rounded-circle"
                                     v-else>
                             </figure>
-                            <figure class="avatar" v-else-if="contact.id_docente!=null">
+                            <figure :class="`avatar ${(contact.is_online)?'avatar-state-success': ''}`" v-else-if="contact.id_docente!=null">
                                 <template v-if="contact.docente.c_foto==null">
                                     <img src="/assets/images/usuario/teacherman.png" class="rounded-circle"
                                         v-if="contact.docente.c_sexo=='M'">
@@ -49,7 +49,7 @@
                                 <img :src="`/super/docente/foto/${contact.docente.c_foto}`" class="rounded-circle"
                                     v-else>
                             </figure>
-                            <figure class="avatar" v-else-if="contact.id_alumno!=null">
+                            <figure :class="`avatar ${(contact.is_online)?'avatar-state-success': ''}`" v-else-if="contact.id_alumno!=null">
                                 <template v-if="contact.alumno.c_foto==null">
                                     <img src="/assets/images/usuario/studentman.png" class="rounded-circle"
                                         v-if="contact.alumno.c_sexo=='M'">

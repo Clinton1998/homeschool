@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use App\Events\NewMessage;
 use App;
 use Auth;
@@ -29,6 +28,7 @@ class ContactsController extends Controller
                     'id_docente' => $docente->id_docente
                 ])->first();
                 $userDocente->docente;
+                $userDocente->is_online =  $userDocente->isOnline();
                 $userDocente->ultimo_mensaje = 'ultimo mensaje para el docente';
                 $arr_usuarios[$i] =  $userDocente;
                 $i++;
@@ -40,6 +40,7 @@ class ContactsController extends Controller
                             'id_alumno' => $alumno->id_alumno
                         ])->first();
                         $userAlumno->alumno;
+                        $userAlumno->is_online = $userAlumno->isOnline();
                         $userAlumno->ultimo_mensaje = 'Ultimo mensaje para el alumno';
                         $arr_usuarios[$i] = $userAlumno;
                         $i++;
@@ -49,7 +50,11 @@ class ContactsController extends Controller
             $contacts = collect($arr_usuarios);
         } else if (!is_null(Auth::user()->id_docente)) {
             $docente = App\Docente_d::findOrFail(Auth::user()->id_docente);
-            $arr_usuarios = array(App\User::findOrFail($docente->colegio->id_superadministrador));
+            $userSuperAdmin =  App\User::findOrFail($docente->colegio->id_superadministrador);
+            $userSuperAdmin->colegio  = $docente->colegio;
+            $userSuperAdmin->is_online = $userSuperAdmin->isOnline();
+            $userSuperAdmin->ultimo_mensaje = 'Ultimo mensaje para el superadministrador';
+            $arr_usuarios = array($userSuperAdmin);
             $i = 1;
             $colegas = App\Docente_d::where([
                 ['id_colegio', '=', $docente->colegio->id_colegio],
@@ -57,17 +62,25 @@ class ContactsController extends Controller
                 ['id_docente', '<>', $docente->id_docente]
             ])->get();
             foreach ($colegas as $colega) {
-                $arr_usuarios[$i] = App\User::where([
+                $userColega = App\User::where([
                     'id_docente' => $colega->id_docente
                 ])->first();
+                $userColega->docente;
+                $userColega->is_online = $userColega->isOnline();
+                $userColega->ultimo_mensaje = 'Ultimo mensaje para colega';
+                $arr_usuarios[$i] = $userColega;
                 $i++;
             }
 
             foreach ($docente->secciones()->where('seccion_d.estado', '=', 1)->get() as $seccion) {
                 foreach ($seccion->alumnos()->where('alumno_d.estado', '=', 1)->get() as $alumno) {
-                    $arr_usuarios[$i] = App\User::where([
+                    $userAlumno = App\User::where([
                         'id_alumno' => $alumno->id_alumno
                     ])->first();
+                    $userAlumno->alumno;
+                    $userAlumno->is_online = $userAlumno->isOnline();
+                    $userAlumno->ultimo_mensaje = 'Ultimo mensaje para alumno';
+                    $arr_usuarios[$i] = $userAlumno;
                     $i++;
                 }
             }

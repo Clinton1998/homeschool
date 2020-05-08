@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Cache;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -35,6 +36,7 @@ class User extends Authenticatable
     public function alumno(){
         return $this->belongsTo('App\Alumno_d','id_alumno');
     }
-
-    
+    public function isOnline(){
+        return Cache::has('user-is-online-'.$this->id);
+    }
 }
