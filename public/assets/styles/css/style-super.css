@@ -201,7 +201,7 @@ a {
     display: none;
 }
 
-#tbl_asignaturas td:nth-child(2) {
+#tbl_asignaturas td:nth-child(2)::first-letter {
     text-transform: capitalize;
 }
 
@@ -249,9 +249,9 @@ a {
     text-align: center;
 }
 
-#tbl_inicial td:nth-child(4),
-#tbl_primaria td:nth-child(4),
-#tbl_secundaria td:nth-child(4) {
+#tbl_inicial td:nth-child(4)::first-letter,
+#tbl_primaria td:nth-child(4)::first-letter,
+#tbl_secundaria td:nth-child(4)::first-letter {
     text-transform: capitalize;
 }
 
@@ -395,4 +395,145 @@ a {
 
 #mostrar-contador-label {
     margin-bottom: 10px;
+}
+
+/* [7] VIDEOCONFERENCIA v2---------------*/
+
+.hs_message {
+    max-width: 950px;
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 12px;
+    cursor: default;
+}
+
+.hs_message p {
+    margin-bottom: 0;
+}
+
+.apps {
+    display: grid;
+    grid-column: 1fr 1fr;
+    grid-template-areas: "jitsi hangouts meet";
+    grid-gap: 20px;
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+.hangouts {
+    grid-area: "hangouts";
+}
+
+.jitsi {
+    grid-area: "jitsi";
+}
+
+.meet {
+    grid-area: "meet";
+}
+
+.hangouts,
+.jitsi,
+.meet {
+    text-align: center;
+}
+
+.apps .card {
+    height: 100%;
+}
+
+.apps .card-body {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.app-logo {
+    height: 80px;
+}
+
+.logo-jitsi {
+    border-radius: 12px;
+}
+
+.app-name {
+    margin: 20px 0;
+}
+
+.btn-hangouts {
+    background: #27ae60;
+    color: #FFF;
+}
+
+.btn-jitsi {
+    background: #3498db;
+    color: #FFF;
+}
+
+.btn-meet {
+    background: #16a085;
+    color: #FFF;
+}
+
+.btn-hangouts,
+.btn-jitsi,
+.btn-meet {
+    color: #FFF !important;
+}
+
+.hangouts:hover img,
+.jitsi:hover img,
+.meet:hover img {
+    transform: scale(1.05);
+    cursor: default;
+}
+
+.link-hangouts {
+    color: #27ae60;
+}
+
+.link-jitsi {
+    color: #3498db;
+}
+
+.link-meet {
+    color: #16a085;
+}
+
+.link-hangouts:hover,
+.link-jitsi:hover,
+.link-meet:hover {
+    color: #16a085;
+}
+
+@media screen and (max-width: 768px) {
+    .hs_message {
+        max-width: 640px;
+        font-size: 10px;
+    }
+
+    .apps {
+        display: grid;
+        grid-column: 2fr;
+        grid-row: 2fr;
+        grid-template-areas: "jitsi hangouts"
+            "jitsi meet";
+        max-width: 640px;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .hs_message {
+        max-width: 320px;
+        font-size: 10px;
+    }
+
+    .apps {
+        display: grid;
+        grid-column: 1fr;
+        grid-template-areas: "jitsi"
+            "hangouts"
+            "meet";
+        max-width: 320px;
+    }
 }

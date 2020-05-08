@@ -1,6 +1,8 @@
 :root {
-    --pd-color-secundario: #04BF45;
-    --pd-color-primario: rgb(4, 167, 61);
+    /* --pd-color-secundario: #04BF45;
+    --pd-color-primario: rgb(4, 167, 61); */
+    --pd-color-secundario: #3498db;
+    --pd-color-primario: #2980b9;
 }
 
 * {
