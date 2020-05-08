@@ -41,6 +41,13 @@
                     <span>Mis compañeros</span>
                 </a>
             </li>
+            <li class="menu-lateral-item {{ request()->is('alumno/cursos*') ? 'item-activo' : '' }}">
+                <a class="menu-lateral-item-link" href="{{route('alumno/cursos')}}">
+                    <i class="nav-icon i-Sidebar-Window"></i>
+                    <br>
+                    <span>Mis Cursos</span>
+                </a>
+            </li>
         </ul>
         <!-- FIN DE NUEVO MENU SLIDER -->
         

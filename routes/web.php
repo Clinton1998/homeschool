@@ -108,6 +108,14 @@ Route::post('super/comunicados/agregar', 'usuario\super\Comunicado@agregar')->na
 Route::get('comunicado/ver/{id_comunicado}', 'usuario\super\Comunicado@info')->name('comunicado/ver/{id_comunicado}');
 Route::get('comunicado/archivo/{id_comunicado}', 'usuario\super\Comunicado@descargar_archivo')->name('comunicado/archivo/{id_comunicado}');
 
+// CURSOS *********************************************************
+Route::get('alumno/cursos', 'usuario\alumno\Cursos@index')->name('alumno/cursos');
+Route::get('alumno/cursos/curso/{id_curso}', 'usuario\alumno\Cursos@curso')->name('alumno/cursos/curso/{id_curso}');
+
+Route::get('docente/cursos', 'usuario\docente\Cursos@index')->name('docente/cursos');
+Route::get('docente/cursos/curso/{id_curso}', 'usuario\docente\Cursos@curso')->name('docente/cursos/curso/{id_curso}');
+// CURSOS *********************************************************
+
 //rutas para el alumno
 Route::get('alumno/calendario', 'usuario\alumno\Calendario@index')->name('alumno/calendario');
 Route::get('alumno/tareas', 'usuario\alumno\Tarea@index')->name('alumno/tareas');
