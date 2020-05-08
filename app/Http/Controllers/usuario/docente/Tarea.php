@@ -146,13 +146,14 @@ class Tarea extends Controller
                 return response()->json($datos);
             } else {
                 $datos = array(
-                    'correctoxd1' => FALSE
+                    'correctoelse' => FALSE
                 );
                 return response()->json($datos);
             }
         }
         $datos = array(
-            'correctoxd2' => FALSE
+            'correctofuera' => FALSE,
+            'puente' => $puente
         );
         return response()->json($datos);
     }
@@ -228,7 +229,13 @@ class Tarea extends Controller
 
             //verificamos si la tarea le pertenece al docente
             if (!is_null($tarea) && !empty($tarea)) {
-                return view('docente.infotarea', compact('tarea'));
+                $tarea->alumnos_asignados;
+
+                $p_alumno = $tarea->alumnos_asignados()->first();
+                $seccion_asignada = App\Seccion_d::findOrFail($p_alumno->id_seccion);
+                $seccion_asignada->grado;
+
+                return view('docente.infotarea', compact('tarea','seccion_asignada'));
             } else {
                 return redirect('docente/asignartareas');;
             }

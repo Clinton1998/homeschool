@@ -22,8 +22,7 @@
                                                 @else
                                                     <img class="rounded-circle" width="36" height="36" src="{{url('super/docente/foto/'.$tarea->docente->c_foto)}}" alt="Fotografía">
                                                 @endif
-                                                <br>
-                                                <p class="hs_capitalize">{{$tarea->docente->c_nombre}}</p>
+                                                {{$tarea->docente->c_nombre}}
                                             </div>
 
                                             <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto" style="text-align: right;">

@@ -14,8 +14,7 @@ class Alumno_d extends Model
     }
 
     public function tareas_asignados(){
-        //return $this->belongsToMany('App\Tarea_d', 'alumno_tarea_respuesta_p', 'id_alumno', 'id_tarea')->withPivot('id_alumno_docente_tarea','c_estado', 'id_respuesta');
-        return $this->belongsToMany('App\Tarea_d', 'alumno_tarea_respuesta_p', 'id_alumno', 'id_tarea')->withPivot('id_alumno_docente_tarea','c_estado', 'id_respuesta', 'created_at')->orderBy('tarea_d.created_at', 'DESC');
+        return $this->belongsToMany('App\Tarea_d', 'alumno_tarea_respuesta_p', 'id_alumno', 'id_tarea')->withPivot('id_alumno_docente_tarea','c_estado', 'id_respuesta','updated_at');
     }
 
     public function usuario()

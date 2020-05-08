@@ -45,19 +45,18 @@
                 <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
                     <span>Fecha de entrega: <span class="font-weight-semibold text-primary">{{$tarea->t_fecha_hora_entrega}}</span></span>
                     <button type="button" class="btn btn-primary btn-lg float-right" id="btnResponderTarea" onclick="fxResponder({{$tarea->id_tarea}});">Responder</button>
-                </div>
-                
+                </div>                
                 
                 <div class="card-body">
                     <strong>Escribe un comentario</strong>
 
-                    <form id="frmComentarTarea" method="post" action="{{url('/alumno/tarea/comentarpendiente')}}" class="needs-validation" novalidate>
+                    <form id="frmComentarTarea" method="post" action="{{url('/alumno/tarea/comentarvencido')}}" class="needs-validation" novalidate>
                         @csrf
                         <input type="hidden" name="id_tarea" value="{{$tarea->id_tarea}}">
                         <input class="form-control form-control-lg mb-6" id="txtComentario" name="comentario" rows="2" placeholder="Escribe aquí..." required autofocus>
                         <div class="mb-4">
                             <br>
-                        <button type="submit" class="btn btn-primary float-right">Publicar comentario</button>
+                            <button type="submit" class="btn btn-primary float-right">Publicar comentario</button>
                         </div>
                     </form>
                     
@@ -75,9 +74,9 @@
                                         @if(!is_null($comentario->comenta->id_docente))
                                             @if(is_null($comentario->comenta->docente->c_foto)  || empty($comentario->comenta->docente->c_foto))
                                                 @if(strtoupper($comentario->comenta->docente->c_sexo)=='M')
-                                                    <img  class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Foto del docente">
+                                                <img  class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Foto del docente">
                                                 @else
-                                                    <img class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Foto del docente">
+                                                <img class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Foto del docente">
                                                 @endif
                                             @else
                                                 <img class="rounded-circle" width="36" height="36" src="{{url('super/docente/foto/'.$comentario->comenta->docente->c_foto)}}" alt="Foto del docente">
@@ -98,7 +97,7 @@
                                         @endif
                                         ({{$comentario->created_at}})
                                     </strong>
-                                    <p class="comentario-contenido">{{$comentario->c_descripcion}}</p>
+                                        <p class="comentario-contenido">{{$comentario->c_descripcion}}</p>
                                     </div>
                                 @endforeach
                             @endif
@@ -152,5 +151,5 @@
 @section('page-js')
 <!-- page script -->
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
-<script src="{{asset('assets/js/alumno/infotareapendiente.js')}}"></script>
+<script src="{{asset('assets/js/alumno/infotareavencido.js')}}"></script>
 @endsection
