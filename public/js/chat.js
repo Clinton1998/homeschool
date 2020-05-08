@@ -2562,6 +2562,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contacts: {
@@ -30352,17 +30377,61 @@ var render = function() {
                           2
                         )
                       : contact.id_alumno != null
-                        ? _c("figure", { staticClass: "avatar" }, [
-                            _c("img", {
-                              staticClass: "rounded-circle",
-                              attrs: { src: "https://via.placeholder.com/150" }
-                            })
-                          ])
+                        ? _c(
+                            "figure",
+                            { staticClass: "avatar" },
+                            [
+                              contact.alumno.c_foto == null
+                                ? [
+                                    contact.alumno.c_sexo == "M"
+                                      ? _c("img", {
+                                          staticClass: "rounded-circle",
+                                          attrs: {
+                                            src:
+                                              "/assets/images/usuario/studentman.png"
+                                          }
+                                        })
+                                      : _c("img", {
+                                          staticClass: "rounded-circle",
+                                          attrs: {
+                                            src:
+                                              "/assets/images/usuario/studentwoman.png"
+                                          }
+                                        })
+                                  ]
+                                : _c("img", {
+                                    staticClass: "rounded-circle",
+                                    attrs: {
+                                      src:
+                                        "/super/alumno/foto/" +
+                                        contact.alumno.c_foto
+                                    }
+                                  })
+                            ],
+                            2
+                          )
                         : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "users-list-body" }, [
-                  _c("h5", [_vm._v(_vm._s(contact.email))]),
+                  contact.id_docente == null &&
+                  contact.id_alumno == null &&
+                  contact.b_root == 0
+                    ? _c("h5", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(contact.colegio.c_representante_legal)
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  contact.id_docente != null
+                    ? _c("h5", [_vm._v(_vm._s(contact.docente.c_nombre))])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  contact.id_alumno != null
+                    ? _c("h5", [_vm._v(_vm._s(contact.alumno.c_nombre))])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("p", [_vm._v(_vm._s(contact.ultimo_mensaje))]),
                   _vm._v(" "),
@@ -44036,7 +44105,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************************************************************************!*\
   !*** ./resources/js/components/chat/ContactsList.vue?vue&type=template&id=7d33fe4d& ***!
   \**************************************************************************************/
-/*! no static exports found */
+/*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

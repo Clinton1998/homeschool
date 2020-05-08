@@ -10,7 +10,7 @@ class Colegio_m extends Model
     protected $primaryKey = 'id_colegio';
 
     public function grados(){
-        return $this->hasMany('App\Grado_m');
+        return $this->hasMany('App\Grado_m','id_colegio');
     }
     public function docentes(){
         return $this->hasMany('App\Docente_d','id_colegio');

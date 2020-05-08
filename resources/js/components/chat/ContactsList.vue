@@ -7,13 +7,14 @@
             <header>
                 <span>Chats</span>
                 <ul class="list-inline">
-                    <li class="list-inline-item" data-toggle="tooltip" title="New Group" >
+                    <li class="list-inline-item" data-toggle="tooltip" title="New Group">
                         <a class="btn btn-light" href="#" data-toggle="modal" data-target="#newGroup">
                             <i class="fa fa-users"></i>
                         </a>
                     </li>
                     <li class="list-inline-item">
-                        <a class="btn btn-light" data-toggle="tooltip" title="New Chat" href="#" data-navigation-target="friends">
+                        <a class="btn btn-light" data-toggle="tooltip" title="New Chat" href="#"
+                            data-navigation-target="friends">
                             <i class="ti-comment-alt"></i>
                         </a>
                     </li>
@@ -29,27 +30,40 @@
             </form>
             <div class="sidebar-body">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item" v-for="contact in sortedContacts" :key="contact.id" @click="selectContact(contact)" :class="{ 'open-chat': contact== selected }">
+                    <li class="list-group-item" v-for="contact in sortedContacts" :key="contact.id"
+                        @click="selectContact(contact)" :class="{ 'open-chat': contact== selected }">
                         <div>
-                            <figure class="avatar" v-if="contact.id_docente==null && contact.id_alumno==null && contact.b_root==0">
-                                <img src="/assets/images/colegio/school.png" class="rounded-circle" v-if="contact.colegio.c_logo==null">
-                                <img :src="`/super/colegio/logo/${contact.colegio.c_logo}`" class="rounded-circle" v-else>
+                            <figure class="avatar"
+                                v-if="contact.id_docente==null && contact.id_alumno==null && contact.b_root==0">
+                                <img src="/assets/images/colegio/school.png" class="rounded-circle"
+                                    v-if="contact.colegio.c_logo==null">
+                                <img :src="`/super/colegio/logo/${contact.colegio.c_logo}`" class="rounded-circle"
+                                    v-else>
                             </figure>
                             <figure class="avatar" v-else-if="contact.id_docente!=null">
                                 <template v-if="contact.docente.c_foto==null">
-                                        <img src="/assets/images/usuario/teacherman.png" class="rounded-circle" v-if="contact.docente.c_sexo=='M'">
-                                        <img src="/assets/images/usuario/teacherwoman.png" class="rounded-circle" v-else>
+                                    <img src="/assets/images/usuario/teacherman.png" class="rounded-circle"
+                                        v-if="contact.docente.c_sexo=='M'">
+                                    <img src="/assets/images/usuario/teacherwoman.png" class="rounded-circle" v-else>
                                 </template>
-                                <img :src="`/super/docente/foto/${contact.docente.c_foto}`" class="rounded-circle" v-else>
+                                <img :src="`/super/docente/foto/${contact.docente.c_foto}`" class="rounded-circle"
+                                    v-else>
                             </figure>
                             <figure class="avatar" v-else-if="contact.id_alumno!=null">
-                                <img src="https://via.placeholder.com/150" class="rounded-circle">
+                                <template v-if="contact.alumno.c_foto==null">
+                                    <img src="/assets/images/usuario/studentman.png" class="rounded-circle"
+                                        v-if="contact.alumno.c_sexo=='M'">
+                                    <img src="/assets/images/usuario/studentwoman.png" class="rounded-circle" v-else>
+                                </template>
+                                <img :src="`/super/alumno/foto/${contact.alumno.c_foto}`" class="rounded-circle" v-else>
                             </figure>
                         </div>
                         <div class="users-list-body">
-                            <h5>{{contact.email}}</h5>
+                            <h5 v-if="contact.id_docente==null && contact.id_alumno==null && contact.b_root==0">
+                                {{contact.colegio.c_representante_legal}}</h5>
+                            <h5 v-if="contact.id_docente!=null">{{contact.docente.c_nombre}}</h5>
+                            <h5 v-if="contact.id_alumno!=null">{{contact.alumno.c_nombre}}</h5>
                             <p>{{contact.ultimo_mensaje}}</p>
-
                             <div class="users-list-action" v-if="contact.unread">
                                 <div class="new-message-count">{{contact.unread}}</div>
                             </div>
@@ -61,7 +75,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -112,7 +127,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -136,7 +152,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -160,7 +177,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -184,7 +202,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -208,7 +227,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -232,7 +252,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -256,7 +277,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -280,7 +302,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -304,7 +327,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -328,7 +352,8 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                         <a href="#" class="dropdown-item">Open</a>
-                                        <a href="#" data-navigation-target="contact-information" class="dropdown-item">Profile</a>
+                                        <a href="#" data-navigation-target="contact-information"
+                                            class="dropdown-item">Profile</a>
                                         <a href="#" class="dropdown-item">Add to archive</a>
                                         <a href="#" class="dropdown-item">Delete</a>
                                     </div>
@@ -433,34 +458,34 @@
                 </ul>
             </div>
         </div>
-        
+
 
     </div>
 </template>
 
 <script>
-    export default{
+    export default {
         props: {
             contacts: {
                 type: Array,
                 default: []
             }
         },
-        data(){
+        data() {
             return {
-                selected: this.contacts.length ? this.contacts[0]: null
+                selected: this.contacts.length ? this.contacts[0] : null
             };
         },
         methods: {
-            selectContact(contact){
+            selectContact(contact) {
                 this.selected = contact;
-                this.$emit('selected',contact);
+                this.$emit('selected', contact);
             }
         },
         computed: {
-            sortedContacts(){
-                return _.sortBy(this.contacts,[(contact) =>{
-                    if(contact==this.selected){
+            sortedContacts() {
+                return _.sortBy(this.contacts, [(contact) => {
+                    if (contact == this.selected) {
                         return Infinity;
                     }
                     return contact.unread;

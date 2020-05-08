@@ -25,17 +25,23 @@ class ContactsController extends Controller
             $arr_usuarios = array();
             $i = 0;
             foreach ($colegio->docentes()->where('docente_d.estado', '=', 1)->get() as $docente) {
-                $arr_usuarios[$i] = App\User::where([
+                $userDocente = App\User::where([
                     'id_docente' => $docente->id_docente
                 ])->first();
+                $userDocente->docente;
+                $userDocente->ultimo_mensaje = 'ultimo mensaje para el docente';
+                $arr_usuarios[$i] =  $userDocente;
                 $i++;
             }
-            foreach ($colegio->grados()->where('grado_m.estado', '=', 1) as $grado) {
+            foreach ($colegio->grados()->where('grado_m.estado', '=', 1)->get() as $grado) {
                 foreach ($grado->secciones()->where('seccion_d.estado', '=', 1)->get() as $seccion) {
                     foreach ($seccion->alumnos()->where('alumno_d.estado', '=', 1)->get() as $alumno) {
-                        $arr_usuarios[$i] = App\User::where([
+                        $userAlumno = App\User::where([
                             'id_alumno' => $alumno->id_alumno
                         ])->first();
+                        $userAlumno->alumno;
+                        $userAlumno->ultimo_mensaje = 'Ultimo mensaje para el alumno';
+                        $arr_usuarios[$i] = $userAlumno;
                         $i++;
                     }
                 }
