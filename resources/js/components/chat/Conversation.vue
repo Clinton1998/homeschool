@@ -3,11 +3,31 @@
             <div class="chat-header">
                 <template v-if="contact">
                     <div class="chat-header-user">
-                        <figure class="avatar avatar-lg">
-                            <img src="https://via.placeholder.com/150" class="rounded-circle">
+                        <figure class="avatar avatar-lg" v-if="contact.id_docente==null && contact.id_alumno==null && contact.b_root==0">
+                            <img src="/assets/images/colegio/school.png" class="rounded-circle" v-if="contact.colegio.c_logo==null">
+                            <img :src="`/super/colegio/logo/${contact.colegio.c_logo}`" class="rounded-circle" v-else>
                         </figure>
+                        <figure class="avatar avatar-lg" v-else-if="contact.id_docente!=null">
+                            <template v-if="contact.docente.c_foto==null">
+                                <img src="/assets/images/usuario/teacherman.png" class="rounded-circle" v-if="contact.docente.c_sexo=='M'">
+                                <img src="/assets/images/usuario/teacherwoman.png" class="rounded-circle" v-else>
+                            </template>
+                            <img :src="`/super/docente/foto/${contact.docente.c_foto}`" class="rounded-circle" v-else>
+                        </figure>
+                        <figure class="avatar avatar-lg" v-else-if="contact.id_alumno!=null">
+                            <template v-if="contact.alumno.c_foto==null">
+                                <img src="/assets/images/usuario/studentman.png" class="rounded-circle" v-if="contact.alumno.c_sexo=='M'">
+                                <img src="/assets/images/usuario/studentwoman.png" class="rounded-circle" v-else>
+                            </template>
+                            <img :src="`/super/alumno/foto/${contact.alumno.c_foto}`" class="rounded-circle" v-else>
+                        </figure>
+
+
                         <div>
-                            <h5>{{contact.email}}</h5>
+                            <h5 v-if="contact.id_docente==null && contact.id_alumno==null && contact.b_root==0">
+                                {{contact.colegio.c_representante_legal}}</h5>
+                            <h5 v-if="contact.id_docente!=null">{{contact.docente.c_nombre}}</h5>
+                            <h5 v-if="contact.id_alumno!=null">{{contact.alumno.c_nombre}}</h5>
                             <small class="text-muted">
                                 <i>Online</i>
                             </small>

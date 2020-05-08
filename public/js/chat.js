@@ -2685,6 +2685,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -31464,16 +31484,121 @@ var render = function() {
           _vm.contact
             ? [
                 _c("div", { staticClass: "chat-header-user" }, [
-                  _vm._m(0),
+                  _vm.contact.id_docente == null &&
+                  _vm.contact.id_alumno == null &&
+                  _vm.contact.b_root == 0
+                    ? _c("figure", { staticClass: "avatar avatar-lg" }, [
+                        _vm.contact.colegio.c_logo == null
+                          ? _c("img", {
+                              staticClass: "rounded-circle",
+                              attrs: {
+                                src: "/assets/images/colegio/school.png"
+                              }
+                            })
+                          : _c("img", {
+                              staticClass: "rounded-circle",
+                              attrs: {
+                                src:
+                                  "/super/colegio/logo/" +
+                                  _vm.contact.colegio.c_logo
+                              }
+                            })
+                      ])
+                    : _vm.contact.id_docente != null
+                      ? _c(
+                          "figure",
+                          { staticClass: "avatar avatar-lg" },
+                          [
+                            _vm.contact.docente.c_foto == null
+                              ? [
+                                  _vm.contact.docente.c_sexo == "M"
+                                    ? _c("img", {
+                                        staticClass: "rounded-circle",
+                                        attrs: {
+                                          src:
+                                            "/assets/images/usuario/teacherman.png"
+                                        }
+                                      })
+                                    : _c("img", {
+                                        staticClass: "rounded-circle",
+                                        attrs: {
+                                          src:
+                                            "/assets/images/usuario/teacherwoman.png"
+                                        }
+                                      })
+                                ]
+                              : _c("img", {
+                                  staticClass: "rounded-circle",
+                                  attrs: {
+                                    src:
+                                      "/super/docente/foto/" +
+                                      _vm.contact.docente.c_foto
+                                  }
+                                })
+                          ],
+                          2
+                        )
+                      : _vm.contact.id_alumno != null
+                        ? _c(
+                            "figure",
+                            { staticClass: "avatar avatar-lg" },
+                            [
+                              _vm.contact.alumno.c_foto == null
+                                ? [
+                                    _vm.contact.alumno.c_sexo == "M"
+                                      ? _c("img", {
+                                          staticClass: "rounded-circle",
+                                          attrs: {
+                                            src:
+                                              "/assets/images/usuario/studentman.png"
+                                          }
+                                        })
+                                      : _c("img", {
+                                          staticClass: "rounded-circle",
+                                          attrs: {
+                                            src:
+                                              "/assets/images/usuario/studentwoman.png"
+                                          }
+                                        })
+                                  ]
+                                : _c("img", {
+                                    staticClass: "rounded-circle",
+                                    attrs: {
+                                      src:
+                                        "/super/alumno/foto/" +
+                                        _vm.contact.alumno.c_foto
+                                    }
+                                  })
+                            ],
+                            2
+                          )
+                        : _vm._e(),
                   _vm._v(" "),
                   _c("div", [
-                    _c("h5", [_vm._v(_vm._s(_vm.contact.email))]),
+                    _vm.contact.id_docente == null &&
+                    _vm.contact.id_alumno == null &&
+                    _vm.contact.b_root == 0
+                      ? _c("h5", [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(_vm.contact.colegio.c_representante_legal)
+                          )
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _vm._m(1)
+                    _vm.contact.id_docente != null
+                      ? _c("h5", [_vm._v(_vm._s(_vm.contact.docente.c_nombre))])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.contact.id_alumno != null
+                      ? _c("h5", [_vm._v(_vm._s(_vm.contact.alumno.c_nombre))])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm._m(0)
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(2)
+                _vm._m(1)
               ]
             : _c("p", [
                 _vm._v("\n                Selecciona un usuario\n            ")
@@ -31492,17 +31617,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("figure", { staticClass: "avatar avatar-lg" }, [
-      _c("img", {
-        staticClass: "rounded-circle",
-        attrs: { src: "https://via.placeholder.com/150" }
-      })
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
