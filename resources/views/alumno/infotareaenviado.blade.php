@@ -1,6 +1,5 @@
 @extends('reutilizable.principal')
 @section('page-css')
-    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">   
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-alumno.css')}}"> 
 @endsection
 
@@ -71,7 +70,9 @@
 
                 <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
                     <span>Fecha de entrega: <span class="font-weight-semibold text-primary">{{$tarea->t_fecha_hora_entrega}}</span></span>
-                    <button type="button" class="btn btn-primary float-right" id="btnEditarRespuesta" onclick="fxEditarRespuesta({{$respuesta->id_respuesta}});">Editar respuesta</button>
+                    @if(!($tarea->t_fecha_hora_entrega<=date('Y-m-d H:i:s')))
+                        <button type="button" class="btn btn-primary float-right" id="btnEditarRespuesta" onclick="fxEditarRespuesta({{$respuesta->id_respuesta}});">Editar respuesta</button>
+                    @endif
                 </div>
                 
                 
@@ -177,9 +178,6 @@
 
 @section('page-js')
 <!-- page script -->
-
-<script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
-<script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
 <script src="{{asset('assets/js/alumno/infotareaenviado.js')}}"></script>
 @endsection

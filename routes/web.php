@@ -122,9 +122,11 @@ Route::post('alumno/tarea/respuesta', 'usuario\alumno\Tarea@respuesta')->name('a
 Route::post('alumno/tarea/responder', 'usuario\alumno\Tarea@responder')->name('alumno/tarea/responder');
 Route::post('alumno/tarea/editarrespuesta', 'usuario\alumno\Tarea@editar_respuesta')->name('alumno/tarea/editarrespuesta');
 Route::post('alumno/tarea/comentarpendiente', 'usuario\alumno\Tarea@comentar_pendiente')->name('alumno/tarea/comentarpendiente');
+Route::post('alumno/tarea/comentarvencido', 'usuario\alumno\Tarea@comentar_vencido')->name('alumno/tarea/comentarvencido');
 Route::post('alumno/tarea/comentarenviado', 'usuario\alumno\Tarea@comentar_enviado')->name('alumno/tarea/comentarenviado');
 Route::get('alumno/tareapendiente/{id_tarea}', 'usuario\alumno\Tarea@info_pendiente')->name('alumno/tareapendiente/{id_tarea}');
 Route::get('alumno/tareaenviada/{id_tarea}', 'usuario\alumno\Tarea@info_enviado')->name('alumno/tareaenviada/{id_tarea}');
+Route::get('alumno/tareavencida/{id_tarea}', 'usuario\alumno\Tarea@info_vencido')->name('alumno/tareavencida/{id_tarea}');
 Route::get('alumno/tarea/respuestaarchivo/{id_tarea}/{id_respuesta}', 'usuario\alumno\Tarea@descargar_archivo')->name('alumno/tarea/respuestaarchivo/{id_tarea}/{id_respuesta}');
 
 Route::post('docente/cambiarcontrasena', 'usuario\docente\Usuario@cambiar_contrasena')->name('docente/cambiarcontrasena');
