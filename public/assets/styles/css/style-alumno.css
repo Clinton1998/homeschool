@@ -432,6 +432,40 @@ a {
     background: var(--color-tmp-grey);
 }
 
+/*************************** MÓDULOS ***************************/
+
+.box-file {
+    padding: 5px 0 5px 5px;
+    border-bottom: solid 1px lightgrey;
+    cursor: default;
+}
+
+.box-file:hover {
+    background-color: var(--color-tmp-grey);
+}
+
+.box-file-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.box-file-header-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.box-file-link {
+    color: var(--a-color-secundario);
+    margin-left: 27px;
+}
+
+.box-file-link:hover {
+    color: var(--a-color-primario);
+}
+
 /*************************** TAREAS ***************************/
 
 /* @Overwrite */
@@ -599,6 +633,12 @@ a {
 }
 
 @media screen and (max-width: 570px) {
+
+    #btn-nuevo-modulo {
+        margin-top: 0 !important;
+        padding: 5px !important;
+        font-size: 12px;
+    }
 
     .cursos-tablero {
         margin: 0 15px;

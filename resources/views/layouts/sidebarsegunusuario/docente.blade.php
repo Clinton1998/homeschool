@@ -50,6 +50,13 @@
                 </a>
             </li>
 
+            <li class="menu-lateral-item {{ request()->is('docente/cursos*') ? 'item-activo' : '' }}">
+                <a class="menu-lateral-item-link" href="{{route('docente/cursos')}}">
+                    <i class="nav-icon i-Sidebar-Window"></i>
+                    <br>
+                    <span>Mis Cursos</span>
+                </a>
+            </li>
 
             <!--<li class="menu-lateral-item {{ request()->is('docente/videoclase*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="#" onclick="window.open('https://accounts.google.com/signin/v2/dentifier?service=talk&continue=https%3A%2F%2Fhangouts.google.com%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">

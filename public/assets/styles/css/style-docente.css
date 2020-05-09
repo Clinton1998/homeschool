@@ -531,7 +531,7 @@ a {
 /* [7] VIDEOCONFERENCIA v2---------------*/
 
 .hs_message {
-    max-width: 950px;
+    max-width: 1100px;
     margin: 0 auto;
     text-align: center;
     margin-bottom: 15px;
@@ -546,14 +546,10 @@ a {
 .apps {
     display: grid;
     grid-column: 1fr 1fr;
-    grid-template-areas: "jitsi hangouts meet";
+    grid-template-areas: "jitsi meet skype zoom";
     grid-gap: 20px;
-    max-width: 950px;
+    max-width: 1100px;
     margin: 0 auto;
-}
-
-.hangouts {
-    grid-area: "hangouts";
 }
 
 .jitsi {
@@ -564,9 +560,18 @@ a {
     grid-area: "meet";
 }
 
-.hangouts,
+.skype {
+    grid-area: "skype";
+}
+
+.zoom {
+    grid-area: "zoom";
+}
+
+.skype,
 .jitsi,
-.meet {
+.meet,
+.zoom {
     text-align: center;
 }
 
@@ -575,8 +580,8 @@ a {
 }
 
 .apps .card-body {
-    padding-top: 50px;
-    padding-bottom: 50px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .app-logo {
@@ -591,8 +596,8 @@ a {
     margin: 20px 0;
 }
 
-.btn-hangouts {
-    background: #27ae60;
+.btn-skype {
+    background: var(--d-color-secundario);
     color: #FFF;
 }
 
@@ -606,21 +611,22 @@ a {
     color: #FFF;
 }
 
-.btn-hangouts,
+.btn-skype,
 .btn-jitsi,
 .btn-meet {
     color: #FFF !important;
 }
 
-.hangouts:hover img,
+.skype:hover img,
 .jitsi:hover img,
-.meet:hover img {
+.meet:hover img,
+.zoom:hover img {
     transform: scale(1.05);
     cursor: default;
 }
 
-.link-hangouts {
-    color: #27ae60;
+.link-skype {
+    color: var(--d-color-secundario);
 }
 
 .link-jitsi {
@@ -631,10 +637,10 @@ a {
     color: #16a085;
 }
 
-.link-hangouts:hover,
+.link-skype:hover,
 .link-jitsi:hover,
 .link-meet:hover {
-    color: #16a085;
+    color: #000;
 }
 
 @media screen and (max-width: 768px) {
@@ -647,7 +653,7 @@ a {
         display: grid;
         grid-column: 2fr;
         grid-row: 2fr;
-        grid-template-areas: "jitsi hangouts"
+        grid-template-areas: "jitsi skype"
             "jitsi meet";
         max-width: 640px;
     }
@@ -663,7 +669,7 @@ a {
         display: grid;
         grid-column: 1fr;
         grid-template-areas: "jitsi"
-            "hangouts"
+            "skype"
             "meet";
         max-width: 320px;
     }
