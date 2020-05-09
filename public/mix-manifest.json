@@ -1,5 +1,6 @@
 {
     "/assets/js/script.js": "/assets/js/script.js",
     "/js/app.js": "/js/app.js",
+    "/js/chat.js": "/js/chat.js",
     "/assets/js/common-bundle-script.js": "/assets/js/common-bundle-script.js"
 }
