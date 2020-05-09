@@ -1,0 +1,242 @@
+<template>
+    <div class="content">
+        <ContactsList :contacts="contacts" @selected="startConversationWith"/>
+        <Conversation :contact="selectedContact" :messages="messages" @new="saveNewMessage"/>
+        
+        <div class="sidebar-group">
+            <div id="contact-information" class="sidebar">
+                <header>
+                    <span>About</span>
+                    <ul class="list-inline">
+                        <li class="list-inline-item">
+                            <a href="#" class="btn btn-light sidebar-close">
+                                <i class="ti-close"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </header>
+                <div class="sidebar-body">
+                    <div class="pl-4 pr-4 text-center">
+                        <figure class="avatar avatar-state-danger avatar-xl mb-4">
+                            <img src="https://via.placeholder.com/150" class="rounded-circle">
+                        </figure>
+                        <h5 class="text-primary">Frans Hanscombe</h5>
+                        <p class="text-muted">Last seen: Today</p>
+                    </div>
+                    <hr>
+                    <div class="pl-4 pr-4">
+                        <h6>About</h6>
+                        <p class="text-muted">I love reading, traveling and discovering new things. You need to be happy in life.</p>
+                    </div>
+                    <hr>
+                    <div class="pl-4 pr-4">
+                        <h6>Phone</h6>
+                        <p class="text-muted">(555) 555 55 55</p>
+                    </div>
+                    <hr>
+                    <div class="pl-4 pr-4">
+                        <h6>Media</h6>
+                        <div class="files">
+                            <ul class="list-inline">
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <figure class="avatar avatar-lg">
+                                        <span class="avatar-title bg-warning">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </span>
+                                        </figure>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <figure class="avatar avatar-lg">
+                                            <img src="https://via.placeholder.com/150">
+                                        </figure>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <figure class="avatar avatar-lg">
+                                            <img src="https://via.placeholder.com/150">
+                                        </figure>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <figure class="avatar avatar-lg">
+                                            <img src="https://via.placeholder.com/150">
+                                        </figure>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <figure class="avatar avatar-lg">
+                                        <span class="avatar-title bg-success">
+                                            <i class="fa fa-file-excel-o"></i>
+                                        </span>
+                                        </figure>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a href="#">
+                                        <figure class="avatar avatar-lg">
+                                        <span class="avatar-title bg-info">
+                                            <i class="fa fa-file-text-o"></i>
+                                        </span>
+                                        </figure>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="pl-4 pr-4">
+                        <h6>City</h6>
+                        <p class="text-muted">Germany / Berlin</p>
+                    </div>
+                    <hr>
+                    <div class="pl-4 pr-4">
+                        <h6>Website</h6>
+                        <p>
+                            <a href="#">www.franshanscombe.com</a>
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="pl-4 pr-4">
+                        <h6>Social Links</h6>
+                        <ul class="list-inline social-links">
+                            <li class="list-inline-item">
+                                <a href="#" class="btn btn-sm btn-floating btn-facebook">
+                                    <i class="fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn btn-sm btn-floating btn-twitter">
+                                    <i class="fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn btn-sm btn-floating btn-dribbble">
+                                    <i class="fa fa-dribbble"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn btn-sm btn-floating btn-whatsapp">
+                                    <i class="fa fa-whatsapp"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn btn-sm btn-floating btn-linkedin">
+                                    <i class="fa fa-linkedin"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn btn-sm btn-floating btn-google">
+                                    <i class="fa fa-google"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn btn-sm btn-floating btn-behance">
+                                    <i class="fa fa-behance"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="#" class="btn btn-sm btn-floating btn-instagram">
+                                    <i class="fa fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr>
+                    <div class="pl-4 pr-4">
+                        <div class="form-group">
+                            <div class="form-item custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch11">
+                                <label class="custom-control-label" for="customSwitch11">Block</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-item custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" checked="" id="customSwitch12">
+                                <label class="custom-control-label" for="customSwitch12">Mute</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-item custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="customSwitch13">
+                                <label class="custom-control-label" for="customSwitch13">Get notification</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+</template>
+<script>
+    import Conversation from './Conversation';
+    import ContactsList from './ContactsList';
+    export default {
+        props: {
+            user: {
+                type: Object,
+                required: true
+            }
+        },
+        data() {
+            return {
+                selectedContact: null,
+                messages: [],
+                contacts: []
+            };
+        },
+        mounted() {
+            Echo.private(`messages.${this.user.id}`).listen('NewMessage',(e)=>{
+                this.hanleIncoming(e.message);
+            })
+            axios.get('/chat/contacts').then((response) => {
+                console.log(response.data);
+                this.contacts = response.data;
+            });
+        },
+        methods: {
+            startConversationWith(contact){
+                this.updateUnreadCount(contact,true);
+                axios.get(`/chat/conversation/${contact.id}`).then((response) => {
+                    this.messages = response.data;
+                    this.selectedContact = contact;
+                    /*console.log('Las comversaciones devueltas son: ');
+                    console.log(this.messages);*/
+                });
+            },
+            saveNewMessage(message){
+                this.messages.push(message);
+            },
+            hanleIncoming(message){
+                if(this.selectedContact && message.from==this.selectedContact.id){
+                    this.saveNewMessage(message);
+                    return;
+                }
+                this.updateUnreadCount(message.from_contact,false);
+            },
+            updateUnreadCount(contact,reset){
+               this.contacts =  this.contacts.map((single) =>{
+                    if(single.id !=contact.id){
+                        return single;
+                    }
+
+                    if(reset){
+                        single.unread = 0;
+                    }else{
+                        single.unread += 1;
+                    }
+
+                    return single;
+               })
+            }
+        },
+        components: { Conversation, ContactsList }
+    }
+</script>
