@@ -208,6 +208,7 @@
                 this.updateUnreadCount(contact,true);
                 axios.get(`/chat/conversation/${contact.id}`).then((response) => {
                     this.messages = response.data;
+                    contact.ultimo_mensaje = this.messages[this.messages.length-1].text;
                     this.selectedContact = contact;
                 });
             },
@@ -222,16 +223,17 @@
                 this.updateUnreadCount(message.from_contact,false);
             },
             updateUnreadCount(contact,reset){
+            
                this.contacts =  this.contacts.map((single) =>{
                     if(single.id !=contact.id){
                         return single;
                     }
-
                     if(reset){
                         single.unread = 0;
                     }else{
                         single.unread += 1;
                     }
+                    //single.ultimo_mensaje = '';
 
                     return single;
                })

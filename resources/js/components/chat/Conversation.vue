@@ -95,6 +95,7 @@
                     contact_id: this.contact.id,
                     text: text
                 }).then((response)=> {
+                    this.contact.ultimo_mensaje = text;
                     this.$emit('new',response.data);
                 });
             }

@@ -2075,6 +2075,7 @@ __webpack_require__.r(__webpack_exports__);
       this.updateUnreadCount(contact, true);
       axios.get("/chat/conversation/".concat(contact.id)).then(function (response) {
         _this2.messages = response.data;
+        contact.ultimo_mensaje = _this2.messages[_this2.messages.length - 1].text;
         _this2.selectedContact = contact;
       });
     },
@@ -2099,7 +2100,8 @@ __webpack_require__.r(__webpack_exports__);
           single.unread = 0;
         } else {
           single.unread += 1;
-        }
+        } //single.ultimo_mensaje = '';
+
 
         return single;
       });
@@ -2542,6 +2544,8 @@ __webpack_require__.r(__webpack_exports__);
         contact_id: this.contact.id,
         text: text
       }).then(function (response) {
+        _this.contact.ultimo_mensaje = text;
+
         _this.$emit('new', response.data);
       });
     }
