@@ -633,12 +633,12 @@ function LlenarSelects() {
             asignatura3.find('option').remove();
 
             $(data).each(function (i, v) {
-                asignaturas.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignatura.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignaturas2.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignatura2.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignaturas3.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
-                asignatura3.append('<option class="hs_capitalize" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignaturas.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignatura.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignaturas2.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignatura2.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignaturas3.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
+                asignatura3.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
             })
         },
         error: function () {

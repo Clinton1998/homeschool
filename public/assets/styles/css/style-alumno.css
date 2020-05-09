@@ -1,6 +1,9 @@
 :root {
-    --a-color-secundario: #07B0F2;
-    --a-color-primario: rgb(7, 160, 221);
+    /*--a-color-secundario: #07B0F2;
+    --a-color-primario: rgb(7, 160, 221);*/
+    --a-color-secundario: #3498db;
+    --a-color-primario: #2980b9;
+    --color-tmp-grey: #f1f2f6;
 }
 
 /* [0] GENERAL ---------------*/
@@ -44,6 +47,14 @@ a {
     box-shadow: none;
 }
 
+.btn-secondary:hover,
+.btn-secondary:active,
+.btn-secondary:link,
+.btn-secondary:visited,
+.btn-secondary:focus {
+    box-shadow: none;
+}
+
 .form-control:focus {
     border-color: var(--a-color-secundario);
     box-shadow: none;
@@ -79,13 +90,6 @@ a {
 .nav-tabs {
     border-bottom: 1px solid var(--a-color-primario);
 }
-
-
-
-
-
-
-
 
 /* SCROLL */
 
@@ -252,4 +256,477 @@ a {
 
 #mostrar-contador-label {
     margin-bottom: 10px;
+}
+
+/*************************** TABLERO DE CURSOS ***************************/
+
+.cursos-tablero {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    grid-gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.curso-card {
+    background: var(--color-tmp-grey);
+}
+
+.curso-card-header,
+.curso-card-footer {
+    padding: 15px 20px;
+}
+
+.curso-card-header {
+    background-color: var(--a-color-secundario);
+    height: 140px;
+}
+
+.curso-card-titulo {
+    color: #FFF;
+}
+
+.curso-card-footer {
+    background: #ecf0f1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.curso-notify {
+    font-size: 22px;
+    margin-right: 8px;
+}
+
+.card-notify-count {
+    background: #e74c3c;
+    color: #FFF;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 50%;
+}
+
+/*************************** CONTENIDO DE CURSO ***************************/
+
+/* @Overwrite */
+.main-content-wrap {
+    padding: 10px !important;
+}
+
+/* Container */
+.curso-main {
+    display: grid;
+    grid-template-columns: auto auto 200px;
+    grid-gap: 10px;
+    grid-template-areas: "h h a"
+        "c c a";
+}
+
+.curso-main ul {
+    list-style: none;
+}
+
+.curso-header,
+.curso-content {
+    padding: 20px;
+}
+
+/* Header */
+.curso-header {
+    background: var(--a-color-secundario);
+    grid-area: h;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+}
+
+.curso-name {
+    color: #FFF;
+    margin-bottom: 0;
+}
+
+/* Content */
+.curso-content {
+    border: solid 1px lightgrey;
+    grid-area: c;
+    height: calc(100vh - 190px);
+}
+
+/* Aside */
+.curso-aside {
+    background: var(--color-tmp-grey);
+    grid-area: a;
+}
+
+.options-title {
+    background: var(--a-color-secundario);
+    padding: 10px;
+}
+
+.options-name {
+    color: #FFF;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.options {
+    padding-top: 10px;
+}
+
+.option {
+    display: block;
+    padding: 5px 15px;
+}
+
+.curso-menu {
+    display: none;
+}
+
+/*************************** load ***************************/
+
+.content-header {
+    border-bottom: solid 2px lightgrey;
+    margin-bottom: 15px;
+}
+
+.content-title {
+    color: grey;
+}
+
+.content-main {
+    overflow: hidden;
+}
+
+/* Scroll*/
+.my-scroll {
+    max-height: calc(100vh - 270px);
+    overflow: auto;
+    padding-right: 5px;
+}
+
+.my-scroll::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.my-scroll::-webkit-scrollbar:vertical {
+    width: 7px;
+}
+
+.my-scroll::-webkit-scrollbar:horizontal {
+    height: 7px;
+}
+
+.my-scroll::-webkit-scrollbar-button:increment,
+.my-scroll::-webkit-scrollbar-button {
+    display: none;
+}
+
+.my-scroll::-webkit-scrollbar-thumb {
+    background: lightgrey;
+    border-radius: 10px;
+}
+
+.my-scroll::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: var(--color-tmp-grey);
+}
+
+/*************************** TAREAS ***************************/
+
+/* @Overwrite */
+
+.card {
+    overflow: hidden;
+}
+
+.card-header,
+.card-body {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.card-footer {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    background: #FFF !important;
+}
+
+/* Tarea */
+.box-card {
+    max-width: 600px;
+    margin: 0 auto 15px auto;
+}
+
+.box-card p {
+    margin-bottom: 0;
+}
+
+.box-title {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.box-ver {
+    text-align: right;
+    margin-top: 5px;
+}
+
+.box-link {
+    color: var(--a-color-secundario);
+}
+
+.box-link:hover {
+    color: var(--a-color-primario);
+}
+
+.box-fechas {
+    white-space: nowrap;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.box-puntuacion,
+.box-fecha-envio,
+.box-fecha-cierre {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/*************************** CALIFICACIONES ***************************/
+
+#tbl-calificaciones {
+    text-align: center;
+    width: 100%;
+}
+
+#tbl-calificaciones th,
+#tbl-calificaciones td {
+    border: solid 1px #FFF;
+}
+
+#tbl-calificaciones thead {
+    background: var(--color-tmp-grey);
+}
+
+#tbl-calificaciones th {
+    padding: 10px;
+}
+
+#tbl-calificaciones td:nth-child(2) {
+    text-align: left;
+}
+
+#tbl-calificaciones td {
+    padding: 5px;
+}
+
+.tbl-tarea-see:hover {
+    color: var(--a-color-primario);
+}
+
+/*************************** DOCENTE ***************************/
+
+.docente-card {
+    max-width: 270px;
+    margin-top: 15px;
+}
+
+.docente-card-body {
+    padding: 40px 25px !important;
+}
+
+.docente-photo {
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.docente-name {
+    margin: 20px 0 20px 0;
+}
+
+/*************************** ALUMNOS ***************************/
+
+.box-group {
+    max-width: 600px;
+    margin: 0 auto 5px auto;
+    border: solid 1px var(--color-tmp-grey);
+    border-left: solid 3px var(--color-tmp-grey);
+    display: grid;
+    grid-template-columns: 30px 40px auto;
+    grid-gap: 10px;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.box-group:hover {
+    border-color: lightgrey;
+}
+
+.box-group p,
+.box-group strong,
+.box-group h5 {
+    margin-bottom: 0;
+}
+
+.alumno-photo {
+    width: 40px;
+    height: 40px;
+}
+
+.alumno-group {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-left: 10px;
+}
+
+/*************************** ************** ***************************/
+
+@media screen and (max-width: 768px) {
+
+    .cursos-tablero {
+        margin: 0 30px;
+    }
+
+    /* Tablero de cursos */
+    .curso-card-header {
+        height: 120px;
+    }
+}
+
+@media screen and (max-width: 570px) {
+
+    .cursos-tablero {
+        margin: 0 15px;
+    }
+
+    /* Tablero de cursos */
+    .curso-card-header {
+        height: 100px;
+    }
+
+    /* Contenido del curso */
+    .curso-main {
+        grid-template-columns: auto;
+        grid-gap: 5px;
+        grid-template-areas: "h h"
+            "c c";
+    }
+
+    .curso-header {
+        height: 50px;
+    }
+
+    .curso-name {
+        font-size: 17px;
+    }
+
+    .curso-content {
+        padding: 10px;
+        height: calc(100vh - 195px);
+    }
+
+    .curso-aside {
+        display: none;
+    }
+
+    .curso-menu {
+        background: var(--a-color-secundario);
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        margin: 5px 10px;
+        border-radius: 12px;
+        z-index: 100;
+    }
+
+    .items {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        list-style: none;
+        justify-content: space-around;
+        margin-bottom: 0;
+    }
+
+    .items i {
+        font-size: 25px;
+        color: #FFF;
+    }
+
+    .items span {
+        display: none;
+    }
+
+    .dots {
+        margin-top: -5px;
+    }
+
+    .item-more-hide {
+        display: none;
+    }
+
+    .show-item-more {
+        display: block;
+        position: fixed;
+        bottom: 65px;
+        background-color: var(--a-color-secundario);
+        padding: 10px;
+        border-radius: 8px;
+        list-style: none;
+    }
+
+    .content-header {
+        margin-bottom: 5px;
+    }
+
+    .content-title {
+        font-size: 14px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    /* Scroll vertical de contenido */
+    .my-scroll {
+        max-height: calc(100vh - 250px);
+    }
+
+    /* Scroll horizontal de calificaciones */
+    .tbl-container {
+        max-width: calc(100vw - 42px);
+        padding-bottom: 5px;
+    }
+
+    #tbl-calificaciones th {
+        font-size: 11px;
+        padding: 5px;
+    }
+
+    #tbl-calificaciones td {
+        font-size: 11px;
+    }
+
+    /* Cards */
+    .box-card {
+        font-size: 11px;
+    }
+
+    /* Docente */
+    .docente-photo {
+        height: 60px;
+    }
+
+    .docente-name {
+        margin: 10px 0 10px 0;
+        font-size: 16px;
+    }
 }

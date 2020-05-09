@@ -51,7 +51,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="nom_asignatura">Color</label>
-                                    <input disabled type="color" class="form-control" id="color_asignatura" name="color_asignatura" value="#ffffff">
+                                    <input disabled type="color" class="form-control" id="color_asignatura" name="color_asignatura" value="#bdc3c7">
                                     <div class="hs_mask" data-toggle="modal" data-target="#modal-color"></div>
                                     <div class="invalid-feedback">
                                         Necesitas establecer un color

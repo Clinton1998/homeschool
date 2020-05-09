@@ -1,6 +1,8 @@
 :root {
-    --pa-color-secundario: #07B0F2;
-    --pa-color-primario: rgb(7, 160, 221);
+    /*--pa-color-secundario: #07B0F2;
+    --pa-color-primario: rgb(7, 160, 221);*/
+    --pa-color-secundario: #3498db;
+    --pa-color-primario: #2980b9;
 }
 
 * {
