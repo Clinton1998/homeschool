@@ -29,11 +29,12 @@
                             <h5 v-if="contact.id_docente!=null">{{contact.docente.c_nombre}}</h5>
                             <h5 v-if="contact.id_alumno!=null">{{contact.alumno.c_nombre}}</h5>
                             <small class="text-muted">
-                                <i>Online</i>
+                                <i v-if="contact.is_online">Online</i>
+                                <i v-else>Offline</i>
                             </small>
                         </div>
                     </div>
-                    <div class="chat-header-action">
+                    <!--<div class="chat-header-action">
                         <ul class="list-inline">
                             <li class="list-inline-item">
                                 <a href="#" class="btn btn-success">
@@ -58,7 +59,7 @@
                                 </div>
                             </li>
                         </ul>
-                    </div>
+                    </div>-->
                 </template>
                 <p v-else>
                     Selecciona un usuario

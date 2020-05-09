@@ -6,9 +6,9 @@
                 <div class="message-content">
                     {{message.text}}
                 </div>
-                <div class="message-action">
+                <!--<div class="message-action">
                     Pm 14:50 <i class="ti-double-check"></i>
-                </div>
+                </div>-->
             </div>
         </div>
 

@@ -1,6 +1,6 @@
 <template>
     <div class="content">
-        <ContactsList :contacts="contacts" @selected="startConversationWith"/>
+        <ContactsList :contacts="contacts" :friends="friends" @selected="startConversationWith"/>
         <Conversation :contact="selectedContact" :messages="messages" @new="saveNewMessage"/>
         
         <div class="sidebar-group">
@@ -189,7 +189,8 @@
             return {
                 selectedContact: null,
                 messages: [],
-                contacts: []
+                contacts: [],
+                friends: []
             };
         },
         mounted() {
@@ -198,7 +199,8 @@
             })
             axios.get('/chat/contacts').then((response) => {
                 console.log(response.data);
-                this.contacts = response.data;
+                this.contacts = response.data.contacts;
+                this.friends = response.data.friends;
             });
         },
         methods: {
@@ -207,8 +209,6 @@
                 axios.get(`/chat/conversation/${contact.id}`).then((response) => {
                     this.messages = response.data;
                     this.selectedContact = contact;
-                    /*console.log('Las comversaciones devueltas son: ');
-                    console.log(this.messages);*/
                 });
             },
             saveNewMessage(message){

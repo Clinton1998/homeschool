@@ -13,9 +13,11 @@ class ContactsController extends Controller
     {
         $this->middleware('auth');
     }*/
+    
     public function get()
     {
         $contacts = '';
+        $friends = '';
         if (is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root == 0) {
             //superadministrador del colegio
             $colegio = App\Colegio_m::where([
@@ -50,26 +52,50 @@ class ContactsController extends Controller
             $contacts = collect($arr_usuarios);
         } else if (!is_null(Auth::user()->id_docente)) {
             $docente = App\Docente_d::findOrFail(Auth::user()->id_docente);
-            $userSuperAdmin =  App\User::findOrFail($docente->colegio->id_superadministrador);
-            $userSuperAdmin->colegio  = $docente->colegio;
+            $userSuperAdmin = App\User::findOrFail($docente->colegio->id_superadministrador);
+            $userSuperAdmin->colegio = $docente->colegio;
             $userSuperAdmin->is_online = $userSuperAdmin->isOnline();
-            $userSuperAdmin->ultimo_mensaje = 'Ultimo mensaje para el superadministrador';
-            $arr_usuarios = array($userSuperAdmin);
-            $i = 1;
+
+            $u_con_conversacion = array();
+            $u_sin_conversacion = array();
+
+            $mensaje = App\Message::where([
+                'from'=> Auth::user()->id,
+                'to' => $userSuperAdmin->id
+            ])->orderBy('created_at','DESC')->first();
+            if(!is_null($mensaje) && !empty($mensaje)){
+                $userSuperAdmin->ultimo_mensaje = $mensaje->text;
+                $u_con_conversacion[] = $userSuperAdmin;
+            }else{
+                $userSuperAdmin->ultimo_mensaje = '';
+                $u_sin_conversacion[] = $userSuperAdmin;
+            }
+
             $colegas = App\Docente_d::where([
                 ['id_colegio', '=', $docente->colegio->id_colegio],
                 ['estado', '=', 1],
                 ['id_docente', '<>', $docente->id_docente]
             ])->get();
+
             foreach ($colegas as $colega) {
                 $userColega = App\User::where([
                     'id_docente' => $colega->id_docente
                 ])->first();
                 $userColega->docente;
                 $userColega->is_online = $userColega->isOnline();
-                $userColega->ultimo_mensaje = 'Ultimo mensaje para colega';
-                $arr_usuarios[$i] = $userColega;
-                $i++;
+
+                $msg_colega = App\Message::where([
+                    'from' => Auth::user()->id,
+                    'to' => $userColega->id
+                ])->orderBy('created_at','DESC')->first();
+                
+                if(!is_null($msg_colega) && !empty($msg_colega)){
+                    $userColega->ultimo_mensaje = $msg_colega->text;
+                    $u_con_conversacion[] = $userColega;
+                }else{
+                    $userColega->ultimo_mensaje = '';
+                    $u_sin_conversacion[] = $userColega;
+                }
             }
 
             foreach ($docente->secciones()->where('seccion_d.estado', '=', 1)->get() as $seccion) {
@@ -79,13 +105,24 @@ class ContactsController extends Controller
                     ])->first();
                     $userAlumno->alumno;
                     $userAlumno->is_online = $userAlumno->isOnline();
-                    $userAlumno->ultimo_mensaje = 'Ultimo mensaje para alumno';
-                    $arr_usuarios[$i] = $userAlumno;
-                    $i++;
+                    $msg_alumno = App\Message::where([
+                        'from' => Auth::user()->id,
+                        'to' => $userAlumno->id
+                    ])->orderBy('created_at','DESC')->first();
+
+                    if(!is_null($msg_alumno) && !empty($msg_alumno)){
+                        $userAlumno->ultimo_mensaje = $msg_alumno->text;
+                        $u_con_conversacion[] = $userAlumno;
+                    }else{
+                        $userAlumno->ultimo_mensaje = '';
+                        $u_sin_conversacion[] = $userAlumno;
+                    }
                 }
             }
 
-            $contacts = collect($arr_usuarios);
+            $contacts = collect($u_con_conversacion);
+            $friends = collect($u_sin_conversacion);
+
         } else if (!is_null(Auth::user()->id_alumno)) {
             //alumno de una seccion
             $alumno = App\Alumno_d::findOrFail(Auth::user()->id_alumno);
@@ -139,8 +176,12 @@ class ContactsController extends Controller
             }*/
             return $contact;
         });
+        $datos = array(
+            'contacts' => $contacts,
+            'friends' => $friends
+        );
 
-        return response()->json($contacts);
+        return response()->json($datos);
     }
 
     public function getMessagesFor($id)

@@ -2052,7 +2052,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       selectedContact: null,
       messages: [],
-      contacts: []
+      contacts: [],
+      friends: []
     };
   },
   mounted: function mounted() {
@@ -2063,7 +2064,8 @@ __webpack_require__.r(__webpack_exports__);
     });
     axios.get('/chat/contacts').then(function (response) {
       console.log(response.data);
-      _this.contacts = response.data;
+      _this.contacts = response.data.contacts;
+      _this.friends = response.data.friends;
     });
   },
   methods: {
@@ -2074,8 +2076,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/chat/conversation/".concat(contact.id)).then(function (response) {
         _this2.messages = response.data;
         _this2.selectedContact = contact;
-        /*console.log('Las comversaciones devueltas son: ');
-        console.log(this.messages);*/
       });
     },
     saveNewMessage: function saveNewMessage(message) {
@@ -2394,202 +2394,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contacts: {
+      type: Array,
+      default: []
+    },
+    friends: {
       type: Array,
       default: []
     }
@@ -2633,6 +2444,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MessagesFeed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MessagesFeed */ "./resources/js/components/chat/MessagesFeed.vue");
 /* harmony import */ var _MessageComposer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MessageComposer */ "./resources/js/components/chat/MessageComposer.vue");
+//
 //
 //
 //
@@ -2751,12 +2563,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -29944,7 +29750,7 @@ var render = function() {
     { staticClass: "content" },
     [
       _c("ContactsList", {
-        attrs: { contacts: _vm.contacts },
+        attrs: { contacts: _vm.contacts, friends: _vm.friends },
         on: { selected: _vm.startConversationWith }
       }),
       _vm._v(" "),
@@ -30479,11 +30285,7 @@ var render = function() {
                           _vm._v(_vm._s(contact.unread))
                         ])
                       ])
-                    : _c(
-                        "div",
-                        { staticClass: "users-list-action action-toggle" },
-                        [_vm._m(2, true)]
-                      )
+                    : _vm._e()
                 ])
               ]
             )
@@ -30493,7 +30295,174 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _vm._m(3),
+    _c("div", { staticClass: "sidebar", attrs: { id: "friends" } }, [
+      _vm._m(2),
+      _vm._v(" "),
+      _vm._m(3),
+      _vm._v(" "),
+      _c("div", { staticClass: "sidebar-body" }, [
+        _c(
+          "ul",
+          { staticClass: "list-group list-group-flush" },
+          _vm._l(_vm.friends, function(friend) {
+            return _c(
+              "li",
+              {
+                key: friend.id,
+                staticClass: "list-group-item",
+                class: { "open-chat": friend == _vm.selected },
+                on: {
+                  click: function($event) {
+                    return _vm.selectContact(friend)
+                  }
+                }
+              },
+              [
+                _c("div", [
+                  friend.id_docente == null &&
+                  friend.id_alumno == null &&
+                  friend.b_root == 0
+                    ? _c(
+                        "figure",
+                        {
+                          class:
+                            "avatar " +
+                            (friend.is_online ? "avatar-state-success" : "")
+                        },
+                        [
+                          friend.colegio.c_logo == null
+                            ? _c("img", {
+                                staticClass: "rounded-circle",
+                                attrs: {
+                                  src: "/assets/images/colegio/school.png"
+                                }
+                              })
+                            : _c("img", {
+                                staticClass: "rounded-circle",
+                                attrs: {
+                                  src:
+                                    "/super/colegio/logo/" +
+                                    friend.colegio.c_logo
+                                }
+                              })
+                        ]
+                      )
+                    : friend.id_docente != null
+                      ? _c(
+                          "figure",
+                          {
+                            class:
+                              "avatar " +
+                              (friend.is_online ? "avatar-state-success" : "")
+                          },
+                          [
+                            friend.docente.c_foto == null
+                              ? [
+                                  friend.docente.c_sexo == "M"
+                                    ? _c("img", {
+                                        staticClass: "rounded-circle",
+                                        attrs: {
+                                          src:
+                                            "/assets/images/usuario/teacherman.png"
+                                        }
+                                      })
+                                    : _c("img", {
+                                        staticClass: "rounded-circle",
+                                        attrs: {
+                                          src:
+                                            "/assets/images/usuario/teacherwoman.png"
+                                        }
+                                      })
+                                ]
+                              : _c("img", {
+                                  staticClass: "rounded-circle",
+                                  attrs: {
+                                    src:
+                                      "/super/docente/foto/" +
+                                      friend.docente.c_foto
+                                  }
+                                })
+                          ],
+                          2
+                        )
+                      : friend.id_alumno != null
+                        ? _c(
+                            "figure",
+                            {
+                              class:
+                                "avatar " +
+                                (friend.is_online ? "avatar-state-success" : "")
+                            },
+                            [
+                              friend.alumno.c_foto == null
+                                ? [
+                                    friend.alumno.c_sexo == "M"
+                                      ? _c("img", {
+                                          staticClass: "rounded-circle",
+                                          attrs: {
+                                            src:
+                                              "/assets/images/usuario/studentman.png"
+                                          }
+                                        })
+                                      : _c("img", {
+                                          staticClass: "rounded-circle",
+                                          attrs: {
+                                            src:
+                                              "/assets/images/usuario/studentwoman.png"
+                                          }
+                                        })
+                                  ]
+                                : _c("img", {
+                                    staticClass: "rounded-circle",
+                                    attrs: {
+                                      src:
+                                        "/super/alumno/foto/" +
+                                        friend.alumno.c_foto
+                                    }
+                                  })
+                            ],
+                            2
+                          )
+                        : _vm._e()
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "users-list-body" }, [
+                  friend.id_docente == null &&
+                  friend.id_alumno == null &&
+                  friend.b_root == 0
+                    ? _c("h5", [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(friend.colegio.c_representante_legal)
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  friend.id_docente != null
+                    ? _c("h5", [_vm._v(_vm._s(friend.docente.c_nombre))])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  friend.id_alumno != null
+                    ? _c("h5", [_vm._v(_vm._s(friend.alumno.c_nombre))])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("p", [_vm._v(_vm._s(friend.ultimo_mensaje))]),
+                  _vm._v(" "),
+                  friend.unread
+                    ? _c("div", { staticClass: "users-list-action" }, [
+                        _c("div", { staticClass: "new-message-count" }, [
+                          _vm._v(_vm._s(friend.unread))
+                        ])
+                      ])
+                    : _vm._e()
+                ])
+              ]
+            )
+          }),
+          0
+        )
+      ])
+    ]),
     _vm._v(" "),
     _vm._m(4)
   ])
@@ -30504,14 +30473,14 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("header", [
-      _c("span", [_vm._v("Chats")]),
+      _c("span", [_vm._v("Conversaciones")]),
       _vm._v(" "),
       _c("ul", { staticClass: "list-inline" }, [
         _c(
           "li",
           {
             staticClass: "list-inline-item",
-            attrs: { "data-toggle": "tooltip", title: "New Group" }
+            attrs: { "data-toggle": "tooltip", title: "Nuevo grupo" }
           },
           [
             _c(
@@ -30536,7 +30505,7 @@ var staticRenderFns = [
               staticClass: "btn btn-light",
               attrs: {
                 "data-toggle": "tooltip",
-                title: "New Chat",
+                title: "Nueva conversación",
                 href: "#",
                 "data-navigation-target": "friends"
               }
@@ -30565,7 +30534,7 @@ var staticRenderFns = [
     return _c("form", { attrs: { action: "" } }, [
       _c("input", {
         staticClass: "form-control",
-        attrs: { type: "text", placeholder: "Search chat" }
+        attrs: { type: "text", placeholder: "Buscar conversación" }
       })
     ])
   },
@@ -30573,702 +30542,17 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "dropdown" }, [
-      _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-        _c("i", { staticClass: "ti-more" })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "dropdown-menu dropdown-menu-right" }, [
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _vm._v("Open")
-        ]),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass: "dropdown-item",
-            attrs: {
-              href: "#",
-              "data-navigation-target": "contact-information"
-            }
-          },
-          [_vm._v("Profile")]
-        ),
-        _vm._v(" "),
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _vm._v("Add to archive")
-        ]),
-        _vm._v(" "),
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _vm._v("Delete")
-        ])
-      ])
-    ])
+    return _c("header", [_c("span", [_vm._v("Amigos")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "sidebar", attrs: { id: "friends" } }, [
-      _c("header", [
-        _c("span", [_vm._v("Friends")]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "list-inline" }, [
-          _c("li", { staticClass: "list-inline-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-light",
-                attrs: {
-                  href: "#",
-                  "data-toggle": "modal",
-                  "data-target": "#addFriends"
-                }
-              },
-              [
-                _c("i", { staticClass: "ti-plus btn-icon" }),
-                _vm._v(" Add Friends\n                    ")
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-inline-item d-lg-none d-sm-block" }, [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-light sidebar-close",
-                attrs: { href: "#" }
-              },
-              [_c("i", { staticClass: "ti-close" })]
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("form", { attrs: { action: "" } }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", placeholder: "Search chat" }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "sidebar-body" }, [
-        _c("ul", { staticClass: "list-group list-group-flush" }, [
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c("img", {
-                  staticClass: "rounded-circle",
-                  attrs: { src: "https://via.placeholder.com/150" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Harrietta Souten")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c(
-                  "span",
-                  { staticClass: "avatar-title bg-success rounded-circle" },
-                  [_vm._v("A")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Aline McShee")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c("img", {
-                  staticClass: "rounded-circle",
-                  attrs: { src: "https://via.placeholder.com/150" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Brietta Blogg")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c("img", {
-                  staticClass: "rounded-circle",
-                  attrs: { src: "https://via.placeholder.com/150" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Karl Hubane")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c("img", {
-                  staticClass: "rounded-circle",
-                  attrs: { src: "https://via.placeholder.com/150" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Jillana Tows")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c(
-                  "span",
-                  { staticClass: "avatar-title bg-info rounded-circle" },
-                  [_vm._v("AD")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Alina Derington")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c(
-                  "span",
-                  { staticClass: "avatar-title bg-warning rounded-circle" },
-                  [_vm._v("S")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Stevy Kermeen")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c("img", {
-                  staticClass: "rounded-circle",
-                  attrs: { src: "https://via.placeholder.com/150" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Stevy Kermeen")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c("img", {
-                  staticClass: "rounded-circle",
-                  attrs: { src: "https://via.placeholder.com/150" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Gloriane Shimmans")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", [
-              _c("figure", { staticClass: "avatar" }, [
-                _c(
-                  "span",
-                  { staticClass: "avatar-title bg-secondary rounded-circle" },
-                  [_vm._v("B")]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Bernhard Perrett")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Open")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        {
-                          staticClass: "dropdown-item",
-                          attrs: {
-                            href: "#",
-                            "data-navigation-target": "contact-information"
-                          }
-                        },
-                        [_vm._v("Profile")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Add to archive")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ])
-        ])
-      ])
+    return _c("form", { attrs: { action: "" } }, [
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "text", placeholder: "Search chat" }
+      })
     ])
   },
   function() {
@@ -31612,11 +30896,13 @@ var render = function() {
                       ? _c("h5", [_vm._v(_vm._s(_vm.contact.alumno.c_nombre))])
                       : _vm._e(),
                     _vm._v(" "),
-                    _vm._m(0)
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm.contact.is_online
+                        ? _c("i", [_vm._v("Online")])
+                        : _c("i", [_vm._v("Offline")])
+                    ])
                   ])
-                ]),
-                _vm._v(" "),
-                _vm._m(1)
+                ])
               ]
             : _c("p", [
                 _vm._v("\n                Selecciona un usuario\n            ")
@@ -31634,81 +30920,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("small", { staticClass: "text-muted" }, [
-      _c("i", [_vm._v("Online")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "chat-header-action" }, [
-      _c("ul", { staticClass: "list-inline" }, [
-        _c("li", { staticClass: "list-inline-item" }, [
-          _c("a", { staticClass: "btn btn-success", attrs: { href: "#" } }, [
-            _c("i", {
-              staticClass: "fa fa-phone",
-              attrs: { "aria-hidden": "true" }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "list-inline-item" }, [
-          _c("a", { staticClass: "btn btn-secondary", attrs: { href: "#" } }, [
-            _c("i", {
-              staticClass: "fa fa-video-camera",
-              attrs: { "aria-hidden": "true" }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "list-inline-item" }, [
-          _c(
-            "a",
-            {
-              staticClass: "btn btn-secondary",
-              attrs: { href: "#", "data-toggle": "dropdown" }
-            },
-            [_c("i", { staticClass: "ti-more" })]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "dropdown-menu dropdown-menu-right" }, [
-            _c(
-              "a",
-              {
-                staticClass: "dropdown-item",
-                attrs: {
-                  href: "#",
-                  "data-navigation-target": "contact-information"
-                }
-              },
-              [_vm._v("Profile")]
-            ),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Add to archive")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Delete")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "dropdown-divider" }),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Block")
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -31768,45 +30980,21 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "form-buttons" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-floating",
+            attrs: { type: "button" },
+            on: { click: _vm.send }
+          },
+          [_c("i", { staticClass: "fa fa-send" })]
+        )
+      ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-buttons" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-light btn-floating",
-          attrs: { type: "button" }
-        },
-        [_c("i", { staticClass: "fa fa-paperclip" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-light btn-floating",
-          attrs: { type: "button" }
-        },
-        [_c("i", { staticClass: "fa fa-microphone" })]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary btn-floating",
-          attrs: { type: "submit" }
-        },
-        [_c("i", { staticClass: "fa fa-send" })]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -31851,9 +31039,7 @@ var render = function() {
                       _vm._s(message.text) +
                       "\n            "
                   )
-                ]),
-                _vm._v(" "),
-                _vm._m(0, true)
+                ])
               ]
             )
           }),
@@ -31866,17 +31052,7 @@ var render = function() {
         ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "message-action" }, [
-      _vm._v("\n                Pm 14:50 "),
-      _c("i", { staticClass: "ti-double-check" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
