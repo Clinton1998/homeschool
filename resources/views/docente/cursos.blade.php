@@ -7,7 +7,7 @@
 
 <body>
     @foreach ($secciones as $s)
-        <strong class="hs_titulo">{{substr($s->nom_grado,3)}} {{$s->c_nombre}} {{$s->nom_nivel}}</strong>
+        <h5 class="hs_titulo">{{substr($s->nom_grado,3)}} {{$s->c_nombre}} {{$s->nom_nivel}}</h5>
         <section class="cursos-tablero">
             @foreach ($cursos as $c)
                 @if ($c->id_seccion == $s->id_seccion)

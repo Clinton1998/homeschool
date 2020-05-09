@@ -18,6 +18,9 @@
         <!--Content-->
         <div class="curso-content">
             <div class="curso-load">
+                <div id="cm">
+                    @include('alumno.cursomodulo')
+                </div>
                 <div id="ct">
                     @include('alumno.cursotarea')
                 </div>
@@ -44,7 +47,7 @@
                 </div>
                 <ul class="options">
                     <li>
-                        <a class="option" href="#"><i class="mr-2 nav-icon i-Check"></i>Módulos</a>
+                        <a class="show-cm option" href="#"><i class="mr-2 nav-icon i-Check"></i>Módulos</a>
                     </li>
                     <li>
                         <a class="option" href="#"><i class="mr-2 nav-icon i-Speach-Bubbles"></i>Foros</a>
@@ -54,7 +57,7 @@
                             $counter_tareas = 0      
                         @endphp
                         @foreach ($tareas as $t)
-                            @if($t->pivot->c_estado=='APEN')
+                            @if($t->pivot->c_estado=='APEN' && $t->estado==1 && $t->t_fecha_hora_entrega > date('Y-m-d H:i:s'))
                                 @php
                                     $counter_tareas++
                                 @endphp
@@ -95,7 +98,7 @@
     <div class="curso-menu">
         <ul class="items">
             <li>
-                <a class="item" href="#"><i class="nav-icon i-Check"></i><span>Módulos</span></a>
+                <a class="show-cm item" href="#"><i class="nav-icon i-Check"></i><span>Módulos</span></a>
             </li>
             <li>
                 <a class="item" href="#"><i class="nav-icon i-Speach-Bubbles"></i><span>Foros</span></a>
@@ -139,13 +142,24 @@
     });
 
     $(document).ready( function () {
+        $("#cm").hide();
         $("#ct").show();
         $("#ca").hide();
         $("#cc").hide();
         $("#cd").hide();
         $("#cal").hide();
 
+        $('.show-cm').click(function(){
+            $("#cm").show();
+            $("#ct").hide();
+            $("#ca").hide();
+            $("#cc").hide();
+            $("#cd").hide();
+            $("#cal").hide();
+        });
+
         $('.show-ct').click(function(){
+            $("#cm").hide();
             $("#ct").show();
             $("#ca").hide();
             $("#cc").hide();
@@ -154,6 +168,7 @@
         });
 
         $('.show-ca').click(function(){
+            $("#cm").hide();
             $("#ct").hide();
             $("#ca").show();
             $("#cc").hide();
@@ -162,6 +177,7 @@
         });
 
         $('.show-cc').click(function(){
+            $("#cm").hide();
             $("#ct").hide();
             $("#ca").hide();
             $("#cc").show();
@@ -170,6 +186,7 @@
         });
 
         $('.show-cd').click(function(){
+            $("#cm").hide();
             $("#ct").hide();
             $("#ca").hide();
             $("#cc").hide();
@@ -178,6 +195,7 @@
         });
 
         $('.show-cal').click(function(){
+            $("#cm").hide();
             $("#ct").hide();
             $("#ca").hide();
             $("#cc").hide();

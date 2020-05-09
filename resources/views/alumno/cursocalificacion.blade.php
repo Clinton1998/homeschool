@@ -20,8 +20,10 @@
                         <tr>
                             <td style="display: none">{{$t->id_tarea}}</td>
 
-                            @if ($t->pivot->c_estado=='APEN')
+                            @if ($t->pivot->c_estado=='APEN' && $t->t_fecha_hora_entrega >= date('Y-m-d H:i:s'))
                                 <td class="hs_capitalize-first"><a class="tbl-tarea-see" target="_blank" href="{{url('alumno/tareapendiente/'.$t->id_tarea)}}">{{$t->c_titulo}}</a></td>
+                            @elseif($t->pivot->c_estado=='APEN' && $t->t_fecha_hora_entrega < date('Y-m-d H:i:s'))
+                                <td class="hs_capitalize-first"><a class="tbl-tarea-see" href="#">{{$t->c_titulo}}</a></td>
                             @elseif($t->pivot->c_estado=='AENV')
                                 <td class="hs_capitalize-first"><a class="tbl-tarea-see" target="_blank" href="{{url('alumno/tareaenviada/'.$t->id_tarea)}}">{{$t->c_titulo}}</a></td>
                             @else
@@ -30,9 +32,12 @@
                             
                             <td><small>{{$t->t_fecha_hora_entrega}}</small></td>
 
-                            @if ($t->pivot->c_estado=='APEN')
+                            @if ($t->pivot->c_estado=='APEN' && $t->t_fecha_hora_entrega >= date('Y-m-d H:i:s'))
                                 <td class="hs_capitalize-first"><small>POR HACER</small></td>
                                 <td>-</td>
+                            @elseif($t->pivot->c_estado=='APEN' && $t->t_fecha_hora_entrega < date('Y-m-d H:i:s'))
+                                <td class="hs_capitalize-first"><small>VENCIDO</small></td>
+                                <td></td>
                             @elseif($t->pivot->c_estado=='AENV')
                                 <td class="hs_capitalize-first"><small>PRESENTADO</small></td>
                                 <td><small>EN REVISIÓN</small></td>

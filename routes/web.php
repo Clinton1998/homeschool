@@ -109,11 +109,20 @@ Route::get('comunicado/ver/{id_comunicado}', 'usuario\super\Comunicado@info')->n
 Route::get('comunicado/archivo/{id_comunicado}', 'usuario\super\Comunicado@descargar_archivo')->name('comunicado/archivo/{id_comunicado}');
 
 // CURSOS *********************************************************
+
 Route::get('alumno/cursos', 'usuario\alumno\Cursos@index')->name('alumno/cursos');
 Route::get('alumno/cursos/curso/{id_curso}', 'usuario\alumno\Cursos@curso')->name('alumno/cursos/curso/{id_curso}');
+Route::get('alumno/cursos/descargar_archivo/{id_archivo}', 'usuario\alumno\Cursos@descargar_archivo')->name('alumno/cursos/descargar_archivo/{id_archivo}');
 
 Route::get('docente/cursos', 'usuario\docente\Cursos@index')->name('docente/cursos');
 Route::get('docente/cursos/curso/{id_curso}', 'usuario\docente\Cursos@curso')->name('docente/cursos/curso/{id_curso}');
+Route::post('docente/cursos/crear_modulo', 'usuario\docente\Cursos@crear_modulo')->name('docente/cursos/crear_modulo');
+Route::post('docente/cursos/actualizar_modulo', 'usuario\docente\Cursos@actualizar_modulo')->name('docente/cursos/actualizar_modulo');
+Route::post('docente/cursos/eliminar_modulo', 'usuario\docente\Cursos@eliminar_modulo')->name('docente/cursos/eliminar_modulo');
+Route::post('docente/cursos/agregar_archivo', 'usuario\docente\Cursos@agregar_archivo')->name('docente/cursos/agregar_archivo');
+Route::post('docente/cursos/eliminar_archivo', 'usuario\docente\Cursos@eliminar_archivo')->name('docente/cursos/eliminar_archivo');
+Route::get('docente/cursos/descargar_archivo/{id_archivo}', 'usuario\docente\Cursos@descargar_archivo')->name('docente/cursos/descargar_archivo/{id_archivo}');
+
 // CURSOS *********************************************************
 
 //rutas para el alumno
