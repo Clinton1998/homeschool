@@ -30480,28 +30480,6 @@ var staticRenderFns = [
       _c("span", [_vm._v("Conversaciones")]),
       _vm._v(" "),
       _c("ul", { staticClass: "list-inline" }, [
-        _c(
-          "li",
-          {
-            staticClass: "list-inline-item",
-            attrs: { "data-toggle": "tooltip", title: "Nuevo grupo" }
-          },
-          [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-light",
-                attrs: {
-                  href: "#",
-                  "data-toggle": "modal",
-                  "data-target": "#newGroup"
-                }
-              },
-              [_c("i", { staticClass: "fa fa-users" })]
-            )
-          ]
-        ),
-        _vm._v(" "),
         _c("li", { staticClass: "list-inline-item" }, [
           _c(
             "a",

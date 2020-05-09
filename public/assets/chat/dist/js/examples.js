@@ -4,4 +4,5 @@ $(function () {
             $(this).closest('.sidebar-group').removeClass('mobile-open');
         }
     });
+
 });

@@ -7,11 +7,11 @@
             <header>
                 <span>Conversaciones</span>
                 <ul class="list-inline">
-                    <li class="list-inline-item" data-toggle="tooltip" title="Nuevo grupo">
+                    <!--<li class="list-inline-item" data-toggle="tooltip" title="Nuevo grupo">
                         <a class="btn btn-light" href="#" data-toggle="modal" data-target="#newGroup">
                             <i class="fa fa-users"></i>
                         </a>
-                    </li>
+                    </li>-->
                     <li class="list-inline-item">
                         <a class="btn btn-light" data-toggle="tooltip" title="Nueva conversación" href="#"
                             data-navigation-target="friends">

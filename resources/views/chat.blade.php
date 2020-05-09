@@ -140,7 +140,6 @@
 <script src="{{asset('assets/chat/vendor/jquery-3.4.1.min.js')}}"></script>
 <script src="{{asset('assets/chat/vendor/popper.min.js')}}"></script>
 <script src="{{asset('assets/chat/vendor/bootstrap/bootstrap.min.js')}}"></script>
-<script src="{{asset('assets/chat/vendor/jquery.nicescroll.min.js')}}"></script>
 <script src="{{asset('assets/chat/dist/js/soho.min.js')}}"></script>
 <script src="{{asset('assets/chat/dist/js/examples.js')}}"></script>
 </body>
