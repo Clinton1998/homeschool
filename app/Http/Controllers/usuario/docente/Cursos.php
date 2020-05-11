@@ -127,6 +127,8 @@ class Cursos extends Controller
         $modulo->modificador = Auth::user()->id;
         $modulo->save();
 
+        Storage::deleteDirectory('archivos/'. $Request->id_modulo);
+
         $modulos = DB::table('modulo_d')
             ->select('modulo_d.*')
             ->where(['modulo_d.id_seccion_categoria' => $Request->id_seccion_categoria, 'modulo_d.estado' => 1])
@@ -148,7 +150,7 @@ class Cursos extends Controller
             $archivo->c_url = $nombre;
         }
         
-        //$archivo->c_url = $Request->input('url_archivo');
+        $archivo->c_link = $Request->input('url_archivo');
         $archivo->creador = Auth::user()->id;
         $archivo->save();
 
@@ -162,6 +164,8 @@ class Cursos extends Controller
 
     public function eliminar_archivo(Request $Request){
 
+        $archivo = App\Archivo_d::where(['id_archivo' => $Request->id_archivo])->first();
+        Storage::delete('archivos/'. $Request->id_modulo .'/'. $archivo->c_url);
         DB::table('archivo_d')->where(['id_archivo' => $Request->id_archivo])->delete();
 
         $archivos = DB::table('archivo_d')

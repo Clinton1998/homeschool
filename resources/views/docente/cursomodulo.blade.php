@@ -52,7 +52,18 @@
                                                         <a href="#" class="badge badge-light" onclick="EliminarArchivo({{$a->id_archivo}}, {{$a->id_modulo}})">Eliminar</a>
                                                     </div>
                                                     <div class="boc-file-footer">
-                                                        <a href="{{url('/docente/cursos/descargar_archivo/'.$a->id_archivo)}}" class="box-file-link" download="{{$a->c_url}}">Descargar</a>
+                                                        @if (($a->c_url != null) && ($a->c_link != null))
+                                                            <a href="{{url('/docente/cursos/descargar_archivo/'.$a->id_archivo)}}" class="box-file-link" download="{{$a->c_url}}">Descargar archivo</a>
+                                                            <a href="{{$a->c_link}}" class="box-file-link" target="_blank">Ver Link</a>                                                        
+                                                        @else
+                                                            @if ($a->c_url != null)
+                                                                <a href="{{url('/docente/cursos/descargar_archivo/'.$a->id_archivo)}}" class="box-file-link" download="{{$a->c_url}}">Descargar archivo</a>
+                                                            @endif
+
+                                                            @if ($a->c_link != null)
+                                                                <a href="{{$a->c_link}}" class="box-file-link" target="_blank">Ver Link</a>
+                                                            @endif
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @endif
@@ -127,31 +138,14 @@
                     <label for="nombre_archivo">Nombre del archivo</label>
                     <input type="text" id="nombre_archivo" name="nombre_archivo" class="form-control" autofocus required>
                 </div>
-
                 <div class="form-group">
-                    <label for="el_archivo"></label>
+                    <label for="file">Archivo</label>
                     <input type="file" name="el_archivo" id="el_archivo" class="form-control hs_upload">
                 </div>
-
-                {{-- <div [formGroup]="radioGroup">
-                    <label class="radio radio-light">
-                        <input id="radio1" type="radio" name="radio" [value]="1" formControlName="radio" checked>
-                        <span>Subir un archivo</span>
-                        <span class="checkmark"></span>
-                    </label>
-                    <div class="form-group">
-                        <input type="file" name="el_archivo" id="el_archivo" class="form-control hs_upload">
-                    </div>
-
-                    <label class="radio radio-light">
-                        <input id="radio2" type="radio" name="radio" [value]="2" formControlName="radio">
-                        <span>Agregar un link</span>
-                        <span class="checkmark"></span>
-                    </label>
-                    <div class="form-group">
-                        <input type="url" name="url_archivo" id="url_archivo" class="form-control" disabled>
-                    </div>
-                </div> --}}
+                <div class="form-group">
+                    <label for="url">Enlace externo</label>
+                    <input type="url" name="url_archivo" id="url_archivo" class="form-control" placeholder="(Opcional)">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -350,7 +344,7 @@
     };
     
     //Radios
-    $('input[name="radio"]').on('click', function(){  
+    /* $('input[name="radio"]').on('click', function(){  
         if($("#radio1").is(':checked')) {  
             $('#el_archivo').prop('disabled', false);
             $('#url_archivo').prop('disabled', true);
@@ -360,7 +354,7 @@
             $('#el_archivo').prop('disabled', true);
             $('#url_archivo').prop('disabled', false);
         }  
-    });
+    }); */
 
     //Agregar archivo v.1
     /* 

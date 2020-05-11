@@ -44,7 +44,18 @@
                                                         </div>
                                                     </div>
                                                     <div class="boc-file-footer">
-                                                        <a href="{{url('/docente/cursos/descargar_archivo/'.$a->id_archivo)}}" class="box-file-link" download="{{$a->c_url}}">Descargar</a>
+                                                        @if (($a->c_url != null) && ($a->c_link != null))
+                                                            <a href="{{url('/docente/cursos/descargar_archivo/'.$a->id_archivo)}}" class="box-file-link" download="{{$a->c_url}}">Descargar archivo</a>
+                                                            <a href="{{$a->c_link}}" class="box-file-link" target="_blank">Ver Link</a>                                                        
+                                                        @else
+                                                            @if ($a->c_url != null)
+                                                                <a href="{{url('/docente/cursos/descargar_archivo/'.$a->id_archivo)}}" class="box-file-link" download="{{$a->c_url}}">Descargar archivo</a>
+                                                            @endif
+
+                                                            @if ($a->c_link != null)
+                                                                <a href="{{$a->c_link}}" class="box-file-link" target="_blank">Ver Link</a>
+                                                            @endif
+                                                        @endif
                                                     </div>
                                                 </div>
                                             @endif

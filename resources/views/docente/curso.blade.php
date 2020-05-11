@@ -24,9 +24,9 @@
                 {{-- <div id="ct">
                     @include('docente.cursotarea')
                 </div> --}}
-                {{-- <div id="ca">
+                <div id="ca">
                     @include('docente.cursoanuncio')
-                </div> --}}
+                </div>
                 {{-- <div id="cc">
                     @include('docente.cursocalificacion')
                 </div> --}}
@@ -70,9 +70,9 @@
                             <a class="show-ct option" href="#"><i class="mr-2 nav-icon i-Bell"></i>Tareas</a>
                         @endif
                     </li> --}}
-                    {{-- <li>
+                    <li>
                         <a class="show-ca option" href="#"><i class="mr-2 nav-icon i-Mailbox-Empty"></i>Anuncios</a>
-                    </li> --}}
+                    </li>
                     {{-- <li>
                         <a class="show-cc option" href="#"><i class="mr-2 nav-icon i-Medal-2"></i>Calificaciones</a>
                     </li> --}}
@@ -106,9 +106,9 @@
             {{-- <li>
                 <a class="show-ct item" href="#"><i class="nav-icon i-Bell"></i><span>Tareas</span></a>
             </li> --}}
-            {{-- <li>
+            <li>
                 <a class="show-ca item" href="#"><i class="nav-icon i-Mailbox-Empty"></i><span>Anuncios</span></a>
-            </li> --}}
+            </li>
             {{-- <li>
                 <a class="show-cc item" href="#"><i class="nav-icon i-Medal-2"></i><span>Calificaciones</span></a>
             </li> --}}

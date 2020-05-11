@@ -634,7 +634,8 @@ a {
 
 @media screen and (max-width: 570px) {
 
-    #btn-nuevo-modulo {
+    #btn-nuevo-modulo,
+    #btn-nuevo-anuncio {
         margin-top: 0 !important;
         padding: 5px !important;
         font-size: 12px;
