@@ -22,6 +22,9 @@ Broadcast::channel('messages.{id}', function ($user, $id) {
 Broadcast::channel('groupusers.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+Broadcast::channel('groupusersdelete.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
 Broadcast::channel('messagesforgroup.{id}', function ($user, $id) {
     return (int) $user->id === (int)$id;
 });

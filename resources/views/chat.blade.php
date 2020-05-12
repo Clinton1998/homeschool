@@ -13,6 +13,7 @@
 
     <!-- Soho css -->
     <link rel="stylesheet" href="{{asset('assets/chat/dist/css/soho.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/styles/css/libreria/slim/slimselect.min.css')}}">
     <script src="{{asset('js/chat.js')}}" defer></script>
         <script>
             window.Laravel = <?php echo json_encode([
@@ -24,17 +25,11 @@
         </script>
 </head>
 <body class="dark">
-
-<!-- page loading -->
-<div class="page-loading"></div>
-<!-- ./ page loading -->
-
-
-
+    
 <!-- new group modal -->
-<div class="modal fade" id="newGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal" id="newGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
@@ -51,32 +46,22 @@
                         <input type="text" class="form-control" id="group_name">
                     </div>
                     <div class="form-group">
-                        <label for="users" class="col-form-label">Usuarios</label>
-                        <input type="text" class="form-control" id="users" placeholder="Buscar usuario">
-                    </div>
-                    <div class="form-group">
-                        <div class="avatar-group">
-                            <figure class="avatar">
-                                <span class="avatar-title bg-success rounded-circle">E</span>
-                            </figure>
-                            <figure class="avatar">
-                                <img src="https://via.placeholder.com/150" class="rounded-circle">
-                            </figure>
-                            <figure class="avatar">
-                                <span class="avatar-title bg-danger rounded-circle">S</span>
-                            </figure>
-                            <figure class="avatar">
-                                <img src="https://via.placeholder.com/150" class="rounded-circle">
-                            </figure>
-                            <figure class="avatar">
-                                <span class="avatar-title bg-info rounded-circle">C</span>
-                            </figure>
-                            <a href="#">
-                                <figure class="avatar">
-                                    <span class="avatar-title bg-primary rounded-circle">+</span>
-                                </figure>
-                            </a>
-                        </div>
+                        <label for="optusuarios">Usuarios</label>
+                        <select id="optusuarios" multiple>
+                            @foreach($usuarios as $usuario)
+                                    @php
+                                        $nombre = '';
+                                        if(is_null($usuario->id_docente) && is_null($usuario->id_alumno) && $usuario->b_root==0){
+                                            $nombre = (App\Colegio_m::where('id_superadministrador','=',$usuario->id)->first())->c_representante_legal;
+                                        }else if(!is_null($usuario->id_docente)){
+                                            $nombre = (App\Docente_d::findOrFail($usuario->id_docente))->c_nombre;
+                                        }else if(!is_null($usuario->id_alumno)){
+                                            $nombre = (App\Alumno_d::findOrFail($usuario->id_alumno))->c_nombre;
+                                        }
+                                    @endphp
+                                    <option value="{{$usuario->id}}">{{$nombre}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </form>
             </div>
@@ -138,6 +123,7 @@
 <script src="{{asset('assets/chat/vendor/popper.min.js')}}"></script>
 <script src="{{asset('assets/chat/vendor/bootstrap/bootstrap.min.js')}}"></script>
 <script src="{{asset('assets/chat/dist/js/soho.min.js')}}"></script>
+<script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
 <script src="{{asset('assets/chat/dist/js/examples.js')}}"></script>
 </body>
 </html>

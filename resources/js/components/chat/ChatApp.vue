@@ -215,14 +215,34 @@ export default {
       "NewMessageForGroup",
       e => {
         this.hanleIncoming(e.conversation);
-
-        console.log("el valor de e.meesage es:", e.conversation);
       }
     );
 
     //cuando hay nuevos grupos
     Echo.private(`groupusers.${this.user.id}`).listen("GroupCreated", e => {
       this.groups.push(e.group);
+    });
+
+    //cuando se eliminan grupos
+    Echo.private(`groupusersdelete.${this.user.id}`).listen("GroupDeleted", e => {
+      //this.groups.push(e.group);
+      var id_group = e.users[0]['pivot']['group_id'];
+      if(id_group){
+        //this.selectedContact = null;
+
+        //eliminamos el grupo
+        for(var i=0; i<this.groups.length; i++){
+          if(this.groups[i].id==id_group){
+            this.groups.splice(i,1);
+          }
+        }
+
+        if(this.selectedContact && this.selectedContact.id==id_group && this.selectedContact.users){
+          alert('Es un grupo');
+        }else{
+          alert('No es un grupo');
+        }
+      }
     });
 
     axios.get("/chat/contacts").then(response => {
@@ -246,7 +266,11 @@ export default {
       } else if (tipo == "group") {
           this.updateUnreadCount(contact.id, true, tipo);
         axios.get(`/chat/group/conversations/${contact.id}`).then(response => {
-          this.messages = response.data;
+          console.log('Los datos devueltos son: ');
+          console.log(response.data);
+          this.messages = response.data.conversations;
+          contact.users = response.data.users;
+          console.log('El contact seleccionado es: ',contact),
           this.selectedContact = contact;
         });
       }

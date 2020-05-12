@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Events\NewMessageForGroup;
 use App\Events\GroupCreated;
+use App\Events\GroupDeleted;
+use Illuminate\Support\Facades\DB;
 use App;
 use Auth;
 
@@ -17,7 +19,6 @@ class GroupController extends Controller
     }*/
 
     public function crear(Request $request){
-        //return response()->json($request->all());
         $group = new App\Group;
         $group->name = $request->input('name');
         $group->creador = Auth::user()->id;
@@ -28,7 +29,10 @@ class GroupController extends Controller
         $group->users()->attach($users);
 
         broadcast(new GroupCreated($group))->toOthers();
-        return response()->json($group);
+        $datos = array(
+            'correcto' => TRUE
+        );
+        return response()->json($datos);
     }
 
     public function send_message(Request $request){
@@ -45,6 +49,8 @@ class GroupController extends Controller
         return $conversation->load('emisor');
     }
     public function conversations($group_id){
+        $group  = App\Group::findOrFail($group_id);
+
         $conversations = App\Conversation::where([
             'group_id' => $group_id
         ])->orderBy('created_at','ASC')->get();
@@ -65,7 +71,46 @@ class GroupController extends Controller
             $conversation->nombre_emisor = $nombre_emisor;
             return $conversation;
         });
+        $usuarios = $group->users()->where('users.id','<>',Auth::user()->id)->get();
+        $usuarios = $usuarios->map(function ($user){
+            $nombre_usuario = '';
+            if(is_null($user->id_docente) && is_null($user->id_alumno) && $user->b_root==0){
+                $colegio = App\Colegio_m::where([
+                    'id_superadministrador' => $user->id
+                ])->first();
+                $nombre_usuario = $colegio->c_representante_legal;
+            }else if(!is_null($user->id_docente)){
+                $nombre_usuario = $user->docente->c_nombre;
+            }else if(!is_null($user->id_alumno)){
+                $nombre_usuario = $user->alumno->c_nombre;
+            }
+            $user->nombre_usuario = $nombre_usuario;
+            return $user;
+        });
 
-        return response()->json($conversations);
+        $datos = array(
+            'conversations' => $conversations,
+            'users' => $usuarios
+        );
+        return response()->json($datos);
+    }
+    public function drop(Request $request){
+        $group = App\Group::findOrFail($request->input('group_id'));
+        $usuarios_notificar = $group->users()->select('users.id')->where('users.id','<>',Auth::user()->id)->get()->toArray();
+        //eliminamos las comversaciones de ese grupo
+        DB::table('conversations')->where('group_id', '=', $group->id)->delete();
+        //eliminamos los usuarios de ese grupo
+        DB::table('group_user')->where('group_id', '=', $group->id)->delete();
+        //eliminamos el grupo
+        $respuesta = $group->delete();
+
+        if($respuesta){
+            //transmitimos el evento a pusher
+            broadcast(new GroupDeleted($usuarios_notificar))->toOthers();
+        }
+        $datos = array(
+            'eliminado' =>  $respuesta
+        );
+        return response()->json($datos);
     }
 }

@@ -79,9 +79,9 @@
                         </div>
                         <div class="users-list-body">
                             <h5 v-if="contact.id_docente==null && contact.id_alumno==null && contact.b_root==0">
-                                {{contact.id}} ----{{contact.colegio.c_representante_legal}}</h5>
-                            <h5 v-if="contact.id_docente!=null">{{contact.id}} ---- {{contact.docente.c_nombre}}</h5>
-                            <h5 v-if="contact.id_alumno!=null">{{contact.id}} ---- {{contact.alumno.c_nombre}}</h5>
+                                {{contact.colegio.c_representante_legal}}</h5>
+                            <h5 v-if="contact.id_docente!=null">{{contact.docente.c_nombre}}</h5>
+                            <h5 v-if="contact.id_alumno!=null">{{contact.alumno.c_nombre}}</h5>
                             <p>{{contact.ultimo_mensaje}}</p>
                             <div class="users-list-action" v-if="contact.unread">
                                 <div class="new-message-count">{{contact.unread}}</div>
