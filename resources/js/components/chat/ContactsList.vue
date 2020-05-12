@@ -180,8 +180,6 @@
                 this.$emit('selected', contact,'contact');
             },
             selectGroup(group){
-                console.log('El grupo seleccionado es: ');
-                console.log(group);
                 this.selected = group;
                 this.$emit('selected',group,'group')
             }

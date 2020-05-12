@@ -2088,7 +2088,6 @@ __webpack_require__.r(__webpack_exports__);
       var id_group = e.users[0]['pivot']['group_id'];
 
       if (id_group) {
-        //this.selectedContact = null;
         //eliminamos el grupo
         for (var i = 0; i < _this.groups.length; i++) {
           if (_this.groups[i].id == id_group) {
@@ -2097,9 +2096,7 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         if (_this.selectedContact && _this.selectedContact.id == id_group && _this.selectedContact.users) {
-          alert('Es un grupo');
-        } else {
-          alert('No es un grupo');
+          _this.selectedContact = null;
         }
       }
     });
@@ -2127,11 +2124,9 @@ __webpack_require__.r(__webpack_exports__);
       } else if (tipo == "group") {
         this.updateUnreadCount(contact.id, true, tipo);
         axios.get("/chat/group/conversations/".concat(contact.id)).then(function (response) {
-          console.log('Los datos devueltos son: ');
-          console.log(response.data);
           _this2.messages = response.data.conversations;
           contact.users = response.data.users;
-          console.log('El contact seleccionado es: ', contact), _this2.selectedContact = contact;
+          _this2.selectedContact = contact;
         });
       }
     },
@@ -2394,8 +2389,6 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('selected', contact, 'contact');
     },
     selectGroup: function selectGroup(group) {
-      console.log('El grupo seleccionado es: ');
-      console.log(group);
       this.selected = group;
       this.$emit('selected', group, 'group');
     }
