@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Chat Home school</title>
 
     <!-- Favicon -->
@@ -37,7 +38,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="fa fa-users"></i> New Group
+                    <i class="fa fa-users"></i> Nuevo grupo
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i class="ti-close"></i>
@@ -46,12 +47,12 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="group_name" class="col-form-label">Group name</label>
+                        <label for="group_name" class="col-form-label">Nombre de grupo</label>
                         <input type="text" class="form-control" id="group_name">
                     </div>
                     <div class="form-group">
-                        <label for="users" class="col-form-label">Users</label>
-                        <input type="text" class="form-control" id="users" placeholder="Find user">
+                        <label for="users" class="col-form-label">Usuarios</label>
+                        <input type="text" class="form-control" id="users" placeholder="Buscar usuario">
                     </div>
                     <div class="form-group">
                         <div class="avatar-group">
@@ -77,14 +78,10 @@
                             </a>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="description" class="col-form-label">Description</label>
-                        <textarea class="form-control" id="description"></textarea>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Create Group</button>
+                <button type="button" class="btn btn-primary" id="btnCrearGrupo">Crear grupo</button>
             </div>
         </div>
     </div>

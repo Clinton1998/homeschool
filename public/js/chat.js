@@ -2053,37 +2053,65 @@ __webpack_require__.r(__webpack_exports__);
       selectedContact: null,
       messages: [],
       contacts: [],
-      friends: []
+      friends: [],
+      groups: [],
+      conversations: []
     };
   },
   mounted: function mounted() {
     var _this = this;
 
+    //cuando hay nuevos mensajes personales
     Echo.private("messages.".concat(this.user.id)).listen('NewMessage', function (e) {
-      _this.hanleIncoming(e.message);
+      _this.hanleIncoming(e.message); //alert('Hello');
+
+    }); //cuando hay nuevos mensajes para grupos
+
+    Echo.private("messagesforgroup.".concat(this.user.id)).listen('NewMessageForGroup', function (e) {
+      //this.hanleIncoming(e.message);
+      console.log('Conversation is: ');
+      console.log(e.conversation);
+    }); //cuando hay nuevos grupos
+
+    Echo.private("groupusers.".concat(this.user.id)).listen('GroupCreated', function (e) {
+      _this.groups.push(e.group);
     });
     axios.get('/chat/contacts').then(function (response) {
-      console.log(response.data);
       _this.contacts = response.data.contacts;
       _this.friends = response.data.friends;
+      _this.groups = response.data.groups;
+      console.log(response.data);
     });
   },
   methods: {
-    startConversationWith: function startConversationWith(contact) {
+    startConversationWith: function startConversationWith(contact, tipo) {
       var _this2 = this;
 
-      this.updateUnreadCount(contact, true);
-      axios.get("/chat/conversation/".concat(contact.id)).then(function (response) {
-        _this2.messages = response.data;
-        contact.ultimo_mensaje = _this2.messages[_this2.messages.length - 1].text;
-        _this2.selectedContact = contact;
-      });
+      //el parametro contacto pueder ser un usuario o un grupo
+      if (tipo == 'contact') {
+        this.updateUnreadCount(contact, true);
+        axios.get("/chat/conversation/".concat(contact.id)).then(function (response) {
+          _this2.messages = response.data; //contact.ultimo_mensaje = 'algun valor';
+
+          /*console.log('Los ultimos mensajes son: ');
+          console.log(this.messages);*/
+
+          _this2.selectedContact = contact;
+        });
+      } else if (tipo == 'group') {
+        axios.get("/chat/group/conversations/".concat(contact.id)).then(function (response) {
+          console.log('Los datos devueltos son: ');
+          console.log(response.data);
+          _this2.messages = response.data;
+          _this2.selectedContact = contact;
+        });
+      }
     },
     saveNewMessage: function saveNewMessage(message) {
       this.messages.push(message);
     },
     hanleIncoming: function hanleIncoming(message) {
-      if (this.selectedContact && message.from == this.selectedContact.id) {
+      if (this.selectedContact && message.emisor == this.selectedContact.id) {
         this.saveNewMessage(message);
         return;
       }
@@ -2276,126 +2304,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contacts: {
@@ -2403,6 +2311,10 @@ __webpack_require__.r(__webpack_exports__);
       default: []
     },
     friends: {
+      type: Array,
+      default: []
+    },
+    groups: {
       type: Array,
       default: []
     }
@@ -2415,7 +2327,13 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     selectContact: function selectContact(contact) {
       this.selected = contact;
-      this.$emit('selected', contact);
+      this.$emit('selected', contact, 'contact');
+    },
+    selectGroup: function selectGroup(group) {
+      console.log('El grupo seleccionado es: ');
+      console.log(group);
+      this.selected = group;
+      this.$emit('selected', group, 'group');
     }
   },
   computed: {
@@ -2519,10 +2437,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
+    user: {
+      type: Object,
+      default: null
+    },
     contact: {
       type: Object,
       default: null
@@ -2540,14 +2466,28 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      axios.post('/chat/conversation/send', {
-        contact_id: this.contact.id,
-        text: text
-      }).then(function (response) {
-        _this.contact.ultimo_mensaje = text;
+      if (this.contact.estado == 1) {
+        //envio a un usuario
+        axios.post("/chat/conversation/send", {
+          contact_id: this.contact.id,
+          text: text
+        }).then(function (response) {
+          _this.contact.ultimo_mensaje = text;
 
-        _this.$emit('new', response.data);
-      });
+          _this.$emit("new", response.data);
+        });
+      } else if (this.contact.name) {
+        //envio a un grupo
+        axios.post("/chat/group/sendmessage", {
+          message: text,
+          group_id: this.contact.id
+        }).then(function (response) {
+          console.log('Los datos devueltos son: ');
+          console.log(response.data);
+          /*this.contact.ultimo_mensaje = text;
+          this.$emit("new", response.data);*/
+        });
+      }
     }
   },
   components: {
@@ -2633,9 +2573,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     contact: {
+      type: Object
+    },
+    user: {
       type: Object
     },
     messages: {
@@ -29754,12 +29705,20 @@ var render = function() {
     { staticClass: "content" },
     [
       _c("ContactsList", {
-        attrs: { contacts: _vm.contacts, friends: _vm.friends },
+        attrs: {
+          contacts: _vm.contacts,
+          friends: _vm.friends,
+          groups: _vm.groups
+        },
         on: { selected: _vm.startConversationWith }
       }),
       _vm._v(" "),
       _c("Conversation", {
-        attrs: { contact: _vm.selectedContact, messages: _vm.messages },
+        attrs: {
+          contact: _vm.selectedContact,
+          user: _vm.user,
+          messages: _vm.messages
+        },
         on: { new: _vm.saveNewMessage }
       }),
       _vm._v(" "),
@@ -30137,50 +30096,50 @@ var render = function() {
         _c(
           "ul",
           { staticClass: "list-group list-group-flush" },
-          _vm._l(_vm.sortedContacts, function(contact) {
-            return _c(
-              "li",
-              {
-                key: contact.id,
-                staticClass: "list-group-item",
-                class: { "open-chat": contact == _vm.selected },
-                on: {
-                  click: function($event) {
-                    return _vm.selectContact(contact)
+          [
+            _vm._l(_vm.groups, function(group) {
+              return _c(
+                "li",
+                {
+                  key: group.id,
+                  staticClass: "list-group-item",
+                  class: { "open-chat": group == _vm.selected },
+                  on: {
+                    click: function($event) {
+                      return _vm.selectGroup(group)
+                    }
                   }
-                }
-              },
-              [
-                _c("div", [
-                  contact.id_docente == null &&
-                  contact.id_alumno == null &&
-                  contact.b_root == 0
-                    ? _c(
-                        "figure",
-                        {
-                          class:
-                            "avatar " +
-                            (contact.is_online ? "avatar-state-success" : "")
-                        },
-                        [
-                          contact.colegio.c_logo == null
-                            ? _c("img", {
-                                staticClass: "rounded-circle",
-                                attrs: {
-                                  src: "/assets/images/colegio/school.png"
-                                }
-                              })
-                            : _c("img", {
-                                staticClass: "rounded-circle",
-                                attrs: {
-                                  src:
-                                    "/super/colegio/logo/" +
-                                    contact.colegio.c_logo
-                                }
-                              })
-                        ]
-                      )
-                    : contact.id_docente != null
+                },
+                [
+                  _vm._m(2, true),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "users-list-body" }, [
+                    _c("h5", [_vm._v(_vm._s(group.name))]),
+                    _vm._v(" "),
+                    _vm._m(3, true)
+                  ])
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _vm._l(_vm.sortedContacts, function(contact) {
+              return _c(
+                "li",
+                {
+                  key: contact.id,
+                  staticClass: "list-group-item",
+                  class: { "open-chat": contact == _vm.selected },
+                  on: {
+                    click: function($event) {
+                      return _vm.selectContact(contact)
+                    }
+                  }
+                },
+                [
+                  _c("div", [
+                    contact.id_docente == null &&
+                    contact.id_alumno == null &&
+                    contact.b_root == 0
                       ? _c(
                           "figure",
                           {
@@ -30189,36 +30148,24 @@ var render = function() {
                               (contact.is_online ? "avatar-state-success" : "")
                           },
                           [
-                            contact.docente.c_foto == null
-                              ? [
-                                  contact.docente.c_sexo == "M"
-                                    ? _c("img", {
-                                        staticClass: "rounded-circle",
-                                        attrs: {
-                                          src:
-                                            "/assets/images/usuario/teacherman.png"
-                                        }
-                                      })
-                                    : _c("img", {
-                                        staticClass: "rounded-circle",
-                                        attrs: {
-                                          src:
-                                            "/assets/images/usuario/teacherwoman.png"
-                                        }
-                                      })
-                                ]
+                            contact.colegio.c_logo == null
+                              ? _c("img", {
+                                  staticClass: "rounded-circle",
+                                  attrs: {
+                                    src: "/assets/images/colegio/school.png"
+                                  }
+                                })
                               : _c("img", {
                                   staticClass: "rounded-circle",
                                   attrs: {
                                     src:
-                                      "/super/docente/foto/" +
-                                      contact.docente.c_foto
+                                      "/super/colegio/logo/" +
+                                      contact.colegio.c_logo
                                   }
                                 })
-                          ],
-                          2
+                          ]
                         )
-                      : contact.id_alumno != null
+                      : contact.id_docente != null
                         ? _c(
                             "figure",
                             {
@@ -30229,21 +30176,21 @@ var render = function() {
                                   : "")
                             },
                             [
-                              contact.alumno.c_foto == null
+                              contact.docente.c_foto == null
                                 ? [
-                                    contact.alumno.c_sexo == "M"
+                                    contact.docente.c_sexo == "M"
                                       ? _c("img", {
                                           staticClass: "rounded-circle",
                                           attrs: {
                                             src:
-                                              "/assets/images/usuario/studentman.png"
+                                              "/assets/images/usuario/teacherman.png"
                                           }
                                         })
                                       : _c("img", {
                                           staticClass: "rounded-circle",
                                           attrs: {
                                             src:
-                                              "/assets/images/usuario/studentwoman.png"
+                                              "/assets/images/usuario/teacherwoman.png"
                                           }
                                         })
                                   ]
@@ -30251,58 +30198,113 @@ var render = function() {
                                     staticClass: "rounded-circle",
                                     attrs: {
                                       src:
-                                        "/super/alumno/foto/" +
-                                        contact.alumno.c_foto
+                                        "/super/docente/foto/" +
+                                        contact.docente.c_foto
                                     }
                                   })
                             ],
                             2
                           )
-                        : _vm._e()
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "users-list-body" }, [
-                  contact.id_docente == null &&
-                  contact.id_alumno == null &&
-                  contact.b_root == 0
-                    ? _c("h5", [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(contact.colegio.c_representante_legal)
-                        )
-                      ])
-                    : _vm._e(),
+                        : contact.id_alumno != null
+                          ? _c(
+                              "figure",
+                              {
+                                class:
+                                  "avatar " +
+                                  (contact.is_online
+                                    ? "avatar-state-success"
+                                    : "")
+                              },
+                              [
+                                contact.alumno.c_foto == null
+                                  ? [
+                                      contact.alumno.c_sexo == "M"
+                                        ? _c("img", {
+                                            staticClass: "rounded-circle",
+                                            attrs: {
+                                              src:
+                                                "/assets/images/usuario/studentman.png"
+                                            }
+                                          })
+                                        : _c("img", {
+                                            staticClass: "rounded-circle",
+                                            attrs: {
+                                              src:
+                                                "/assets/images/usuario/studentwoman.png"
+                                            }
+                                          })
+                                    ]
+                                  : _c("img", {
+                                      staticClass: "rounded-circle",
+                                      attrs: {
+                                        src:
+                                          "/super/alumno/foto/" +
+                                          contact.alumno.c_foto
+                                      }
+                                    })
+                              ],
+                              2
+                            )
+                          : _vm._e()
+                  ]),
                   _vm._v(" "),
-                  contact.id_docente != null
-                    ? _c("h5", [_vm._v(_vm._s(contact.docente.c_nombre))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  contact.id_alumno != null
-                    ? _c("h5", [_vm._v(_vm._s(contact.alumno.c_nombre))])
-                    : _vm._e(),
-                  _vm._v(" "),
-                  _c("p", [_vm._v(_vm._s(contact.ultimo_mensaje))]),
-                  _vm._v(" "),
-                  contact.unread
-                    ? _c("div", { staticClass: "users-list-action" }, [
-                        _c("div", { staticClass: "new-message-count" }, [
-                          _vm._v(_vm._s(contact.unread))
+                  _c("div", { staticClass: "users-list-body" }, [
+                    contact.id_docente == null &&
+                    contact.id_alumno == null &&
+                    contact.b_root == 0
+                      ? _c("h5", [
+                          _vm._v(
+                            "\n                            " +
+                              _vm._s(contact.id) +
+                              " ----" +
+                              _vm._s(contact.colegio.c_representante_legal)
+                          )
                         ])
-                      ])
-                    : _vm._e()
-                ])
-              ]
-            )
-          }),
-          0
+                      : _vm._e(),
+                    _vm._v(" "),
+                    contact.id_docente != null
+                      ? _c("h5", [
+                          _vm._v(
+                            _vm._s(contact.id) +
+                              " ---- " +
+                              _vm._s(contact.docente.c_nombre)
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    contact.id_alumno != null
+                      ? _c("h5", [
+                          _vm._v(
+                            _vm._s(contact.id) +
+                              " ---- " +
+                              _vm._s(contact.alumno.c_nombre)
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("p", [_vm._v(_vm._s(contact.ultimo_mensaje))]),
+                    _vm._v(" "),
+                    contact.unread
+                      ? _c("div", { staticClass: "users-list-action" }, [
+                          _c("div", { staticClass: "new-message-count" }, [
+                            _vm._v(_vm._s(contact.unread))
+                          ])
+                        ])
+                      : _vm._e()
+                  ])
+                ]
+              )
+            })
+          ],
+          2
         )
       ])
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "sidebar", attrs: { id: "friends" } }, [
-      _vm._m(2),
+      _vm._m(4),
       _vm._v(" "),
-      _vm._m(3),
+      _vm._m(5),
       _vm._v(" "),
       _c("div", { staticClass: "sidebar-body" }, [
         _c(
@@ -30466,9 +30468,7 @@ var render = function() {
           0
         )
       ])
-    ]),
-    _vm._v(" "),
-    _vm._m(4)
+    ])
   ])
 }
 var staticRenderFns = [
@@ -30480,6 +30480,28 @@ var staticRenderFns = [
       _c("span", [_vm._v("Conversaciones")]),
       _vm._v(" "),
       _c("ul", { staticClass: "list-inline" }, [
+        _c(
+          "li",
+          {
+            staticClass: "list-inline-item",
+            attrs: { "data-toggle": "tooltip", title: "Nuevo grupo" }
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "btn btn-light",
+                attrs: {
+                  href: "#",
+                  "data-toggle": "modal",
+                  "data-target": "#newGroup"
+                }
+              },
+              [_c("i", { staticClass: "fa fa-users" })]
+            )
+          ]
+        ),
+        _vm._v(" "),
         _c("li", { staticClass: "list-inline-item" }, [
           _c(
             "a",
@@ -30524,6 +30546,29 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "avatar-group" }, [
+      _c("figure", { staticClass: "avatar" }, [
+        _c(
+          "span",
+          { staticClass: "avatar-title bg-warning bg-success rounded-circle" },
+          [_c("i", { staticClass: "fa fa-users" })]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("Maher Ruslandi: ")]),
+      _vm._v("Hello!!!")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("header", [_c("span", [_vm._v("Amigos")])])
   },
   function() {
@@ -30535,204 +30580,6 @@ var staticRenderFns = [
         staticClass: "form-control",
         attrs: { type: "text", placeholder: "Search chat" }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "sidebar", attrs: { id: "favorites" } }, [
-      _c("header", [
-        _c("span", [_vm._v("Favorites")]),
-        _vm._v(" "),
-        _c("ul", { staticClass: "list-inline" }, [
-          _c("li", { staticClass: "list-inline-item d-lg-none d-sm-block" }, [
-            _c(
-              "a",
-              {
-                staticClass: "btn btn-light sidebar-close",
-                attrs: { href: "#" }
-              },
-              [_c("i", { staticClass: "ti-close" })]
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("form", { attrs: { action: "" } }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", placeholder: "Search favorites" }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "sidebar-body" }, [
-        _c("ul", { staticClass: "list-group list-group-flush users-list" }, [
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Jennica Kindred")]),
-              _vm._v(" "),
-              _c("p", [
-                _vm._v(
-                  "I know how important this file is to you. You can trust me ;)"
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("View Chat")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Forward")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Marvin Rohan")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("View Chat")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Forward")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Frans Hanscombe")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("View Chat")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Forward")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "list-group-item" }, [
-            _c("div", { staticClass: "users-list-body" }, [
-              _c("h5", [_vm._v("Karl Hubane")]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Lorem ipsum dolor sitsdc sdcsdc sdcsdcs")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "users-list-action action-toggle" }, [
-                _c("div", { staticClass: "dropdown" }, [
-                  _c("a", { attrs: { "data-toggle": "dropdown", href: "#" } }, [
-                    _c("i", { staticClass: "ti-more" })
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "dropdown-menu dropdown-menu-right" },
-                    [
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("View Chat")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Forward")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "a",
-                        { staticClass: "dropdown-item", attrs: { href: "#" } },
-                        [_vm._v("Delete")]
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ])
-        ])
-      ])
     ])
   }
 ]
@@ -30765,7 +30612,7 @@ var render = function() {
         "div",
         { staticClass: "chat-header" },
         [
-          _vm.contact
+          _vm.contact && _vm.contact.estado == 1
             ? [
                 _c("div", { staticClass: "chat-header-user" }, [
                   _vm.contact.id_docente == null &&
@@ -30864,8 +30711,7 @@ var render = function() {
                     _vm.contact.b_root == 0
                       ? _c("h5", [
                           _vm._v(
-                            "\n                            " +
-                              _vm._s(_vm.contact.colegio.c_representante_legal)
+                            _vm._s(_vm.contact.colegio.c_representante_legal)
                           )
                         ])
                       : _vm._e(),
@@ -30886,15 +30732,19 @@ var render = function() {
                   ])
                 ])
               ]
-            : _c("p", [
-                _vm._v("\n                Selecciona un usuario\n            ")
-              ])
+            : _vm.contact && _vm.contact.name
+              ? _c("div", { staticClass: "chat-header-user" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("div", [_c("h5", [_vm._v(_vm._s(_vm.contact.name))])])
+                ])
+              : _c("p", [_vm._v("Selecciona un usuario o grupo")])
         ],
         2
       ),
       _vm._v(" "),
       _c("MessagesFeed", {
-        attrs: { contact: _vm.contact, messages: _vm.messages }
+        attrs: { contact: _vm.contact, user: _vm.user, messages: _vm.messages }
       }),
       _vm._v(" "),
       _c("MessageComposer", { on: { send: _vm.sendMessage } })
@@ -30902,7 +30752,20 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("figure", { staticClass: "avatar avatar-lg" }, [
+      _c(
+        "span",
+        { staticClass: "avatar-title bg-warning bg-success rounded-circle" },
+        [_c("i", { staticClass: "fa fa-users" })]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -30999,7 +30862,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { ref: "feed", staticClass: "chat-body" }, [
-    _vm.contact
+    _vm.contact && _vm.contact.estado == 1
       ? _c(
           "div",
           { staticClass: "messages" },
@@ -31010,28 +30873,52 @@ var render = function() {
                 key: message.id,
                 class:
                   "message-item " +
-                  (message.to == _vm.contact.id
+                  (message.receptor == _vm.contact.id
                     ? "outgoing-message"
                     : "recibidoxd")
               },
               [
                 _c("div", { staticClass: "message-content" }, [
-                  _vm._v(
-                    "\n                " +
-                      _vm._s(message.text) +
-                      "\n            "
-                  )
+                  _vm._v(_vm._s(message.text))
                 ])
               ]
             )
           }),
           0
         )
-      : _c("div", { staticClass: "no-message-container" }, [
-          _c("i", { staticClass: "fa fa-comments-o" }),
-          _vm._v(" "),
-          _c("p", [_vm._v("Seleccione un chat para leer mensajes.")])
-        ])
+      : _vm.contact && _vm.contact.name
+        ? _c(
+            "div",
+            { staticClass: "messages" },
+            _vm._l(_vm.messages, function(message) {
+              return _c(
+                "div",
+                {
+                  key: message.id,
+                  class:
+                    "message-item " +
+                    (message.user_id == _vm.user.id
+                      ? "outgoing-message"
+                      : "recibidoxd")
+                },
+                [
+                  message.user_id != _vm.user.id
+                    ? _c("strong", [_vm._v(_vm._s(message.nombre_emisor))])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "message-content" }, [
+                    _vm._v(_vm._s(message.message))
+                  ])
+                ]
+              )
+            }),
+            0
+          )
+        : _c("div", { staticClass: "no-message-container" }, [
+            _c("i", { staticClass: "fa fa-comments-o" }),
+            _vm._v(" "),
+            _c("p", [_vm._v("Seleccione un chat para leer mensajes.")])
+          ])
   ])
 }
 var staticRenderFns = []

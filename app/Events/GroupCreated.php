@@ -9,9 +9,9 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Message;
+use App\Group;
 
-class NewMessage implements ShouldBroadcast
+class GroupCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,11 +20,10 @@ class NewMessage implements ShouldBroadcast
      *
      * @return void
      */
-    public $message;
-
-    public function __construct(Message $message)
+    public $group;
+    public function __construct(Group $group)
     {
-        $this->message = $message;
+        $this->group = $group;
     }
 
     /**
@@ -34,10 +33,10 @@ class NewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('messages.'.$this->message->receptor);
-    }
-    public function broadcastWith(){
-        $this->message->load('fromContact');
-        return ["message" => $this->message];
+        $channels = [];
+        foreach($this->group->users as $user){
+            array_push($channels,new PrivateChannel('groupusers.'.$user->id));
+        }
+        return $channels;
     }
 }

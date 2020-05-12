@@ -18,6 +18,7 @@ class ContactsController extends Controller
     {
         $contacts = '';
         $friends = '';
+        $groups = '';
         if (is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root == 0) {
             //superadministrador del colegio
             $colegio = App\Colegio_m::where([
@@ -32,13 +33,15 @@ class ContactsController extends Controller
                 ])->first();
                 $userDocente->docente;
                 $userDocente->is_online =  $userDocente->isOnline();
-                $msg_docente = App\Message::where([
-                    'from' => Auth::user()->id,
-                    'to' => $userDocente->id
-                ])->orWhere([
-                    'from' => $userDocente->id,
-                    'to' => Auth::user()->id
-                ])->orderBy('created_at', 'DESC')->first();
+                $id_docente = $userDocente->id;
+                $msg_docente = App\Message::where(function ($q) use ($id_docente) {
+                    $q->where('emisor', Auth::user()->id);
+                    $q->where('receptor', $id_docente);
+                })->orWhere(function ($q) use ($id_docente) {
+                    $q->where('emisor', $id_docente);
+                    $q->where('receptor', Auth::user()->id);
+                })->orderBy('created_at', 'DESC')->first();
+
                 if (!is_null($msg_docente) && !empty($msg_docente)) {
                     $userDocente->ultimo_mensaje = $msg_docente->text;
                     $u_con_conversacion[] = $userDocente;
@@ -56,14 +59,14 @@ class ContactsController extends Controller
                         $userAlumno->alumno;
                         $userAlumno->is_online = $userAlumno->isOnline();
 
-                        $msg_alumno = App\Message::where([
-                            'from' => Auth::user()->id,
-                            'to' => $userAlumno->id
-                        ])->orWhere([
-                            'from' => $userAlumno->id,
-                            'to' => Auth::user()->id
-                        ])
-                        ->orderBy('created_at', 'DESC')->first();
+                        $id_alumno = $userAlumno->id;
+                        $msg_alumno = App\Message::where(function ($q) use ($id_alumno) {
+                            $q->where('emisor', Auth::user()->id);
+                            $q->where('receptor', $id_alumno);
+                        })->orWhere(function ($q) use ($id_alumno) {
+                            $q->where('emisor', $id_alumno);
+                            $q->where('receptor', Auth::user()->id);
+                        })->orderBy('created_at', 'DESC')->first();
 
                         if (!is_null($msg_alumno) && !empty($msg_alumno)) {
                             $userAlumno->ultimo_mensaje = $msg_alumno->text;
@@ -86,14 +89,14 @@ class ContactsController extends Controller
             $u_con_conversacion = array();
             $u_sin_conversacion = array();
 
-            $mensaje = App\Message::where([
-                'from' => Auth::user()->id,
-                'to' => $userSuperAdmin->id
-            ])->orWhere([
-                'from' => $userSuperAdmin->id,
-                'to' => Auth::user()->id
-            ])
-            ->orderBy('created_at', 'DESC')->first();
+            $id_superadmin = $userSuperAdmin->id;
+            $mensaje = App\Message::where(function ($q) use ($id_superadmin) {
+                $q->where('emisor', Auth::user()->id);
+                $q->where('receptor', $id_superadmin);
+            })->orWhere(function ($q) use ($id_superadmin) {
+                $q->where('emisor', $id_superadmin);
+                $q->where('receptor', Auth::user()->id);
+            })->orderBy('created_at', 'DESC')->first();
             if (!is_null($mensaje) && !empty($mensaje)) {
                 $userSuperAdmin->ultimo_mensaje = $mensaje->text;
                 $u_con_conversacion[] = $userSuperAdmin;
@@ -114,14 +117,14 @@ class ContactsController extends Controller
                 ])->first();
                 $userColega->docente;
                 $userColega->is_online = $userColega->isOnline();
-
-                $msg_colega = App\Message::where([
-                    'from' => Auth::user()->id,
-                    'to' => $userColega->id
-                ])->orWhere([
-                    'from' => $userColega->id,
-                    'to' => Auth::user()->id
-                ])->orderBy('created_at', 'DESC')->first();
+                $id_colega = $userColega->id;
+                $msg_colega = App\Message::where(function ($q) use ($id_colega) {
+                    $q->where('emisor', Auth::user()->id);
+                    $q->where('receptor', $id_colega);
+                })->orWhere(function ($q) use ($id_colega) {
+                    $q->where('emisor', $id_colega);
+                    $q->where('receptor', Auth::user()->id);
+                })->orderBy('created_at', 'DESC')->first();
 
                 if (!is_null($msg_colega) && !empty($msg_colega)) {
                     $userColega->ultimo_mensaje = $msg_colega->text;
@@ -139,13 +142,15 @@ class ContactsController extends Controller
                     ])->first();
                     $userAlumno->alumno;
                     $userAlumno->is_online = $userAlumno->isOnline();
-                    $msg_alumno = App\Message::where([
-                        'from' => Auth::user()->id,
-                        'to' => $userAlumno->id
-                    ])->orWhere([
-                        'from' => $userAlumno->id,
-                        'to' => Auth::user()->id
-                    ])->orderBy('created_at', 'DESC')->first();
+
+                    $id_alumno = $userAlumno->id;
+                    $msg_alumno = App\Message::where(function ($q) use ($id_alumno) {
+                        $q->where('emisor', Auth::user()->id);
+                        $q->where('receptor', $id_alumno);
+                    })->orWhere(function ($q) use ($id_alumno) {
+                        $q->where('emisor', $id_alumno);
+                        $q->where('receptor', Auth::user()->id);
+                    })->orderBy('created_at', 'DESC')->first();
 
                     if (!is_null($msg_alumno) && !empty($msg_alumno)) {
                         $userAlumno->ultimo_mensaje = $msg_alumno->text;
@@ -168,13 +173,14 @@ class ContactsController extends Controller
             $superAdmin->colegio = $colegio;
             $superAdmin->is_online = $superAdmin->isOnline();
 
-            $msg_super = App\Message::where([
-                'from' => Auth::user()->id,
-                'to' => $superAdmin->id
-            ])->orWhere([
-                'from' => $superAdmin->id,
-                'to' => Auth::user()->id
-            ])->orderBy('createt_at', 'DESC')->first();
+            $id_superadmin = $superAdmin->id;
+            $msg_super = App\Message::where(function ($q) use ($id_superadmin) {
+                $q->where('emisor', Auth::user()->id);
+                $q->where('receptor', $id_superadmin);
+            })->orWhere(function ($q) use ($id_superadmin) {
+                $q->where('emisor', $id_superadmin);
+                $q->where('receptor', Auth::user()->id);
+            })->orderBy('created_at', 'DESC')->first();
 
             if (!is_null($msg_super) && !empty($msg_super)) {
                 $superAdmin->ultimo_mensaje = $msg_super->text;
@@ -191,13 +197,14 @@ class ContactsController extends Controller
                 $userDocente->docente;
                 $userDocente->is_online = $userDocente->isOnline();
 
-                $msg_docente = App\Message::where([
-                    'from' => Auth::user()->id,
-                    'to' => $userDocente->id
-                ])->orWhere([
-                    'from' => $userDocente->id,
-                    'to' => Auth::user()->id
-                ])->orderBy('created_at', 'DESC')->first();
+                $id_docente = $userDocente->id;
+                $msg_docente = App\Message::where(function ($q) use ($id_docente) {
+                    $q->where('emisor', Auth::user()->id);
+                    $q->where('receptor', $id_docente);
+                })->orWhere(function ($q) use ($id_docente) {
+                    $q->where('emisor', $id_docente);
+                    $q->where('receptor', Auth::user()->id);
+                })->orderBy('created_at', 'DESC')->first();
 
                 if (!is_null($msg_docente) && !empty($msg_docente)) {
                     $userDocente->ultimo_mensaje = $msg_docente->text;
@@ -218,13 +225,14 @@ class ContactsController extends Controller
                 $userAlumno->alumno;
                 $userAlumno->is_online = $userAlumno->isOnline();
 
-                $msg_alumno = App\Message::where([
-                    'from' => Auth::user()->id,
-                    'to' => $userAlumno->id
-                ])->orWhere([
-                    'from' => $userAlumno->id,
-                    'to' => Auth::user()->id
-                ])->orderBy('created_at', 'DESC')->first();
+                $id_alumno = $userAlumno->id;
+                $msg_alumno = App\Message::where(function ($q) use ($id_alumno) {
+                    $q->where('emisor', Auth::user()->id);
+                    $q->where('receptor', $id_alumno);
+                })->orWhere(function ($q) use ($id_alumno) {
+                    $q->where('emisor', $id_alumno);
+                    $q->where('receptor', Auth::user()->id);
+                })->orderBy('created_at', 'DESC')->first();
 
                 if (!is_null($msg_alumno) && !empty($msg_alumno)) {
                     $userAlumno->ultimo_mensaje = $msg_alumno->text;
@@ -237,19 +245,24 @@ class ContactsController extends Controller
             $contacts = collect($u_con_conversacion);
             $friends = collect($u_sin_conversacion);
         }
-        $unreadIds = App\Message::select(\DB::raw('`from` as sender_id,count(`from`) as messages_count'))
-            ->where('to', Auth::user()->id)
+        $unreadIds = App\Message::select(\DB::raw('`emisor` as sender_id,count(`emisor`) as messages_count'))
+            ->where('receptor', Auth::user()->id)
             ->where('readmessage', false)
-            ->groupBy('from')
+            ->groupBy('emisor')
             ->get();
         $contacts = $contacts->map(function ($contact) use ($unreadIds) {
             $contactUnread = $unreadIds->where('sender_id', $contact->id)->first();
             $contact->unread = $contactUnread ? $contactUnread->messages_count : 0;
             return $contact;
         });
+
+        //obteniendo los grupos del usuario
+        $usuarioLogueado = App\User::findOrFail(Auth::user()->id);
+        $groups = $usuarioLogueado->grupos;
         $datos = array(
             'contacts' => $contacts,
-            'friends' => $friends
+            'friends' => $friends,
+            'groups' => $groups
         );
         return response()->json($datos);
     }
@@ -257,13 +270,13 @@ class ContactsController extends Controller
     public function getMessagesFor($id)
     {
         //marcar todos los mensajes cuando se selecciona un usuario
-        App\Message::where('from', $id)->where('to', Auth::user()->id)->update(['readmessage' => true]);
+        App\Message::where('emisor', $id)->where('receptor', Auth::user()->id)->update(['readmessage' => true]);
         $messages = App\Message::where(function ($q) use ($id) {
-            $q->where('from', Auth::user()->id);
-            $q->where('to', $id);
+            $q->where('emisor', Auth::user()->id);
+            $q->where('receptor', $id);
         })->orWhere(function ($q) use ($id) {
-            $q->where('from', $id);
-            $q->where('to', Auth::user()->id);
+            $q->where('emisor', $id);
+            $q->where('receptor', Auth::user()->id);
         })->get();
 
         return response()->json($messages);
@@ -271,8 +284,8 @@ class ContactsController extends Controller
     public function send(Request $request)
     {
         $message = App\Message::create([
-            'from' => Auth::user()->id,
-            'to' => $request->contact_id,
+            'emisor' => Auth::user()->id,
+            'receptor' => $request->contact_id,
             'text' => $request->text
         ]);
 

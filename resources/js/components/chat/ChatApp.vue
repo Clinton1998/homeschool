@@ -1,7 +1,7 @@
 <template>
     <div class="content">
-        <ContactsList :contacts="contacts" :friends="friends" @selected="startConversationWith"/>
-        <Conversation :contact="selectedContact" :messages="messages" @new="saveNewMessage"/>
+        <ContactsList :contacts="contacts" :friends="friends" :groups="groups" @selected="startConversationWith"/>
+        <Conversation :contact="selectedContact" :user="user" :messages="messages" @new="saveNewMessage"/>
         
         <div class="sidebar-group">
             <div id="contact-information" class="sidebar">
@@ -190,33 +190,65 @@
                 selectedContact: null,
                 messages: [],
                 contacts: [],
-                friends: []
+                friends: [],
+                groups: [],
+                conversations: []
             };
         },
         mounted() {
+            //cuando hay nuevos mensajes personales
             Echo.private(`messages.${this.user.id}`).listen('NewMessage',(e)=>{
                 this.hanleIncoming(e.message);
-            })
+                //alert('Hello');
+            });
+
+            //cuando hay nuevos mensajes para grupos
+            Echo.private(`messagesforgroup.${this.user.id}`).listen('NewMessageForGroup',(e)=>{
+                //this.hanleIncoming(e.message);
+                console.log('Conversation is: ');
+                console.log(e.conversation);
+            });
+
+            //cuando hay nuevos grupos
+            Echo.private(`groupusers.${this.user.id}`)
+            .listen('GroupCreated', (e) => {
+                this.groups.push(e.group);
+            });
+
             axios.get('/chat/contacts').then((response) => {
-                console.log(response.data);
                 this.contacts = response.data.contacts;
                 this.friends = response.data.friends;
+                this.groups = response.data.groups;
+
+                console.log(response.data);
             });
         },
         methods: {
-            startConversationWith(contact){
-                this.updateUnreadCount(contact,true);
-                axios.get(`/chat/conversation/${contact.id}`).then((response) => {
-                    this.messages = response.data;
-                    contact.ultimo_mensaje = this.messages[this.messages.length-1].text;
-                    this.selectedContact = contact;
-                });
+            startConversationWith(contact,tipo){
+                //el parametro contacto pueder ser un usuario o un grupo
+                if(tipo=='contact'){
+                    this.updateUnreadCount(contact,true);
+                    axios.get(`/chat/conversation/${contact.id}`).then((response) => {
+                        this.messages = response.data;
+                        //contact.ultimo_mensaje = 'algun valor';
+                        /*console.log('Los ultimos mensajes son: ');
+                        console.log(this.messages);*/
+                        this.selectedContact = contact;
+                    });
+                }else if(tipo=='group'){
+                    axios.get(`/chat/group/conversations/${contact.id}`).then((response) => {
+                        console.log('Los datos devueltos son: ');
+                        console.log(response.data);
+                        this.messages = response.data;
+                        this.selectedContact = contact;
+                    });
+                }
             },
             saveNewMessage(message){
                 this.messages.push(message);
             },
             hanleIncoming(message){
-                if(this.selectedContact && message.from==this.selectedContact.id){
+                if(this.selectedContact && message.emisor==this.selectedContact.id){
                     this.saveNewMessage(message);
                     return;
                 }
