@@ -2039,6 +2039,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2054,33 +2064,30 @@ __webpack_require__.r(__webpack_exports__);
       messages: [],
       contacts: [],
       friends: [],
-      groups: [],
-      conversations: []
+      groups: []
     };
   },
   mounted: function mounted() {
     var _this = this;
 
     //cuando hay nuevos mensajes personales
-    Echo.private("messages.".concat(this.user.id)).listen('NewMessage', function (e) {
-      _this.hanleIncoming(e.message); //alert('Hello');
-
+    Echo.private("messages.".concat(this.user.id)).listen("NewMessage", function (e) {
+      _this.hanleIncoming(e.message);
     }); //cuando hay nuevos mensajes para grupos
 
-    Echo.private("messagesforgroup.".concat(this.user.id)).listen('NewMessageForGroup', function (e) {
-      //this.hanleIncoming(e.message);
-      console.log('Conversation is: ');
-      console.log(e.conversation);
+    Echo.private("messagesforgroup.".concat(this.user.id)).listen("NewMessageForGroup", function (e) {
+      _this.hanleIncoming(e.conversation);
+
+      console.log("el valor de e.meesage es:", e.conversation);
     }); //cuando hay nuevos grupos
 
-    Echo.private("groupusers.".concat(this.user.id)).listen('GroupCreated', function (e) {
+    Echo.private("groupusers.".concat(this.user.id)).listen("GroupCreated", function (e) {
       _this.groups.push(e.group);
     });
-    axios.get('/chat/contacts').then(function (response) {
+    axios.get("/chat/contacts").then(function (response) {
       _this.contacts = response.data.contacts;
       _this.friends = response.data.friends;
       _this.groups = response.data.groups;
-      console.log(response.data);
     });
   },
   methods: {
@@ -2088,20 +2095,19 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       //el parametro contacto pueder ser un usuario o un grupo
-      if (tipo == 'contact') {
-        this.updateUnreadCount(contact, true);
+      if (tipo == "contact") {
+        this.updateUnreadCount(contact, true, tipo);
         axios.get("/chat/conversation/".concat(contact.id)).then(function (response) {
           _this2.messages = response.data; //contact.ultimo_mensaje = 'algun valor';
 
           /*console.log('Los ultimos mensajes son: ');
-          console.log(this.messages);*/
+                        console.log(this.messages);*/
 
           _this2.selectedContact = contact;
         });
-      } else if (tipo == 'group') {
+      } else if (tipo == "group") {
+        this.updateUnreadCount(contact.id, true, tipo);
         axios.get("/chat/group/conversations/".concat(contact.id)).then(function (response) {
-          console.log('Los datos devueltos son: ');
-          console.log(response.data);
           _this2.messages = response.data;
           _this2.selectedContact = contact;
         });
@@ -2111,28 +2117,61 @@ __webpack_require__.r(__webpack_exports__);
       this.messages.push(message);
     },
     hanleIncoming: function hanleIncoming(message) {
-      if (this.selectedContact && message.emisor == this.selectedContact.id) {
+      var opcion = "";
+
+      if (this.selectedContact && message.group_id == this.selectedContact.id) {
+        //mensaje para un grupo
+        opcion = "group";
+        this.saveNewMessage(message);
+        return;
+      } else if (this.selectedContact && message.emisor == this.selectedContact.id) {
+        //mensaje a una persona
+        opcion = "contact";
         this.saveNewMessage(message);
         return;
       }
 
-      this.updateUnreadCount(message.from_contact, false);
+      if (opcion == "contact") {
+        this.updateUnreadCount(message.from_contact, false, opcion);
+      } else {
+        this.updateUnreadCount(message.group_id, false, opcion);
+      }
     },
-    updateUnreadCount: function updateUnreadCount(contact, reset) {
-      this.contacts = this.contacts.map(function (single) {
-        if (single.id != contact.id) {
+    updateUnreadCount: function updateUnreadCount(contact, reset, opt) {
+      if (opt == "contact") {
+        this.contacts = this.contacts.map(function (single) {
+          if (single.id != contact.id) {
+            return single;
+          }
+
+          if (reset) {
+            single.unread = 0;
+          } else {
+            single.unread += 1;
+          } //single.ultimo_mensaje = '';
+
+
           return single;
-        }
+        });
+      } else {
+        this.groups = this.groups.map(function (single) {
+          if (single.id != contact) {
+            return single;
+          }
 
-        if (reset) {
-          single.unread = 0;
-        } else {
-          single.unread += 1;
-        } //single.ultimo_mensaje = '';
+          if (reset) {
+            single.unread = 0;
+          } else {
+            if (!single.unread) {
+              single.unread = 1;
+            } else {
+              single.unread += 1;
+            }
+          }
 
-
-        return single;
-      });
+          return single;
+        });
+      }
     }
   },
   components: {
@@ -2152,6 +2191,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -2482,10 +2524,7 @@ __webpack_require__.r(__webpack_exports__);
           message: text,
           group_id: this.contact.id
         }).then(function (response) {
-          console.log('Los datos devueltos son: ');
-          console.log(response.data);
-          /*this.contact.ultimo_mensaje = text;
-          this.$emit("new", response.data);*/
+          _this.$emit("new", response.data);
         });
       }
     }
@@ -30116,7 +30155,13 @@ var render = function() {
                   _c("div", { staticClass: "users-list-body" }, [
                     _c("h5", [_vm._v(_vm._s(group.name))]),
                     _vm._v(" "),
-                    _vm._m(3, true)
+                    group.unread
+                      ? _c("div", { staticClass: "users-list-action" }, [
+                          _c("div", { staticClass: "new-message-count" }, [
+                            _vm._v(_vm._s(group.unread))
+                          ])
+                        ])
+                      : _vm._e()
                   ])
                 ]
               )
@@ -30302,9 +30347,9 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "sidebar", attrs: { id: "friends" } }, [
-      _vm._m(4),
+      _vm._m(3),
       _vm._v(" "),
-      _vm._m(5),
+      _vm._m(4),
       _vm._v(" "),
       _c("div", { staticClass: "sidebar-body" }, [
         _c(
@@ -30554,15 +30599,6 @@ var staticRenderFns = [
           [_c("i", { staticClass: "fa fa-users" })]
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c("strong", [_vm._v("Maher Ruslandi: ")]),
-      _vm._v("Hello!!!")
     ])
   },
   function() {
@@ -30902,7 +30938,7 @@ var render = function() {
                       : "recibidoxd")
                 },
                 [
-                  message.user_id != _vm.user.id
+                  message.user_id != _vm.user.id && message.nombre_emisor
                     ? _c("strong", [_vm._v(_vm._s(message.nombre_emisor))])
                     : _vm._e(),
                   _vm._v(" "),

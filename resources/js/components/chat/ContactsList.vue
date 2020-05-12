@@ -42,7 +42,10 @@
                             </div>
                             <div class="users-list-body">
                                 <h5>{{group.name}}</h5>
-                                <p><strong>Maher Ruslandi: </strong>Hello!!!</p>
+                                <!--<p><strong>Maher Ruslandi: </strong>Hello!!!</p>-->
+                                <div class="users-list-action" v-if="group.unread">
+                                <div class="new-message-count">{{group.unread}}</div>
+                            </div>
                             </div>
                         </li>
                     <!--para las conversaciones entre usuarios-->

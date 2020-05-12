@@ -15,7 +15,7 @@
       <div
         v-for="message in messages"
         :key="message.id" :class="`message-item ${message.user_id == user.id ? 'outgoing-message': 'recibidoxd'}`">
-        <strong v-if="message.user_id != user.id">{{message.nombre_emisor}}</strong>
+        <strong v-if="message.user_id != user.id && message.nombre_emisor">{{message.nombre_emisor}}</strong>
         <div class="message-content">{{message.message}}</div>
       </div>
     </div>

@@ -119,10 +119,7 @@ export default {
             group_id: this.contact.id
           })
           .then(response => {
-              console.log('Los datos devueltos son: ');
-              console.log(response.data);
-            /*this.contact.ultimo_mensaje = text;
-            this.$emit("new", response.data);*/
+            this.$emit("new",response.data);
           });
       }
     }
