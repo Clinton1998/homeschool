@@ -4,13 +4,7 @@
             <input type="text" class="form-control" placeholder="Escribe algo"
                    aria-label="Recipient's username" aria-describedby="button-addon2" v-model="message" @keydown.enter="send">
             <div class="form-buttons">
-                <button class="btn btn-light btn-floating" type="button">
-                    <i class="fa fa-paperclip"></i>
-                </button>
-                <button class="btn btn-light btn-floating" type="button">
-                    <i class="fa fa-microphone"></i>
-                </button>
-                <button class="btn btn-primary btn-floating" type="submit">
+                <button class="btn btn-primary btn-floating" type="button" @click="send">
                     <i class="fa fa-send"></i>
                 </button>
             </div>

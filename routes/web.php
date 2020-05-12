@@ -21,6 +21,10 @@ Route::get('chat/contacts','ContactsController@get')->name('chat/contacts');
 Route::get('chat/conversation/{id}','ContactsController@getMessagesFor')->name('chat/conversation/{id}');
 Route::post('chat/conversation/send','ContactsController@send')->name('chat/conversation/send');
 
+Route::post('chat/group/crear','GroupController@crear')->name('chat/group/crear');
+Route::post('chat/group/sendmessage','GroupController@send_message')->name('chat/group/sendmessage');
+Route::get('chat/group/conversations/{group_id}','GroupController@conversations')->name('chat/group/conversations/{group_id}');
+
 //notificaciones del usuario
 Route::post('notificacionesdelusuario','Notificacion@listar')->name('notificacionesdelusuario');
 Route::post('notificacionesdelusuario/marcarcomoleido', 'Notificacion@marcar_como_leido')->name('notificacionesdelusuario/marcarcomoleido');
