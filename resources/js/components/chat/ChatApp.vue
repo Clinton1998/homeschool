@@ -207,6 +207,7 @@ export default {
   mounted() {
     //cuando hay nuevos mensajes personales
     Echo.private(`messages.${this.user.id}`).listen("NewMessage", e => {
+      e.message.from_contact.ultimo_mensaje = e.message.text;
       this.hanleIncoming(e.message);
     });
 
@@ -253,9 +254,11 @@ export default {
         this.updateUnreadCount(contact, true, tipo);
         axios.get(`/chat/conversation/${contact.id}`).then(response => {
           this.messages = response.data;
-          //contact.ultimo_mensaje = 'algun valor';
-          /*console.log('Los ultimos mensajes son: ');
-                        console.log(this.messages);*/
+          if(response.data.length>0){
+            contact.ultimo_mensaje = response.data[response.data.length-1].text;
+          }else{
+            contact.ultimo_mensaje = '';
+          }
           this.selectedContact = contact;
         });
       } else if (tipo == "group") {
@@ -271,10 +274,10 @@ export default {
       this.messages.push(message);
     },
     hanleIncoming(message) {
-      var opcion = "";
+      
       if (this.selectedContact && message.group_id == this.selectedContact.id) {
         //mensaje para un grupo
-        opcion = "group";
+        
         this.saveNewMessage(message);
         return;
       } else if (
@@ -282,9 +285,15 @@ export default {
         message.emisor == this.selectedContact.id
       ) {
         //mensaje a una persona
-        opcion = "contact";
+        this.selectedContact.ultimo_mensaje = message.text;
         this.saveNewMessage(message);
         return;
+      }
+      var opcion = "";
+      if(message.group_id){
+        opcion = 'group';
+      }else{
+        opcion = 'contact';
       }
       if (opcion == "contact") {
         this.updateUnreadCount(message.from_contact, false, opcion);
@@ -301,10 +310,9 @@ export default {
           if (reset) {
             single.unread = 0;
           } else {
+            single.ultimo_mensaje = contact.ultimo_mensaje;
             single.unread += 1;
           }
-          //single.ultimo_mensaje = '';
-
           return single;
         });
       } else {

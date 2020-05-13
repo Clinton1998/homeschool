@@ -2072,6 +2072,8 @@ __webpack_require__.r(__webpack_exports__);
 
     //cuando hay nuevos mensajes personales
     Echo.private("messages.".concat(this.user.id)).listen("NewMessage", function (e) {
+      e.message.from_contact.ultimo_mensaje = e.message.text;
+
       _this.hanleIncoming(e.message);
     }); //cuando hay nuevos mensajes para grupos
 
@@ -2114,10 +2116,13 @@ __webpack_require__.r(__webpack_exports__);
       if (tipo == "contact") {
         this.updateUnreadCount(contact, true, tipo);
         axios.get("/chat/conversation/".concat(contact.id)).then(function (response) {
-          _this2.messages = response.data; //contact.ultimo_mensaje = 'algun valor';
+          _this2.messages = response.data;
 
-          /*console.log('Los ultimos mensajes son: ');
-                        console.log(this.messages);*/
+          if (response.data.length > 0) {
+            contact.ultimo_mensaje = response.data[response.data.length - 1].text;
+          } else {
+            contact.ultimo_mensaje = '';
+          }
 
           _this2.selectedContact = contact;
         });
@@ -2134,18 +2139,23 @@ __webpack_require__.r(__webpack_exports__);
       this.messages.push(message);
     },
     hanleIncoming: function hanleIncoming(message) {
-      var opcion = "";
-
       if (this.selectedContact && message.group_id == this.selectedContact.id) {
         //mensaje para un grupo
-        opcion = "group";
         this.saveNewMessage(message);
         return;
       } else if (this.selectedContact && message.emisor == this.selectedContact.id) {
         //mensaje a una persona
-        opcion = "contact";
+        this.selectedContact.ultimo_mensaje = message.text;
         this.saveNewMessage(message);
         return;
+      }
+
+      var opcion = "";
+
+      if (message.group_id) {
+        opcion = 'group';
+      } else {
+        opcion = 'contact';
       }
 
       if (opcion == "contact") {
@@ -2164,9 +2174,9 @@ __webpack_require__.r(__webpack_exports__);
           if (reset) {
             single.unread = 0;
           } else {
+            single.ultimo_mensaje = contact.ultimo_mensaje;
             single.unread += 1;
-          } //single.ultimo_mensaje = '';
-
+          }
 
           return single;
         });
