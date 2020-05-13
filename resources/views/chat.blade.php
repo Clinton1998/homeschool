@@ -1,6 +1,30 @@
 <!doctype html>
 <html lang="es">
 <head>
+    @php
+            $colegio = '';
+            if(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0){
+                //se trata de un superadministrador del colegio
+                $colegio = App\Colegio_m::where('id_superadministrador','=',Auth::user()->id)->first();
+            }else if(!is_null(Auth::user()->id_docente)){
+                $re_docente = App\Docente_d::findOrFail(Auth::user()->id_docente);
+                $colegio = $re_docente->colegio;
+            }else if(!is_null(Auth::user()->id_alumno)){
+                $re_alumno = App\Alumno_d::findOrFail(Auth::user()->id_alumno);
+                $colegio = $re_alumno->seccion->grado->colegio;
+            }
+            $fecha_corte = '';
+            if (!is_null($colegio->t_corte_prueba) && is_null($colegio->t_corte_normal)) {
+                //version prueba del usuario, con dias gratuitos
+                $fecha_corte = $colegio->t_corte_prueba;
+            } else if (is_null($colegio->t_corte_prueba) && !is_null($colegio->t_corte_normal)) {
+                //version normal cuando ya se pagó por el sistema
+                $fecha_corte = $colegio->t_corte_normal;
+            }
+            if (date('Y-m-d H:i:s') >= $fecha_corte) {
+                Session::flush();
+            }  
+        @endphp
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -82,23 +106,12 @@
         <div class="nav-group">
             <ul>
                 <li>
-                    <a class="logo" href="#">
-                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             width="33.004px" height="33.003px" viewBox="0 0 33.004 33.003" style="enable-background:new 0 0 33.004 33.003;"
-                             xml:space="preserve">
-                            <g>
-                                <path d="M4.393,4.788c-5.857,5.857-5.858,15.354,0,21.213c4.875,4.875,12.271,5.688,17.994,2.447l10.617,4.161l-4.857-9.998
-                                    c3.133-5.697,2.289-12.996-2.539-17.824C19.748-1.072,10.25-1.07,4.393,4.788z M25.317,22.149l0.261,0.512l1.092,2.142l0.006,0.01
-                                    l1.717,3.536l-3.748-1.47l-0.037-0.015l-2.352-0.883l-0.582-0.219c-4.773,3.076-11.221,2.526-15.394-1.646
-                                    C1.469,19.305,1.469,11.481,6.277,6.672c4.81-4.809,12.634-4.809,17.443,0.001C27.919,10.872,28.451,17.368,25.317,22.149z"/>
-                                <g>
-                                    <circle cx="9.835" cy="16.043" r="1.833"/>
-                                    <circle cx="15.502" cy="16.043" r="1.833"/>
-                                    <circle cx="21.168" cy="16.043" r="1.833"/>
-                                </g>
-                            </g>
-                            <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g>
-                        </svg>
+                    <a class="logo" href="{{asset('/home')}}">
+                        @if(is_null($colegio->c_logo)  || empty($colegio->c_logo))
+                            <img class="img-fluid" src="{{asset('assets/images/colegio/school.png')}}" alt="Logo">
+                        @else
+                            <img class="img-fluid" src="{{url('super/colegio/logo/'.$colegio->c_logo)}}" alt="Logo">
+                        @endif
                     </a>
                 </li>
                 <li>
