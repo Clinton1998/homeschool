@@ -225,21 +225,28 @@ export default {
     });
 
     //cuando se eliminan grupos
-    Echo.private(`groupusersdelete.${this.user.id}`).listen("GroupDeleted", e => {
-      //this.groups.push(e.group);
-      var id_group = e.users[0]['pivot']['group_id'];
-      if(id_group){
-        //eliminamos el grupo
-        for(var i=0; i<this.groups.length; i++){
-          if(this.groups[i].id==id_group){
-            this.groups.splice(i,1);
+    Echo.private(`groupusersdelete.${this.user.id}`).listen(
+      "GroupDeleted",
+      e => {
+        //this.groups.push(e.group);
+        var id_group = e.users[0]["pivot"]["group_id"];
+        if (id_group) {
+          //eliminamos el grupo
+          for (var i = 0; i < this.groups.length; i++) {
+            if (this.groups[i].id == id_group) {
+              this.groups.splice(i, 1);
+            }
+          }
+          if (
+            this.selectedContact &&
+            this.selectedContact.id == id_group &&
+            this.selectedContact.users
+          ) {
+            this.selectedContact = null;
           }
         }
-        if(this.selectedContact && this.selectedContact.id==id_group && this.selectedContact.users){
-            this.selectedContact = null;
-        }
       }
-    });
+    );
 
     axios.get("/chat/contacts").then(response => {
       this.contacts = response.data.contacts;
@@ -254,15 +261,16 @@ export default {
         this.updateUnreadCount(contact, true, tipo);
         axios.get(`/chat/conversation/${contact.id}`).then(response => {
           this.messages = response.data;
-          if(response.data.length>0){
-            contact.ultimo_mensaje = response.data[response.data.length-1].text;
-          }else{
-            contact.ultimo_mensaje = '';
+          if (response.data.length > 0) {
+            contact.ultimo_mensaje =
+              response.data[response.data.length - 1].text;
+          } else {
+            contact.ultimo_mensaje = "";
           }
           this.selectedContact = contact;
         });
       } else if (tipo == "group") {
-          this.updateUnreadCount(contact.id, true, tipo);
+        this.updateUnreadCount(contact.id, true, tipo);
         axios.get(`/chat/group/conversations/${contact.id}`).then(response => {
           this.messages = response.data.conversations;
           contact.users = response.data.users;
@@ -274,10 +282,9 @@ export default {
       this.messages.push(message);
     },
     hanleIncoming(message) {
-      
       if (this.selectedContact && message.group_id == this.selectedContact.id) {
         //mensaje para un grupo
-        
+
         this.saveNewMessage(message);
         return;
       } else if (
@@ -290,10 +297,10 @@ export default {
         return;
       }
       var opcion = "";
-      if(message.group_id){
-        opcion = 'group';
-      }else{
-        opcion = 'contact';
+      if (message.group_id) {
+        opcion = "group";
+      } else {
+        opcion = "contact";
       }
       if (opcion == "contact") {
         this.updateUnreadCount(message.from_contact, false, opcion);
@@ -315,6 +322,33 @@ export default {
           }
           return single;
         });
+
+        //para los friends
+        if (!reset) {
+          var ahora_contact = "";
+          this.friends = this.friends.map(single => {
+            if (single.id != contact.id) {
+              return single;
+            }
+            single.ultimo_mensaje = contact.ultimo_mensaje;
+            if (!single.unread) {
+              single.unread = 1;
+            }else{
+              single.unread += 1;
+            }
+            ahora_contact = single;
+            return single;
+          });
+
+          if(ahora_contact!=''){
+            this.contacts.push(ahora_contact);
+            for (var i = 0; i < this.friends.length; i++) {
+              if (this.friends[i].id == ahora_contact.id) {
+                  this.friends.splice(i, 1);
+              }
+            }
+          }
+        }
       } else {
         this.groups = this.groups.map(single => {
           if (single.id != contact) {
@@ -323,11 +357,11 @@ export default {
           if (reset) {
             single.unread = 0;
           } else {
-              if(!single.unread){
-                single.unread = 1;      
-              }else{
-                  single.unread += 1;
-              }
+            if (!single.unread) {
+              single.unread = 1;
+            } else {
+              single.unread += 1;
+            }
           }
           return single;
         });

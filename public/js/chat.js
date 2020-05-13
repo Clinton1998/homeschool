@@ -2087,7 +2087,7 @@ __webpack_require__.r(__webpack_exports__);
 
     Echo.private("groupusersdelete.".concat(this.user.id)).listen("GroupDeleted", function (e) {
       //this.groups.push(e.group);
-      var id_group = e.users[0]['pivot']['group_id'];
+      var id_group = e.users[0]["pivot"]["group_id"];
 
       if (id_group) {
         //eliminamos el grupo
@@ -2121,7 +2121,7 @@ __webpack_require__.r(__webpack_exports__);
           if (response.data.length > 0) {
             contact.ultimo_mensaje = response.data[response.data.length - 1].text;
           } else {
-            contact.ultimo_mensaje = '';
+            contact.ultimo_mensaje = "";
           }
 
           _this2.selectedContact = contact;
@@ -2153,9 +2153,9 @@ __webpack_require__.r(__webpack_exports__);
       var opcion = "";
 
       if (message.group_id) {
-        opcion = 'group';
+        opcion = "group";
       } else {
-        opcion = 'contact';
+        opcion = "contact";
       }
 
       if (opcion == "contact") {
@@ -2179,7 +2179,37 @@ __webpack_require__.r(__webpack_exports__);
           }
 
           return single;
-        });
+        }); //para los friends
+
+        if (!reset) {
+          var ahora_contact = "";
+          this.friends = this.friends.map(function (single) {
+            if (single.id != contact.id) {
+              return single;
+            }
+
+            single.ultimo_mensaje = contact.ultimo_mensaje;
+
+            if (!single.unread) {
+              single.unread = 1;
+            } else {
+              single.unread += 1;
+            }
+
+            ahora_contact = single;
+            return single;
+          });
+
+          if (ahora_contact != '') {
+            this.contacts.push(ahora_contact);
+
+            for (var i = 0; i < this.friends.length; i++) {
+              if (this.friends[i].id == ahora_contact.id) {
+                this.friends.splice(i, 1);
+              }
+            }
+          }
+        }
       } else {
         this.groups = this.groups.map(function (single) {
           if (single.id != contact) {
