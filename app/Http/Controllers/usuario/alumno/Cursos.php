@@ -20,14 +20,48 @@ class cursos extends Controller
         $usuarioAlumno = App\User::findOrFail(Auth::user()->id);
         $alumno = App\Alumno_d::where(['id_alumno' => $usuarioAlumno->id_alumno,'estado' => 1])->first();
 
+        $grado_seccion = DB::table('seccion_d')
+            ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+            ->join('alumno_d','seccion_d.id_seccion','=','alumno_d.id_seccion')
+            ->select('seccion_d.id_seccion', 'seccion_d.c_nombre as nom_seccion', 'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel')
+            ->where(['seccion_d.estado' => 1, 'grado_m.estado' => 1, 'alumno_d.estado' => 1, 'alumno_d.id_alumno' => $alumno->id_alumno])
+        ->first();
+
         $cursos = DB::table('categoria_d')
             ->join('seccion_categoria_p','categoria_d.id_categoria','=','seccion_categoria_p.id_categoria')
             ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
             ->select('categoria_d.id_categoria','categoria_d.c_nombre as nom_curso', 'categoria_d.c_nivel_academico as col_curso')
             ->where(['seccion_d.estado' => 1, 'categoria_d.estado' => 1, 'seccion_d.id_seccion' => $alumno->id_seccion])
+            ->orderBy('categoria_d.c_nombre', 'ASC')
         ->get();
 
-        return view('alumno.cursos', compact('cursos'));
+        $comunicados = DB::table('comunicado_d')
+            ->select ('comunicado_d.*')
+            ->where(['comunicado_d.estado' => 1, 'comunicado_d.id_colegio' => $alumno->seccion->grado->colegio->id_colegio])
+            ->orderBy('comunicado_d.created_at', 'DESC')
+        ->get();
+
+        $comunicados_all = DB::table('comunicado_d')
+            ->select ('comunicado_d.*')
+            ->where(['comunicado_d.id_colegio' => $alumno->seccion->grado->colegio->id_colegio])
+            ->orderBy('comunicado_d.created_at', 'DESC')
+        ->get();
+
+        $anuncios_seccion = DB::table('anuncio_d')
+            ->join('seccion_d','anuncio_d.id_seccion','=','seccion_d.id_seccion')
+            ->select ('anuncio_d.*')
+            ->where(['anuncio_d.estado' => 1, 'seccion_d.id_seccion' => $alumno->id_seccion])
+            ->orderBy('anuncio_d.created_at', 'DESC')
+        ->get();
+
+        $anuncios_seccion_all = DB::table('anuncio_d')
+            ->join('seccion_d','anuncio_d.id_seccion','=','seccion_d.id_seccion')
+            ->select ('anuncio_d.*')
+            ->where(['seccion_d.id_seccion' => $alumno->id_seccion])
+            ->orderBy('anuncio_d.created_at', 'DESC')
+        ->get();
+
+        return view('alumno.cursos', compact('alumno','grado_seccion','cursos','comunicados','comunicados_all','anuncios_seccion','anuncios_seccion_all'));
     }
 
     public function curso($id_curso){
@@ -70,6 +104,14 @@ class cursos extends Controller
             ->orderBy('modulo_d.id_modulo', 'ASC')
         ->get();
 
+        //Anuncios
+        $anuncios_curso = DB::table('anuncio_d')
+            ->join('seccion_categoria_p','anuncio_d.id_seccion_categoria','=','seccion_categoria_p.id_seccion_categoria')
+            ->select ('anuncio_d.*')
+            ->where(['anuncio_d.estado' => 1, 'seccion_categoria_p.id_seccion' => $alumno->id_seccion, 'seccion_categoria_p.id_categoria' => $id_curso])
+            ->orderBy('anuncio_d.created_at', 'DESC')
+        ->get();
+
         //Archivos
         $archivos = DB::table('archivo_d')
             ->select('archivo_d.*')
@@ -77,7 +119,7 @@ class cursos extends Controller
             ->orderBy('archivo_d.id_archivo','ASC')
         ->get();
 
-        return view('alumno.curso', compact('cursos', 'tareas', 'docente','alumnosseccion', 'modulos', 'archivos'));
+        return view('alumno.curso', compact('cursos', 'tareas', 'docente','alumnosseccion', 'modulos', 'anuncios_curso', 'archivos'));
     }
 
     public function descargar_archivo($id_archivo){

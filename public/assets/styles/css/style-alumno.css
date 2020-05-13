@@ -4,6 +4,7 @@
     --a-color-secundario: #3498db;
     --a-color-primario: #2980b9;
     --color-tmp-grey: #f1f2f6;
+    --grey: #f9f9f9;
 }
 
 /* [0] GENERAL ---------------*/
@@ -18,6 +19,10 @@
 
 .hs_capitalize {
     text-transform: capitalize;
+}
+
+.hs_justify {
+    text-align: justify;
 }
 
 .hs_capitalize-first::first-letter {
@@ -260,16 +265,131 @@ a {
 
 /*************************** TABLERO DE CURSOS ***************************/
 
+.cursos-header {
+    background: var(--color-tmp-grey);
+    color: grey;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    border-radius: 8px;
+}
+
+.cursos-header p {
+    margin-bottom: 0;
+}
+
+
+#mis_cursos {
+    display: grid;
+    grid-template-columns: auto 250px;
+    grid-gap: 15px;
+    grid-template-areas: "t n";
+}
+
+#cursos_tablero {
+    grid-area: t;
+}
+
+#cursos_notificaciones {
+    grid-area: n;
+}
+
+.cn-header {
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    border-bottom: solid 1px lightgrey;
+}
+
+.cn-card {
+    border: solid 1px var(--color-tmp-grey);
+    background: var(--grey);
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 11px;
+}
+
+.cn-card:hover {
+    border: solid 1px lightgrey;
+}
+
+.cn-card-title {
+    text-transform: lowercase;
+    margin-bottom: 0;
+}
+
+.cn-card-title::first-letter {
+    text-transform: capitalize;
+}
+
+.cn-card-title,
+.cn-card-content {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    margin-bottom: 0;
+    cursor: default;
+}
+
+.cn-card-link {
+    color: var(--a-color-secundario);
+    display: block;
+    text-align: right;
+}
+
+.cn-card-link:hover {
+    color: var(--a-color-primario);
+}
+
+#ntf-content {
+    text-align: justify;
+}
+
+.his-com-c,
+.his-anc-c {
+    display: none;
+}
+
+.contenido-acordion {
+    margin-bottom: 5px;
+    padding: 10px;
+    border: solid 1px var(--color-tmp-grey);
+    background: var(--grey);
+    border-radius: 8px;
+}
+
+.seleccionado {
+    font-weight: bolder;
+}
+
+.his-com-t,
+.his-anc-t {
+    display: block;
+    width: 100%;
+}
+
+.his-com-t:hover,
+.his-anc-t:hover {
+    color: var(--a-color-secundario);
+}
+
+/*************************** TABLERO DE CURSOS ***************************/
+
 .cursos-tablero {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    grid-gap: 20px;
-    max-width: 1000px;
-    margin: 0 auto;
+    grid-gap: 15px;
 }
 
 .curso-card {
     background: var(--color-tmp-grey);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .curso-card-header,
@@ -287,7 +407,7 @@ a {
 }
 
 .curso-card-footer {
-    background: #ecf0f1;
+    background: var(--grey);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -296,6 +416,8 @@ a {
 .curso-notify {
     font-size: 22px;
     margin-right: 8px;
+    display: none;
+    /*VOLVER A ACTIVAR PARA LOS CONTADORES*/
 }
 
 .card-notify-count {
@@ -310,13 +432,13 @@ a {
 
 /* @Overwrite */
 .main-content-wrap {
-    padding: 10px !important;
+    padding: 15px !important;
 }
 
 /* Container */
 .curso-main {
     display: grid;
-    grid-template-columns: auto auto 200px;
+    grid-template-columns: auto auto 180px;
     grid-gap: 10px;
     grid-template-areas: "h h a"
         "c c a";
@@ -529,24 +651,44 @@ a {
     flex-wrap: wrap;
 }
 
+
+/*************************** ANUNCIOS ***************************/
+
+.box-descripcion-wrap {
+    max-height: 35px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    cursor: default;
+}
+
 /*************************** CALIFICACIONES ***************************/
 
-#tbl-calificaciones {
+#tbl-calificaciones,
+#tbl-anuncios {
     text-align: center;
     width: 100%;
 }
 
 #tbl-calificaciones th,
-#tbl-calificaciones td {
+#tbl-calificaciones td,
+#tbl-anuncios th,
+#tbl-anuncio td {
     border: solid 1px #FFF;
 }
 
-#tbl-calificaciones thead {
+#tbl-calificaciones thead,
+#tbl-anuncios thead {
     background: var(--color-tmp-grey);
 }
 
-#tbl-calificaciones th {
+#tbl-calificaciones th,
+#tbl-anuncios th {
     padding: 10px;
+}
+
+#tbl-anuncios td {
+    padding: 5px 10px;
 }
 
 #tbl-calificaciones td:nth-child(2) {
@@ -559,6 +701,11 @@ a {
 
 .tbl-tarea-see:hover {
     color: var(--a-color-primario);
+}
+
+.anc-title,
+.anc-content {
+    display: none;
 }
 
 /*************************** DOCENTE ***************************/
@@ -622,10 +769,6 @@ a {
 
 @media screen and (max-width: 768px) {
 
-    .cursos-tablero {
-        margin: 0 30px;
-    }
-
     /* Tablero de cursos */
     .curso-card-header {
         height: 120px;
@@ -639,10 +782,6 @@ a {
         margin-top: 0 !important;
         padding: 5px !important;
         font-size: 12px;
-    }
-
-    .cursos-tablero {
-        margin: 0 15px;
     }
 
     /* Tablero de cursos */
@@ -747,17 +886,14 @@ a {
         padding-bottom: 5px;
     }
 
-    #tbl-calificaciones th {
+    #tbl-calificaciones th,
+    #tbl-anuncios th {
         font-size: 11px;
         padding: 5px;
     }
 
-    #tbl-calificaciones td {
-        font-size: 11px;
-    }
-
-    /* Cards */
-    .box-card {
+    #tbl-calificaciones td,
+    #tbl-anuncios td {
         font-size: 11px;
     }
 
@@ -770,4 +906,41 @@ a {
         margin: 10px 0 10px 0;
         font-size: 16px;
     }
+}
+
+@media screen and (max-width: 425px) {
+    #mis_cursos {
+        display: grid;
+        padding: 10px 15px;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        grid-gap: 10px;
+        grid-template-areas: "n"
+            "t";
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/******************************************************/
+
+.swal2-container .swal2-styled:not(.swal2-cancel) {
+    background: #3498db !important;
+    border-color: #3498db !important;
+    outline: none !important;
+    border: none !important;
 }

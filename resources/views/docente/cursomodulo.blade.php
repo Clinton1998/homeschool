@@ -94,28 +94,28 @@
 <div class="modal fade" id="MODAL" tabindex="-1" role="dialog" aria-labelledby="MODALLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nuevo módulo</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <form id="frm_modulo" method="POST" action="{{url('/docente/cursos/crear_modulo')}}" novalidate>
-            <div class="modal-body">
-                @csrf
-                <input type="hidden" id="id_mo" name="id_mo">
-                <input type="hidden" id="id_sc" name="id_sc" value="{{$id_sc->id_seccion_categoria}}">
-                <div class="form-group">
-                    <label for="nombre_modulo">Nombre del módulo</label>
-                    <input type="text" id="nombre_modulo" name="nombre_modulo" class="form-control" autofocus required>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo módulo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="frm_modulo" method="POST" action="{{url('/docente/cursos/crear_modulo')}}" novalidate>
+                <div class="modal-body">
+                    @csrf
+                    <input type="hidden" id="id_mo" name="id_mo">
+                    <input type="hidden" id="id_sc" name="id_sc" value="{{$id_sc->id_seccion_categoria}}">
+                    <div class="form-group">
+                        <label for="nombre_modulo">Nombre del módulo</label>
+                        <input type="text" id="nombre_modulo" name="nombre_modulo" class="form-control" autofocus required>
+                    </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="button" id="btn_actualizar_modulo" class="btn btn-warning">Actualizar</button>
-                <button type="button" id="btn_crear_modulo" class="btn btn-primary">Guardar</button>
-            </div>
-        </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" id="btn_actualizar_modulo" class="btn btn-warning">Actualizar</button>
+                    <button type="button" id="btn_crear_modulo" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -124,40 +124,41 @@
 <div class="modal fade" id="MODAL-FILE" tabindex="-1" role="dialog" aria-labelledby="MODAL-FILELabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nuevo archivo</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <form enctype="multipart/form-data" id="frm_archivo" name="frm_archivo" method="POST" action="{{url('/docente/cursos/agregar_archivo')}}" novalidate>
-            <div class="modal-body">
-                @csrf
-                <input type="hidden" id="id_m_key" name="id_m_key">
-                <div class="form-group">
-                    <label for="nombre_archivo">Nombre del archivo</label>
-                    <input type="text" id="nombre_archivo" name="nombre_archivo" class="form-control" autofocus required>
-                </div>
-                <div class="form-group">
-                    <label for="file">Archivo</label>
-                    <input type="file" name="el_archivo" id="el_archivo" class="form-control hs_upload">
-                </div>
-                <div class="form-group">
-                    <label for="url">Enlace externo</label>
-                    <input type="url" name="url_archivo" id="url_archivo" class="form-control" placeholder="(Opcional)">
-                </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nuevo archivo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                {{-- <button type="button" id="btn_agregar_archivo" class="btn btn-primary">Agregar archivo</button> --}}
-                <button type="submit" id="btn_agregar_archivo" class="btn btn-primary">Agregar archivo</button>
-            </div>
-        </form>
+            <form enctype="multipart/form-data" id="frm_archivo" name="frm_archivo" method="POST" action="{{url('/docente/cursos/agregar_archivo')}}" novalidate>
+                <div class="modal-body">
+                    @csrf
+                    <input type="hidden" id="id_m_key" name="id_m_key">
+                    <div class="form-group">
+                        <label for="nombre_archivo">Nombre del archivo</label>
+                        <input type="text" id="nombre_archivo" name="nombre_archivo" class="form-control" autofocus required>
+                    </div>
+                    <div class="form-group">
+                        <label for="file">Archivo</label>
+                        <input type="file" name="el_archivo" id="el_archivo" class="form-control hs_upload">
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Enlace externo</label>
+                        <input type="url" name="url_archivo" id="url_archivo" class="form-control" placeholder="(Opcional)">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    {{-- <button type="button" id="btn_agregar_archivo" class="btn btn-primary">Agregar archivo</button> --}}
+                    <button type="submit" id="btn_agregar_archivo" class="btn btn-primary">Agregar archivo</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9" ></script>
 
 <script>
     //Botones
@@ -179,23 +180,27 @@
         
         modal = $('#MODAL');
 
-        $.ajax({
-            url: ruta,
-            type: metodo,
-            dataType: tipoDato,
-            data: {
-                id_seccion_categoria: id_sc,
-                c_nombre: nombre_modulo
-            },
-            success:function(data){
-                $("#container-reload").load(" #container-reload");
-                modal.modal('hide');
-                alert('Módulo creado correctamente :)');
-            },
-            error: function(){
-                alert('No se puedo crear el módulo :(');
-            }
-        });
+        if (nombre_modulo == '') {
+            MSJ('REQUIREMOD');
+        } else {
+            $.ajax({
+                url: ruta,
+                type: metodo,
+                dataType: tipoDato,
+                data: {
+                    id_seccion_categoria: id_sc,
+                    c_nombre: nombre_modulo
+                },
+                success:function(data){
+                    $("#container-reload").load(" #container-reload");
+                    modal.modal('hide');
+                    MSJ('MAD');
+                },
+                error: function(){
+                    MSJ('MADER');
+                }
+            });
+        }
     });
 
     //Cargar módulo
@@ -232,10 +237,10 @@
             success:function(data){
                 $("#container-reload").load(" #container-reload");
                 modal.modal('hide');
-                alert('Módulo actualizado correctamente :)');
+                MSJ('MAC');
             },
             error: function(){
-                alert('No se pudo actualizar el módulo :(');
+                MSJ('MACER');
             }
         });
     });
@@ -248,26 +253,33 @@
         
         id_modulo = id;
         
-        rpt = confirm('¿Seguro(a) que quiere eliminar este módulo?');
-
-        if (rpt) {
-            $.ajax({
-                url: ruta,
-                type: metodo,
-                dataType: tipoDato,
-                data: {
-                    id_modulo: id_modulo,
-                    id_seccion_categoria: id_sc
-                },
-                success:function(data){
-                    $("#container-reload").load(" #container-reload");
-                    alert('Módulo eliminado correctamente :)');
-                },
-                error: function(){
-                    alert('No se pudo eliminar el módulo :(');
-                }
-            });
-        }
+        Swal.fire({
+            text: "¿Seguro(a) que quiere eliminar este módulo?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#ffffff',
+            cancelButtonColor: '#e74c3c',
+            confirmButtonText: 'Si, eliminar'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: ruta,
+                    type: metodo,
+                    dataType: tipoDato,
+                    data: {
+                        id_modulo: id_modulo,
+                        id_seccion_categoria: id_sc
+                    },
+                    success:function(data){
+                        $("#container-reload").load(" #container-reload");
+                        MSJ('MEL');
+                    },
+                    error: function(){
+                        MSJ('MELER');
+                    }
+                })
+            }
+        })
     };
 
     //Abrir modal de archivo
@@ -282,34 +294,47 @@
     $("#frm_archivo").on("submit", function(e){
         e.preventDefault();
         var f = $(this);
-        var formData = new FormData(document.getElementById("frm_archivo"));
-        formData.append("dato", "valor");
-        //formData.append(f.attr("el_archivo"), $(this)[0].files[0]);
-        
-        id_modulo = $('#id_m_key').val();
-        modal = $('#MODAL-FILE');
 
-        $.ajax({
-            url: "/docente/cursos/agregar_archivo",
-            type: "post",  
-            dataType: "html",
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success:function(data){
-                    $("#box_files"+id_modulo).load(" #box_files"+id_modulo);
-                    modal.modal('hide');
-                    alert('Archivo agregado :)');
-                    $('#id_m_key').val('');
-                    $('#nombre_archivo').val('');
-                    $('#el_archivo').val('');
-                    $('#url_archivo').val('');
-                },
-                error: function(){
-                    alert('No se puedo agregar :(');
-                }
-        });
+        nombre = $("#nombre_archivo").val();
+        file = $("#el_archivo").val();
+        link = $("#url_archivo").val();
+
+        if (nombre == '') {
+            MSJ('REQUIRE');
+        } else {
+            if (file == '' && link == '') {
+                MSJ('FILI');
+            } else {
+                var formData = new FormData(document.getElementById("frm_archivo"));
+                formData.append("dato", "valor");
+                //formData.append(f.attr("el_archivo"), $(this)[0].files[0]);
+                
+                id_modulo = $('#id_m_key').val();
+                modal = $('#MODAL-FILE');
+
+                $.ajax({
+                    url: "/docente/cursos/agregar_archivo",
+                    type: "post",  
+                    dataType: "html",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        $("#box_files"+id_modulo).load(" #box_files"+id_modulo);
+                        modal.modal('hide');
+                        $('#id_m_key').val('');
+                        $('#nombre_archivo').val('');
+                        $('#el_archivo').val('');
+                        $('#url_archivo').val('');
+                        MSJ('AAD');
+                    },
+                    error: function(){
+                        MSJ('AADER');
+                    }
+                });
+            }
+        }
     });
 
     //Eliminar archivo
@@ -321,78 +346,156 @@
         id_archivo = id_a;
         id_modulo = id_m;
         
-        rpt = confirm('¿Seguro(a) que quiere eliminar este archivo?');
-
-        if (rpt) {
-            $.ajax({
-                url: ruta,
-                type: metodo,
-                dataType: tipoDato,
-                data: {
-                    id_archivo: id_archivo,
-                    id_modulo: id_modulo
-                },
-                success:function(data){
-                    $("#box_files"+id_modulo).load(" #box_files"+id_modulo);
-                    alert('Archivo eliminado correctamente :)');
-                },
-                error: function(){
-                    alert('No se pudo eliminar el archivo :(');
-                }
-            });
+        Swal.fire({
+            text: "¿Seguro(a) que quiere eliminar este archivo?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#ffffff',
+            cancelButtonColor: '#e74c3c',
+            confirmButtonText: 'Si, eliminar'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    url: ruta,
+                    type: metodo,
+                    dataType: tipoDato,
+                    data: {
+                        id_archivo: id_archivo,
+                        id_modulo: id_modulo
+                    },
+                    success:function(data){
+                        $("#box_files"+id_modulo).load(" #box_files"+id_modulo);
+                        MSJ('AEL');
+                    },
+                    error: function(){
+                        MSJ('AELER');
+                    }
+                })
+            }
+        })
+    };
+       
+    function MSJ(cod){
+        switch (cod) {
+            case 'MAD':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Módulo creado correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'MADER':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    text: 'No se puedo crear el módulo, vuelva a intentarlo',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'MAC':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Módulo actualizado correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'MACER':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    text: 'No se puedo actualizar el módulo, vuelva a intentarlo',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'MEL':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Módulo eliminado correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'MELER':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    text: 'No se puedo eliminar el módulo, vuelva a intentarlo',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'AAD':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Archivo agregado correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'AADER':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    text: 'No se puedo cargar el arhivo, vuelva a intentarlo',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'AEL':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    text: 'Archivo eliminado correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'AELER':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'warning',
+                    text: 'No se puedo eliminar el archivo, vuelva a intentarlo',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                break;
+            case 'REQUIRE':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'info',
+                    text: 'Necesita nombrar el archivo',
+                    showConfirmButton: true,
+                    confirmButtonColor: '#3498db'
+                });
+                break;
+            case 'FILI':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'info',
+                    text: 'Debe subir un archivo o agregar un enlace externo',
+                    showConfirmButton: true,
+                    confirmButtonColor: '#3498db'
+                });
+                break;
+            case 'REQUIREMOD':
+                Swal.fire({
+                    position: 'center',
+                    icon: 'info',
+                    text: 'Necesita nombrar el módulo',
+                    showConfirmButton: true,
+                    confirmButtonColor: '#3498db'
+                });
+                break;
+            default:
+                break;
         }
     };
-    
-    //Radios
-    /* $('input[name="radio"]').on('click', function(){  
-        if($("#radio1").is(':checked')) {  
-            $('#el_archivo').prop('disabled', false);
-            $('#url_archivo').prop('disabled', true);
-        } 
-        
-        if($("#radio2").is(':checked')) {  
-            $('#el_archivo').prop('disabled', true);
-            $('#url_archivo').prop('disabled', false);
-        }  
-    }); */
-
-    //Agregar archivo v.1
-    /* 
-        $('#btn_agregar_archivo').click(function(){
-            ruta = '/docente/cursos/agregar_archivo';
-            metodo = 'POST';
-            tipoDato = 'json';
-
-            id_modulo = $('#id_m_key').val();
-            nombre = $('#nombre_archivo').val();
-            archivo = $('#el_archivo').val();
-            url = $('#url_archivo').val();
-
-            modal = $('#MODAL-FILE');
-
-            $.ajax({
-                url: ruta,
-                type: metodo,
-                dataType: tipoDato,
-                data: {
-                    id_modulo: id_modulo,
-                    c_nombre: nombre,
-                    c_archivo: archivo,
-                    c_url: url
-                },
-                success:function(data){
-                    $("#box_files"+id_modulo).load(" #box_files"+id_modulo);
-                    modal.modal('hide');
-                    alert('Archivo agregado :)');
-                    $('#id_m_key').val('');
-                    $('#nombre_archivo').val('');
-                    $('#el_archivo').val('');
-                    $('#url_archivo').val('');
-                },
-                error: function(){
-                    alert('No se puedo agregar :(');
-                }
-            });
-        }); 
-    */
 </script>

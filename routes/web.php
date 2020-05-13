@@ -132,6 +132,8 @@ Route::post('docente/cursos/eliminar_modulo', 'usuario\docente\Cursos@eliminar_m
 Route::post('docente/cursos/agregar_archivo', 'usuario\docente\Cursos@agregar_archivo')->name('docente/cursos/agregar_archivo');
 Route::post('docente/cursos/eliminar_archivo', 'usuario\docente\Cursos@eliminar_archivo')->name('docente/cursos/eliminar_archivo');
 Route::get('docente/cursos/descargar_archivo/{id_archivo}', 'usuario\docente\Cursos@descargar_archivo')->name('docente/cursos/descargar_archivo/{id_archivo}');
+Route::post('docente/cursos/crear_anuncio', 'usuario\docente\Cursos@crear_anuncio')->name('docente/cursos/crear_anuncio');
+Route::post('docente/cursos/eliminar_anuncio', 'usuario\docente\Cursos@eliminar_anuncio')->name('docente/cursos/eliminar_anuncio');
 
 // CURSOS *********************************************************
 
