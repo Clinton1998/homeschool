@@ -58,16 +58,53 @@
           </div>
         </div>
       </template>
-      <div v-else-if="contact && contact.name" class="chat-header-user">
-        <figure class="avatar avatar-lg">
-          <span class="avatar-title bg-warning bg-success rounded-circle">
-            <i class="fa fa-users"></i>
-          </span>
-        </figure>
-        <div>
-          <h5>{{contact.name}}</h5>
+      <template v-else-if="contact && contact.name">
+        <div class="chat-header-user">
+          <figure class="avatar avatar-lg">
+            <span class="avatar-title bg-warning bg-success rounded-circle">
+              <i class="fa fa-users"></i>
+            </span>
+          </figure>
+          <div>
+            <h5>{{contact.name}}</h5>
+            <small class="text-muted">
+              <i>#{{contact.users.length+1}} usuario(s):</i>
+              <i>
+                Yo
+                <span
+                  v-if="contact.creador==user.id"
+                  style="color: #3DB16B; font-weight: bold;"
+                >(Admin. del grupo)</span>
+              </i>
+              <i v-for="usuario in contact.users" :key="usuario.id">
+                , {{usuario.nombre_usuario}}
+                <span
+                  v-if="contact.creador==usuario.id"
+                  style="color: #3DB16B; font-weight: bold;"
+                >(Admin. del grupo)</span>
+              </i>
+            </small>
+          </div>
         </div>
-      </div>
+
+        <div class="chat-header-action" v-if="contact.creador==user.id">
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <a href="#" class="btn btn-secondary" data-toggle="dropdown" aria-expanded="false">
+                <i class="ti-more"></i>
+              </a>
+              <div
+                class="dropdown-menu dropdown-menu-right"
+                x-placement="bottom-end"
+                style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(1250px, 68px, 0px);"
+              >
+                <i class="dropdown-item" @click="deleteGroup(contact)">Eliminar grupo</i>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </template>
+
       <p v-else>Selecciona un usuario o grupo</p>
     </div>
     <MessagesFeed :contact="contact" :user="user" :messages="messages" />
@@ -119,12 +156,22 @@ export default {
             group_id: this.contact.id
           })
           .then(response => {
-              console.log('Los datos devueltos son: ');
-              console.log(response.data);
-            /*this.contact.ultimo_mensaje = text;
-            this.$emit("new", response.data);*/
+            this.$emit("new", response.data);
           });
       }
+    },
+    deleteGroup(group) {
+      axios
+        .post("/chat/group/drop", {
+          group_id: group.id
+        })
+        .then(response => {
+          if (response.data.eliminado) {
+              location.reload();
+          } else {
+            alert("No se puede eliminar");
+          }
+        });
     }
   },
   components: { MessagesFeed, MessageComposer }

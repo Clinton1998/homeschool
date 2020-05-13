@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Conversation extends Model
 {
     protected $guarded = [];
-    public function fromGroup(){
-        return $this->hasOne(Group::class,'id','group_id');
+    public function fromContact(){
+        return $this->hasOne(User::class,'id','user_id');
     }
     public function emisor(){
         return $this->belongsTo('App\User','user_id');

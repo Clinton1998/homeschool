@@ -2039,6 +2039,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2054,33 +2064,48 @@ __webpack_require__.r(__webpack_exports__);
       messages: [],
       contacts: [],
       friends: [],
-      groups: [],
-      conversations: []
+      groups: []
     };
   },
   mounted: function mounted() {
     var _this = this;
 
     //cuando hay nuevos mensajes personales
-    Echo.private("messages.".concat(this.user.id)).listen('NewMessage', function (e) {
-      _this.hanleIncoming(e.message); //alert('Hello');
+    Echo.private("messages.".concat(this.user.id)).listen("NewMessage", function (e) {
+      e.message.from_contact.ultimo_mensaje = e.message.text;
 
+      _this.hanleIncoming(e.message);
     }); //cuando hay nuevos mensajes para grupos
 
-    Echo.private("messagesforgroup.".concat(this.user.id)).listen('NewMessageForGroup', function (e) {
-      //this.hanleIncoming(e.message);
-      console.log('Conversation is: ');
-      console.log(e.conversation);
+    Echo.private("messagesforgroup.".concat(this.user.id)).listen("NewMessageForGroup", function (e) {
+      _this.hanleIncoming(e.conversation);
     }); //cuando hay nuevos grupos
 
-    Echo.private("groupusers.".concat(this.user.id)).listen('GroupCreated', function (e) {
+    Echo.private("groupusers.".concat(this.user.id)).listen("GroupCreated", function (e) {
       _this.groups.push(e.group);
+    }); //cuando se eliminan grupos
+
+    Echo.private("groupusersdelete.".concat(this.user.id)).listen("GroupDeleted", function (e) {
+      //this.groups.push(e.group);
+      var id_group = e.users[0]["pivot"]["group_id"];
+
+      if (id_group) {
+        //eliminamos el grupo
+        for (var i = 0; i < _this.groups.length; i++) {
+          if (_this.groups[i].id == id_group) {
+            _this.groups.splice(i, 1);
+          }
+        }
+
+        if (_this.selectedContact && _this.selectedContact.id == id_group && _this.selectedContact.users) {
+          _this.selectedContact = null;
+        }
+      }
     });
-    axios.get('/chat/contacts').then(function (response) {
+    axios.get("/chat/contacts").then(function (response) {
       _this.contacts = response.data.contacts;
       _this.friends = response.data.friends;
       _this.groups = response.data.groups;
-      console.log(response.data);
     });
   },
   methods: {
@@ -2088,21 +2113,24 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       //el parametro contacto pueder ser un usuario o un grupo
-      if (tipo == 'contact') {
-        this.updateUnreadCount(contact, true);
+      if (tipo == "contact") {
+        this.updateUnreadCount(contact, true, tipo);
         axios.get("/chat/conversation/".concat(contact.id)).then(function (response) {
-          _this2.messages = response.data; //contact.ultimo_mensaje = 'algun valor';
+          _this2.messages = response.data;
 
-          /*console.log('Los ultimos mensajes son: ');
-          console.log(this.messages);*/
+          if (response.data.length > 0) {
+            contact.ultimo_mensaje = response.data[response.data.length - 1].text;
+          } else {
+            contact.ultimo_mensaje = "";
+          }
 
           _this2.selectedContact = contact;
         });
-      } else if (tipo == 'group') {
+      } else if (tipo == "group") {
+        this.updateUnreadCount(contact.id, true, tipo);
         axios.get("/chat/group/conversations/".concat(contact.id)).then(function (response) {
-          console.log('Los datos devueltos son: ');
-          console.log(response.data);
-          _this2.messages = response.data;
+          _this2.messages = response.data.conversations;
+          contact.users = response.data.users;
           _this2.selectedContact = contact;
         });
       }
@@ -2111,28 +2139,96 @@ __webpack_require__.r(__webpack_exports__);
       this.messages.push(message);
     },
     hanleIncoming: function hanleIncoming(message) {
-      if (this.selectedContact && message.emisor == this.selectedContact.id) {
+      if (this.selectedContact && message.group_id == this.selectedContact.id) {
+        //mensaje para un grupo
+        this.saveNewMessage(message);
+        return;
+      } else if (this.selectedContact && message.emisor == this.selectedContact.id) {
+        //mensaje a una persona
+        this.selectedContact.ultimo_mensaje = message.text;
         this.saveNewMessage(message);
         return;
       }
 
-      this.updateUnreadCount(message.from_contact, false);
+      var opcion = "";
+
+      if (message.group_id) {
+        opcion = "group";
+      } else {
+        opcion = "contact";
+      }
+
+      if (opcion == "contact") {
+        this.updateUnreadCount(message.from_contact, false, opcion);
+      } else {
+        this.updateUnreadCount(message.group_id, false, opcion);
+      }
     },
-    updateUnreadCount: function updateUnreadCount(contact, reset) {
-      this.contacts = this.contacts.map(function (single) {
-        if (single.id != contact.id) {
+    updateUnreadCount: function updateUnreadCount(contact, reset, opt) {
+      if (opt == "contact") {
+        this.contacts = this.contacts.map(function (single) {
+          if (single.id != contact.id) {
+            return single;
+          }
+
+          if (reset) {
+            single.unread = 0;
+          } else {
+            single.ultimo_mensaje = contact.ultimo_mensaje;
+            single.unread += 1;
+          }
+
           return single;
+        }); //para los friends
+
+        if (!reset) {
+          var ahora_contact = "";
+          this.friends = this.friends.map(function (single) {
+            if (single.id != contact.id) {
+              return single;
+            }
+
+            single.ultimo_mensaje = contact.ultimo_mensaje;
+
+            if (!single.unread) {
+              single.unread = 1;
+            } else {
+              single.unread += 1;
+            }
+
+            ahora_contact = single;
+            return single;
+          });
+
+          if (ahora_contact != '') {
+            this.contacts.push(ahora_contact);
+
+            for (var i = 0; i < this.friends.length; i++) {
+              if (this.friends[i].id == ahora_contact.id) {
+                this.friends.splice(i, 1);
+              }
+            }
+          }
         }
+      } else {
+        this.groups = this.groups.map(function (single) {
+          if (single.id != contact) {
+            return single;
+          }
 
-        if (reset) {
-          single.unread = 0;
-        } else {
-          single.unread += 1;
-        } //single.ultimo_mensaje = '';
+          if (reset) {
+            single.unread = 0;
+          } else {
+            if (!single.unread) {
+              single.unread = 1;
+            } else {
+              single.unread += 1;
+            }
+          }
 
-
-        return single;
-      });
+          return single;
+        });
+      }
     }
   },
   components: {
@@ -2152,6 +2248,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -2330,8 +2429,6 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('selected', contact, 'contact');
     },
     selectGroup: function selectGroup(group) {
-      console.log('El grupo seleccionado es: ');
-      console.log(group);
       this.selected = group;
       this.$emit('selected', group, 'group');
     }
@@ -2364,6 +2461,43 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MessagesFeed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MessagesFeed */ "./resources/js/components/chat/MessagesFeed.vue");
 /* harmony import */ var _MessageComposer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MessageComposer */ "./resources/js/components/chat/MessageComposer.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2482,12 +2616,20 @@ __webpack_require__.r(__webpack_exports__);
           message: text,
           group_id: this.contact.id
         }).then(function (response) {
-          console.log('Los datos devueltos son: ');
-          console.log(response.data);
-          /*this.contact.ultimo_mensaje = text;
-          this.$emit("new", response.data);*/
+          _this.$emit("new", response.data);
         });
       }
+    },
+    deleteGroup: function deleteGroup(group) {
+      axios.post("/chat/group/drop", {
+        group_id: group.id
+      }).then(function (response) {
+        if (response.data.eliminado) {
+          location.reload();
+        } else {
+          alert("No se puede eliminar");
+        }
+      });
     }
   },
   components: {
@@ -30116,7 +30258,13 @@ var render = function() {
                   _c("div", { staticClass: "users-list-body" }, [
                     _c("h5", [_vm._v(_vm._s(group.name))]),
                     _vm._v(" "),
-                    _vm._m(3, true)
+                    group.unread
+                      ? _c("div", { staticClass: "users-list-action" }, [
+                          _c("div", { staticClass: "new-message-count" }, [
+                            _vm._v(_vm._s(group.unread))
+                          ])
+                        ])
+                      : _vm._e()
                   ])
                 ]
               )
@@ -30255,31 +30403,17 @@ var render = function() {
                       ? _c("h5", [
                           _vm._v(
                             "\n                            " +
-                              _vm._s(contact.id) +
-                              " ----" +
                               _vm._s(contact.colegio.c_representante_legal)
                           )
                         ])
                       : _vm._e(),
                     _vm._v(" "),
                     contact.id_docente != null
-                      ? _c("h5", [
-                          _vm._v(
-                            _vm._s(contact.id) +
-                              " ---- " +
-                              _vm._s(contact.docente.c_nombre)
-                          )
-                        ])
+                      ? _c("h5", [_vm._v(_vm._s(contact.docente.c_nombre))])
                       : _vm._e(),
                     _vm._v(" "),
                     contact.id_alumno != null
-                      ? _c("h5", [
-                          _vm._v(
-                            _vm._s(contact.id) +
-                              " ---- " +
-                              _vm._s(contact.alumno.c_nombre)
-                          )
-                        ])
+                      ? _c("h5", [_vm._v(_vm._s(contact.alumno.c_nombre))])
                       : _vm._e(),
                     _vm._v(" "),
                     _c("p", [_vm._v(_vm._s(contact.ultimo_mensaje))]),
@@ -30302,9 +30436,9 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "sidebar", attrs: { id: "friends" } }, [
-      _vm._m(4),
+      _vm._m(3),
       _vm._v(" "),
-      _vm._m(5),
+      _vm._m(4),
       _vm._v(" "),
       _c("div", { staticClass: "sidebar-body" }, [
         _c(
@@ -30560,15 +30694,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("p", [
-      _c("strong", [_vm._v("Maher Ruslandi: ")]),
-      _vm._v("Hello!!!")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("header", [_c("span", [_vm._v("Amigos")])])
   },
   function() {
@@ -30733,11 +30858,108 @@ var render = function() {
                 ])
               ]
             : _vm.contact && _vm.contact.name
-              ? _c("div", { staticClass: "chat-header-user" }, [
-                  _vm._m(0),
+              ? [
+                  _c("div", { staticClass: "chat-header-user" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c("h5", [_vm._v(_vm._s(_vm.contact.name))]),
+                      _vm._v(" "),
+                      _c(
+                        "small",
+                        { staticClass: "text-muted" },
+                        [
+                          _c("i", [
+                            _vm._v(
+                              "#" +
+                                _vm._s(_vm.contact.users.length + 1) +
+                                " usuario(s):"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("i", [
+                            _vm._v("\n              Yo\n              "),
+                            _vm.contact.creador == _vm.user.id
+                              ? _c(
+                                  "span",
+                                  {
+                                    staticStyle: {
+                                      color: "#3DB16B",
+                                      "font-weight": "bold"
+                                    }
+                                  },
+                                  [_vm._v("(Admin. del grupo)")]
+                                )
+                              : _vm._e()
+                          ]),
+                          _vm._v(" "),
+                          _vm._l(_vm.contact.users, function(usuario) {
+                            return _c("i", { key: usuario.id }, [
+                              _vm._v(
+                                "\n              , " +
+                                  _vm._s(usuario.nombre_usuario) +
+                                  "\n              "
+                              ),
+                              _vm.contact.creador == usuario.id
+                                ? _c(
+                                    "span",
+                                    {
+                                      staticStyle: {
+                                        color: "#3DB16B",
+                                        "font-weight": "bold"
+                                      }
+                                    },
+                                    [_vm._v("(Admin. del grupo)")]
+                                  )
+                                : _vm._e()
+                            ])
+                          })
+                        ],
+                        2
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
-                  _c("div", [_c("h5", [_vm._v(_vm._s(_vm.contact.name))])])
-                ])
+                  _vm.contact.creador == _vm.user.id
+                    ? _c("div", { staticClass: "chat-header-action" }, [
+                        _c("ul", { staticClass: "list-inline" }, [
+                          _c("li", { staticClass: "list-inline-item" }, [
+                            _vm._m(1),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "dropdown-menu dropdown-menu-right",
+                                staticStyle: {
+                                  position: "absolute",
+                                  "will-change": "transform",
+                                  top: "0px",
+                                  left: "0px",
+                                  transform: "translate3d(1250px, 68px, 0px)"
+                                },
+                                attrs: { "x-placement": "bottom-end" }
+                              },
+                              [
+                                _c(
+                                  "i",
+                                  {
+                                    staticClass: "dropdown-item",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.deleteGroup(_vm.contact)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Eliminar grupo")]
+                                )
+                              ]
+                            )
+                          ])
+                        ])
+                      ])
+                    : _vm._e()
+                ]
               : _c("p", [_vm._v("Selecciona un usuario o grupo")])
         ],
         2
@@ -30764,6 +30986,23 @@ var staticRenderFns = [
         [_c("i", { staticClass: "fa fa-users" })]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-secondary",
+        attrs: {
+          href: "#",
+          "data-toggle": "dropdown",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "ti-more" })]
+    )
   }
 ]
 render._withStripped = true
@@ -30902,7 +31141,7 @@ var render = function() {
                       : "recibidoxd")
                 },
                 [
-                  message.user_id != _vm.user.id
+                  message.user_id != _vm.user.id && message.nombre_emisor
                     ? _c("strong", [_vm._v(_vm._s(message.nombre_emisor))])
                     : _vm._e(),
                   _vm._v(" "),

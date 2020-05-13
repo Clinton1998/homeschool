@@ -24,6 +24,8 @@
         <div class="d-flex align-items-center">Bienvenido(a) {{$re_docente->c_nombre}}</div>
         <!-- Full screen toggle -->
         <i class="i-Full-Screen header-icon d-none d-sm-inline-block" data-fullscreen></i>
+
+        <a class="i-Speach-Bubble-Dialog header-icon d-none d-sm-inline-block" href="{{url('/chat')}}" data-toggle="tooltip" data-placement="bottom" title="Chat"></a>
       
         
         <!-- Notificaiton -->

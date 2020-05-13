@@ -22,6 +22,7 @@ Route::get('chat/conversation/{id}','ContactsController@getMessagesFor')->name('
 Route::post('chat/conversation/send','ContactsController@send')->name('chat/conversation/send');
 
 Route::post('chat/group/crear','GroupController@crear')->name('chat/group/crear');
+Route::post('chat/group/drop','GroupController@drop')->name('chat/group/drop');
 Route::post('chat/group/sendmessage','GroupController@send_message')->name('chat/group/sendmessage');
 Route::get('chat/group/conversations/{group_id}','GroupController@conversations')->name('chat/group/conversations/{group_id}');
 

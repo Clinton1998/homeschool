@@ -42,7 +42,10 @@
                             </div>
                             <div class="users-list-body">
                                 <h5>{{group.name}}</h5>
-                                <p><strong>Maher Ruslandi: </strong>Hello!!!</p>
+                                <!--<p><strong>Maher Ruslandi: </strong>Hello!!!</p>-->
+                                <div class="users-list-action" v-if="group.unread">
+                                <div class="new-message-count">{{group.unread}}</div>
+                            </div>
                             </div>
                         </li>
                     <!--para las conversaciones entre usuarios-->
@@ -76,9 +79,9 @@
                         </div>
                         <div class="users-list-body">
                             <h5 v-if="contact.id_docente==null && contact.id_alumno==null && contact.b_root==0">
-                                {{contact.id}} ----{{contact.colegio.c_representante_legal}}</h5>
-                            <h5 v-if="contact.id_docente!=null">{{contact.id}} ---- {{contact.docente.c_nombre}}</h5>
-                            <h5 v-if="contact.id_alumno!=null">{{contact.id}} ---- {{contact.alumno.c_nombre}}</h5>
+                                {{contact.colegio.c_representante_legal}}</h5>
+                            <h5 v-if="contact.id_docente!=null">{{contact.docente.c_nombre}}</h5>
+                            <h5 v-if="contact.id_alumno!=null">{{contact.alumno.c_nombre}}</h5>
                             <p>{{contact.ultimo_mensaje}}</p>
                             <div class="users-list-action" v-if="contact.unread">
                                 <div class="new-message-count">{{contact.unread}}</div>
@@ -177,8 +180,6 @@
                 this.$emit('selected', contact,'contact');
             },
             selectGroup(group){
-                console.log('El grupo seleccionado es: ');
-                console.log(group);
                 this.selected = group;
                 this.$emit('selected',group,'group')
             }

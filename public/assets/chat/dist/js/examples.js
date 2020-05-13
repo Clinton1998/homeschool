@@ -13,22 +13,30 @@ $(function() {
     $('#btnCrearGrupo').on('click', function() {
         fxCrearNuevoGrupo();
     });
+
+    new SlimSelect({
+        select: '#optusuarios'
+    });
 });
 
 function fxCrearNuevoGrupo() {
+    $('#btnCrearGrupo').attr('disabled', 'true');
+    var data = {
+        name: $('#group_name').val(),
+        users: $('#optusuarios').val()
+    };
     $.ajax({
         type: 'POST',
         url: '/chat/group/crear',
-        data: {
-            name: $('#group_name').val(),
-            users: [280, 278]
-        },
+        data: data,
         error: function(error) {
             alert('Ocurrió un error');
             console.error(error);
+            $('#btnCrearGrupo').removeAttr('disabled');
         }
     }).done(function(data) {
-        console.log('Los datos devueltos son: ');
-        console.log(data);
+        if (data.correcto) {
+            location.reload();
+        }
     });
 }
