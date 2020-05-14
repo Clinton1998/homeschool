@@ -91,6 +91,22 @@ class Tarea extends Controller
             ])->first();
 
             if (!is_null($alumno_de_tarea) && !empty($alumno_de_tarea)) {
+                //marcar la notificacion generado como leido
+                $notificaciones = $usuarioAlumno->unreadNotifications()->get();
+                $my_url = parse_url('/alumno/tareapendiente/'.$id_tarea)['path'];
+                $notificacion_a_marcar = null;
+                foreach($notificaciones as $notificacion){
+                    $url = $notificacion->data['notificacion']['url'];
+                    $url = parse_url($url)['path'];
+                    if($url===$my_url){
+                        $notificacion_a_marcar = $notificacion;
+                    }
+                }
+                if(!is_null($notificacion_a_marcar)){
+                    //marcar la notificacion como leido
+                    $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
+                    $notificacion_a_marcar->save();
+                }
                 return view('alumno.infotareapendiente', compact('tarea'));
             } else {
                 return redirect('alumno/tareas');;
