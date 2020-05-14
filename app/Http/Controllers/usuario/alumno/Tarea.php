@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\usuario\alumno;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\NuevaTareaParaAlumnoNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -93,16 +94,16 @@ class Tarea extends Controller
             if (!is_null($alumno_de_tarea) && !empty($alumno_de_tarea)) {
                 //marcar la notificacion generado como leido
                 $notificaciones = $usuarioAlumno->unreadNotifications()->get();
-                $my_url = parse_url('/alumno/tareapendiente/'.$id_tarea)['path'];
+                $my_url = parse_url('/alumno/tareapendiente/' . $id_tarea)['path'];
                 $notificacion_a_marcar = null;
-                foreach($notificaciones as $notificacion){
+                foreach ($notificaciones as $notificacion) {
                     $url = $notificacion->data['notificacion']['url'];
                     $url = parse_url($url)['path'];
-                    if($url===$my_url){
+                    if ($url === $my_url) {
                         $notificacion_a_marcar = $notificacion;
                     }
                 }
-                if(!is_null($notificacion_a_marcar)){
+                if (!is_null($notificacion_a_marcar)) {
                     //marcar la notificacion como leido
                     $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
                     $notificacion_a_marcar->save();
@@ -228,6 +229,17 @@ class Tarea extends Controller
                     'updated_at' => date('Y-m-d H:i:s'),
                     'modificador' => $usuarioAlumno->id
                 ]);
+
+            //enviamos una notificacion al docente
+            $usuarioDocente = $tarea->docente->usuario;
+            \Notification::send($usuarioDocente, new NuevaTareaParaAlumnoNotification(array(
+                'titulo' => 'Respuesta a la tarea '.$tarea->c_titulo,
+                'mensaje' => ($respuesta->c_observacion!='')?$respuesta->c_observacion: '----',
+                'url' => '/docente/tarea/' . $tarea->id_tarea,
+                'tipo' => 'respuestaatarea',
+                'respuesta' => $respuesta
+            )));
+
             return redirect('alumno/tareas');
         } else {
             return redirect('home');
