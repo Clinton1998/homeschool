@@ -43,18 +43,15 @@
         props: ['notificaciones'],
         methods: {
             fxMarcarComoLeido: function (notificacion) {
-                if (notificacion.data.notificacion.tipo == 'comunicado') {
-                    window.location.href = notificacion.data.notificacion.url;
-                } else {
-                    var data = {
-                        id_notification: notificacion.id
-                    };
-                    axios.post('/notificacionesdelusuario/marcarcomoleido', data).then((response) => {
-                        if (notificacion.data.notificacion.url != '') {
-                            window.location.href = notificacion.data.notificacion.url;
-                        }
-                    });
-                }
+                //if (notificacion.data.notificacion.tipo == 'comunicado') {
+                var data = {
+                    id_notification: notificacion.id
+                };
+                axios.post('/notificacionesdelusuario/marcarcomoleido', data).then((response) => {
+                    if (notificacion.data.notificacion.url != '') {
+                        window.location.href = notificacion.data.notificacion.url;
+                    }
+                });
             },
 
             fxMarcarTodoComoLeido: function () {
