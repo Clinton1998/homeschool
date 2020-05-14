@@ -194,6 +194,26 @@
 
 @section('page-js')
 <script>
+    function fxMarcarNotificacionTipoComunicado(comunicado){
+        $.ajax({
+            type: 'POST',
+            url: '/notificacionesdelusuario/comunicado/marcarcomoleido',
+            data: {
+                id_comunicado: comunicado
+            },
+            error: function(error){
+                alert('Ocurrió un error');
+                console.error(error);
+            }
+        }).done(function(data){
+            console.log(data);
+            if(data.marcadocomoleido){
+                alert('Marcado como leido correctamente. La campanita se cambia solito.(EN DESARROLLO POR CLINTON TAPIA)');
+            }else{
+                alert('La notificacion de tipo comunicado ya esta marcado. O no existe el comunicado, o no existe la notificacion');
+            }
+        });
+    }
     function OpenComunicado(id){
         t = $('#ct-'+id).text();
         c = $('#cc-'+id).text();

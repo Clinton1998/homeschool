@@ -26,6 +26,10 @@ Route::post('chat/group/drop','GroupController@drop')->name('chat/group/drop');
 Route::post('chat/group/sendmessage','GroupController@send_message')->name('chat/group/sendmessage');
 Route::get('chat/group/conversations/{group_id}','GroupController@conversations')->name('chat/group/conversations/{group_id}');
 
+//ruta para notificaciones de tipo comunicado y anuncio
+Route::post('notificacionesdelusuario/comunicado/marcarcomoleido', 'Notificacion@marcar_como_leido_tipo_comunicado')->name('notificacionesdelusuario/comunicado/marcarcomoleido');
+Route::post('notificacionesdelusuario/anuncio/marcarcomoleido', 'Notificacion@marcar_como_leido_tipo_anuncio')->name('notificacionesdelusuario/anuncio/marcarcomoleido');
+
 //notificaciones del usuario
 Route::post('notificacionesdelusuario','Notificacion@listar')->name('notificacionesdelusuario');
 Route::post('notificacionesdelusuario/marcarcomoleido', 'Notificacion@marcar_como_leido')->name('notificacionesdelusuario/marcarcomoleido');
