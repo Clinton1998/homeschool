@@ -59,4 +59,31 @@ class Notificacion extends Controller
         );
         return response()->json($datos);
     }
+
+    public function marcar_como_leido_tipo_anuncio(Request $request){
+        $anuncio = App\Anuncio_d::findOrFail($request->input('id_anuncio'));
+        //obtengo las notificaciones del usuario actual
+        $notificaciones = Auth::user()->unreadNotifications()->get();
+        $notificacion_a_marcar = null;
+        foreach ($notificaciones as $notificacion) {
+            if ($notificacion->data['notificacion']['tipo']=='anuncio') {
+                $id_anuncio = (int) $notificacion->data['notificacion']['anuncio']['id_anuncio'];
+                if ($id_anuncio === $anuncio->id_anuncio) {
+                    $notificacion_a_marcar = $notificacion;
+                }
+            }
+        }
+        $marcado = false;
+        if(!is_null($notificacion_a_marcar)){
+            $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
+            $notificacion_a_marcar->save();
+            $marcado = true;
+            broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
+        }
+        $datos = array(
+            'marcadocomoleido' => $marcado,
+            'notificacionmarcada' => $notificacion_a_marcar
+        );
+        return response()->json($datos);
+    }
 }
