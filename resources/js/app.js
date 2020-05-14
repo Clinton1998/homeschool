@@ -41,9 +41,11 @@ const app = new Vue({
             //estar pendiente de nuevas notificaciones
             Echo.private('App.User.' + window.Laravel.userId).notification((response) => {
                 var data = {
-                    "id": response.id, "data": {
+                    "id": response.id,
+                    "data": {
                         "notificacion": response.notificacion
-                    }, "created_at": 'Reciente'
+                    },
+                    "created_at": 'Reciente'
                 };
                 this.notificaciones.unshift(data);
 
@@ -63,10 +65,19 @@ const app = new Vue({
                         icon: '/assets/images/Logo-HS.png',
                         timeout: 30000,
                         vibrate: [200, 100],
-                        onClick: function () {
+                        onClick: function() {
                             this.close();
                         }
                     });
+                }
+            });
+
+            //estas pendiente si se ha leido una notificacion
+            Echo.private(`newnotificationread.${window.Laravel.userId}`).listen("NotificationRead", e => {
+                for (var i = 0; i < this.notificaciones.length; i++) {
+                    if (this.notificaciones[i].id == e.notification.id) {
+                        this.notificaciones.splice(i, 1);
+                    }
                 }
             });
         }

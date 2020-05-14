@@ -41359,6 +41359,14 @@ var app = new Vue({
             }
           });
         }
+      }); //estas pendiente si se ha leido una notificacion
+
+      Echo.private("newnotificationread.".concat(window.Laravel.userId)).listen("NotificationRead", function (e) {
+        for (var i = 0; i < _this.notificaciones.length; i++) {
+          if (_this.notificaciones[i].id == e.notification.id) {
+            _this.notificaciones.splice(i, 1);
+          }
+        }
       });
     }
   }

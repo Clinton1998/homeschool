@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App;
+use App\Events\NotificationRead;
 use Auth;
 
 class Notificacion extends Controller
@@ -49,6 +50,8 @@ class Notificacion extends Controller
             $notificacion_a_marcar->save();
             $marcado = true;
             //en el futuro podria dispararse un evento broadcast para que actualize la campa
+
+            broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
         }
         $datos = array(
             'marcadocomoleido' => $marcado,
