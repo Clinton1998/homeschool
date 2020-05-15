@@ -33,6 +33,7 @@
                                 <th>Grado</th>
                                 <th>Sección</th>
                                 <th>Acciones</th>
+                                <th>Ver</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,9 +52,19 @@
                                     <td class="hs_upper text-center">
                                         {{$item->nom_seccion}}
                                     </td>
+                                    <td class="text-center">
+                                        <a href="#" class="badge badge-warning" id="btnActualizarSeccion{{$item->id_seccion}}" onclick="fxActualizarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="i-Pen-5" style="font-size: 17px"></i></a>
+                                        <a href="#" class="badge badge-danger" id="btnConfirmacionEliminarSeccion{{$item->id_seccion}}" onclick="fxConfirmacionEliminarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="i-Eraser-2" style="font-size: 17px"></i></a>
+                                    </td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-warning" id="btnActualizarSeccion{{$item->id_seccion}}" onclick="fxActualizarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="i-Pen-4"></i></button>
-                                        <button type="button" class="btn btn-sm btn-danger" id="btnConfirmacionEliminarSeccion{{$item->id_seccion}}" onclick="fxConfirmacionEliminarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="i-Eraser-2"></i></button>
+                                        {{-- Llamada a modal Alumnos--}}
+                                        <a href="#" class="badge badge-success" data-toggle="modal" data-target="#alumnos_seccion">
+                                           Alumnos
+                                        </a>
+                                         {{-- Llamada a modal Docentes--}}
+                                        <a href="#" class="badge badge-info" data-toggle="modal" data-target="#docentes_seccion">
+                                            Docentes
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -139,6 +150,326 @@
             </div>
         </div>
     </div>
+
+    {{-- lista de alumnos --}}
+    <div class="modal fade" id="alumnos_seccion" tabindex="-1" role="dialog" aria-labelledby="alumnos_seccionLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Alumnos de la sección</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    {{-- Inicio de de card --}}
+                    <div class="card_list">
+                        <div class="card_list_fotografia">
+                            <img class="card_list_fotografia_img" src="{{asset('assets/images/user.png')}}" alt="{nombre del alumno}">
+                        </div>
+                        <div class="card_list_datos">
+                            <div class="card_list_basico">
+                                <div class="card_list_nombre">
+                                    <strong class="hs_capitalize"><i class="nav-icon i-ID-Card">&nbsp;</i>Valeria Espinoza Rázuri</strong>
+                                </div>
+                                <div class="card_list_dni">
+                                    <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_contacto">
+                                <div class="card_list_telefono">
+                                    <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
+                                </div>
+                                <div class="card_list_correo">
+                                    <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_representante">
+                                <div class="card_list_representante_nombre">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Apoderado:&nbsp;</strong>
+                                        <p class="hs_capitalize">Eva María Rázuri Torres&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_telefono">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Telf.:&nbsp;</strong>
+                                        <p>950404040&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_link">
+                                    <a href="#" class="card_list_representante_link_more">Más información&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Fin de card --}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    
+    {{-- lista de docentes --}}
+    <div class="modal fade" id="docentes_seccion" tabindex="-1" role="dialog" aria-labelledby="docentes_seccionLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Docentes de la sección</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    {{-- Inicio de de card --}}
+                    <div class="card_list">
+                        <div class="card_list_fotografia">
+                            <img class="card_list_fotografia_img" src="{{asset('assets/images/user.png')}}" alt="{nombre del alumno}">
+                        </div>
+                        <div class="card_list_datos">
+                            <div class="card_list_basico">
+                                <div class="card_list_nombre">
+                                    <strong class="hs_capitalize"><i class="nav-icon i-ID-Card">&nbsp;</i>Juan Cárdenas Valdiviezo</strong>
+                                </div>
+                                <div class="card_list_dni">
+                                    <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_contacto">
+                                <div class="card_list_telefono">
+                                    <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
+                                </div>
+                                <div class="card_list_correo">
+                                    <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_representante">
+                                <div class="card_list_representante_nombre">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Especialidad:&nbsp;</strong>
+                                        <p class="hs_capitalize">Matemática y Computación&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_link">
+                                    <a href="#" class="card_list_representante_link_more">Más información&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Fin de card --}}
+
+                    {{-- Inicio de de card --}}
+                    <div class="card_list">
+                        <div class="card_list_fotografia">
+                            <img class="card_list_fotografia_img" src="{{asset('assets/images/user.png')}}" alt="{nombre del alumno}">
+                        </div>
+                        <div class="card_list_datos">
+                            <div class="card_list_basico">
+                                <div class="card_list_nombre">
+                                    <strong class="hs_capitalize"><i class="nav-icon i-ID-Card">&nbsp;</i>Juan Cárdenas Valdiviezo</strong>
+                                </div>
+                                <div class="card_list_dni">
+                                    <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_contacto">
+                                <div class="card_list_telefono">
+                                    <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
+                                </div>
+                                <div class="card_list_correo">
+                                    <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_representante">
+                                <div class="card_list_representante_nombre">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Especialidad:&nbsp;</strong>
+                                        <p class="hs_capitalize">Matemática y Computación&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_link">
+                                    <a href="#" class="card_list_representante_link_more">Más información&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Fin de card --}}
+
+                    {{-- Inicio de de card --}}
+                    <div class="card_list">
+                        <div class="card_list_fotografia">
+                            <img class="card_list_fotografia_img" src="{{asset('assets/images/user.png')}}" alt="{nombre del alumno}">
+                        </div>
+                        <div class="card_list_datos">
+                            <div class="card_list_basico">
+                                <div class="card_list_nombre">
+                                    <strong class="hs_capitalize"><i class="nav-icon i-ID-Card">&nbsp;</i>Juan Cárdenas Valdiviezo</strong>
+                                </div>
+                                <div class="card_list_dni">
+                                    <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_contacto">
+                                <div class="card_list_telefono">
+                                    <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
+                                </div>
+                                <div class="card_list_correo">
+                                    <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_representante">
+                                <div class="card_list_representante_nombre">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Especialidad:&nbsp;</strong>
+                                        <p class="hs_capitalize">Matemática y Computación&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_link">
+                                    <a href="#" class="card_list_representante_link_more">Más información&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Fin de card --}}
+
+                    {{-- Inicio de de card --}}
+                    <div class="card_list">
+                        <div class="card_list_fotografia">
+                            <img class="card_list_fotografia_img" src="{{asset('assets/images/user.png')}}" alt="{nombre del alumno}">
+                        </div>
+                        <div class="card_list_datos">
+                            <div class="card_list_basico">
+                                <div class="card_list_nombre">
+                                    <strong class="hs_capitalize"><i class="nav-icon i-ID-Card">&nbsp;</i>Juan Cárdenas Valdiviezo</strong>
+                                </div>
+                                <div class="card_list_dni">
+                                    <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_contacto">
+                                <div class="card_list_telefono">
+                                    <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
+                                </div>
+                                <div class="card_list_correo">
+                                    <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_representante">
+                                <div class="card_list_representante_nombre">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Especialidad:&nbsp;</strong>
+                                        <p class="hs_capitalize">Matemática y Computación&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_link">
+                                    <a href="#" class="card_list_representante_link_more">Más información&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Fin de card --}}
+
+                    {{-- Inicio de de card --}}
+                    <div class="card_list">
+                        <div class="card_list_fotografia">
+                            <img class="card_list_fotografia_img" src="{{asset('assets/images/user.png')}}" alt="{nombre del alumno}">
+                        </div>
+                        <div class="card_list_datos">
+                            <div class="card_list_basico">
+                                <div class="card_list_nombre">
+                                    <strong class="hs_capitalize"><i class="nav-icon i-ID-Card">&nbsp;</i>Juan Cárdenas Valdiviezo</strong>
+                                </div>
+                                <div class="card_list_dni">
+                                    <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_contacto">
+                                <div class="card_list_telefono">
+                                    <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
+                                </div>
+                                <div class="card_list_correo">
+                                    <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_representante">
+                                <div class="card_list_representante_nombre">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Especialidad:&nbsp;</strong>
+                                        <p class="hs_capitalize">Matemática y Computación&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_link">
+                                    <a href="#" class="card_list_representante_link_more">Más información&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Fin de card --}}
+
+                    {{-- Inicio de de card --}}
+                    <div class="card_list">
+                        <div class="card_list_fotografia">
+                            <img class="card_list_fotografia_img" src="{{asset('assets/images/user.png')}}" alt="{nombre del alumno}">
+                        </div>
+                        <div class="card_list_datos">
+                            <div class="card_list_basico">
+                                <div class="card_list_nombre">
+                                    <strong class="hs_capitalize"><i class="nav-icon i-ID-Card">&nbsp;</i>Juan Cárdenas Valdiviezo</strong>
+                                </div>
+                                <div class="card_list_dni">
+                                    <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_contacto">
+                                <div class="card_list_telefono">
+                                    <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
+                                </div>
+                                <div class="card_list_correo">
+                                    <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_representante">
+                                <div class="card_list_representante_nombre">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Especialidad:&nbsp;</strong>
+                                        <p class="hs_capitalize">Matemática y Computación&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_link">
+                                    <a href="#" class="card_list_representante_link_more">Más información&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Fin de card --}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 @endsection

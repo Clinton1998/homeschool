@@ -1,6 +1,8 @@
 :root {
     --s-color-secundario: #4563BF;
     --s-color-primario: rgb(56, 86, 177);
+    --gray: #f1f2f6;
+    --grey: #f9f9f9;
 }
 
 /* [0] GENERAL ---------------*/
@@ -261,6 +263,120 @@ a {
     color: transparent;
     cursor: none;
 }
+
+/***    UPDATE 15/05/2020     ***/
+
+.card_list {
+    display: grid;
+    grid-template-columns: 50px auto;
+    grid-gap: 5px;
+    align-items: center;
+
+    border: solid var(--gray) 1px;
+    font-size: 11px;
+    border-left: solid 3px #3498db;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.card_list:last-child {
+    margin-bottom: 0;
+}
+
+.card_list p {
+    margin-bottom: 0;
+}
+
+.card_list .nav-icon {
+    display: none;
+}
+
+.card_list_fotografia_img {
+    height: 40px;
+    margin: 0 5px;
+    border-radius: 50%;
+}
+
+.card_list_datos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 5px;
+    grid-template-areas: "b c"
+        "r r";
+}
+
+.card_list_basico {
+    grid-area: b;
+}
+
+.card_list_contacto {
+    grid-area: c;
+}
+
+.card_list_representante {
+    grid-area: r;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--gray);
+    padding: 0 5px;
+}
+
+.card_list_representante_nombre_block {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.card_list_representante_link_more {
+    color: #3498db;
+}
+
+.card_list_representante_link_more:hover {
+    color: #2980b9;
+}
+
+@media screen and (max-width: 580px) {
+    .card_list_datos {
+        grid-column-gap: 5px;
+        grid-template-areas: "b r"
+            "c r";
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .card_list_datos {
+        grid-template-columns: 1fr;
+        grid-column-gap: 5px;
+        grid-template-areas: "b"
+            "c"
+            "r";
+    }
+
+    .card_list_dni,
+    .card_list_telefono {
+        display: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* [4] CATEGORIAS --------------*/
 
