@@ -47,11 +47,6 @@ class Docente extends Controller
                 'categoria_d.estado' => 1
             ])
             ->orderBy('nom_grado', 'ASC')->orderBy('nom_seccion', 'ASC')->get();
-        //obtenemos los grados de un colegio
-        /*$grados = App\Grado_m::where([
-            'id_colegio' => $colegio->id_colegio,
-            'estado' => 1
-        ])->orderBy('c_nivel_academico')->orderBy('c_nombre')->get();*/
 
         $TMP = DB::table('seccion_d')
             ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
@@ -64,46 +59,18 @@ class Docente extends Controller
             ])
             ->orderBy('grado_m.c_nivel_academico', 'ASC')->orderBy('grado_m.c_nombre', 'ASC')->orderBy('seccion_d.c_nombre', 'ASC')->get();
 
-        ///
-        $CURSOS = DB::table('categoria_d')
-            ->join('colegio_m', 'categoria_d.id_colegio', '=', 'colegio_m.id_colegio')
-            ->select( 'categoria_d.*')
-            ->where([
-                'categoria_d.id_colegio' => $colegio->id_colegio,
-                'categoria_d.estado' => 1
-        ])
-        ->orderBy('categoria_d.c_nombre', 'ASC')->get();
-        ///
 
-        return view('docentessuper', compact('docentes', 'TMP_categorias', 'TMP', 'CURSOS'));
+
+        return view('docentessuper', compact('docentes', 'TMP_categorias', 'TMP'));
     }
 
     public function info($id_docente)
     {
         $docente = App\Docente_d::findOrFail($id_docente);
-
         //a que colegio pertenece el docente
         $colegio = App\Colegio_m::findOrFail($docente->id_colegio);
-        //obtenemos los grados del colegio
-
         //obtenemos el usuario
         $usuario_del_docente = App\User::where('id_docente', '=', $docente->id_docente)->first();
-
-        /*COPY CODIGO DE ANTONI del metodo index de la ruta super/categorias */
-        $TMP_categorias = DB::table('seccion_categoria_p')
-            ->join('seccion_d', 'seccion_categoria_p.id_seccion', '=', 'seccion_d.id_seccion')
-            ->join('categoria_d', 'seccion_categoria_p.id_categoria', '=', 'categoria_d.id_categoria')
-            ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
-            ->join('colegio_m', 'grado_m.id_colegio', '=', 'colegio_m.id_colegio')
-            ->select('categoria_d.c_nombre as nom_categoria', 'categoria_d.*', 'seccion_d.c_nombre as nom_seccion', 'seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.*', 'colegio_m.*')
-            ->where([
-                'categoria_d.id_colegio' => $colegio->id_colegio,
-                'grado_m.estado' => 1,
-                'seccion_d.estado' => 1,
-                'categoria_d.estado' => 1
-            ])
-            ->orderBy('nom_grado', 'ASC')->orderBy('nom_seccion', 'ASC')->get();
-
 
         $TMP = DB::table('seccion_d')
             ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
@@ -116,18 +83,36 @@ class Docente extends Controller
             ])
             ->orderBy('grado_m.c_nivel_academico', 'ASC')->orderBy('grado_m.c_nombre', 'ASC')->orderBy('seccion_d.c_nombre', 'ASC')->get();
 
+        //obteniendo cursos del docente
+        $pivot_seccion_categoria_docente = DB::table('seccion_categoria_docente_p')
+                ->join('seccion_categoria_p','seccion_categoria_docente_p.id_seccion_categoria','=','seccion_categoria_p.id_seccion_categoria')
+                ->select('seccion_categoria_p.*','seccion_categoria_docente_p.id_seccion_categoria_docente as pivot_3')
+                ->where([
+                    'seccion_categoria_docente_p.id_docente' => $docente->id_docente
+                ])->get();
+        $array_cursos = array();
 
-        $CURSOS = DB::table('categoria_d')
-            ->join('colegio_m', 'categoria_d.id_colegio', '=', 'colegio_m.id_colegio')
-            ->select( 'categoria_d.*')
-            ->where([
-                'categoria_d.id_colegio' => $colegio->id_colegio,
-                'categoria_d.estado' => 1
-        ])
-        ->orderBy('categoria_d.c_nombre', 'ASC')->get();
-        ///
+        foreach($pivot_seccion_categoria_docente as $pivot){
+            $item = array();
+            $temp_curso = App\Categoria_d::where([
+                'id_categoria' => $pivot->id_categoria,
+                'estado' => 1
+            ])->first();
 
-        return view('infodocentesuper', compact('docente', 'usuario_del_docente', 'TMP_categorias', 'TMP', 'CURSOS'));
+            $temp_seccion = App\Seccion_d::where([
+                'id_seccion' => $pivot->id_seccion,
+                'estado' =>1
+            ])->first();
+
+            if((!is_null($temp_curso) && !empty($temp_curso)) && (!is_null($temp_seccion) && !empty($temp_seccion))){
+                $item['pivot'] = $pivot->pivot_3;
+                $item['curso'] = $temp_curso;
+                $item['seccion'] = $temp_seccion;
+                array_push($array_cursos,$item);
+            }
+        }
+        $cursos = collect($array_cursos);
+        return view('infodocentesuper', compact('docente', 'usuario_del_docente', 'TMP','cursos'));
     }
 
     public function agregar(Request $request)
@@ -179,23 +164,34 @@ class Docente extends Controller
                     DB::table('docente_seccion_p')->insert([
                         ['id_docente' => $docente->id_docente, 'id_seccion' => $secciones[$i], 'creador' => $usuario->id]
                     ]);
-                }
-            }
-        }
-        //asigando asignaturas al docente
-        $asignaturas = $request->input('optcategorias');
-        if (!is_null($asignaturas) && !empty($asignaturas)) {
-            for ($i = 0; $i < count($asignaturas); $i++) {
-                //verificamos si ya existe esa categoria en el docente
-                $pivot = DB::table('docente_categoria_p')->where([
-                    'id_docente' => $docente->id_docente,
-                    'id_categoria' => $asignaturas[$i]
-                ])->first();
 
-                if (is_null($pivot) || empty($pivot)) {
-                    DB::table('docente_categoria_p')->insert([
-                        ['id_docente' => $docente->id_docente, 'id_categoria' => $asignaturas[$i], 'creador' => $usuario->id]
-                    ]);
+                    //asignacion de cursos
+                    $cursos = $request->input('optcursos' . $secciones[$i]);
+                    if (!is_null($cursos) && !empty($cursos)) {
+                        for ($i = 0; $i < count($cursos); $i++) {
+
+                            //obteniendo id_seccion_categoria
+                            $pivot_seccion_categoria = DB::table('seccion_categoria_p')->where([
+                                'id_seccion' => $secciones[$i],
+                                'id_categoria' => $cursos[$i]
+                            ])->first();
+
+                            if (!is_null($pivot_seccion_categoria) && !empty($pivot_seccion_categoria)) {
+                                //verificando si ya existe la relacion
+                                $pivot_seccion_categoria_docente = DB::table('seccion_categoria_docente_p')->where([
+                                    'id_seccion_categoria' => $pivot_seccion_categoria->id_seccion_categoria,
+                                    'id_docente' => $docente->id_docente
+                                ])->first();
+
+                                if (is_null($pivot_seccion_categoria_docente) || empty($pivot_seccion_categoria_docente)) {
+                                    //registrando la relacion
+                                    DB::table('seccion_categoria_docente_p')->insert([
+                                        ['id_seccion_categoria' => $pivot_seccion_categoria->id_seccion_categoria, 'id_docente' => $docente->id_docente, 'creador' => $usuario->id]
+                                    ]);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -343,15 +339,14 @@ class Docente extends Controller
 
     public function quitar_categoria(Request $request)
     {
-        DB::table('docente_categoria_p')->where([
-            'id_categoria' => $request->input('id_categoria'),
+        DB::table('seccion_categoria_docente_p')->where([
+            'id_seccion_categoria_docente' => $request->input('id_pivot'),
             'id_docente' => $request->input('id_docente')
         ])->delete();
 
         $datos = array(
             'correcto' => TRUE
         );
-
         return response()->json($datos);
     }
 
@@ -359,22 +354,31 @@ class Docente extends Controller
     {
         $docente = App\Docente_d::findOrFail($request->input('id_docente'));
         $categorias = $request->input('optcategorias');
-        if (!is_null($categorias) && !empty($categorias)) {
-            for ($i = 0; $i < count($categorias); $i++) {
-                //verificamos si ya existe esa seccion en el docente
-                $pivot = DB::table('docente_categoria_p')->where([
-                    'id_docente' => $docente->id_docente,
-                    'id_categoria' => $categorias[$i]
+        $seccion = App\Seccion_d::findOrFail($request->input('id_seccion'));
+        if(!is_null($categorias) && !empty($categorias)){
+            for($i = 0; $i<count($categorias); $i++){
+                //verificamos si existe la categoria en esa seccion
+                $pivot_seccion_categoria = DB::table('seccion_categoria_p')->where([
+                    'id_seccion' => $seccion->id_seccion,
+                    'id_categoria'=> $categorias[$i]
                 ])->first();
 
-                if (is_null($pivot) || empty($pivot)) {
-                    DB::table('docente_categoria_p')->insert([
-                        ['id_docente' => $docente->id_docente, 'id_categoria' => $categorias[$i], 'creador' => Auth::user()->id]
-                    ]);
+                if(!is_null($pivot_seccion_categoria) && !empty($pivot_seccion_categoria)){
+                    //verificando si ya existe la relacion
+                    $pivot_seccion_categoria_docente = DB::table('seccion_categoria_docente_p')->where([
+                        'id_seccion_categoria' => $pivot_seccion_categoria->id_seccion_categoria,
+                        'id_docente' => $docente->id_docente
+                    ])->first();
+
+                    if (is_null($pivot_seccion_categoria_docente) || empty($pivot_seccion_categoria_docente)) {
+                        //registrando la relacion
+                        DB::table('seccion_categoria_docente_p')->insert([
+                            ['id_seccion_categoria' => $pivot_seccion_categoria->id_seccion_categoria, 'id_docente' => $docente->id_docente, 'creador' => Auth::user()->id]
+                        ]);
+                    }
                 }
             }
         }
-
         $datos = array(
             'correcto' => TRUE
         );

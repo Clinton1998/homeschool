@@ -271,4 +271,18 @@ class Cursos extends Controller
 
         return response()->json($anuncios);
     }
+
+    public function cursos_de_secciones(Request $request){
+        $secciones = $request->input('secciones');
+
+        $respuesta = array();
+
+        for($i=0; $i<count($secciones); $i++){
+            $seccion = App\Seccion_d::findOrFail($secciones[$i]['value']);
+            $seccion->grado;
+            $seccion->categorias = $seccion->categorias()->where('categoria_d.estado','=',1)->get();
+            array_push($respuesta,$seccion);
+        }
+        return response()->json($respuesta);
+    }
 }
