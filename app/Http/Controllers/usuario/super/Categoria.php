@@ -135,9 +135,18 @@ class Categoria extends Controller
         if(!is_null($sec) && !empty($sec) && !is_null($cat) && !empty($cat)){
             for($i=0; $i<count($sec); $i++){
                 for ($j=0; $j<count($cat); $j++) { 
-                    DB::table('seccion_categoria_p')->insert([
-                        ['id_seccion' => $sec[$i], 'id_categoria' => $cat[$j],'creador' => Auth::user()->id]
-                    ]);
+                    //verificamos si existe la relacion
+                    $pivot_seccion_categoria = DB::table('seccion_categoria_p')->where([
+                        'id_seccion' => $sec[$i],
+                        'id_categoria' => $cat[$i]
+                    ])->first();
+
+                    //si no existe creamos la nueva relacion
+                    if(is_null($pivot_seccion_categoria) || empty($pivot_seccion_categoria)){
+                        DB::table('seccion_categoria_p')->insert([
+                            ['id_seccion' => $sec[$i], 'id_categoria' => $cat[$j],'creador' => Auth::user()->id]
+                        ]);
+                    }
                 }
             }
         }

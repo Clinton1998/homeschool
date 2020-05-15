@@ -168,12 +168,12 @@ class Docente extends Controller
                     //asignacion de cursos
                     $cursos = $request->input('optcursos' . $secciones[$i]);
                     if (!is_null($cursos) && !empty($cursos)) {
-                        for ($i = 0; $i < count($cursos); $i++) {
+                        for ($j = 0; $j < count($cursos); $j++) {
 
                             //obteniendo id_seccion_categoria
                             $pivot_seccion_categoria = DB::table('seccion_categoria_p')->where([
                                 'id_seccion' => $secciones[$i],
-                                'id_categoria' => $cursos[$i]
+                                'id_categoria' => $cursos[$j]
                             ])->first();
 
                             if (!is_null($pivot_seccion_categoria) && !empty($pivot_seccion_categoria)) {

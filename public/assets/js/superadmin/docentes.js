@@ -102,6 +102,7 @@ function fxArmar(secciones) {
             }
         }).done(function(data) {
             var htmlCursos = '';
+
             data.forEach(function(seccion, index) {
                 var grado = seccion.grado;
                 htmlCursos += '<div id="divSeccion' + seccion.id_seccion + '">';
@@ -116,9 +117,11 @@ function fxArmar(secciones) {
                 htmlCursos += '</div>';
             });
             $('#divCursos').html(htmlCursos);
-            new SlimSelect({
-                select: '.cursosdeseccion',
-            });
+            for (var i = 0; i < secciones.length; i++) {
+                new SlimSelect({
+                    select: '#optcursos' + secciones[i]['value']
+                });
+            }
         });
     } else {
         $('#divCursos').html('');
