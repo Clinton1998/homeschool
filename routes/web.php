@@ -129,6 +129,7 @@ Route::get('alumno/cursos', 'usuario\alumno\Cursos@index')->name('alumno/cursos'
 Route::get('alumno/cursos/curso/{id_curso}', 'usuario\alumno\Cursos@curso')->name('alumno/cursos/curso/{id_curso}');
 Route::get('alumno/cursos/descargar_archivo/{id_archivo}', 'usuario\alumno\Cursos@descargar_archivo')->name('alumno/cursos/descargar_archivo/{id_archivo}');
 
+Route::post('docente/seccion/cursos', 'usuario\docente\Cursos@cursos_de_secciones')->name('docente/seccion/cursos');
 Route::get('docente/cursos', 'usuario\docente\Cursos@index')->name('docente/cursos');
 Route::get('docente/cursos/curso/{id_curso}', 'usuario\docente\Cursos@curso')->name('docente/cursos/curso/{id_curso}');
 Route::post('docente/cursos/crear_modulo', 'usuario\docente\Cursos@crear_modulo')->name('docente/cursos/crear_modulo');

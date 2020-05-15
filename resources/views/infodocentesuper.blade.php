@@ -210,24 +210,26 @@
                             <div class="tab-pane fade" id="nav-asignaturas" role="tabpanel" aria-labelledby="nav-asignaturas-tab">
                                 <div class="row">
                                     <div class="col-12">
-                                        <button type="button" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Agregar asignatura a {{$docente->c_nombre}}" onclick="fxMostrarCategoriasAAgregar({{$docente->id_docente}},'{{$docente->c_nombre}}')">+</button>
+                                        <button type="button" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Agregar asignatura a {{$docente->c_nombre}}" onclick="fxMostrarCategoriasAAgregar()">+</button>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="accordion" id="accordionRightIcon">
-                                    @foreach($docente->categorias()->where('categoria_d.estado','=',1)->orderBy('categoria_d.c_nivel_academico','ASC')->orderBy('categoria_d.c_nombre','ASC')->get() as $categoria)
-                                        <div class="card " id="cardCategoria{{$categoria->id_categoria}}">
-                                            <div class="card-header header-elements-inline">
-                                                <span class="card-title ul-collapse__icon--size ul-collapse__right-icon mb-0">
-                                                    <span class="collapsed">
-                                                        <strong>{{$categoria->c_nombre}}</strong>
-                                                    </span> 
-                                                </span>
-                                                <button type="button" class="btn btn-sm btn-danger float-right" id="btnQuitarCategoriaDeDocente{{$categoria->id_categoria}}" onclick="fxQuitarCategoriaDeDocente({{$docente->id_docente}},{{$categoria->id_categoria}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quitar"><i class="i-Eraser-2"></i></button>
+
+                                        @foreach($cursos as $curso)
+                                            <div class="card " id="cardCategoria{{$curso['pivot']}}">
+                                                <div class="card-header header-elements-inline">
+                                                    <span class="card-title ul-collapse__icon--size ul-collapse__right-icon mb-0">
+                                                        <span class="collapsed">
+                                                            <strong>{{$curso['curso']['c_nombre']}}</strong>
+                                                            <small>({{substr($curso['seccion']['grado']['c_nombre'],3)}} "{{$curso['seccion']['c_nombre']}}" {{$curso['seccion']['grado']['c_nivel_academico']}})</small>
+                                                        </span> 
+                                                    </span>
+                                                    <button type="button" class="btn btn-sm btn-danger float-right" id="btnQuitarCategoriaDeDocente{{$curso['pivot']}}" onclick="fxQuitarCategoriaDeDocente({{$docente->id_docente}},{{$curso['pivot']}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quitar"><i class="i-Eraser-2"></i></button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <br>
-                                    @endforeach
+                                            <br>
+                                        @endforeach
                                 </div>
                             </div>
 
@@ -451,15 +453,22 @@
         <div class="modal-body">
             <form id="frmAgregarCategoriaADocente" class="needs-validation" method="POST" action="{{route('super/docente/agregarcategoria')}}" novalidate>
                 @csrf
-                <input type="hidden" id="cat_id_docente" name="cat_id_docente">
-                
+                <input type="hidden" id="cat_id_docente" name="cat_id_docente" value="{{$docente->id_docente}}">
+                <div class="form-group">
+                    <label for="optseccion">Elige sección</label>
+                    <select name="optseccion" id="optseccion" class="form-control" required>
+                        <option value="">--Seleccione--</option>
+                        @foreach($docente->secciones()->where('seccion_d.estado','=',1)->get() as $seccion)
+                            <option value="{{$seccion->id_seccion}}">{{substr($seccion->grado->c_nombre,3)}} "{{$seccion->c_nombre}}" ({{$seccion->grado->c_nivel_academico}})</option>
+                        @endforeach
+                    </select>
+                    <span class="invalid-feedback" role="alert">
+                        Seccion es necesario
+                    </span>
+                </div>
                 <div class="form-group">
                     <label for="optcategorias">Eliga una o varias asignaturas</label>
-                    
                     <select id="optcategorias" name="optcategorias[]" multiple required>
-                        @foreach($CURSOS as $item)
-                            <option value="{{$item->id_categoria}}">{{$item->c_nombre}}</option>
-                        @endforeach
                     </select>
                     <span class="invalid-feedback" role="alert">
                         Curso es necesario

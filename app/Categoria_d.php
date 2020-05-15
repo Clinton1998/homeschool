@@ -12,7 +12,4 @@ class Categoria_d extends Model
     public function secciones(){
         return $this->belongsToMany('App\Seccion_d','seccion_categoria_p', 'id_categoria', 'id_seccion');
     }
-    public function docentes(){
-        return $this->belongsToMany('App\Docente_d', 'docente_seccion_p', 'id_categoria', 'id_docente');
-    }
 }

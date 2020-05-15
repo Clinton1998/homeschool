@@ -23,24 +23,6 @@
             </div>
             
             <div class="col" style="padding-right: 0;">
-                <!--<div class="hs_barra-filtrado">
-                    <strong>Filtrar por:</strong>
-                    <select name="" id="" class="form-control">
-                        <option value="">Primero</option>
-                        <option value="">Segundo</option>
-                        <option value="">Tercero</option>
-                        <option value="">Cuarto</option>
-                        <option value="">Quinto</option>
-                    </select>
-                    <select name="" id="" class="form-control">
-                        <option value="">A</option>
-                        <option value="">B</option>
-                        <option value="">C</option>
-                        <option value="">D</option>
-                        <option value="">E</option>
-                    </select>
-                </div>-->
-
                 <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-primary float-right mb-3"><i class="i-Add-User text-white mr-2"></i>Nuevo docente</button>
             </div>
 
@@ -65,18 +47,6 @@
                                 <td>
                                 <a href="{{url('super/docente/'.$docente->id_docente)}}">
                                         <div class="ul-widget-app__profile-pic">
-                                            <!--<div>
-                                                @if(is_null($docente->c_foto)  || empty($docente->c_foto))
-                                                    @if(strtoupper($docente->c_sexo)=='M')
-                                                        <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="fotografía" style="height: 25px; width: 25px;">
-                                                    @else
-                                                        <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="fotografía" style="height: 25px; width: 25px;">
-                                                    @endif
-
-                                                @else
-                                                    <img class="profile-picture avatar-sm mb-2 rounded-circle img-fluid" src="{{url('super/docente/foto/'.$docente->c_foto)}}" alt="Foto del docente">
-                                                @endif
-                                            </div>-->
                                             <span class="hs_capitalize">{{$docente->c_nombre}}</span>
                                         </div>
                                     </a>
@@ -119,8 +89,9 @@
                             <div id="smartwizard">
                                 <ul>
                                     <li><a href="#step-1">Paso 1<br /><small>Datos personales</small></a></li>
-                                    <li><a href="#step-2">Paso 2<br /><small>Datos académicos</small></a></li>
-                                    <li><a href="#step-3">Paso 3<br /><small>Foto del docente</small></a></li>
+                                    <li><a href="#step-2">Paso 2<br /><small>Secciones</small></a></li>
+                                    <li><a href="#step-3">Paso 3<br /><small>Asignaturas</small></a></li>
+                                    <li><a href="#step-4">Paso 3<br /><small>Foto del docente</small></a></li>
                                 </ul>
                                 <div>
                                     <div id="step-1">
@@ -207,39 +178,20 @@
                                             </select> 
                                         </div>
 
-                                        <div class="form-group">
-                                            <label for="optcategorias"><strong>Asignar curso(s)</strong></label>
-                                            <select name="optcategorias[]" id="optcategorias" multiple>
-                                                {{--@foreach($TMP_categorias as $item)
-                                                    @if(strtoupper($item->c_nivel_academico) === "INICIAL")
-                                                        <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
-                                                    @endif
-                                                @endforeach
-
-                                                @foreach($TMP_categorias as $item)
-                                                    @if(strtoupper($item->c_nivel_academico) === "PRIMARIA")
-                                                        <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
-                                                    @endif
-                                                @endforeach
-
-                                                @foreach($TMP_categorias as $item)
-                                                    @if(strtoupper($item->c_nivel_academico) === "SECUNDARIA")
-                                                        <option value="{{$item->id_categoria}}">{{$item->nom_categoria}} - {{strtoupper($item->c_nivel_academico)}}</option>
-                                                    @endif
-                                                @endforeach--}}
-
-                                                @foreach($CURSOS as $item)
-                                                    <option class="hs_capitalize" value="{{$item->id_categoria}}">{{$item->c_nombre}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
                                     </div>
 
                                     <div id="step-3">
+                                        <div id="divCursos">
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                    <div id="step-4">
                                         <div class="form-group">
                                             <input type='file' class="hs_upload form-control form-control-lg" id="fotodocente" name="fotodocente">
                                         </div>                                                
-                                    </div>                                    
+                                    </div>
 
                                 </div>
                             </div>
