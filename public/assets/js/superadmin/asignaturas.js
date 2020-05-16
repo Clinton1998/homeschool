@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
     ActivarSelect();
 
@@ -32,7 +32,7 @@ $(document).ready(function () {
             },
             {
                 "data": "c_nivel_academico",
-                "render": function (data, type, row, meta) {
+                "render": function(data, type, row, meta) {
                     return '<input type="color" value="' + data + '" class="Muestra" disabled>';
                 }
             },
@@ -66,7 +66,7 @@ $(document).ready(function () {
             },
             {
                 "data": "nom_grado",
-                "render": function (data, type, row, meta) {
+                "render": function(data, type, row, meta) {
 
                     n = data.charAt(0);
                     data_cut = data.substr(3, 10)
@@ -112,7 +112,7 @@ $(document).ready(function () {
             },
             {
                 "data": "nom_grado",
-                "render": function (data, type, row, meta) {
+                "render": function(data, type, row, meta) {
                     n = data.charAt(0);
                     data_cut = data.substr(3, 10);
                     u = data_cut.charAt(0).toLocaleUpperCase();
@@ -157,7 +157,7 @@ $(document).ready(function () {
             },
             {
                 "data": "nom_grado",
-                "render": function (data, type, row, meta) {
+                "render": function(data, type, row, meta) {
                     n = data.charAt(0);
                     data_cut = data.substr(3, 10);
                     u = data_cut.charAt(0).toLocaleUpperCase();
@@ -184,7 +184,7 @@ $(document).ready(function () {
 
 var id;
 
-$("#btn_create_asignatura").click(function (e) {
+$("#btn_create_asignatura").click(function(e) {
     e.preventDefault();
 
     nom = $("#nom_asignatura").val();
@@ -197,19 +197,19 @@ $("#btn_create_asignatura").click(function (e) {
             c_nombre: nom,
             c_nivel_academico: col
         },
-        success: function (data) {
+        success: function(data) {
             tbl_asignaturas.ajax.reload(null, false);
             Clear();
             LlenarSelects();
             Guardar();
         },
-        error: function () {
+        error: function() {
             alert("Error al guardar");
         }
     });
 });
 
-$("#btn_update_asignatura").click(function (e) {
+$("#btn_update_asignatura").click(function(e) {
     e.preventDefault();
 
     nom = $("#nom_asignatura").val();
@@ -223,7 +223,7 @@ $("#btn_update_asignatura").click(function (e) {
             c_nombre: nom,
             c_nivel_academico: col
         },
-        success: function (data) {
+        success: function(data) {
             tbl_asignaturas.ajax.reload(null, false);
             tbl_inicial.ajax.reload(null, false);
             tbl_primaria.ajax.reload(null, false);
@@ -232,13 +232,13 @@ $("#btn_update_asignatura").click(function (e) {
             LlenarSelects();
             Actualizar();
         },
-        error: function () {
+        error: function() {
             alert("Error al guardar");
         }
     });
 });
 
-$(document).on("click", ".btn_edit_asignatura", function () {
+$(document).on("click", ".btn_edit_asignatura", function() {
     fila = $(this).closest("tr");
     id = parseInt(fila.find('td:eq(0)').text()); //capturo el ID		            
     nom = fila.find('td:eq(1)').text();
@@ -251,7 +251,7 @@ $(document).on("click", ".btn_edit_asignatura", function () {
     $("#color_asignatura").val(col);
 });
 
-$(document).on("click", ".btn_del_asignatura", function () {
+$(document).on("click", ".btn_del_asignatura", function() {
     fila = $(this);
     id = parseInt($(this).closest('tr').find('td:eq(0)').text());
 
@@ -271,7 +271,7 @@ $(document).on("click", ".btn_del_asignatura", function () {
                 data: {
                     id_categoria: id
                 },
-                success: function () {
+                success: function() {
                     tbl_asignaturas.ajax.reload(null, false);
                     tbl_inicial.ajax.reload(null, false);
                     tbl_primaria.ajax.reload(null, false);
@@ -287,9 +287,8 @@ $(document).on("click", ".btn_del_asignatura", function () {
 // CRUD: Categorias (asignanturas) - Secciones
 
 // Inicial
-$("#btn_asign_inicial").click(function (e) {
+$("#btn_asign_inicial").click(function(e) {
     e.preventDefault();
-
     id_categoria = $("#asignaturas").val();
     id_seccion = $("#secciones").val();
     modal = $('#modal_asign_inicial');
@@ -302,19 +301,36 @@ $("#btn_asign_inicial").click(function (e) {
             id_seccion: id_seccion,
             id_categoria: id_categoria
         },
-        success: function (data) {
-            tbl_inicial.ajax.reload(null, false);
-            modal.modal('hide');
-            ClearSelects();
-            Guardar();
+        success: function(data) {
+            if (data.asignaciontodocursos) {
+                tbl_inicial.ajax.reload(null, false);
+                modal.modal('hide');
+                ClearSelects();
+                Guardar();
+            } else {
+                var htmlCursosNoIngresados = '<ul>';
+                data.cursosnoasignados.forEach(function(curso, indice) {
+                    htmlCursosNoIngresados += '<li>' + curso.c_nombre + '</li>';
+                });
+                htmlCursosNoIngresados += '</ul>';
+                swal({
+                    type: 'warning',
+                    title: 'Ya existen estos cursos en la seccion seleccionada',
+                    html: htmlCursosNoIngresados,
+                    buttonsStyling: false,
+                    confirmButtonClass: 'btn btn-lg btn-warning'
+                }).then(function() {
+                    location.reload();
+                }, function(dismiss) {})
+            }
         },
-        error: function () {
+        error: function() {
             alert("Error al guardar");
         }
     });
 });
 
-$("#btn_update_inicial").click(function (e) {
+$("#btn_update_inicial").click(function(e) {
     e.preventDefault();
 
     sec = $("#seccion").val();
@@ -330,18 +346,25 @@ $("#btn_update_inicial").click(function (e) {
             id_seccion: sec,
             id_categoria: asi
         },
-        success: function (data) {
-            tbl_inicial.ajax.reload(null, false);
-            mod.modal('hide');
-            Actualizar();
+        success: function(data) {
+
+            if (data.correcto) {
+                tbl_inicial.ajax.reload(null, false);
+                mod.modal('hide');
+                Actualizar();
+            } else {
+                alert('Ya existe el curso en esa sección');
+                mod.modal('hide');
+            }
         },
-        error: function () {
+        error: function(error) {
             alert("Error al guardar");
+            console.error(error);
         }
     });
 });
 
-$(document).on("click", ".btn_edit_asi_sec", function () {
+$(document).on("click", ".btn_edit_asi_sec", function() {
     fila = $(this).closest("tr");
     id = parseInt(fila.find('td:eq(0)').text()); //capturo el ID		            
     sec = fila.find('td:eq(1)').text();
@@ -353,7 +376,7 @@ $(document).on("click", ".btn_edit_asi_sec", function () {
     $('#modal_update_inicial').modal('show');
 });
 
-$(document).on("click", ".btn_del_asi_sec", function () {
+$(document).on("click", ".btn_del_asi_sec", function() {
     fila = $(this);
     id = parseInt($(this).closest('tr').find('td:eq(0)').text());
 
@@ -373,7 +396,7 @@ $(document).on("click", ".btn_del_asi_sec", function () {
                 data: {
                     id_seccion_categoria: id
                 },
-                success: function () {
+                success: function() {
                     tbl_inicial.ajax.reload(null, false);
                     Eliminar();
                 }
@@ -383,9 +406,8 @@ $(document).on("click", ".btn_del_asi_sec", function () {
 });
 
 //Primaria
-$("#btn_asign_primaria").click(function (e) {
+$("#btn_asign_primaria").click(function(e) {
     e.preventDefault();
-
     id_categoria = $("#asignaturas2").val();
     id_seccion = $("#secciones2").val();
     modal = $('#modal_asign_primaria');
@@ -398,18 +420,35 @@ $("#btn_asign_primaria").click(function (e) {
             id_seccion: id_seccion,
             id_categoria: id_categoria
         },
-        success: function (data) {
-            tbl_primaria.ajax.reload(null, false);
-            modal.modal('hide');
-            Guardar();
+        success: function(data) {
+            if (data.asignaciontodocursos) {
+                tbl_primaria.ajax.reload(null, false);
+                modal.modal('hide');
+                Guardar();
+            } else {
+                var htmlCursosNoIngresados = '<ul>';
+                data.cursosnoasignados.forEach(function(curso, indice) {
+                    htmlCursosNoIngresados += '<li>' + curso.c_nombre + '</li>';
+                });
+                htmlCursosNoIngresados += '</ul>';
+                swal({
+                    type: 'warning',
+                    title: 'Ya existen estos cursos en la seccion seleccionada',
+                    html: htmlCursosNoIngresados,
+                    buttonsStyling: false,
+                    confirmButtonClass: 'btn btn-lg btn-warning'
+                }).then(function() {
+                    location.reload();
+                }, function(dismiss) {})
+            }
         },
-        error: function () {
+        error: function() {
             alert("Error al guardar");
         }
     });
 });
 
-$("#btn_update_primaria").click(function (e) {
+$("#btn_update_primaria").click(function(e) {
     e.preventDefault();
 
     sec = $("#seccion2").val();
@@ -425,18 +464,24 @@ $("#btn_update_primaria").click(function (e) {
             id_seccion: sec,
             id_categoria: asi
         },
-        success: function (data) {
-            tbl_primaria.ajax.reload(null, false);
-            mod.modal('hide');
-            Actualizar();
+        success: function(data) {
+            if (data.correcto) {
+                tbl_primaria.ajax.reload(null, false);
+                mod.modal('hide');
+                Actualizar();
+            } else {
+                alert('Ya existe el curso en esa sección');
+                mod.modal('hide');
+            }
+
         },
-        error: function () {
+        error: function() {
             alert("Error al guardar");
         }
     });
 });
 
-$(document).on("click", ".btn_edit_asig_primaria", function () {
+$(document).on("click", ".btn_edit_asig_primaria", function() {
     fila = $(this).closest("tr");
     id = parseInt(fila.find('td:eq(0)').text()); //capturo el ID		            
     sec = fila.find('td:eq(1)').text();
@@ -448,7 +493,7 @@ $(document).on("click", ".btn_edit_asig_primaria", function () {
     $('#modal_update_primaria').modal('show');
 });
 
-$(document).on("click", ".btn_del_asig_primaria", function () {
+$(document).on("click", ".btn_del_asig_primaria", function() {
     fila = $(this);
     id = parseInt($(this).closest('tr').find('td:eq(0)').text());
 
@@ -468,7 +513,7 @@ $(document).on("click", ".btn_del_asig_primaria", function () {
                 data: {
                     id_seccion_categoria: id
                 },
-                success: function () {
+                success: function() {
                     tbl_primaria.ajax.reload(null, false);
                     Eliminar();
                 }
@@ -478,7 +523,7 @@ $(document).on("click", ".btn_del_asig_primaria", function () {
 });
 
 //Secundaria
-$("#btn_asign_secundaria").click(function (e) {
+$("#btn_asign_secundaria").click(function(e) {
     e.preventDefault();
 
     id_categoria = $("#asignaturas3").val();
@@ -493,18 +538,35 @@ $("#btn_asign_secundaria").click(function (e) {
             id_seccion: id_seccion,
             id_categoria: id_categoria
         },
-        success: function (data) {
-            tbl_secundaria.ajax.reload(null, false);
-            modal.modal('hide');
-            Guardar();
+        success: function(data) {
+            if (data.asignaciontodocursos) {
+                tbl_secundaria.ajax.reload(null, false);
+                modal.modal('hide');
+                Guardar();
+            } else {
+                var htmlCursosNoIngresados = '<ul>';
+                data.cursosnoasignados.forEach(function(curso, indice) {
+                    htmlCursosNoIngresados += '<li>' + curso.c_nombre + '</li>';
+                });
+                htmlCursosNoIngresados += '</ul>';
+                swal({
+                    type: 'warning',
+                    title: 'Ya existen estos cursos en la seccion seleccionada',
+                    html: htmlCursosNoIngresados,
+                    buttonsStyling: false,
+                    confirmButtonClass: 'btn btn-lg btn-warning'
+                }).then(function() {
+                    location.reload();
+                }, function(dismiss) {})
+            }
         },
-        error: function () {
+        error: function() {
             alert("Error al guardar");
         }
     });
 });
 
-$("#btn_update_secundaria").click(function (e) {
+$("#btn_update_secundaria").click(function(e) {
     e.preventDefault();
 
     sec = $("#seccion3").val();
@@ -520,18 +582,23 @@ $("#btn_update_secundaria").click(function (e) {
             id_seccion: sec,
             id_categoria: asi
         },
-        success: function (data) {
-            tbl_secundaria.ajax.reload(null, false);
-            mod.modal('hide');
-            Actualizar();
+        success: function(data) {
+            if (data.correcto) {
+                tbl_secundaria.ajax.reload(null, false);
+                mod.modal('hide');
+                Actualizar();
+            } else {
+                alert('Ya existe el curso en esa sección');
+                mod.modal('hide');
+            }
         },
-        error: function () {
+        error: function() {
             alert("Error al guardar");
         }
     });
 });
 
-$(document).on("click", ".btn_edit_secundaria", function () {
+$(document).on("click", ".btn_edit_secundaria", function() {
     fila = $(this).closest("tr");
     id = parseInt(fila.find('td:eq(0)').text()); //capturo el ID		            
     sec = fila.find('td:eq(1)').text();
@@ -543,7 +610,7 @@ $(document).on("click", ".btn_edit_secundaria", function () {
     $('#modal_update_secundaria').modal('show');
 });
 
-$(document).on("click", ".btn_del_secundaria", function () {
+$(document).on("click", ".btn_del_secundaria", function() {
     fila = $(this);
     id = parseInt($(this).closest('tr').find('td:eq(0)').text());
 
@@ -563,7 +630,7 @@ $(document).on("click", ".btn_del_secundaria", function () {
                 data: {
                     id_seccion_categoria: id
                 },
-                success: function () {
+                success: function() {
                     tbl_secundaria.ajax.reload(null, false);
                     Eliminar();
                 }
@@ -613,7 +680,7 @@ function LlenarSelects() {
         type: 'GET',
         url: "/super/categorias/read_asignatura",
         dataSrc: "",
-        success: function (data) {
+        success: function(data) {
             var asignaturas = $("#asignaturas");
             asignaturas.find('option').remove();
 
@@ -632,7 +699,7 @@ function LlenarSelects() {
             var asignatura3 = $("#asignatura3");
             asignatura3.find('option').remove();
 
-            $(data).each(function (i, v) {
+            $(data).each(function(i, v) {
                 asignaturas.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
                 asignatura.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
                 asignaturas2.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
@@ -641,7 +708,7 @@ function LlenarSelects() {
                 asignatura3.append('<option class="hs_capitalize-first" value="' + v.id_categoria + '">' + v.c_nombre + '</option>');
             })
         },
-        error: function () {
+        error: function() {
             alert("Error al leer datos");
         }
     });
@@ -690,7 +757,7 @@ function Eliminar() {
 
 // Paleta de colores
 
-$(document).on("click", ".hs_muestra", function () {
+$(document).on("click", ".hs_muestra", function() {
     color = $(this).text();
     $("#color_asignatura").val(color);
     $('#modal-color').modal('hide');
@@ -698,12 +765,12 @@ $(document).on("click", ".hs_muestra", function () {
 
 // Panel de Cursos
 
-$(document).on("click", "#hs_separator", function () {
+$(document).on("click", "#hs_separator", function() {
     $('#hs_aside_cursos').fadeIn();
     $('#hs_separator').hide();
 });
 
-$(document).on("click", ".hs_box_close", function () {
+$(document).on("click", ".hs_box_close", function() {
     $('#hs_aside_cursos').hide();
     $('#hs_separator').show();
 });
