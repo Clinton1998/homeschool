@@ -336,6 +336,36 @@ class Categoria extends Controller
         return view('categoriassuper',compact('inicial', 'primaria', 'secundaria', 'asignaturas'));
     }
 
+    public function docentes(Request $request){
+        //verificar si el pivot seccion_categoria existe
+        $pivot_seccion_categoria = DB::table('seccion_categoria_p')->where([
+            'id_seccion_categoria'=> $request->input('id_seccion_categoria')
+        ])->first();
+
+        $datos = array(
+            'correcto' => FALSE
+        );
+
+        if(!is_null($pivot_seccion_categoria) && !empty($pivot_seccion_categoria)){
+            $pivot_seccion_categoria_docente = DB::table('seccion_categoria_docente_p')
+            ->where('id_seccion_categoria','=',$pivot_seccion_categoria->id_seccion_categoria)->get();
+            $arr_docentes = array();
+            //obtenemos los docentes
+            foreach($pivot_seccion_categoria_docente as $pivot){
+                $docente = App\Docente_d::where([
+                    'id_docente' => $pivot->id_docente,
+                    'estado' => 1
+                ])->first();
+                if(!is_null($docente) && !empty($docente)){
+                    array_push($arr_docentes,$docente);
+                }
+            }
+            $datos['correcto'] = TRUE;
+            $datos['docentes'] = collect($arr_docentes);
+        }
+        return response()->json($datos);
+    }
+
     /*
     public function agregar(Request $request){
         if ($request->input('frm')=='1') {

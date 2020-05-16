@@ -82,7 +82,7 @@ $(document).ready(function() {
                 "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Eraser-2' style='font-size: 17px'></i></a></div>"
             },
             {
-                "defaultContent": "<div><a href='#' class='badge badge-info' data-toggle='modal' data-target='#docentes_inicial'>Docente</a></div>"
+                "defaultContent": "<div><a href='#' class='badge badge-info' onclick='fxDocentesDeCurso(event);'>Docente</a></div>"
             }
         ],
         "order": [
@@ -131,7 +131,7 @@ $(document).ready(function() {
                 "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Eraser-2' style='font-size: 17px'></i></a></div>"
             },
             {
-                "defaultContent": "<div><a href='#' class='badge badge-info' data-toggle='modal' data-target='#docentes_inicial'>Docente</a></div>"
+                "defaultContent": "<div><a href='#' class='badge badge-info' onclick='fxDocentesDeCurso(event);'>Docente</a></div>"
             }
         ],
         "order": [
@@ -179,7 +179,7 @@ $(document).ready(function() {
                 "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Eraser-2' style='font-size: 17px'></i></a></div>"
             },
             {
-                "defaultContent": "<div><a href='#' class='badge badge-info' data-toggle='modal' data-target='#docentes_inicial'>Docente</a></div>"
+                "defaultContent": "<div><a href='#' class='badge badge-info' onclick='fxDocentesDeCurso(event);'>Docente</a></div>"
             }
         ],
         "order": [
@@ -647,7 +647,97 @@ $(document).on("click", ".btn_del_secundaria", function() {
         }
     })
 });
+function fxDocentesDeCurso(e){
+    e.preventDefault();
+    $('#docentes_inicial').modal('show');
+    //obtenemos la fila
+    var fila = $(e.target).parent().parent().parent();
+    var td = $(fila.find('td')[0]);
+    var seccion_categoria = parseInt(td.text());
 
+    fxConsultarDocentesDelCurso(seccion_categoria);
+}
+
+function fxConsultarDocentesDelCurso(seccion_categoria){
+    $('#spinnerInfoDocentes').show();
+    $('#divDocentes').attr('style','display: none;');
+    $.ajax({
+        type: 'POST',
+        url: '/super/categoria/docentes',
+        data: {
+            id_seccion_categoria: seccion_categoria
+        },
+        error: function(error){
+            alert('Ocurrió un error');
+            console.error(error);
+        }
+    }).done(function(data){
+        if(data.correcto){
+            var htmlDocentes = ``; 
+            data.docentes.forEach(function(docente,indice){
+                htmlDocentes += `
+                    <div class="card_list">
+                        <div class="card_list_fotografia">`;
+                        var srcFoto = '';
+                        if (docente.c_foto == null) {
+                            if (docente.c_sexo.toUpperCase() == 'M') {
+                                srcFoto = '../assets/images/usuario/teacherman.png';
+                            } else {
+                                srcFoto = '../assets/images/usuario/teacherwoman.png';
+                            }
+                        } else {
+                            srcFoto = '../super/docente/foto/' + docente.c_foto;
+                        }
+
+                        htmlDocentes+=`<img class="card_list_fotografia_img" src="${srcFoto}" alt="${docente.c_nombre}">`;
+                        htmlDocentes += `</div>
+                        <div class="card_list_datos">
+                            <div class="card_list_basico">
+                                <div class="card_list_nombre">
+                                    <strong class="hs_capitalize">${docente.c_nombre}</strong>
+                                </div>
+                                <div class="card_list_dni">
+                                    <p>DNI: ${docente.c_dni}</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_contacto">
+                                <div class="card_list_telefono">
+                                    <strong>Telf.: ${docente.c_telefono}</strong>
+                                </div>
+                                <div class="card_list_correo">
+                                    <p class="card_list_correo_ext">${docente.c_correo}</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_representante">
+                                <div class="card_list_representante_nombre">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Especialidad:&nbsp;</strong>
+                                        <p class="hs_capitalize">${docente.c_especialidad}&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_link">
+                                    <a href="/super/docente/${docente.id_docente}" class="card_list_representante_link_more">Más información&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if(data.docentes.length>0){
+                $('#divDocentes').html(htmlDocentes);
+            }else{
+                $('#divDocentes').html('<h3>No hay docentes</h1>');
+            }
+            $('#spinnerInfoDocentes').attr('style','display: none;');
+            $('#divDocentes').show();
+        }else{
+            alert('Ocurrió algun error');
+        }
+    });
+}
 // Utilitarios
 
 function Clear() {

@@ -94,6 +94,8 @@ Route::post('super/gradoseccion/aplicar', 'usuario\super\GradoSeccion@aplicar')-
 Route::post('super/gradoseccion/eliminar', 'usuario\super\GradoSeccion@eliminar')->name('super/gradoseccion/eliminar');
 
 //
+//docentes de un curso
+Route::post('super/categoria/docentes', 'usuario\super\Categoria@docentes')->name('super/categoria/docentes');
 
 Route::get('super/categorias/read_asignatura', 'usuario\super\Categoria@read_asignatura')->name('super/categorias/read_asignatura');
 Route::post('super/categorias/create_asignatura', 'usuario\super\Categoria@create_asignatura')->name('super/categorias/create_asignatura');

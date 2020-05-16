@@ -518,17 +518,23 @@
 
     {{-- Update 16-05-2020 --}}
     {{-- Lista de docentes inicial--}}
+    {{-- El modal se reutiliza para docentes de primaria y secundaria--}}
+
     <div class="modal fade" id="docentes_inicial" tabindex="-1" role="dialog" aria-labelledby="docentes_inicialLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Docente</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Docentes</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div>
+                <div class="text-center" id="spinnerInfoDocentes">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                </div>
+
+                <div id="divDocentes" style="display: none;">
                     {{-- Inicio de de card --}}
                     <div class="card_list">
                         <div class="card_list_fotografia">
