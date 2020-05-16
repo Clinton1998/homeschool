@@ -131,6 +131,7 @@ class Categoria extends Controller
 
         $sec = $request->id_seccion;
         $cat = $request->id_categoria;
+        $existen_cursos = array();
 
         if(!is_null($sec) && !empty($sec) && !is_null($cat) && !empty($cat)){
             for($i=0; $i<count($sec); $i++){
@@ -138,7 +139,7 @@ class Categoria extends Controller
                     //verificamos si existe la relacion
                     $pivot_seccion_categoria = DB::table('seccion_categoria_p')->where([
                         'id_seccion' => $sec[$i],
-                        'id_categoria' => $cat[$i]
+                        'id_categoria' => $cat[$j]
                     ])->first();
 
                     //si no existe creamos la nueva relacion
@@ -146,6 +147,14 @@ class Categoria extends Controller
                         DB::table('seccion_categoria_p')->insert([
                             ['id_seccion' => $sec[$i], 'id_categoria' => $cat[$j],'creador' => Auth::user()->id]
                         ]);
+                    }else{
+                        $curso = App\Categoria_d::where([
+                            'id_categoria'=> $cat[$j],
+                            'estado' => 1
+                        ])->first();
+                        if(!is_null($curso) && !empty($curso)){
+                            array_push($existen_cursos,$curso);    
+                        }
                     }
                 }
             }
@@ -165,8 +174,15 @@ class Categoria extends Controller
             'categoria_d.estado' => 1,
             'grado_m.c_nivel_academico' => $NIVEL])
             ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
-
-        return response()->json($asignaturas);
+            $datos = array(
+                'asignaciontodocursos' => TRUE,
+                'asignaturas' => $asignaturas
+            );
+            if(count($existen_cursos)>0){
+                $datos['asignaciontodocursos'] = FALSE;
+                $datos['cursosnoasignados']= $existen_cursos;
+            }
+        return response()->json($datos);
     }
 
     public function update_seccion_categoria(Request $request){
@@ -187,10 +203,28 @@ class Categoria extends Controller
         $sec = $request->id_seccion;
         $cat = $request->id_categoria;
 
-        DB::table('seccion_categoria_p')->where(['id_seccion_categoria' => $idc])->update([
-            'id_seccion' => $sec, 'id_categoria'=>$cat, 'creador' => Auth::user()->id
-        ]);
+        //verificamos si ya existe esa relacion
+        $pivot_seccion_categoria = DB::table('seccion_categoria_p')->where([
+            'id_seccion'=> $sec,
+            'id_categoria' => $cat
+        ])->first();
 
+        $curso_existente = '';
+
+        if(is_null($pivot_seccion_categoria) || empty($pivot_seccion_categoria)){
+            DB::table('seccion_categoria_p')->where(['id_seccion_categoria' => $idc])->update([
+            'id_seccion' => $sec, 'id_categoria'=>$cat, 'creador' => Auth::user()->id
+            ]);
+        }else{
+            $curso = App\Categoria_d::where([
+                'id_categoria' => $cat,
+                'estado' => 1
+            ])->first();
+            if(!is_null($curso) && !empty($curso)){
+                $curso_existente = $curso;
+            }
+        }
+    
         $asignaturas = DB::table('seccion_categoria_p')
         ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
         ->join('categoria_d','seccion_categoria_p.id_categoria','=','categoria_d.id_categoria')
@@ -206,7 +240,17 @@ class Categoria extends Controller
             'grado_m.c_nivel_academico' => $NIVEL])
             ->orderBy('nom_grado','ASC')->orderBy('nom_seccion','ASC')->get();
 
-        return response()->json($asignaturas);
+            $datos = array();
+            if($curso_existente==''){
+                $datos['correcto'] = TRUE;
+                $datos['asignaturas'] = $asignaturas;
+            }else{
+                $datos['correcto'] = FALSE;
+                $datos['cursoexistente'] = $curso_existente;
+                $datos['asignaturas'] = $asignaturas;
+            }
+
+        return response()->json($datos);
     }
 
     public function delete_seccion_categoria(Request $request){
