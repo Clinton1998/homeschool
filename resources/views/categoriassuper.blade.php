@@ -183,6 +183,7 @@
                                             <th>Grado</th>
                                             <th>Sección</th>
                                             <th>Acciones</th>
+                                            <th>Ver</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -208,6 +209,7 @@
                                             <th>Grado</th>
                                             <th>Sección</th>
                                             <th>Acciones</th>
+                                            <th>Ver</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -233,6 +235,7 @@
                                             <th>Grado</th>
                                             <th>Sección</th>
                                             <th>Acciones</th>
+                                            <th>Ver</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -249,7 +252,7 @@
         
     </div>
 
-    <!--Crear asignación de Asignaturas para Inicial-->
+    <!--Crear asignación de cursos para Inicial-->
     <div class="modal fade" id="modal_asign_inicial" tabindex="-1" role="dialog" aria-labelledby="modal_asign_inicialLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -293,7 +296,7 @@
         </div>
     </div>
 
-    <!--Actualizar asignación de Asignaturas para Inicial-->
+    <!--Actualizar asignación de cursos para Inicial-->
     <div class="modal fade" id="modal_update_inicial" tabindex="-1" role="dialog" aria-labelledby="modal_asign_inicialLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -337,7 +340,7 @@
         </div>
     </div>
 
-    <!--Crear asignación de Asignaturas para Primaria-->
+    <!--Crear asignación de cursos para Primaria-->
     <div class="modal fade" id="modal_asign_primaria" tabindex="-1" role="dialog" aria-labelledby="modal_asign_primariaLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -381,7 +384,7 @@
         </div>
     </div>
 
-    <!--Actualizar asignación de Asignaturas para Primaria-->
+    <!--Actualizar asignación de cursos para Primaria-->
     <div class="modal fade" id="modal_update_primaria" tabindex="-1" role="dialog" aria-labelledby="modal_asign_primariaLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -425,7 +428,7 @@
         </div>
     </div>
 
-    <!--Crear asignación de Asignaturas para Secundaria-->
+    <!--Crear asignación de cursos para Secundaria-->
     <div class="modal fade" id="modal_asign_secundaria" tabindex="-1" role="dialog" aria-labelledby="modal_asign_secundariaLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -469,7 +472,7 @@
         </div>
     </div>
 
-    <!--Actualizar asignación de Asignaturas para secundaria-->
+    <!--Actualizar asignación de cursos para secundaria-->
     <div class="modal fade" id="modal_update_secundaria" tabindex="-1" role="dialog" aria-labelledby="modal_asign_secundariaLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -512,6 +515,67 @@
             </div>
         </div>
     </div>
+
+    {{-- Update 16-05-2020 --}}
+    {{-- Lista de docentes inicial--}}
+    <div class="modal fade" id="docentes_inicial" tabindex="-1" role="dialog" aria-labelledby="docentes_inicialLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Docente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    {{-- Inicio de de card --}}
+                    <div class="card_list">
+                        <div class="card_list_fotografia">
+                            <img class="card_list_fotografia_img" src="{{asset('assets/images/user.png')}}" alt="{nombre del alumno}">
+                        </div>
+                        <div class="card_list_datos">
+                            <div class="card_list_basico">
+                                <div class="card_list_nombre">
+                                    <strong class="hs_capitalize">Juan Cárdenas Valdiviezo</strong>
+                                </div>
+                                <div class="card_list_dni">
+                                    <p>DNI: 123456789</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_contacto">
+                                <div class="card_list_telefono">
+                                    <strong>Telf.: 950404040</strong>
+                                </div>
+                                <div class="card_list_correo">
+                                    <p class="card_list_correo_ext">correo_electronico_extenso@gmail.com</p>
+                                </div>
+                            </div>
+    
+                            <div class="card_list_representante">
+                                <div class="card_list_representante_nombre">
+                                    <small class="card_list_representante_nombre_block">
+                                        <strong>Especialidad:&nbsp;</strong>
+                                        <p class="hs_capitalize">Matemática y Computación&nbsp;</p>
+                                    </small>
+                                </div>
+                                <div class="card_list_representante_link">
+                                    <a href="#" class="card_list_representante_link_more">Más información&nbsp;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- Fin de card --}}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+            </div>
+        </div>
+    </div>
+    {{-- ---------------------- --}}
 
 </body>
 @endsection

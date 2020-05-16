@@ -53,8 +53,8 @@
                         <div class="form-group col-lg-4 col-md-4 col-sm-12">
                             <label for="para_anuncio">Para</label>
                             <select name="para_anuncio" id="para_anuncio" class="form-control" autofocus required>
-                                <option value="{{$id_sc->id_seccion_categoria}}">Este curso</option>
-                                <option value="{{$id_sc->id_seccion}}">Toda la sección</option>
+                                <option value="1{{$id_sc->id_seccion_categoria}}">Este curso</option>
+                                <option value="2{{$id_sc->id_seccion}}">Toda la sección</option>
                             </select>
                         </div>
                         <div class="form-group col-lg-8 col-md-8 col-sm-12">

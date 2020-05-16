@@ -43749,7 +43749,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\laragon\www\gull_html_laravel\resources\js\chat.js */"./resources/js/chat.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\innovahomeschol\resources\js\chat.js */"./resources/js/chat.js");
 
 
 /***/ })

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\usuario\docente;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\NuevaTareaParaAlumnoNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -225,24 +226,13 @@ class Cursos extends Controller
     }
 
     public function crear_anuncio(Request $Request){
+
         $anuncio = new App\Anuncio_d;
 
-        /* $COD = substr($Request->c_para,0,1);
+        $COD = substr($Request->c_para,0,1);
 
-         if ($COD == '1') {
-            $anuncio->id_seccion = substr($Request->c_para,1);
-            $anuncio->id_seccion_categoria = substr($Request->c_para,1);
-            $anuncio->c_titulo = '1'.$Request->c_titulo;
-        }
-
-        if ($COD == '2') {
-            $anuncio->id_seccion = substr($Request->c_para,1);
-            $anuncio->id_seccion_categoria = substr($Request->c_para,1);
-            $anuncio->c_titulo = '2'.$Request->c_titulo;
-         } */
-
-        $anuncio->id_seccion = $Request->c_para;
-        $anuncio->id_seccion_categoria = $Request->c_para;
+        $anuncio->id_seccion = substr($Request->c_para,1);
+        $anuncio->id_seccion_categoria = substr($Request->c_para,1);
         $anuncio->c_titulo = $Request->c_titulo;
         $anuncio->c_url_archivo = $Request->c_url_archivo;
         $anuncio->creador = Auth::user()->id;
@@ -253,6 +243,29 @@ class Cursos extends Controller
             ->where(['anuncio_d.estado' => 1])
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
+
+        if ($COD == '1') {
+            
+        }
+
+        if ($COD == '2') {
+            $alumnos_asignados = App\Alumno_d::where(['alumno_d.estado' => 1, 'alumno_d.id_seccion' => $anuncio->id_seccion])->get();
+
+            $id_usuarios = array();
+            $i = 0;
+            foreach ($alumnos_asignados as $alumno) {
+                $id_usuarios[$i] = $alumno->usuario->id;
+                $i++;
+            }
+            
+            $usuarios_a_notificar = App\User::whereIn('id', $id_usuarios)->get();
+            \Notification::send($usuarios_a_notificar, new NuevaTareaParaAlumnoNotification(array(
+                'titulo' => $anuncio->c_titulo,
+                'mensaje' => $anuncio->c_url_archivo,
+                'url' => '/alumno/cursos/',
+                'tipo' => 'anuncio'
+            )));
+        }
 
         return response()->json($anuncios);
     }

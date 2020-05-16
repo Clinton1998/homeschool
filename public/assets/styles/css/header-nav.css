@@ -1,0 +1,180 @@
+:root {
+    --adm-cs: #3498db;
+    --adm-cp: #2980b9;
+    --doc-cs: #3498db;
+    --doc-cp: #2980b9;
+    --alm-cs: #3498db;
+    --alm-cp: #2980b9;
+    --gray: #f1f2f6;
+    --grey: #f9f9f9;
+}
+
+#chat_float {
+    color: #FFF;
+    background: var(--doc-cs);
+    border: solid var(--doc-cs) 1px;
+    padding-right: 5px;
+    position: fixed;
+    right: 0;
+    top: 80px;
+    display: none;
+    border-radius: 8px 0 0 8px;
+}
+
+#chat_float a {
+    color: #FFF;
+}
+
+#chat_float a:hover {
+    background: var(--doc-cs);
+}
+
+.uc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.header_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.burger_menu,
+.user_info {
+    align-items: center;
+    z-index: 2;
+}
+
+.burger_menu {
+    padding-left: 15px;
+    max-width: 80px;
+}
+
+.menu-toggle {
+    padding: 20px !important;
+    margin: 0 !important;
+}
+
+.school_center {
+    width: 100%;
+    position: fixed;
+    text-align: center;
+}
+
+.school_info {
+    text-align: center;
+}
+
+.school_image {
+    height: 50px !important;
+    margin-top: 5px;
+}
+
+.school_name {
+    color: grey;
+    margin-top: 3px;
+}
+
+.user_info {
+    /* border: solid 1px blue; */
+    display: flex;
+}
+
+.user_icons {
+    display: flex;
+}
+
+.user_name_in {
+    display: none;
+    max-width: 125px;
+
+    overflow: hidden;
+    white-space: pre-wrap;
+}
+
+.user_name_text {
+    text-transform: capitalize;
+    margin-bottom: 0;
+    max-width: 125px;
+}
+
+.user_avatar {
+    height: 40px;
+    cursor: pointer;
+    border-radius: 50%;
+    margin-right: 25px;
+}
+
+.user_avatar:hover {
+    transform: scale(0.95);
+}
+
+.dropdown-item:active,
+.dropdown-item:focus,
+.dropdown-item:hover {
+    background: var(--doc-cs) !important;
+    color: #FFF;
+}
+
+
+@media screen and (max-width:650px) {
+    .school_center {
+        width: calc(100vw - 50px);
+        position: fixed;
+        text-align: center;
+    }
+
+    .school_image {
+        height: 40px !important;
+    }
+
+    .user_name {
+        display: none;
+    }
+
+    .user_name_in {
+        display: block;
+
+    }
+
+    .user_avatar {
+        height: 35px;
+    }
+}
+
+@media screen and (max-width:580px) {
+    .main-header {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .school_center {
+        width: calc(100vw - 20px);
+        position: fixed;
+        text-align: center;
+    }
+
+    .burger_menu {
+        padding-left: 0;
+    }
+
+    .menu-toggle {
+        padding: 0 !important;
+    }
+
+    .user_avatar {
+        margin-left: 5px;
+    }
+
+    .user_chat_off {
+        display: none;
+    }
+
+    #chat_float {
+        display: block;
+    }
+}

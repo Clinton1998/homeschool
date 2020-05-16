@@ -1900,6 +1900,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['notificaciones'],
   methods: {
@@ -1909,7 +1914,11 @@ __webpack_require__.r(__webpack_exports__);
         id_notification: notificacion.id
       };
       axios.post('/notificacionesdelusuario/marcarcomoleido', data).then(function (response) {
-        if (notificacion.data.notificacion.url != '') {
+        if (notificacion.data.notificacion.tipo == 'anuncio') {
+          $('#ntf-title').text(notificacion.data.notificacion.titulo);
+          $('#ntf-content').text(notificacion.data.notificacion.mensaje);
+          $('#OPEN-NTF').modal('show');
+        } else if (notificacion.data.notificacion.url != '') {
           window.location.href = notificacion.data.notificacion.url;
         }
       });
@@ -29059,34 +29068,49 @@ var render = function() {
                 ? _c("div", { staticClass: "notification-icon" }, [
                     _c("i", { staticClass: "i-Receipt-3 text-success mr-1" })
                   ])
-                : _c("div", { staticClass: "notification-icon" }, [
-                    _c("i", {
-                      staticClass: "i-Speach-Bubble-6 text-primary mr-1"
-                    })
-                  ]),
+                : notificacion.data["notificacion"]["tipo"] == "anuncio"
+                  ? _c("div", { staticClass: "notification-icon" }, [
+                      _c("i", {
+                        staticClass: "i-Speach-Bubble text-primary mr-1"
+                      })
+                    ])
+                  : _c("div", { staticClass: "notification-icon" }, [
+                      _c("i", {
+                        staticClass: "i-Speach-Bubble-6 text-primary mr-1"
+                      })
+                    ]),
               _vm._v(" "),
               _c("div", { staticClass: "notification-details flex-grow-1" }, [
                 _c("p", { staticClass: "m-0 d-flex align-items-center" }, [
-                  _c("span", [
+                  _c("small", [
                     _vm._v(_vm._s(notificacion.data["notificacion"]["titulo"]))
                   ]),
                   _vm._v(" "),
                   _c(
                     "span",
                     { staticClass: "badge badge-pill badge-primary ml-1 mr-1" },
-                    [_vm._v("new")]
+                    [_vm._v("nuevo")]
                   ),
                   _vm._v(" "),
-                  _c("span", { staticClass: "flex-grow-1" }),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "text-small text-muted ml-auto" }, [
-                    _vm._v(_vm._s(notificacion.created_at))
-                  ])
+                  _c("span", { staticClass: "flex-grow-1" })
                 ]),
                 _vm._v(" "),
-                _c("p", { staticClass: "text-small text-muted m-0" }, [
-                  _vm._v(_vm._s(notificacion.data["notificacion"]["mensaje"]))
-                ])
+                _c("small", { staticClass: "text-small text-muted ml-auto" }, [
+                  _vm._v(_vm._s(notificacion.created_at))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "p",
+                  {
+                    staticClass: "text-small text-muted m-0",
+                    staticStyle: {
+                      "max-height": "19px",
+                      "max-width": "150px",
+                      overflow: "hidden"
+                    }
+                  },
+                  [_vm._v(_vm._s(notificacion.data["notificacion"]["mensaje"]))]
+                )
               ])
             ]
           )
@@ -41506,7 +41530,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\laragon\www\gull_html_laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\innovahomeschol\resources\js\app.js */"./resources/js/app.js");
 
 
 /***/ })

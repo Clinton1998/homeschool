@@ -110,11 +110,37 @@
         <div id="archivoShowComunicado"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">Ok</button>
+        <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Leído</button>
       </div>
     </div>
   </div>
 </div>
+
+    <div class="modal fade" id="OPEN-NTF" tabindex="-1" role="dialog" aria-labelledby="OPEN-NTFLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="pl-2 pr-2">
+                        <div class="text-center hs_capitalize-first"><strong id="ntf-title"></strong></div>
+                        <br>
+                        <div id="ntf-content" class="hs_capitalize-first"></div>
+                        <br>
+                        <div id="ntf-date" class="text-right"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="" class="btn btn-primary" data-dismiss="modal">Anuncio leído</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
         {{-- common js --}}
