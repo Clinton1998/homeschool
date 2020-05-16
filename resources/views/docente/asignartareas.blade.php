@@ -104,7 +104,7 @@
                         <label class="label-text" for="cbGradoSeccion">Para</label>
                         <select id="cbGradoSeccion" name="seccion" required>
                                 <option value=""></option>
-                            @foreach($docente->secciones->where('estado','=',1) as $seccion)
+                            @foreach($docente->secciones()->where('seccion_d.estado','=',1)->get() as $seccion)
                                 <option value="{{$seccion->id_seccion}}">{{substr($seccion->grado->c_nombre,3)}} "{{$seccion->c_nombre}}" - {{$seccion->grado->c_nivel_academico}}</option>
                             @endforeach
                         </select>

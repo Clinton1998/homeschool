@@ -52,12 +52,40 @@ class AsignarTareas extends Controller
         if (!is_null($seccion_del) && !empty($seccion_del)) {
             //obtenemos los alumnos y categorias para esa seccion
             $alumnos = $seccion_del->alumnos()->where('alumno_d.estado', '=', 1)->get();
-            $categorias = $seccion_del->categorias()->where('categoria_d.estado', '=', 1)->get();
+
+            /*$categorias = $seccion_del->categorias()->where('categoria_d.estado', '=', 1)->get();
 
             $datos = array(
                 'correcto' => TRUE,
                 'alumnos' => $alumnos,
                 'categorias' => $categorias
+            );*/
+
+            //obteniendo cursos del docente
+        $pivot_seccion_categoria_docente = DB::table('seccion_categoria_docente_p')
+                ->join('seccion_categoria_p','seccion_categoria_docente_p.id_seccion_categoria','=','seccion_categoria_p.id_seccion_categoria')
+                ->select('seccion_categoria_p.*','seccion_categoria_docente_p.id_seccion_categoria_docente as pivot_3')
+                ->where([
+                    'seccion_categoria_docente_p.id_docente' => $docente->id_docente
+                ])->get();
+        $array_cursos = array();
+
+        foreach($pivot_seccion_categoria_docente as $pivot){
+            $item = array();
+            $temp_curso = App\Categoria_d::where([
+                'id_categoria' => $pivot->id_categoria,
+                'estado' => 1
+            ])->first();
+            if((!is_null($temp_curso) && !empty($temp_curso))){
+                $item['curso'] = $temp_curso;
+                array_push($array_cursos,$item);
+            }
+        }
+        $cursos = collect($array_cursos);
+        $datos = array(
+                'correcto' => TRUE,
+                'alumnos' => $alumnos,
+                'categorias' => $cursos
             );
 
             return response()->json($datos);
