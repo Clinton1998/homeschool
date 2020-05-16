@@ -26,7 +26,22 @@
 
             <div id="tareas">
                 <!-- Tarea -->
+                @php
+                    $contador_tareas = 0;
+                @endphp
+
                 @foreach($tareas as $tarea)
+                    @php
+                        $contador_tareas++;
+                        if ($contador_tareas <= 3) {
+
+                        }
+                        else {
+                            echo '<div class="text-right" style="width: 100%"><strong class="mb-2"><a class="my-link" href="#" data-toggle="modal" data-target="#TAREAS">Ver todo</a></strong></div>';
+                            break;
+                        }
+                    @endphp
+
                     <div style="border-color: {{$tarea->categoria->c_nivel_academico}}; border-left: solid 4px {{$tarea->categoria->c_nivel_academico}};" class="tarea" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">
                         <div class="row">
                             <div class="col">
@@ -50,9 +65,7 @@
                         </div>
                     </div>
                 @endforeach
-        
             </div>
-
         </div>
     </div>
   
@@ -195,11 +208,326 @@
         </div>
         </div>
     </div>
+
+    <!-- Modal para Todas las tareas asignadas-->
+    <div class="modal fade" id="TAREAS" tabindex="-1" role="dialog" aria-labelledby="TAREASLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tareas asignadas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="pl-2 pr-2">
+
+                        @php
+                            $cont1 = 0;
+                            $cont2 = 0;
+                            $cont3 = 0; 
+                            $cont4 = 0;
+                            $cont5 = 0;
+                            $cont6 = 0;
+                            $cont7 = 0;
+                            $cont8 = 0;
+                            $cont9 = 0;
+                            $cont10 = 0;
+                            $cont11 = 0;
+                            $cont12 = 0;
+                        @endphp
+
+                        @foreach($tareas as $tarea)
+                            @switch(substr($tarea->created_at, 5, 2))
+                                @case('01')
+                                    @php
+                                        if ($cont1 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Enero</h5>';
+                                            $cont1++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('02')
+                                    @php
+                                        if ($cont2 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Febrero</h5>';
+                                            $cont2++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('03')
+                                        @php
+                                        if ($cont3 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Marzo</h5>';
+                                            $cont3++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('04')
+                                        @php
+                                        if ($cont4 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Abril</h5>';
+                                            $cont4++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('05')
+                                    @php
+                                        if ($cont5 == 0) {
+                                            echo '<h5 class="tarea_por_mes" id="mes-5" onclick="MostrarTareas(5)">Mayo</h5>';
+                                            $cont5++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea" >
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('06')
+                                    @php
+                                        if ($cont6 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Junio</h5>';
+                                            $cont6++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('07')
+                                    @php
+                                        if ($cont7 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Julio</h5>';
+                                            $cont7++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('08')
+                                    @php
+                                        if ($cont8 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Agosto</h5>';
+                                            $cont8++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('09')
+                                    @php
+                                        if ($cont9 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Setiembre</h5>';
+                                            $cont9++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('10')
+                                    @php
+                                        if ($cont10 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Octubre</h5>';
+                                            $cont10++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('11')
+                                    @php
+                                        if ($cont11 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Noviembre</h5>';
+                                            $cont11++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @case('12')
+                                    @php
+                                        if ($cont12 == 0) {
+                                            echo '<h5 class="tarea_por_mes">Diciembre</h5>';
+                                            $cont12++;
+                                        }
+                                    @endphp
+                                    <div class="list_tarea">
+                                        <div class="list_tarea_box">
+                                            <div class="list_tarea_left">
+                                                <h6 class="list_tarea_left_title hs_capitalize-first">{{$tarea->c_titulo}}</h6>
+                                                <small>Enviado:&nbsp;{{$tarea->created_at}}&nbsp;</small>
+                                                <small>Entregar:&nbsp;{{$tarea->t_fecha_hora_entrega}}</small>
+                                            </div>
+                                            
+                                            <div class="list_tarea_right">
+                                                <span class="badge hs_capitalize" style="color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                                <a class="my-link" href="#" onclick="window.open('/docente/tarea/{{$tarea->id_tarea}}', '_self');">ver tarea</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @break
+                                @default
+                            @endswitch
+                        @endforeach
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 @endsection
 
 @section('page-js')
+
+    <script>
+        function MostrarTareas(id){
+            $('#tareas-' + id).toggle();
+            /* $('#mes-' + id).toggleClass('mostrar_tareas'); */
+        };
+    </script>
+
     <script src="{{asset('assets/js/tooltip.script.js') }}"></script>
     <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
