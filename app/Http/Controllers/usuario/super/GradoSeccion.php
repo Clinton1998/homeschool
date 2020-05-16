@@ -101,4 +101,52 @@ class GradoSeccion extends Controller
         );
         return response()->json($datos);
     }
+
+    public function alumnos(Request $request){
+        $datos = array(
+            'correcto' => TRUE
+        );
+        if(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0){
+            $seccion = App\Seccion_d::where([
+                'id_seccion' => $request->input('id_seccion'),
+                'estado' => 1
+            ])->first();
+
+            if(!is_null($seccion) && !empty($seccion)){
+                $alumnos = $seccion->alumnos()->where('alumno_d.estado','=',1)->get();
+                $datos['alumnos'] = $alumnos;
+            }else{
+                $datos['correcto'] = FALSE;
+            }
+        }else{
+            $datos['correcto'] = FALSE;
+        }
+        return response()->json($datos);
+    }
+
+    public function docentes(Request $request){
+        $datos = array(
+            'correcto' => TRUE
+        );
+
+        if(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0){
+            $seccion = App\Seccion_d::where([
+                'id_seccion' => $request->input('id_seccion'),
+                'estado' => 1
+            ])->first();
+
+            if(!is_null($seccion) && !empty($seccion)){
+                $docentes = $seccion->docentes()->where('docente_d.estado','=',1)->get();
+                $datos['docentes'] = $docentes;
+            }else{
+                $datos['correcto'] = FALSE;
+            }
+
+        }else{
+            $datos['correcto'] = FALSE;
+        }
+        return response()->json($datos);
+    }
+
+
 }

@@ -58,11 +58,11 @@
                                     </td>
                                     <td>
                                         {{-- Llamada a modal Alumnos--}}
-                                        <a href="#" class="badge badge-success" data-toggle="modal" data-target="#alumnos_seccion">
+                                        <a href="#" class="badge badge-success" onclick="fxAlumnosDeSeccion({{$item->id_seccion}},event);">
                                            Alumnos
                                         </a>
                                          {{-- Llamada a modal Docentes--}}
-                                        <a href="#" class="badge badge-info" data-toggle="modal" data-target="#docentes_seccion">
+                                        <a href="#" class="badge badge-info" onclick="fxDocentesDeSeccion({{$item->id_seccion}},event);">
                                             Docentes
                                         </a>
                                     </td>
@@ -162,7 +162,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div>
+                <div class="text-center" id="spinnerInfoAlumnos">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                </div>
+                <div id="divAlumnos" style="display: none;">
                     {{-- Inicio de de card --}}
                     <div class="card_list">
                         <div class="card_list_fotografia">
@@ -227,7 +230,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div>
+                <div class="text-center" id="spinnerInfoDocentes">
+                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                </div>
+                <div id="divDocentes">
                     {{-- Inicio de de card --}}
                     <div class="card_list">
                         <div class="card_list_fotografia">

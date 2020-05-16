@@ -86,6 +86,8 @@ Route::post('super/alumno/eliminar', 'usuario\super\Alumno@eliminar')->name('sup
 //Route::post('super/secciones/agregar', 'usuario\super\Seccion@agregar')->name('super/secciones/agregar');
 //Route::post('super/secciones/actualizar', 'usuario\super\Seccion@actualizar')->name('super/secciones/actualizar');
 //Route::post('super/secciones/eliminar', 'usuario\super\Seccion@eliminar')->name('super/secciones/eliminar');
+Route::post('super/gradoseccion/alumnos', 'usuario\super\GradoSeccion@alumnos')->name('super/gradoseccion/alumnos');
+Route::post('super/gradoseccion/docentes', 'usuario\super\GradoSeccion@docentes')->name('super/gradoseccion/docentes');
 
 Route::get('super/gradoseccion', 'usuario\super\GradoSeccion@index')->name('super/gradoseccion');
 Route::post('super/gradoseccion/agregar', 'usuario\super\GradoSeccion@agregar')->name('super/gradoseccion/agregar');
