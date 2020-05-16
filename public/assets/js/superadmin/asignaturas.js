@@ -79,7 +79,10 @@ $(document).ready(function () {
                 "data": "nom_seccion"
             },
             {
-                "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-warning btn-sm btn_edit_asi_sec' style='margin: 0 5px;'><i class='i-Pen-4'></i></button><button class='btn btn-danger btn-sm btn_del_asi_sec' style='margin: 0 5px;'><i class='i-Eraser-2'></i></button></div></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Eraser-2' style='font-size: 17px'></i></a></div>"
+            },
+            {
+                "defaultContent": "<div><a href='#' class='badge badge-info' data-toggle='modal' data-target='#docentes_inicial'>Docente</a></div>"
             }
         ],
         "order": [
@@ -125,7 +128,10 @@ $(document).ready(function () {
                 "data": "nom_seccion"
             },
             {
-                "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-warning btn-sm btn_edit_asig_primaria' style='margin: 0 5px;'><i class='i-Pen-4'></i></button><button class='btn btn-danger btn-sm btn_del_asig_primaria' style='margin: 0 5px;'><i class='i-Eraser-2'></i></button></div></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Eraser-2' style='font-size: 17px'></i></a></div>"
+            },
+            {
+                "defaultContent": "<div><a href='#' class='badge badge-info' data-toggle='modal' data-target='#docentes_inicial'>Docente</a></div>"
             }
         ],
         "order": [
@@ -170,7 +176,10 @@ $(document).ready(function () {
                 "data": "nom_seccion"
             },
             {
-                "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-warning btn-sm btn_edit_secundaria' style='margin: 0 5px;'><i class='i-Pen-4'></i></button><button class='btn btn-danger btn-sm btn_del_secundaria' style='margin: 0 5px;'><i class='i-Eraser-2'></i></button></div></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Eraser-2' style='font-size: 17px'></i></a></div>"
+            },
+            {
+                "defaultContent": "<div><a href='#' class='badge badge-info' data-toggle='modal' data-target='#docentes_inicial'>Docente</a></div>"
             }
         ],
         "order": [
