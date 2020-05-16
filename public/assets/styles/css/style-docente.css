@@ -3,6 +3,16 @@
     --d-color-primario: rgb(4, 167, 61); */
     --d-color-secundario: #3498db;
     --d-color-primario: #2980b9;
+    --gray: #f1f2f6;
+    --grey: #f9f9f9;
+}
+
+.my-link {
+    color: var(--d-color-secundario);
+}
+
+.my-link:hover {
+    color: var(--d-color-primario);
 }
 
 .hs_lower {
@@ -303,6 +313,53 @@ a {
 #modal-datos-alumno p {
     margin-bottom: 0;
 }
+
+/* UPDATE 16/05/2020 */
+
+.tarea_por_mes {
+    background-color: var(--d-color-secundario);
+    color: #FFF;
+    padding: 5px;
+    cursor: pointer;
+    margin-top: 5px;
+    border-radius: 5px;
+}
+
+.tarea_por_mes:hover {
+    background-color: var(--d-color-primario);
+}
+
+.list_tarea {
+    background-color: var(--grey);
+    padding: 5px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.list_tarea:last-child {
+    margin-bottom: 0;
+}
+
+.list_tarea_box {
+    display: grid;
+    grid-template-columns: 5fr 1fr;
+    grid-column-gap: 5px;
+}
+
+.list_tarea_left {}
+
+.list_tarea_left_title {
+    margin-bottom: 0;
+}
+
+.list_tarea_right {
+    text-align: right;
+}
+
+
+
+
+
 
 /* ESTADO DE TAREAS */
 
