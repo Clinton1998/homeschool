@@ -53,6 +53,7 @@ class Alumno extends Controller
 
     public function agregar(Request $request)
     {
+        //tamaño maximo de imagen 256 MB algo imposible pero luego se cambia
         //validamos los datos
         $request->validate([
             'dni' => 'required|string|size:8',
@@ -62,7 +63,8 @@ class Alumno extends Controller
             'sexo' => 'required|string|size:1',
             'fecha_nacimiento' => 'required',
             'direccion' => 'required',
-            'optseccion' => 'required'
+            'optseccion' => 'required',
+            'fotoalumno' => 'image|mimes:jpeg,png,gif|max:256000'
         ]);
 
         $usuario  = App\User::findOrFail(Auth::user()->id);
@@ -224,6 +226,10 @@ class Alumno extends Controller
 
     public function cambiar_foto(Request $request)
     {
+        //tamaño maximo de imagen 256 MB algo imposible pero luego se cambia
+        $request->validate([
+            'fotoalumno' => 'required|image|mimes:jpeg,png,gif|max:256000'
+        ]);
         //verificamos el usuario
         $usuario = App\User::findOrFail(Auth::user()->id);
         //obtenemos el colegio del superadministrador

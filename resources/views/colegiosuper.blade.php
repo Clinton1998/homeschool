@@ -19,10 +19,14 @@
                 <div class="card-body">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            @if($errors->has('contrasenia') || $errors->has('repite_contrasenia'))
+                            @if($errors->has('repite_contrasenia') || $errors->has('contrasenia'))
                                 <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Datos principales</a>
                                 <a class="nav-item nav-link" id="nav-logo-tab" data-toggle="tab" href="#nav-logo" role="tab" aria-controls="nav-logo" aria-selected="false">Logo</a>
-                                <a class="nav-item nav-link active show " id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Datos de acceso</a>
+                                <a class="nav-item nav-link active show" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Datos de acceso</a>
+                            @elseif($errors->has('logocolegio'))
+                                <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Datos principales</a>
+                                <a class="nav-item nav-link active show" id="nav-logo-tab" data-toggle="tab" href="#nav-logo" role="tab" aria-controls="nav-logo" aria-selected="false">Logo</a>
+                                <a class="nav-item nav-link " id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Datos de acceso</a>
                             @else
                                 <a class="nav-item nav-link active show" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Datos principales</a>
                                 <a class="nav-item nav-link" id="nav-logo-tab" data-toggle="tab" href="#nav-logo" role="tab" aria-controls="nav-logo" aria-selected="false">Logo</a>
@@ -31,12 +35,11 @@
                         </div>
                     </nav>
                     <div class="tab-content ul-tab__content" id="nav-tabContent">
-                        @if($errors->has('contrasenia') || $errors->has('repite_contrasenia'))
+                        @if($errors->has('repite_contrasenia') || $errors->has('contrasenia') || $errors->has('logocolegio'))
                             <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         @else
                             <div class="tab-pane fade active show" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         @endif
-                        
                             <form method="POST" action="{{ route('super/colegio/actualizar') }}" id="frmactualizacioncolegio">
                                 @csrf
                                 <div class="form-group row">
@@ -135,11 +138,12 @@
                             </form>
                         </div>
 
-                        @if($errors->has('contrasenia') || $errors->has('repite_contrasenia'))
-                            <div class="tab-pane fade active show" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                        @else
-                            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                        @endif
+                            @if($errors->has('repite_contrasenia') || $errors->has('contrasenia'))
+                                <div class="tab-pane fade active show" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">                        
+                            @else
+                                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            @endif
+                            
                                         <div class="form-group row">
                                             <label for="inpNombreUsuario" class="col-sm-3 col-form-label">Usuario</label>
                                             <div class="col-sm-9">
@@ -154,7 +158,7 @@
                                         </div>
                                         <hr>
                                         <h5 class="text-primary">Cambiar contraseña</h5>
-                                        <form method="POST" action="{{ route('super/usuario/cambiarcontrasena') }}" id="frmactualizacioncolegio">
+                                        <form method="POST" action="{{ route('super/usuario/cambiarcontrasena') }}" id="frmactualizacioncolegiocontrasena">
                                             @csrf
                                         <div class="form-group row">
                                             <label for="inpContra" class="col-sm-3 col-form-label">Nueva contraseña</label>
@@ -183,24 +187,37 @@
                                         </div>
                                     </form>
                         </div>
-                        <div class="tab-pane fade" id="nav-logo" role="tabpanel" aria-labelledby="nav-logo-tab">
+                        <div class="tab-pane fade @error('logocolegio') active show @enderror" id="nav-logo" role="tabpanel" aria-labelledby="nav-logo-tab">
                             <div class="row mb-4">
                                 <div class="col-md-12 mb-4">
                                     <div class="card text-left">
 
                                         <div class="card-body">
                                             <h4 class="card-title">Logo de colegio</h4>
+                                            <div class="progress mb-3" style="display: none;" id="divProgressLogo">
+                                                <div class="progress-bar w-100 progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Subiendo imagen</div>
+                                            </div>
+
                                             <form id="frmSubidaLogoColegio" class="needs-validation" method="POST" action="{{route('super/colegio/cambiarlogo')}}" enctype="multipart/form-data" novalidate>
                                                 @csrf
+                                                @error('logocolegio')
+                                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                        <strong>Error!</strong> {{$message}}
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                @enderror
+                                                
                                                 <div class="form-group">
-                                                    <input type='file' class="hs_upload form-control form-control-lg" id="logocolegio" name="logocolegio" required>
+                                                    <input type='file' class="hs_upload form-control form-control-lg" id="logocolegio" name="logocolegio" accept="image/x-png,image/gif,image/jpeg" required>
                                                     <span class="invalid-feedback" role="alert">
                                                         Elige el logo de tu colegio
                                                     </span>
                                                 </div>                                                
                                                 <div class="form-group" style="display: flex; justify-content: flex-end;">
-                                                        <button type="submit" class="btn btn-primary">Subir</button>
-                                                </div>                                                
+                                                        <button type="submit" id="btnSubirLogoColegio" class="btn btn-primary">Subir</button>
+                                                </div> 
                                             </form> 
                                         </div>
                                     </div>
@@ -254,24 +271,7 @@
                                     <span class="text-primary">DNI N° {{$colegio->c_dni_representante}}</span>
                                 </div>
                             </div>
-                            <!--<div class="col-12 text-center">
-                                
-                                    <div class="ul-contact-detail__social">
-                                        <div class="ul-contact-detail__social-1">
-                                            <button type="button" class="btn btn-d btn-icon m-1">
-                                                <span class="ul-btn__icon"><i class="i-Teacher"></i></span>
-                                            </button>
-                                            <span class="t-font-boldest ul-contact-detail__followers">900</span>
-                                        </div>
-                                        <div class="ul-contact-detail__social-1">
-                                            <button type="button" class="btn btn-dribble btn-icon m-1">
-                                                <span class="ul-btn__icon"><i class="i-Dribble"></i></span>
-                                                
-                                            </button>
-                                            <span class="t-font-boldest ul-contact-detail__followers">658</span>
-                                        </div>
-                                    </div>
-                            </div>-->
+                            
                         </div>
                     </div>
                 </div>
@@ -279,12 +279,8 @@
         </div>
     </div>
 </section>
-
-
 @endsection
-
 @section('page-js')
-
 <script>
     jQuery(document).ready(function() {
         jQuery('#inpActTelefono').keypress(function(tecla) {

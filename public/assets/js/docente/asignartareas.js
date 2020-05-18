@@ -7,6 +7,18 @@ $(document).ready(function() {
             fxActualizarDatosSegunSeccion(info.value);
         }
     });
+
+    /*$('#frmAsignarTarea').on('submit', function() {
+        alert('Envio de datos al servidor');
+    });*/
+
+    $('#btnSubmitAsignarTarea').on('click', function() {
+        if ($('#txtTitulo').val() != '' && $('#selCategoria').val() != '' && $('#txtFechaEntrega').val() != '' && $('#cbGradoSeccion').val() != '' && $('#txtArchivo').val() != '') {
+            $('#divProgressArchivoAsignacion').attr('style', 'height: 40px;display: block;');
+        } else {
+            $('#divProgressArchivoAsignacion').attr('style', 'height: 40px;display: none;');
+        }
+    });
 });
 
 function fxActualizarDatosSegunSeccion(id_sec) {

@@ -36,7 +36,11 @@ $(document).ready(function() {
         evt.preventDefault();
         fxCambiarContrasena();
     });
-
+    $('#btnActualizarFotoDocente').on('click', function() {
+        if ($('#fotodocente').val() != '') {
+            $('#divProgressFotoDocente').show();
+        }
+    });
     //alert('Todo es correcto');
 });
 

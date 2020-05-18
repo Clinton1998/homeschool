@@ -53,6 +53,14 @@ class Comunicado extends Controller
     }
     public function agregar(Request $request)
     {
+        //tamaño maximo de archivo 256 MB
+        //validamos los datos
+        $request->validate([
+            'titulo_comunicado' => 'required',
+            'opt_destino_comunicado' => 'required',
+            'archivo_comunicado' => 'file|max:256000'
+        ]);
+
         $usuarioSuper = App\User::findOrFail(Auth::user()->id);
         //obtenemos el colegio
         $colegio = App\Colegio_m::where([

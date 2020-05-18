@@ -13,14 +13,25 @@
                 <div class="card-body">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active show" id="nav-editar-tab" data-toggle="tab" href="#nav-editar" role="tab" aria-controls="nav-editar" aria-selected="true">Editar</a>
-                            <a class="nav-item nav-link " id="nav-dicta-tab" data-toggle="tab" href="#nav-dicta" role="tab" aria-controls="nav-dicta" aria-selected="false">Representantes</a>
-                            <a class="nav-item nav-link" id="nav-foto-tab" data-toggle="tab" href="#nav-foto" role="tab" aria-controls="nav-foto" aria-selected="false">Foto</a>
-                            <a class="nav-item nav-link" id="nav-acceso-tab" data-toggle="tab" href="#nav-acceso" role="tab" aria-controls="nav-acceso" aria-selected="false">Datos de acceso</a>
+                            @if($errors->has('fotoalumno'))
+                                <a class="nav-item nav-link" id="nav-editar-tab" data-toggle="tab" href="#nav-editar" role="tab" aria-controls="nav-editar" aria-selected="true">Editar</a>
+                                <a class="nav-item nav-link" id="nav-dicta-tab" data-toggle="tab" href="#nav-dicta" role="tab" aria-controls="nav-dicta" aria-selected="false">Representantes</a>
+                                <a class="nav-item nav-link active show" id="nav-foto-tab" data-toggle="tab" href="#nav-foto" role="tab" aria-controls="nav-foto" aria-selected="false">Foto</a>
+                                <a class="nav-item nav-link" id="nav-acceso-tab" data-toggle="tab" href="#nav-acceso" role="tab" aria-controls="nav-acceso" aria-selected="false">Datos de acceso</a>
+                            @else
+                                <a class="nav-item nav-link active show" id="nav-editar-tab" data-toggle="tab" href="#nav-editar" role="tab" aria-controls="nav-editar" aria-selected="true">Editar</a>
+                                <a class="nav-item nav-link" id="nav-dicta-tab" data-toggle="tab" href="#nav-dicta" role="tab" aria-controls="nav-dicta" aria-selected="false">Representantes</a>
+                                <a class="nav-item nav-link" id="nav-foto-tab" data-toggle="tab" href="#nav-foto" role="tab" aria-controls="nav-foto" aria-selected="false">Foto</a>
+                                <a class="nav-item nav-link" id="nav-acceso-tab" data-toggle="tab" href="#nav-acceso" role="tab" aria-controls="nav-acceso" aria-selected="false">Datos de acceso</a>
+                            @endif
                         </div>
                     </nav>
                     <div class="tab-content ul-tab__content" id="nav-tabContent">
-                        <div class="tab-pane fade active show" id="nav-editar" role="tabpanel" aria-labelledby="nav-editar-tab">
+                        @if($errors->has('fotoalumno'))
+                            <div class="tab-pane fade" id="nav-editar" role="tabpanel" aria-labelledby="nav-editar-tab">
+                        @else
+                            <div class="tab-pane fade active show" id="nav-editar" role="tabpanel" aria-labelledby="nav-editar-tab">
+                        @endif
                             <form id="frmActualizacionAlumno" class="needs-validation" method="POST" action="{{route('super/alumno/actualizar')}}" novalidate>
                                 @csrf
                                 <input type="hidden" id="id_alumno" name="id_alumno" value="{{$alumno->id_alumno}}">
@@ -348,25 +359,36 @@
                             </form>
 
                         </div>
-                        <div class="tab-pane fade" id="nav-foto" role="tabpanel" aria-labelledby="nav-foto-tab">
+                        <div class="tab-pane fade @error('fotoalumno') active show @enderror" id="nav-foto" role="tabpanel" aria-labelledby="nav-foto-tab">
                             <div class="row mb-4">
                                 <div class="col-md-12 mb-4">
                                     <div class="card text-left">
 
                                         <div class="card-body">
+                                            <div class="progress mb-3" id="divProgressFotoAlumno" style="display: none;">
+                                                <div class="progress-bar w-100 progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Subiendo imagen</div>
+                                            </div>
                                         <form id="frmSubidaFotoAlumno" method="post" action="{{url('super/alumno/cambiarfoto')}}" class="needs-validation"  enctype="multipart/form-data" novalidate>
                                                 @csrf
+                                                @error('fotoalumno')
+                                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                            <strong>Error!</strong> {{$message}}
+                                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                @enderror
                                             <input type="hidden" id="fotoid_alumno" name="fotoid_alumno" value="{{$alumno->id_alumno}}">
                                                 <div class="form-group">
                                                     <label for="fotoalumno">Fotografía del alumno</label>
-                                                    <input type='file' class="hs_upload form-control form-control-lg" id="fotoalumno" name="fotoalumno" required>
+                                                    <input type='file' class="hs_upload form-control form-control-lg" id="fotoalumno" name="fotoalumno" accept="image/x-png,image/gif,image/jpeg" required>
                                                     <span class="invalid-feedback" role="alert">
                                                         Elige una foto
                                                     </span>
                                                 </div>                                                
                                                 <div class="form-group row">
                                                     <div class="col">
-                                                        <button type="submit" class="btn btn-primary float-right">Actualizar fotografía</button>
+                                                        <button type="submit" id="btnSubirFotoAlumno" class="btn btn-primary float-right">Actualizar fotografía</button>
                                                     </div>
                                                 </div>                                                
                                             </form> 

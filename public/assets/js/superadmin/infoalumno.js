@@ -1,21 +1,26 @@
-$(document).ready(function () {
+$(document).ready(function() {
     Ladda.bind('button[type=submit]', { timeout: 10000 });
 
-    $('#btnBuscarPorDNI').on('click', function () {
+    $('#btnBuscarPorDNI').on('click', function() {
         fxConsultaDni(this);
     });
 
 
-    $('#frmActualizarContraAlumno').submit(function (evt) {
+    $('#frmActualizarContraAlumno').submit(function(evt) {
         evt.preventDefault();
         fxCambiarContrasena();
     });
 
-    $('#frmActualizacionRepresentanteAlumno').submit(function (evt) {
+    $('#frmActualizacionRepresentanteAlumno').submit(function(evt) {
         evt.preventDefault();
         fxActualizarRepresentante();
     });
 
+    $('#btnSubirFotoAlumno').on('click', function() {
+        if ($('#fotoalumno').val() != '') {
+            $('#divProgressFotoAlumno').show();
+        }
+    });
     //alert('Todo es correcto');
 });
 
@@ -29,12 +34,12 @@ function fxConsultaDni(obj) {
             dni: $('#dni').val()
         },
         dataType: 'JSON',
-        error: function (error) {
+        error: function(error) {
             alert('No hay resultados');
             console.error(error);
             l.stop();
         }
-    }).done(function (data) {
+    }).done(function(data) {
         $('#nombre').val(data.nombres + ' ' + data.apellidoPaterno + ' ' + data.apellidoMaterno);
         l.stop();
     });
@@ -51,10 +56,10 @@ function fxCambiarContrasena() {
         type: 'POST',
         url: '/super/alumno/cambiarcontrasena',
         data: datos,
-        error: function (error) {
+        error: function(error) {
             console.error(error);
         }
-    }).done(function (data) {
+    }).done(function(data) {
         if (data.correcto) {
             location.reload();
         }
@@ -96,11 +101,11 @@ function fxActualizarRepresentante() {
         type: 'POST',
         url: '/super/alumno/actualizarrepresentante',
         data: datos,
-        error: function (error) {
+        error: function(error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function (data) {
+    }).done(function(data) {
         if (data.correcto) {
             location.reload();
         }

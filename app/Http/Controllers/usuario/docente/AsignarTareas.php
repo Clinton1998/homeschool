@@ -53,14 +53,6 @@ class AsignarTareas extends Controller
             //obtenemos los alumnos y categorias para esa seccion
             $alumnos = $seccion_del->alumnos()->where('alumno_d.estado', '=', 1)->get();
 
-            /*$categorias = $seccion_del->categorias()->where('categoria_d.estado', '=', 1)->get();
-
-            $datos = array(
-                'correcto' => TRUE,
-                'alumnos' => $alumnos,
-                'categorias' => $categorias
-            );*/
-
             //obteniendo cursos del docente
         $pivot_seccion_categoria_docente = DB::table('seccion_categoria_docente_p')
                 ->join('seccion_categoria_p','seccion_categoria_docente_p.id_seccion_categoria','=','seccion_categoria_p.id_seccion_categoria')
@@ -99,6 +91,25 @@ class AsignarTareas extends Controller
 
     public function asignar(Request $request)
     {
+        //tamaño maximo de imagen 256 MB
+        //validamos los datos
+        if($request->input('radioAlumnos')=='option1'){
+                $request->validate([
+                    'titulo'=> 'required',
+                    'archivo' => 'file|max:256000',
+                    'fecha_hora_entrega' => 'required',
+                ]);
+        }else if($request->input('radioAlumnos')=='option2'){
+                $request->validate([
+                    'titulo'=> 'required',
+                    'archivo' => 'file|max:256000',
+                    'fecha_hora_entrega' => 'required',
+                    'alumnos' => 'required|array'
+                ]);
+        }else{
+            return redirect('home');
+        }
+        
         //return response()->json($request->all());
         $docente = App\Docente_d::findOrFail($request->input('id_docente'));
         $usuarioDocente = App\User::findOrFail(Auth::user()->id);

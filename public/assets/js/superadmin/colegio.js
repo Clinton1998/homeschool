@@ -1,10 +1,17 @@
-$(document).ready(function () {
+$(document).ready(function() {
     Ladda.bind('button[type=submit]', { timeout: 20000 });
-    $('#btnBuscarPorDNI').on('click', function () {
+    $('#btnBuscarPorDNI').on('click', function() {
         fxConsultaDni(this);
     });
 
+    $('#btnSubirLogoColegio').on('click', function() {
+        if ($('#logocolegio').val() != '') {
+            $('#divProgressLogo').show();
+        }
+    });
+
 });
+
 function fxConsultaDni(obj) {
     var l = Ladda.create(obj);
     l.start();
@@ -15,12 +22,12 @@ function fxConsultaDni(obj) {
             dni: $('#inpActDniRepresentante').val()
         },
         dataType: 'JSON',
-        error: function (error) {
+        error: function(error) {
             toastr.error('No hay resultados');
             console.error(error);
             l.stop();
         }
-    }).done(function (data) {
+    }).done(function(data) {
         $('#inpActNombreRepresentante').val(data.nombres + ' ' + data.apellidoPaterno + ' ' + data.apellidoMaterno);
         l.stop();
     });

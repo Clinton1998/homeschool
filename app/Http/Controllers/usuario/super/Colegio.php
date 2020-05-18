@@ -42,8 +42,7 @@ class Colegio extends Controller
             $request->all(),
             [
                 'ruc' => [
-                    'required',
-                    Rule::unique('colegio_m', 'c_ruc')->ignore($colegio->id_colegio, 'id_colegio'),
+                    'required'
                 ],
                 'razon_social' => 'required',
                 'correo' => 'required|email',
@@ -81,6 +80,10 @@ class Colegio extends Controller
 
     public function cambiar_logo(Request $request)
     {
+        //tamaño maximo de imagen 256 MB algo imposible pero luego se cambia
+        $request->validate([
+            'logocolegio' => 'required|image|mimes:jpeg,png,gif|max:256000'
+        ]);
         //verificamos el usuario
         $usuario = App\User::findOrFail(Auth::user()->id);
         //obtenemos el colegio

@@ -146,8 +146,37 @@
           </button>
         </div>
         <div class="modal-body">
+            <div class="progress mb-3" id="divProgressArchivoComunicado" style="height: 40px;display: none;">
+                <div class="progress-bar w-100 progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="font-size: 2em;font-weight: bold;">Subiendo archivo</div>
+            </div>
+
         <form id="frmNuevoComunicado" class="needs-validation" method="POST" action="{{url('/super/comunicados/agregar')}}" enctype="multipart/form-data" novalidate>
             @csrf
+            @error('titulo_comunicado')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{$message}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @enderror
+            @error('archivo_comunicado')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{$message}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @enderror
+            @error('opt_destino_comunicado')
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{$message}}</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @enderror
+
             <div class="form-group">
                 <label for="titulo_comunicado">Título</label>
                 <input type="text" class="form-control" id="titulo_comunicado" name="titulo_comunicado" required>
@@ -162,7 +191,7 @@
 
             <div class="form-group">
                 <label for="archivo_comunicado">Archivo</label>
-                <input type="file" class="form-control" id="archivo_comunicado" name="archivo_comunicado" accept="image/png, .jpeg, .jpg">
+                <input type="file" class="form-control" id="archivo_comunicado" name="archivo_comunicado">
             </div>
             <br>
             <h3>Para</h3>
@@ -208,4 +237,9 @@
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
     <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
     <script src="{{asset('assets/js/superadmin/comunicados.js')}}"></script>
+    @if($errors->has('titulo_comunicado') || $errors->has('archivo_comunicado') || $errors->has('opt_destino_comunicado'))
+        <script>
+            $('#mdlNuevoComunicado').modal('show');
+        </script>
+    @endif
 @endsection

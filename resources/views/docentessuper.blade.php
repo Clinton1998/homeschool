@@ -189,7 +189,7 @@
                                     
                                     <div id="step-4">
                                         <div class="form-group">
-                                            <input type='file' class="hs_upload form-control form-control-lg" id="fotodocente" name="fotodocente">
+                                            <input type='file' class="hs_upload form-control form-control-lg" id="fotodocente" name="fotodocente" accept="image/x-png,image/gif,image/jpeg">
                                         </div>                                                
                                     </div>
 

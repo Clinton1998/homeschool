@@ -80,8 +80,19 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <div class="progress mb-3" id="divProgressArchivoAsignacion" style="height: 40px;display: none;">
+                        <div class="progress-bar w-100 progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="font-size: 2em;font-weight: bold;">Subiendo archivo</div>
+                    </div>
                 <form id="frmAsignarTarea" method="post" action="{{route('docente/tarea/registrar')}}" class="needs-validation"  enctype="multipart/form-data" novalidate>
                     @csrf
+                    @foreach($errors->all() as $error)
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>{{$error}}</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endforeach
                     <input type="hidden" id="id_docente" name="id_docente" value="{{$docente->id_docente}}">
                     <div class="form-group">
                         <label class="label-text" for="txtTitulo">Título de tarea</label>
@@ -520,7 +531,11 @@
 @endsection
 
 @section('page-js')
-
+    @if($errors->count()>0)
+        <script>
+            $('#modal-tarea-nueva').modal('show');
+        </script>
+    @endif
     <script>
         function MostrarTareas(id){
             $('#tareas-' + id).toggle();

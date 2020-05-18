@@ -23,24 +23,6 @@
             </div>
             
             <div class="col" style="padding-right: 0;">
-                <!--<div class="hs_barra-filtrado">
-                    <strong>Filtrar por:</strong>
-                    <select name="" id="" class="form-control">
-                        <option value="">Primero</option>
-                        <option value="">Segundo</option>
-                        <option value="">Tercero</option>
-                        <option value="">Cuarto</option>
-                        <option value="">Quinto</option>
-                    </select>
-                    <select name="" id="" class="form-control">
-                        <option value="">A</option>
-                        <option value="">B</option>
-                        <option value="">C</option>
-                        <option value="">D</option>
-                        <option value="">E</option>
-                    </select>
-                </div>-->
-
                 <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-primary float-right mb-3" ><i class="i-Add-User text-white mr-2"></i>Nuevo alumno</button>
             </div>
 
@@ -365,17 +347,7 @@
                                                             @endif
                                                         @endforeach
                                                     </select>
-
-                                                    <!--<select name="optseccion" id="optseccion" class="form-control form-control-sm" required>
-                                                        @foreach($grados as $grado)
-                                                            <option data-placeholder="true"></option>
-                                                            <optgroup label="{{$grado->c_nombre}} - {{$grado->c_nivel_academico}}">
-                                                                @foreach($grado->secciones->where('estado','=',1) as $seccion)
-                                                                    <option value="{{$seccion->id_seccion}}">{{$seccion->c_nombre}}</option>
-                                                                @endforeach
-                                                            </optgroup>
-                                                        @endforeach
-                                                    </select>-->
+                                                    
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                             </div>
@@ -386,7 +358,7 @@
                                             <h5 style="color: rgb(7, 160, 221);"> <i class="nav-icon i-Right-2" style="font-size: 14px;"></i> Fotografía del alumno</h5>
                                             <br>
                                             <div class="form-group">
-                                                <input type="file" class="hs_upload form-control form-control-lg" id="fotoalumno" name="fotoalumno">
+                                                <input type="file" class="hs_upload form-control form-control-lg" id="fotoalumno" name="fotoalumno" accept="image/x-png,image/gif,image/jpeg">
                                             </div>
                                         </div>
 
