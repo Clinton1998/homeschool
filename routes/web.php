@@ -30,6 +30,44 @@ Route::get('chat/group/conversations/{group_id}','GroupController@conversations'
 Route::post('notificacionesdelusuario/comunicado/marcarcomoleido', 'Notificacion@marcar_como_leido_tipo_comunicado')->name('notificacionesdelusuario/comunicado/marcarcomoleido');
 Route::post('notificacionesdelusuario/anuncio/marcarcomoleido', 'Notificacion@marcar_como_leido_tipo_anuncio')->name('notificacionesdelusuario/anuncio/marcarcomoleido');
 
+//rutas para las herramientas del usuario
+//logo fisico
+//formas de hacer peticion
+/*
+	BLADE
+	si no es nulo el campo c_logo_fisico
+	src="{{url('herramienta/logo/'.$herramienta->c_logo_fisico)}}"
+
+	JAVASCRIPT
+	si no es nulo el campo c_logo_fisico
+	src = '/herramienta/logo/'+herramienta.c_logo_fisico;
+*/
+Route::get('herramienta/logo/{fileName}', 'Herramienta@logo_fisico')->name('herramienta/logo/{fileName}');
+
+//devuelve un redirect
+Route::post('herramienta/agregar','Herramienta@agregar')->name('herramienta/agregar');
+
+//devuelve json no sirve para blade, valido para peticiones AJAX
+
+//recomendable hacer esto
+/*
+	Si la peticion se hace desde BLADE
+	Auth::user()->herramientas()->get();
+		o si no
+	@php
+		$usuario = App\User::findOrFail(Auth::user()->id);
+		$herramientas  = $usuario->herramientas()->get();
+	@endphp
+*/
+Route::get('herramienta/listar','Herramienta@listar')->name('herramienta/listar');
+
+//devuelve un redirect, pero si desea puede ser json
+Route::post('herramienta/eliminar','Herramienta@eliminar')->name('herramienta/eliminar');
+
+//devuelve JSON
+Route::post('herramienta/buscar','Herramienta@buscar')->name('herramienta/buscar');
+
+
 //notificaciones del usuario
 Route::post('notificacionesdelusuario','Notificacion@listar')->name('notificacionesdelusuario');
 Route::post('notificacionesdelusuario/marcarcomoleido', 'Notificacion@marcar_como_leido')->name('notificacionesdelusuario/marcarcomoleido');
