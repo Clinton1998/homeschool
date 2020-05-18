@@ -91,7 +91,7 @@ class AsignarTareas extends Controller
 
     public function asignar(Request $request)
     {
-        //tamaño maximo de imagen 256 MB
+        //tamaño maximo de archivo 256 MB
         //validamos los datos
         if($request->input('radioAlumnos')=='option1'){
                 $request->validate([

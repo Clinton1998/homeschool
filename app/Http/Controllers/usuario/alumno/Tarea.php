@@ -183,6 +183,14 @@ class Tarea extends Controller
 
     public function responder(Request $request)
     {
+        //tamaño maximo de archivo 256 MB
+        //validamos los datos
+        $request->validate([
+            'preid_tarea' => 'required',
+            'preobservacion'=> 'required',
+            'prearchivo' => 'file|max:256000'
+        ]);
+
         $usuarioAlumno = App\User::findOrFail(Auth::user()->id);
         $alumno = App\Alumno_d::where([
             'id_alumno' => $usuarioAlumno->id_alumno,
@@ -233,7 +241,7 @@ class Tarea extends Controller
             //enviamos una notificacion al docente
             $usuarioDocente = $tarea->docente->usuario;
             \Notification::send($usuarioDocente, new NuevaTareaParaAlumnoNotification(array(
-                'titulo' => 'Respuesta a la tarea '.$tarea->c_titulo,
+                'titulo' => 'Respuesta de '.$alumno->c_nombre.' a la tarea '.$tarea->c_titulo,
                 'mensaje' => ($respuesta->c_observacion!='')?$respuesta->c_observacion: '----',
                 'url' => '/docente/tarea/' . $tarea->id_tarea,
                 'tipo' => 'respuestaatarea',
@@ -248,6 +256,13 @@ class Tarea extends Controller
 
     public function editar_respuesta(Request $request)
     {
+        //tamaño maximo de archivo 256 MB
+        //validamos los datos
+        $request->validate([
+            'preid_tarea' => 'required',
+            'preobservacion'=> 'required',
+            'prearchivo' => 'file|max:256000'
+        ]);
 
         $usuarioAlumno = App\User::findOrFail(Auth::user()->id);
         $alumno = App\Alumno_d::where([

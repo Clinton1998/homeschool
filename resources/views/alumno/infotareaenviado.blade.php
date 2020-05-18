@@ -151,9 +151,29 @@
           </button>
         </div>
         <div class="modal-body">
+            <div class="progress mb-3" id="divProgressArchivoRespuesta" style="height: 40px;display: none;">
+                <div class="progress-bar w-100 progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="font-size: 2em;font-weight: bold;">Subiendo archivo</div>
+            </div>
+
             <form id="frmEditarRespuesta" method="post" action="{{url('/alumno/tarea/editarrespuesta')}}" class="needs-validation" enctype="multipart/form-data" novalidate>
                 @csrf
-                <input type="hidden" id="preid_respuesta" name="preid_respuesta">
+                @error('preobservacion')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{$message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @enderror
+                @error('prearchivo')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{$message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @enderror
+                <input type="hidden" id="preid_respuesta" name="preid_respuesta" value="{{old('preid_respuesta')}}">
                 <input type="hidden" id="preid_tarea" name="preid_tarea" value="{{$tarea->id_tarea}}">
                 <div class="form-group">
                 <input type="file" class="form-control form-control-lg" id="prearchivo" name="prearchivo">
@@ -168,7 +188,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary" form="frmEditarRespuesta">Presentar tarea</button>
+          <button type="submit" class="btn btn-primary" id="btnSubEditarRespuesta" form="frmEditarRespuesta">Presentar tarea</button>
         </div>
       </div>
     </div>
@@ -177,6 +197,11 @@
 @endsection
 
 @section('page-js')
+@if($errors->has('preobservacion') || $errors->has('prearchivo'))
+  <script>
+      $('#mdlPresentarTarea').modal('show');
+  </script>
+@endif
 <!-- page script -->
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
 <script src="{{asset('assets/js/alumno/infotareaenviado.js')}}"></script>

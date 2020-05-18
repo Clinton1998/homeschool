@@ -202,7 +202,7 @@
                                 </div>
                                 <br>
                                 <div class="accordion" id="accordionRightIcon">
-                                    @foreach($docente->secciones->where('estado','=',1) as $seccion)                                        
+                                    @foreach($docente->secciones()->where('seccion_d.estado','=',1)->get() as $seccion)                                        
                                         <div class="card " id="cardSeccion{{$seccion->id_seccion}}">
                                             <div class="card-header header-elements-inline">
                                                 <span class="card-title ul-collapse__icon--size ul-collapse__right-icon mb-0">
