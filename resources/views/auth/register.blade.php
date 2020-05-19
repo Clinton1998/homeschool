@@ -77,7 +77,7 @@
                                         <div class="form-group">
                                             <label for="telefono">Teléfono</label>
                                             <input type="text" id="telefono" name="telefono"
-                                        class="form-control-rounded form-control @error('telefono') is-invalidad @enderror" value="{{old('telefono')}}" required>
+                                        class="form-control-rounded form-control @error('telefono') is-invalid @enderror" value="{{old('telefono')}}" required>
         
                                             @error('telefono')
                                                 <span class="invalid-feedback" role="alert">
