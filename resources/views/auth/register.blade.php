@@ -31,12 +31,14 @@
                                                 <div class="input-group-append">
                                                     <button type="button" class="btn btn-primary ladda-button"  data-style="expand-right" id="btnBuscarPorRuc">Buscar</button>
                                                 </div>
+
+                                                @error('ruc')
+                                                    <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+
                                             </div>
-                                             @error('ruc')
-                                             <span class="invalid-feedback" role="alert">
-                                                 <strong>{{ $message }}</strong>
-                                             </span>
-                                             @enderror
                                         </div>
         
                                         <div class="form-group">
@@ -102,13 +104,13 @@
                                                     <div class="input-group-append">
                                                         <button type="button" class="btn btn-primary ladda-button"  data-style="expand-right" id="btnBuscarPorDni">Buscar</button>
                                                     </div>
+
+                                                    @error('dni')
+                                                        <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
-        
-                                                @error('dni')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
                                             </div>
 
                                             <div class="form-group">
@@ -171,13 +173,12 @@
                                                     <div class="input-group-append">
                                                         <button type="button" class="btn btn-primary ladda-button"  data-style="expand-right" id="btnBuscarPorDni">Buscar</button>
                                                     </div>
+                                                    @error('dni')
+                                                        <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
-        
-                                                @error('dni')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                                @enderror
                                             </div>
 
                                             <div class="form-group">
