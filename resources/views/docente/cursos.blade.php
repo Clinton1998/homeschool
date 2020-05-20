@@ -26,7 +26,7 @@
                                 <i class="curso-notify nav-icons i-Bell"></i>
                             </div>
                             <div>
-                                <a class="btn btn-secondary" href="{{url('docente/cursos/curso/'.$c->id_categoria)}}">Ingresar</a>
+                                <a class="btn btn-secondary" href="{{url('docente/cursos/curso/'.$c->id_seccion_categoria)}}">Ingresar</a>
                             </div>
                         </div>
                     </article>
@@ -75,29 +75,26 @@
                         $counter_anc = 0;
                         $comodin = 0;
                     @endphp
-                    @foreach ($cursos_del_docente as $c)
-                        @foreach ($anuncios_seccion as $as)
-                            @if ($as->id_seccion === $c->id_seccion)
-                                @php
-                                    $counter_anc++;
-                                    if ($counter_anc <= 2) {
-                                        echo '<div class="cn-card mb-2">
-                                            <strong><p id="at-'.$as->id_anuncio.'" class="cn-card-title hs_capitalize-first">'.$as->c_titulo.'</p></strong>
-                                            <p id="ac-'.$as->id_anuncio.'" class="cn-card-content hs_capitalize-first">'.$as->c_url_archivo.'</p>
-                                            <small id="ad-'.$as->id_anuncio.'">'.$as->created_at.'</small>
-                                            <a class="cn-card-link" href="#" onclick="OpenAnuncio('.$as->id_anuncio.')">Ver</a>
-                                        </div>';
-                                    }
-                                    else {
-                                        if ($comodin == 0) {
-                                            $comodin++;
-                                            echo '<strong class="mb-2"><a class="cn-card-link" href="#" data-toggle="modal" data-target="#MODAL-AALL">Ver todo</a></strong>';
-                                            break;
-                                        } 
-                                    }
-                                @endphp
-                            @endif
-                        @endforeach
+                    @foreach ($anuncios_seccion as $as)
+                        @php
+                            $counter_anc++;
+                            if ($counter_anc <= 2) {
+                                echo '<div class="cn-card mb-2">
+                                    <small>'.substr($as->nom_grado,3).' "'.$as->nom_seccion.'" - '.$as->nom_nivel.'</small>
+                                    <strong><p id="at-'.$as->id_anuncio.'" class="cn-card-title hs_capitalize-first">'.$as->c_titulo.'</p></strong>
+                                    <p id="ac-'.$as->id_anuncio.'" class="cn-card-content hs_capitalize-first">'.$as->c_url_archivo.'</p>
+                                    <small id="ad-'.$as->id_anuncio.'">'.$as->created_at.'</small>
+                                    <a class="cn-card-link" href="#" onclick="OpenAnuncio('.$as->id_anuncio.')">Ver</a>
+                                </div>';
+                            }
+                            else {
+                                if ($comodin == 0) {
+                                    $comodin++;
+                                    echo '<strong class="mb-2"><a class="cn-card-link" href="#" data-toggle="modal" data-target="#MODAL-AALL">Ver todo</a></strong>';
+                                    break;
+                                } 
+                            }
+                        @endphp
                     @endforeach
                 </div>
             </div>
@@ -130,12 +127,6 @@
                         <input type="hidden" id="id_comunicado" name="id_comunicado" value="">
                         <input type="submit" class="btn btn-primary" value="Comunicado leído">
                     </form>
-                    <form id="frm_anun" method="POST" action="{{url('/notificacionesdelusuario/anuncio/marcarcomoleido')}}" novalidate>
-                        @csrf
-                        <input type="hidden" id="location" name="location" value="">
-                        <input type="hidden" id="id_anuncio" name="id_anuncio" value="">
-                        <input type="submit" class="btn btn-primary" value="Anuncio leído">
-                    </form>
                 </div>
             </div>
         </div>
@@ -155,7 +146,7 @@
                     <div class="pl-2 pr-2">
                         @foreach ($comunicados_all as $call)
                             @if ($call->c_destino == 'TODO' || $call->c_destino == 'DOCE')
-                                <div class="his-com">
+                                <div class="his-com his-anc">
                                     <div>
                                         <small class="his-com-d">{{$call->created_at}}</small>
                                     </div>
@@ -168,9 +159,7 @@
                                             @csrf
                                             <input type="hidden" id="location" name="location" value="TD">
                                             <input type="hidden" id="id_comunicado" name="id_comunicado" value="{{$call->id_comunicado}}">
-                                            <div class="text-right">
-                                                <input type="submit" class="btn btn-secondary btn-sm" value="Comunicado leído">
-                                            </div>
+                                            <input type="submit" class="btn btn-secondary btn-sm" value="Comunicado leído">
                                         </form>
                                     </p>
                                 </div>
@@ -199,7 +188,8 @@
                     <div class="pl-2 pr-2">
                         @foreach ($anuncios_seccion_all as $aall)
                             <div class="his-anc">
-                                <div>
+                                <div style="display:  flex; justify-content: space-between; flex-wrap: wrap">
+                                    <small>{{substr($aall->nom_grado,3)}} "{{$aall->nom_seccion}}" - {{$aall->nom_nivel}}</small>
                                     <small class="his-anc-d">{{$aall->created_at}}</small>
                                 </div>
                                 <h6 class="hs_capitalize-first">

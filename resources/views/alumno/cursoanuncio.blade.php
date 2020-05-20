@@ -13,7 +13,7 @@
         @foreach ($anuncios_curso as $anc)
             @php
                 $counter_anc_cur++;
-                if ($counter_anc_cur <= 2) {
+                if ($counter_anc_cur <= 3) {
                     echo '<div class="box-card card">
                         <div class="card-header">
                             <div class="box-title">
@@ -71,6 +71,7 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <input type="hidden" id="key_anuncio" name="key_anuncio" value="">
                 <button type="button" id="btn-confirm-anuncio" class="btn btn-primary" data-dismiss="modal" onclick="ConfirmarAnuncio()">Anuncio leído</button>
             </div>
         </div>
@@ -90,14 +91,18 @@
             <div class="modal-body">
                 <div class="pl-2 pr-2">
                     @foreach ($anuncios_curso as $ac)
-                        <div   div class="his-anc">
+                        <div class="his-anc">
                             <div>
                                 <small class="his-anc-d">{{$ac->created_at}}</small>
                             </div>
                             <h6 class="hs_capitalize-first">
                                 <a href="#" class="his-anc-t" id="push--{{$ac->id_anuncio}}" onclick="MostrarAnuncio({{$ac->id_anuncio}})">{{$ac->c_titulo}}</a>
                             </h6>
-                            <p class="contenido-acordion his-anc-c hs_capitalize-first hs_justify" id="recept--{{$ac->id_anuncio}}">{{$ac->c_url_archivo}}</p>
+                            <p class="contenido-acordion his-anc-c hs_capitalize-first hs_justify" id="recept--{{$ac->id_anuncio}}">
+                                {{$ac->c_url_archivo}}
+                                <br>
+                                <input type="submit" class="btn btn-secondary btn-sm" onclick="ConfirmarAnuncio2({{$ac->id_anuncio}})" data-dismiss="modal" value="Anuncio leído">
+                            </p>
                         </div>
                     @endforeach
                 </div>
@@ -115,6 +120,7 @@
         c = $('#ac-'+id).text();
         d = $('#ad-'+id).text();
         
+        $('#key_anuncio').val(id);
         $('#atf-title').text(t);
         $('#atf-content').text(c);
         $('#atf-date').text('Fecha de publicación: ' + d);
@@ -125,5 +131,49 @@
     function MostrarAnuncio(id){
         $('#push--' + id).toggleClass('seleccionado');
         $('#recept--' + id).toggle();
+    };
+
+    function ConfirmarAnuncio(){
+        k = $('#key_anuncio').val();
+
+        $.ajax({
+            type: 'POST',
+            url: '/notificacionesdelusuario/anuncio/marcarcomoleido',
+            data: {
+                id_anuncio: k
+            },
+            error: function(error){
+                alert('Ocurrió un error');
+                console.error(error);
+            }
+        }).done(function(data){
+            /* console.log(data);
+            if(data.marcadocomoleido){
+                alert('Leído');
+            }else{
+                alert('La notificacion de tipo comunicado ya esta marcado. O no existe el comunicado, o no existe la notificacion');
+            } */
+        });
+    };
+
+    function ConfirmarAnuncio2(id){
+        $.ajax({
+            type: 'POST',
+            url: '/notificacionesdelusuario/anuncio/marcarcomoleido',
+            data: {
+                id_anuncio: id
+            },
+            error: function(error){
+                alert('Ocurrió un error');
+                console.error(error);
+            }
+        }).done(function(data){
+            /* console.log(data);
+            if(data.marcadocomoleido){
+                alert('Leído');
+            }else{
+                alert('La notificacion de tipo comunicado ya esta marcado. O no existe el comunicado, o no existe la notificacion');
+            } */
+        });
     };
 </script>

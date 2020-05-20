@@ -54,15 +54,19 @@ class cursos extends Controller
 
         $anuncios_seccion = DB::table('anuncio_d')
             ->join('seccion_d','anuncio_d.id_seccion','=','seccion_d.id_seccion')
-            ->select ('anuncio_d.*')
+            ->join('users','anuncio_d.creador','=','users.id')
+            ->join('docente_d','users.id_docente','=','docente_d.id_docente')
+            ->select ('anuncio_d.*', 'docente_d.c_nombre as nom_docente')
             ->where(['anuncio_d.estado' => 1, 'seccion_d.id_seccion' => $alumno->id_seccion])
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
 
         $anuncios_seccion_all = DB::table('anuncio_d')
             ->join('seccion_d','anuncio_d.id_seccion','=','seccion_d.id_seccion')
-            ->select ('anuncio_d.*')
-            ->where(['seccion_d.id_seccion' => $alumno->id_seccion])
+            ->join('users','anuncio_d.creador','=','users.id')
+            ->join('docente_d','users.id_docente','=','docente_d.id_docente')
+            ->select ('anuncio_d.*', 'docente_d.c_nombre as nom_docente')
+            ->where(['anuncio_d.estado' => 1, 'seccion_d.id_seccion' => $alumno->id_seccion])
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
 

@@ -350,16 +350,28 @@ a {
     text-align: justify;
 }
 
+.his-anc {
+    border: solid 1px var(--color-tmp-grey);
+    background: var(--grey);
+    padding: 8px;
+    margin-bottom: 5px;
+}
+
+.his-anc:last-child {
+    margin-bottom: 0;
+}
+
 .his-com-c,
 .his-anc-c {
     display: none;
+    margin-bottom: 0;
 }
 
 .contenido-acordion {
     margin-bottom: 5px;
     padding: 10px;
     border: solid 1px var(--color-tmp-grey);
-    background: var(--grey);
+    background: #FFF;
     border-radius: 8px;
 }
 
@@ -376,6 +388,12 @@ a {
 .his-com-t:hover,
 .his-anc-t:hover {
     color: var(--a-color-secundario);
+}
+
+.modal-anuncios-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 /*************************** TABLERO DE CURSOS ***************************/
@@ -427,6 +445,9 @@ a {
     padding: 2px 5px;
     border-radius: 50%;
 }
+
+
+
 
 /*************************** CONTENIDO DE CURSO ***************************/
 

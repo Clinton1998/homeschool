@@ -89,6 +89,7 @@
                             $counter_anc++;
                             if ($counter_anc <= 2) {
                                 echo '<div class="cn-card mb-2">
+                                    <small class="hs_capitalize">Docente: '.$as->nom_docente.'</small>
                                     <strong><p id="at-'.$as->id_anuncio.'" class="cn-card-title hs_capitalize-first">'.$as->c_titulo.'</p></strong>
                                     <p id="ac-'.$as->id_anuncio.'" class="cn-card-content hs_capitalize-first">'.$as->c_url_archivo.'</p>
                                     <small id="ad-'.$as->id_anuncio.'">'.$as->created_at.'</small>
@@ -99,7 +100,7 @@
                                 echo '<strong class="mb-2"><a class="cn-card-link" href="#" data-toggle="modal" data-target="#MODAL-AALL">Ver todo</a></strong>';
                                 break;
                             }
-                        @endphp
+                        @endphp    
                     @endforeach
                 </div>
             </div>
@@ -157,8 +158,8 @@
                     <div class="pl-2 pr-2">
                         @foreach ($comunicados_all as $call)
                             @if ($call->c_destino == 'TODO' || $call->c_destino == 'ALUM')
-                                <div class="his-com">
-                                    <div>
+                                <div class="his-com his-anc">
+                                    <div class="modal-anuncios-header">
                                         <small class="his-com-d">{{$call->created_at}}</small>
                                     </div>
                                     <h6 class="hs_capitalize-first">
@@ -170,9 +171,7 @@
                                             @csrf
                                             <input type="hidden" id="location" name="location" value="TA">
                                             <input type="hidden" id="id_comunicado" name="id_comunicado" value="{{$call->id_comunicado}}">
-                                            <div class="text-right">
-                                                <input type="submit" class="btn btn-secondary btn-sm" value="Comunicado leído">
-                                            </div>
+                                            <input type="submit" class="btn btn-secondary btn-sm" value="Comunicado leído">
                                         </form>
                                     </p>
                                 </div>
@@ -200,14 +199,23 @@
                 <div class="modal-body">
                     <div class="">
                         @foreach ($anuncios_seccion_all as $aall)
-                            <div   div class="his-anc">
-                                <div>
-                                    <small class="his-anc-d">{{$aall->created_at}}</small>
+                            <div class="his-anc">
+                                <div class="modal-anuncios-header">
+                                    <small class="his-anc-d hs_capitalize">Docente: {{$aall->nom_docente}}</small>
+                                    <small class="his-anc-d">{{$aall->created_at}} </small>
                                 </div>
                                 <h6 class="hs_capitalize-first">
                                     <a href="#" class="his-anc-t" id="push--{{$aall->id_anuncio}}" onclick="MostrarAnuncio({{$aall->id_anuncio}})">{{$aall->c_titulo}}</a>
                                 </h6>
-                                <p class="contenido-acordion his-anc-c hs_capitalize-first hs_justify" id="recept--{{$aall->id_anuncio}}">{{$aall->c_url_archivo}}</p>
+                                <p class="contenido-acordion his-anc-c hs_capitalize-first hs_justify" id="recept--{{$aall->id_anuncio}}">
+                                    {{$aall->c_url_archivo}}
+                                    <form id="frm_anun" method="POST" action="{{url('/notificacionesdelusuario/anuncio/marcarcomoleido')}}" novalidate>
+                                        @csrf
+                                        <input type="hidden" id="ubicacion" name="ubicacion" value="TA">
+                                        <input type="hidden" id="id_anuncio" name="id_anuncio" value="{{$aall->id_anuncio}}">
+                                        <input type="submit" class="btn btn-secondary btn-sm" value="Anuncio leído">
+                                    </form>
+                                </p>
                             </div>
                         @endforeach
                     </div>

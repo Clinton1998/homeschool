@@ -118,22 +118,14 @@ class Notificacion extends Controller
     }
 
     public function marcar_como_leido_tipo_anuncio(Request $request){
-        if ($request->input('ubicacion') == 'TD'){
-            
-            //Si se revisa desde Docente
-
-
-            return redirect()->route('docentes/cursos');
-
-        } elseif ($request->input('ubicacion') == 'TA'){
-            //Si se revisa desde Docente
-            
+        if ($request->input('ubicacion') == 'TA'){
             $anuncio = App\Anuncio_d::findOrFail($request->input('id_anuncio'));
             //obtengo las notificaciones del usuario actual
             $notificaciones = Auth::user()->unreadNotifications()->get();
             $notificacion_a_marcar = null;
             foreach ($notificaciones as $notificacion) {
-                if ($notificacion->data['notificacion']['tipo']=='anuncio') {
+                if ($notificacion->data['notificacion']['tipo']=='anuncio' && isset($notificacion->data['notificacion']['anuncio'])){
+                /* if ($notificacion->data['notificacion']['tipo']=='anuncio') { */
                     $id_anuncio = (int) $notificacion->data['notificacion']['anuncio']['id_anuncio'];
                     if ($id_anuncio === $anuncio->id_anuncio) {
                         $notificacion_a_marcar = $notificacion;
@@ -155,12 +147,14 @@ class Notificacion extends Controller
             return redirect()->route('alumno/cursos');
 
         } else {
-            $anuncio = App\Anuncio_d::findOrFail($request->input('id_anuncio'));
+            /* $anuncio = App\Anuncio_d::findOrFail($request->input('id_anuncio')); */
+            $anuncio = App\Anuncio_d::findOrFail($request->id_anuncio);
             //obtengo las notificaciones del usuario actual
             $notificaciones = Auth::user()->unreadNotifications()->get();
             $notificacion_a_marcar = null;
             foreach ($notificaciones as $notificacion) {
-                if ($notificacion->data['notificacion']['tipo']=='anuncio') {
+                if ($notificacion->data['notificacion']['tipo']=='anuncio' && isset($notificacion->data['notificacion']['anuncio'])){
+                /* if ($notificacion->data['notificacion']['tipo']=='anuncio') { */
                     $id_anuncio = (int) $notificacion->data['notificacion']['anuncio']['id_anuncio'];
                     if ($id_anuncio === $anuncio->id_anuncio) {
                         $notificacion_a_marcar = $notificacion;

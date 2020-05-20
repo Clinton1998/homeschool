@@ -116,7 +116,7 @@
   </div>
 </div>
 
-    <div class="modal fade" id="OPEN-NTF" tabindex="-1" role="dialog" aria-labelledby="OPEN-NTFLabel" aria-hidden="true">
+    <div class="modal fade" id="OPEN-NTF-MAIN" tabindex="-1" role="dialog" aria-labelledby="OPEN-NTFLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -127,11 +127,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="pl-2 pr-2">
-                        <div class="text-center hs_capitalize-first"><strong id="ntf-title"></strong></div>
+                        <div class="text-center hs_capitalize-first"><strong id="n-title"></strong></div>
                         <br>
-                        <div id="ntf-content" class="hs_capitalize-first"></div>
+                        <div id="n-content" class="hs_capitalize-first"></div>
                         <br>
-                        <div id="ntf-date" class="text-right"></div>
+                        <div id="n-date" class="text-right"></div>
                     </div>
                 </div>
                 <div class="modal-footer">

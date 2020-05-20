@@ -31,11 +31,11 @@ class Cursos extends Controller
                     'seccion_d.id_seccion', 'seccion_d.c_nombre as nom_seccion',
                     'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel')
             ->where(['seccion_categoria_docente_p.id_docente' => $docente->id_docente,
-            'categoria_d.estado' => 1,
-            'seccion_d.estado' => 1,
-            'grado_m.estado' => 1,
-            'seccion_categoria_p.estado' => 1,
-            'seccion_categoria_docente_p.estado' => 1])
+                'categoria_d.estado' => 1,
+                'seccion_d.estado' => 1,
+                'grado_m.estado' => 1,
+                'seccion_categoria_p.estado' => 1,
+                'seccion_categoria_docente_p.estado' => 1])
             ->orderBy('nom_nivel')
             ->orderBy('nom_grado')
             ->orderBy('nom_curso')
@@ -55,14 +55,17 @@ class Cursos extends Controller
 
         $anuncios_seccion = DB::table('anuncio_d')
             ->join('seccion_d','anuncio_d.id_seccion','=','seccion_d.id_seccion')
-            ->select ('anuncio_d.*')
-            ->where(['anuncio_d.estado' => 1])
+            ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+            ->select ('anuncio_d.*', 'seccion_d.c_nombre  as nom_seccion', 'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel')
+            ->where(['anuncio_d.estado' => 1, 'seccion_d.estado' => 1,'grado_m.estado' => 1,'anuncio_d.creador' => Auth::user()->id])
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
 
         $anuncios_seccion_all = DB::table('anuncio_d')
             ->join('seccion_d','anuncio_d.id_seccion','=','seccion_d.id_seccion')
-            ->select ('anuncio_d.*')
+            ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+            ->select ('anuncio_d.*', 'seccion_d.c_nombre  as nom_seccion', 'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel')
+            ->where(['anuncio_d.estado' => 1, 'seccion_d.estado' => 1,'grado_m.estado' => 1,'anuncio_d.creador' => Auth::user()->id])
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
 
@@ -83,7 +86,7 @@ class Cursos extends Controller
                     'categoria_d.id_categoria', 'categoria_d.c_nombre as nom_curso', 'categoria_d.c_nivel_academico as col_curso',
                     'seccion_d.id_seccion', 'seccion_d.c_nombre as nom_seccion',
                     'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel')
-            ->where(['categoria_d.id_categoria' => $id_curso, 'seccion_categoria_docente_p.id_docente' => $docente->id_docente,
+            ->where(['seccion_categoria_p.id_seccion_categoria' => $id_curso, 'seccion_categoria_docente_p.id_docente' => $docente->id_docente,
             'categoria_d.estado' => 1,
             'seccion_d.estado' => 1,
             'grado_m.estado' => 1,
@@ -238,44 +241,24 @@ class Cursos extends Controller
         $anuncio->c_url_archivo = $Request->c_url_archivo;
         $anuncio->creador = Auth::user()->id;
         $anuncio->save();
+        
+        $alumnos_asignados = App\Alumno_d::where(['alumno_d.estado' => 1, 'alumno_d.id_seccion' => $Request->is])->get();
 
-        if ($COD == '1') {
-            /* $alumnos_asignados = App\Alumno_d::where(['alumno_d.estado' => 1, 'alumno_d.id_seccion' => $anuncio->id_seccion])->get();
-
-            $id_usuarios = array();
-            $i = 0;
-            foreach ($alumnos_asignados as $alumno) {
-                $id_usuarios[$i] = $alumno->usuario->id;
-                $i++;
-            }
-            
-            $usuarios_a_notificar = App\User::whereIn('id', $id_usuarios)->get();
-            \Notification::send($usuarios_a_notificar, new NuevaTareaParaAlumnoNotification(array(
-                'titulo' => $anuncio->c_titulo,
-                'mensaje' => $anuncio->c_url_archivo,
-                'url' => '/alumno/cursos/',
-                'tipo' => 'anuncio',
-                'anuncio'=> $anuncio
-            ))); */
-        } else {
-            $alumnos_asignados = App\Alumno_d::where(['alumno_d.estado' => 1, 'alumno_d.id_seccion' => $anuncio->id_seccion])->get();
-
-            $id_usuarios = array();
-            $i = 0;
-            foreach ($alumnos_asignados as $alumno) {
-                $id_usuarios[$i] = $alumno->usuario->id;
-                $i++;
-            }
-            
-            $usuarios_a_notificar = App\User::whereIn('id', $id_usuarios)->get();
-            \Notification::send($usuarios_a_notificar, new NuevaTareaParaAlumnoNotification(array(
-                'titulo' => $anuncio->c_titulo,
-                'mensaje' => $anuncio->c_url_archivo,
-                'url' => '/alumno/cursos/',
-                'tipo' => 'anuncio',
-                'anuncio'=> $anuncio
-            )));
+        $id_usuarios = array();
+        $i = 0;
+        foreach ($alumnos_asignados as $alumno) {
+            $id_usuarios[$i] = $alumno->usuario->id;
+            $i++;
         }
+        
+        $usuarios_a_notificar = App\User::whereIn('id', $id_usuarios)->get();
+        \Notification::send($usuarios_a_notificar, new NuevaTareaParaAlumnoNotification(array(
+            'titulo' => $anuncio->c_titulo,
+            'mensaje' => $anuncio->c_url_archivo,
+            'url' => '/alumno/cursos/',
+            'tipo' => 'anuncio',
+            'anuncio'=> $anuncio
+        )));
 
         $anuncios = DB::table('anuncio_d')
             ->select ('anuncio_d.*')
