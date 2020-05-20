@@ -21,20 +21,24 @@ class Cursos extends Controller
         $usuarioDocente = App\User::findOrFail(Auth::user()->id);
         $docente = App\Docente_d::where(['id_docente' => $usuarioDocente->id_docente,'estado' => 1])->first();
 
-        $secciones = DB::table('seccion_d')
-            ->join('docente_seccion_p','seccion_d.id_seccion','=','docente_seccion_p.id_seccion')
-            ->join('docente_d','docente_seccion_p.id_docente','=','docente_d.id_docente')
-            ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
-            ->select('seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel')
-            ->where(['seccion_d.estado' => 1, 'grado_m.estado' => 1, 'docente_d.estado' => 1, 'docente_seccion_p.id_docente' => $docente->id_docente])
-        ->first();
-
-        $cursos = DB::table('categoria_d')
+        $cursos_del_docente = DB::table('categoria_d')
             ->join('seccion_categoria_p','categoria_d.id_categoria','=','seccion_categoria_p.id_categoria')
             ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
-            ->select('categoria_d.id_categoria','categoria_d.c_nombre as nom_curso', 'categoria_d.c_nivel_academico as col_curso', 'seccion_d.id_seccion')
-            ->where(['seccion_d.estado' => 1, 'categoria_d.estado' => 1])
-            ->orderBy('categoria_d.c_nombre','ASC')
+            ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
+            ->join('seccion_categoria_docente_p','seccion_categoria_p.id_seccion_categoria','=','seccion_categoria_docente_p.id_seccion_categoria')
+            ->select('seccion_categoria_p.id_seccion_categoria',
+                    'categoria_d.id_categoria', 'categoria_d.c_nombre as nom_curso', 'categoria_d.c_nivel_academico as col_curso',
+                    'seccion_d.id_seccion', 'seccion_d.c_nombre as nom_seccion',
+                    'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel')
+            ->where(['seccion_categoria_docente_p.id_docente' => $docente->id_docente,
+            'categoria_d.estado' => 1,
+            'seccion_d.estado' => 1,
+            'grado_m.estado' => 1,
+            'seccion_categoria_p.estado' => 1,
+            'seccion_categoria_docente_p.estado' => 1])
+            ->orderBy('nom_nivel')
+            ->orderBy('nom_grado')
+            ->orderBy('nom_curso')
         ->get();
 
         $comunicados = DB::table('comunicado_d')
@@ -52,67 +56,61 @@ class Cursos extends Controller
         $anuncios_seccion = DB::table('anuncio_d')
             ->join('seccion_d','anuncio_d.id_seccion','=','seccion_d.id_seccion')
             ->select ('anuncio_d.*')
-            ->where(['anuncio_d.estado' => 1, 'seccion_d.id_seccion' => $secciones->id_seccion])
+            ->where(['anuncio_d.estado' => 1])
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
 
         $anuncios_seccion_all = DB::table('anuncio_d')
             ->join('seccion_d','anuncio_d.id_seccion','=','seccion_d.id_seccion')
             ->select ('anuncio_d.*')
-            ->where(['seccion_d.id_seccion' => $secciones->id_seccion])
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
 
-        return view('docente.cursos', compact('secciones','cursos','comunicados','comunicados_all','anuncios_seccion','anuncios_seccion_all'));
+        return view('docente.cursos', compact('cursos_del_docente', 'comunicados', 'comunicados_all', 'anuncios_seccion', 'anuncios_seccion_all'));
     }
 
     public function curso($id_curso){
         $usuarioDocente = App\User::findOrFail(Auth::user()->id);
         $docente = App\Docente_d::where(['id_docente' => $usuarioDocente->id_docente,'estado' => 1])->first();
 
-        //Datos del curso
         $curso = DB::table('categoria_d')
             ->join('seccion_categoria_p','categoria_d.id_categoria','=','seccion_categoria_p.id_categoria')
             ->join('seccion_d','seccion_categoria_p.id_seccion','=','seccion_d.id_seccion')
-            ->select('categoria_d.id_categoria','categoria_d.c_nombre as nom_curso', 'categoria_d.c_nivel_academico as col_curso', 'seccion_d.id_seccion')
-            ->where(['seccion_d.estado' => 1, 'categoria_d.estado' => 1, 'categoria_d.id_categoria' => $id_curso])
-        ->first();
-
-        //Datos de la sección
-        $seccion = DB::table('seccion_d')
-            ->join('docente_seccion_p','seccion_d.id_seccion','=','docente_seccion_p.id_seccion')
-            ->join('docente_d','docente_seccion_p.id_docente','=','docente_d.id_docente')
             ->join('grado_m','seccion_d.id_grado','=','grado_m.id_grado')
-            ->select('seccion_d.*', 'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel')
-            ->where(['seccion_d.estado' => 1, 'grado_m.estado' => 1, 'docente_d.estado' => 1, 'docente_seccion_p.id_docente' => $docente->id_docente])
-        ->first();
-
-        //Sección categoría
-        $id_sc = DB::table('seccion_categoria_p')
-            ->select('seccion_categoria_p.*')
-            ->where(['seccion_categoria_p.estado' => 1, 'seccion_categoria_p.id_seccion' => $seccion->id_seccion, 'seccion_categoria_p.id_categoria' => $id_curso])
+            ->join('seccion_categoria_docente_p','seccion_categoria_p.id_seccion_categoria','=','seccion_categoria_docente_p.id_seccion_categoria')
+            ->join('docente_d','seccion_categoria_docente_p.id_docente','=','docente_d.id_docente')
+            ->select('seccion_categoria_p.id_seccion_categoria',
+                    'categoria_d.id_categoria', 'categoria_d.c_nombre as nom_curso', 'categoria_d.c_nivel_academico as col_curso',
+                    'seccion_d.id_seccion', 'seccion_d.c_nombre as nom_seccion',
+                    'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel')
+            ->where(['categoria_d.id_categoria' => $id_curso, 'seccion_categoria_docente_p.id_docente' => $docente->id_docente,
+            'categoria_d.estado' => 1,
+            'seccion_d.estado' => 1,
+            'grado_m.estado' => 1,
+            'seccion_categoria_p.estado' => 1,
+            'seccion_categoria_docente_p.estado' => 1])
         ->first();
 
         //Módulos del curso (seccion - categoria)
         $modulos = DB::table('modulo_d')
             ->select('modulo_d.*')
-            ->where(['modulo_d.id_seccion_categoria' => $id_sc->id_seccion_categoria, 'modulo_d.estado' => 1])
+            ->where(['modulo_d.id_seccion_categoria' => $curso->id_seccion_categoria, 'modulo_d.estado' => 1])
             ->orderBy('modulo_d.id_modulo', 'ASC')
         ->get();
 
-        //Anuncios
+        //Anuncios para sección
         $anuncios_seccion = DB::table('anuncio_d')
             ->join('seccion_d','anuncio_d.id_seccion','=','seccion_d.id_seccion')
             ->select ('anuncio_d.*')
-            ->where(['anuncio_d.estado' => 1, 'seccion_d.id_seccion' => $seccion->id_seccion])
+            ->where(['anuncio_d.estado' => 1, 'seccion_d.id_seccion' => $curso->id_seccion])
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
 
-        //Anuncios
+        //Anuncios para curso
         $anuncios_curso = DB::table('anuncio_d')
             ->join('seccion_categoria_p','anuncio_d.id_seccion_categoria','=','seccion_categoria_p.id_seccion_categoria')
             ->select ('anuncio_d.*')
-            ->where(['anuncio_d.estado' => 1, 'seccion_categoria_p.id_seccion' => $seccion->id_seccion, 'seccion_categoria_p.id_categoria' => $id_curso])
+            ->where(['anuncio_d.estado' => 1, 'seccion_categoria_p.id_seccion_categoria' => $curso->id_seccion_categoria])
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
 
@@ -123,13 +121,10 @@ class Cursos extends Controller
             ->orderBy('archivo_d.id_archivo','ASC')
         ->get();
 
-        //Docente del curso
-
-
         //Alumnos de curso - sección (seccion-categoria)
         $alumnosseccion = DB::table('alumno_d')
             ->select('alumno_d.*')
-            ->where(['alumno_d.id_seccion' => $seccion->id_seccion])
+            ->where(['alumno_d.id_seccion' => $curso->id_seccion, 'alumno_d.estado' => 1])
             ->orderBy('alumno_d.c_nombre', 'ASC')
         ->get();
 
@@ -229,26 +224,40 @@ class Cursos extends Controller
 
         $anuncio = new App\Anuncio_d;
 
-        $COD = substr($Request->c_para,0,1);
+        $COD = $Request->c_para;
 
-        $anuncio->id_seccion = substr($Request->c_para,1);
-        $anuncio->id_seccion_categoria = substr($Request->c_para,1);
+        if ($COD == '1') {
+            $anuncio->id_seccion = -1;
+            $anuncio->id_seccion_categoria = $Request->isc;
+        } else {
+            $anuncio->id_seccion = $Request->is;
+            $anuncio->id_seccion_categoria = -1;
+        }
+
         $anuncio->c_titulo = $Request->c_titulo;
         $anuncio->c_url_archivo = $Request->c_url_archivo;
         $anuncio->creador = Auth::user()->id;
         $anuncio->save();
 
-        $anuncios = DB::table('anuncio_d')
-            ->select ('anuncio_d.*')
-            ->where(['anuncio_d.estado' => 1])
-            ->orderBy('anuncio_d.created_at', 'DESC')
-        ->get();
-
         if ($COD == '1') {
-            
-        }
+            /* $alumnos_asignados = App\Alumno_d::where(['alumno_d.estado' => 1, 'alumno_d.id_seccion' => $anuncio->id_seccion])->get();
 
-        if ($COD == '2') {
+            $id_usuarios = array();
+            $i = 0;
+            foreach ($alumnos_asignados as $alumno) {
+                $id_usuarios[$i] = $alumno->usuario->id;
+                $i++;
+            }
+            
+            $usuarios_a_notificar = App\User::whereIn('id', $id_usuarios)->get();
+            \Notification::send($usuarios_a_notificar, new NuevaTareaParaAlumnoNotification(array(
+                'titulo' => $anuncio->c_titulo,
+                'mensaje' => $anuncio->c_url_archivo,
+                'url' => '/alumno/cursos/',
+                'tipo' => 'anuncio',
+                'anuncio'=> $anuncio
+            ))); */
+        } else {
             $alumnos_asignados = App\Alumno_d::where(['alumno_d.estado' => 1, 'alumno_d.id_seccion' => $anuncio->id_seccion])->get();
 
             $id_usuarios = array();
@@ -263,9 +272,16 @@ class Cursos extends Controller
                 'titulo' => $anuncio->c_titulo,
                 'mensaje' => $anuncio->c_url_archivo,
                 'url' => '/alumno/cursos/',
-                'tipo' => 'anuncio'
+                'tipo' => 'anuncio',
+                'anuncio'=> $anuncio
             )));
         }
+
+        $anuncios = DB::table('anuncio_d')
+            ->select ('anuncio_d.*')
+            ->where(['anuncio_d.estado' => 1])
+            ->orderBy('anuncio_d.created_at', 'DESC')
+        ->get();
 
         return response()->json($anuncios);
     }

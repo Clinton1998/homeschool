@@ -7,8 +7,11 @@
 <body>
     <div class="curso-main">
         <!--header-->
-        <div class="curso-header" style="background: {{$cursos->col_curso}}">
-            <h4 class="curso-name hs_capitalize-first">{{$cursos->nom_curso}}</h4>
+        <div class="curso-header" style="background: {{$curso->col_curso}}">
+            <div>
+                <h4 class="curso-name hs_capitalize-first">{{$curso->nom_curso}}</h4>
+                <small class="curso-name curso-name-sub hs_capitalize">Docente:&nbsp;{{$curso->nom_docente}}</small>
+            </div>
             <a class="curso-back btn btn-secondary" href="{{url('/alumno/cursos')}}">
                 <i class="nav-icon i-Arrow-Left"></i>
                 Ir a cursos
@@ -49,9 +52,9 @@
                     <li>
                         <a class="show-cm option" href="#"><i class="mr-2 nav-icon i-Check"></i>Módulos</a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a class="option" href="#"><i class="mr-2 nav-icon i-Speach-Bubbles"></i>Foros</a>
-                    </li>
+                    </li> --}}
                     <li>
                         @php
                             $counter_tareas = 0      
@@ -100,9 +103,9 @@
             <li>
                 <a class="show-cm item" href="#"><i class="nav-icon i-Check"></i><span>Módulos</span></a>
             </li>
-            <li>
+            {{-- <li>
                 <a class="item" href="#"><i class="nav-icon i-Speach-Bubbles"></i><span>Foros</span></a>
-            </li>
+            </li> --}}
             <li>
                 <a class="show-ct item" href="#"><i class="nav-icon i-Bell"></i><span>Tareas</span></a>
             </li>

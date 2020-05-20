@@ -104,7 +104,7 @@
                 <div class="modal-body">
                     @csrf
                     <input type="hidden" id="id_mo" name="id_mo">
-                    <input type="hidden" id="id_sc" name="id_sc" value="{{$id_sc->id_seccion_categoria}}">
+                    <input type="hidden" id="id_sc" name="id_sc" value="{{$curso->id_seccion_categoria}}">
                     <div class="form-group">
                         <label for="nombre_modulo">Nombre del módulo</label>
                         <input type="text" id="nombre_modulo" name="nombre_modulo" class="form-control" autofocus required>
@@ -149,7 +149,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    {{-- <button type="button" id="btn_agregar_archivo" class="btn btn-primary">Agregar archivo</button> --}}
                     <button type="submit" id="btn_agregar_archivo" class="btn btn-primary">Agregar archivo</button>
                 </div>
             </form>

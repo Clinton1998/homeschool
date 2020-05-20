@@ -8,34 +8,30 @@
 <body>
     <div id="mis_cursos">
         <div id="cursos_tablero">
-           {{--  @foreach ($secciones as $s) --}}
-                <div class="cursos-header">
-                    <strong><p class="hs_lower">{{substr($secciones->nom_grado,3)}}</p></strong> 
-                    <strong>&nbsp;"{{$secciones->c_nombre}}"&nbsp;</strong>
-                    <strong>- {{ucfirst(strtolower($secciones->nom_nivel))}}</strong>
-                </div>
-                <section class="cursos-tablero">
-                    @foreach ($cursos as $c)
-                        @if ($c->id_seccion == $secciones->id_seccion)
-                            <article class="curso-card">
-                                <div class="curso-card-header" style="background: {{$c->col_curso}}">
-                                    <h4 class="curso-card-titulo hs_capitalize-first">{{$c->nom_curso}}</h4>
-                                </div>
-                                <div class="curso-card-footer">
-                                    <div class="curso-card-notify">
-                                        <i class="curso-notify nav-icons i-Mailbox-Empty"></i>
-                                        <i class="curso-notify nav-icons i-Speach-Bubbles"></i>
-                                        <i class="curso-notify nav-icons i-Bell"></i>
-                                    </div>
-                                    <div>
-                                        <a class="btn btn-secondary" href="{{url('docente/cursos/curso/'.$c->id_categoria)}}">Ingresar</a>
-                                    </div>
-                                </div>
-                            </article>
-                        @endif
-                    @endforeach
-                </section>
-            {{-- @endforeach --}}
+            <div class="cursos-header">
+                <strong><p>Mis Cursos</p></strong> 
+            </div>
+            <section class="cursos-tablero">
+                @foreach ($cursos_del_docente as $c)
+                    <article class="curso-card">
+                        <div class="curso-card-header" style="background: {{$c->col_curso}}">
+                            <h4 class="curso-card-titulo hs_capitalize-first">{{$c->nom_curso}}</h4>
+                            <small class="curso-card-titulo hs_capitalize-first">{{$c->nom_nivel}}</small>
+                            <h6 class="curso-card-titulo hs_capitalize-first">{{substr($c->nom_grado,3)}} "{{strtoupper($c->nom_seccion)}}"</h6>
+                        </div>
+                        <div class="curso-card-footer">
+                            <div class="curso-card-notify">
+                                <i class="curso-notify nav-icons i-Mailbox-Empty"></i>
+                                <i class="curso-notify nav-icons i-Speach-Bubbles"></i>
+                                <i class="curso-notify nav-icons i-Bell"></i>
+                            </div>
+                            <div>
+                                <a class="btn btn-secondary" href="{{url('docente/cursos/curso/'.$c->id_categoria)}}">Ingresar</a>
+                            </div>
+                        </div>
+                    </article>
+                @endforeach
+            </section>
         </div>
         <div id="cursos_notificaciones">
             <div class="cursos-header">
@@ -77,23 +73,31 @@
                 <div class="cn-body">
                     @php
                         $counter_anc = 0;
+                        $comodin = 0;
                     @endphp
-                    @foreach ($anuncios_seccion as $as)
-                        @php
-                            $counter_anc++;
-                            if ($counter_anc <= 2) {
-                                echo '<div class="cn-card mb-2">
-                                    <strong><p id="at-'.$as->id_anuncio.'" class="cn-card-title hs_capitalize-first">'.$as->c_titulo.'</p></strong>
-                                    <p id="ac-'.$as->id_anuncio.'" class="cn-card-content hs_capitalize-first">'.$as->c_url_archivo.'</p>
-                                    <small id="ad-'.$as->id_anuncio.'">'.$as->created_at.'</small>
-                                    <a class="cn-card-link" href="#" onclick="OpenAnuncio('.$as->id_anuncio.')">Ver</a>
-                                </div>';
-                            }
-                            else {
-                                echo '<strong class="mb-2"><a class="cn-card-link" href="#" data-toggle="modal" data-target="#MODAL-AALL">Ver todo</a></strong>';
-                                break;
-                            }
-                        @endphp
+                    @foreach ($cursos_del_docente as $c)
+                        @foreach ($anuncios_seccion as $as)
+                            @if ($as->id_seccion === $c->id_seccion)
+                                @php
+                                    $counter_anc++;
+                                    if ($counter_anc <= 2) {
+                                        echo '<div class="cn-card mb-2">
+                                            <strong><p id="at-'.$as->id_anuncio.'" class="cn-card-title hs_capitalize-first">'.$as->c_titulo.'</p></strong>
+                                            <p id="ac-'.$as->id_anuncio.'" class="cn-card-content hs_capitalize-first">'.$as->c_url_archivo.'</p>
+                                            <small id="ad-'.$as->id_anuncio.'">'.$as->created_at.'</small>
+                                            <a class="cn-card-link" href="#" onclick="OpenAnuncio('.$as->id_anuncio.')">Ver</a>
+                                        </div>';
+                                    }
+                                    else {
+                                        if ($comodin == 0) {
+                                            $comodin++;
+                                            echo '<strong class="mb-2"><a class="cn-card-link" href="#" data-toggle="modal" data-target="#MODAL-AALL">Ver todo</a></strong>';
+                                            break;
+                                        } 
+                                    }
+                                @endphp
+                            @endif
+                        @endforeach
                     @endforeach
                 </div>
             </div>
@@ -120,8 +124,18 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btn-confirm-comunicado" class="btn btn-primary" data-dismiss="modal" {{-- onclick="ConfirmarComunicado()" --}}>Comunicado leído</button>
-                    <button type="button" id="btn-confirm-anuncio" class="btn btn-primary" data-dismiss="modal" {{-- onclick="ConfirmarAnuncio()" --}}>Anuncio leído</button>
+                    <form id="frm_comu" method="POST" action="{{url('/notificacionesdelusuario/comunicado/marcarcomoleido')}}" novalidate>
+                        @csrf
+                        <input type="hidden" id="location" name="location" value="">
+                        <input type="hidden" id="id_comunicado" name="id_comunicado" value="">
+                        <input type="submit" class="btn btn-primary" value="Comunicado leído">
+                    </form>
+                    <form id="frm_anun" method="POST" action="{{url('/notificacionesdelusuario/anuncio/marcarcomoleido')}}" novalidate>
+                        @csrf
+                        <input type="hidden" id="location" name="location" value="">
+                        <input type="hidden" id="id_anuncio" name="id_anuncio" value="">
+                        <input type="submit" class="btn btn-primary" value="Anuncio leído">
+                    </form>
                 </div>
             </div>
         </div>
@@ -148,7 +162,17 @@
                                     <h6 class="hs_capitalize-first">
                                         <a href="#" class="his-com-t" id="pusher--{{$call->id_comunicado}}" onclick="MostrarContenido({{$call->id_comunicado}})">{{$call->c_titulo}}</a>
                                     </h6>
-                                    <p class="contenido-acordion his-com-c hs_capitalize-first hs_justify" id="receptor--{{$call->id_comunicado}}">{{$call->c_descripcion}}</p>
+                                    <p class="contenido-acordion his-com-c hs_capitalize-first hs_justify" id="receptor--{{$call->id_comunicado}}">
+                                        {{$call->c_descripcion}}
+                                        <form method="POST" action="{{url('/notificacionesdelusuario/comunicado/marcarcomoleido')}}" novalidate>
+                                            @csrf
+                                            <input type="hidden" id="location" name="location" value="TD">
+                                            <input type="hidden" id="id_comunicado" name="id_comunicado" value="{{$call->id_comunicado}}">
+                                            <div class="text-right">
+                                                <input type="submit" class="btn btn-secondary btn-sm" value="Comunicado leído">
+                                            </div>
+                                        </form>
+                                    </p>
                                 </div>
                             @endif
                         @endforeach
@@ -203,12 +227,14 @@
         c = $('#cc-'+id).text();
         d = $('#cd-'+id).text();
         
+        $('#location').val('TD');
+        $('#id_comunicado').val(id);
         $('#ntf-title').text(t);
         $('#ntf-content').text(c);
         $('#ntf-date').text('Fecha de publicación: ' + d);
 
-        $('#btn-confirm-comunicado').show();
-        $('#btn-confirm-anuncio').hide();
+        $('#frm_comu').show();
+        $('#frm_anun').hide();
 
         $('#OPEN-NTF').modal('show');
     };
@@ -218,12 +244,14 @@
         c = $('#ac-'+id).text();
         d = $('#ad-'+id).text();
         
+        $('#location').val('TD');
+        $('#id_anuncio').val(id);
         $('#ntf-title').text(t);
         $('#ntf-content').text(c);
         $('#ntf-date').text('Fecha de publicación: ' + d);
 
-        $('#btn-confirm-comunicado').hide();
-        $('#btn-confirm-anuncio').show();
+        $('#frm_comu').hide();
+        $('#frm_anun').show();
 
         $('#OPEN-NTF').modal('show');
     };
@@ -238,12 +266,5 @@
         $('#recept--' + id).toggle();
     };
 
-    /* function ConfirmarComunicado(){
-
-    };
-
-    function ConfirmarAnuncio(){
-
-    }; */
 </script>
 @endsection

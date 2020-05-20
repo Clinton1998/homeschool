@@ -36,15 +36,13 @@
                                         @else
                                             <img class="profile-picture mb-1" src="{{asset('assets/images/usuario/studentwoman.png')}}" alt="Fotografía">
                                         @endif
-        
                                     @else
                                         <img class="profile-picture mb-1" src="{{url('super/alumno/foto/'.$companiero->c_foto)}}" alt="Fotografía">
                                     @endif
                                 </div>
                                 <div class="ul-contact-page__info">
                                     <h4 class="hs_capitalize">{{$companiero->c_nombre}}</h4>
-                                    <p class="text-muted m-0 hs_capitalize">{{$companiero->c_nacionalidad}}</p>
-                                    <p class="text-muted mt-3 hs_capitalize-first">{{$companiero->c_direccion}}</p>
+                                    <p class="text-muted m-0 hs_capitalize">{{$companiero->c_correo}}</p>
                                 </div>
                             </div>
                         </div>

@@ -49,12 +49,14 @@
             <form id="frm_anuncio" method="POST" action="{{url('/docente/cursos/crear_anuncio')}}" novalidate>
                 <div class="modal-body">
                     @csrf
+                    <input type="hidden" id="tmp_id_seccion" name="tmp_id_seccion" value="{{$curso->id_seccion}}">
+                    <input type="hidden" id="tmp_id_seccion_categoria" name="tmp_id_seccion_categoria" value="{{$curso->id_seccion_categoria}}">
                     <div class="row">
                         <div class="form-group col-lg-4 col-md-4 col-sm-12">
                             <label for="para_anuncio">Para</label>
                             <select name="para_anuncio" id="para_anuncio" class="form-control" autofocus required>
-                                <option value="1{{$id_sc->id_seccion_categoria}}">Este curso</option>
-                                <option value="2{{$id_sc->id_seccion}}">Toda la sección</option>
+                                <option value="1">Este curso</option>
+                                <option value="2">Toda la sección</option>
                             </select>
                         </div>
                         <div class="form-group col-lg-8 col-md-8 col-sm-12">
@@ -117,6 +119,8 @@
         metodo = 'POST';
         tipoDato = 'json';
 
+        is = $('#tmp_id_seccion').val();
+        isc = $('#tmp_id_seccion_categoria').val();
         para = $('#para_anuncio').val();
         title = $('#titulo_anuncio').val();
         content = $('#contenido_anuncio').val();
@@ -134,6 +138,8 @@
                     type: metodo,
                     dataType: tipoDato,
                     data: {
+                        is: is,
+                        isc: isc,
                         c_para: para, 
                         c_titulo: title,
                         c_url_archivo: content

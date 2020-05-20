@@ -407,7 +407,7 @@ a {
 }
 
 .curso-card-footer {
-    background: var(--grey);
+    background: var(--color-tmp-grey);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -803,6 +803,10 @@ a {
 
     .curso-name {
         font-size: 17px;
+    }
+
+    .curso-name-sub {
+        font-size: 10px;
     }
 
     .curso-content {

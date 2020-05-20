@@ -57,24 +57,96 @@
                     <span>Mis Cursos</span>
                 </a>
             </li>
-
-            <!--<li class="menu-lateral-item {{ request()->is('docente/videoclase*') ? 'item-activo' : '' }}">
-                <a class="menu-lateral-item-link" href="#" onclick="window.open('https://accounts.google.com/signin/v2/dentifier?service=talk&continue=https%3A%2F%2Fhangouts.google.com%2F&flowName=GlifWebSignIn&flowEntry=ServiceLogin','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">
-                    <i class="nav-icon i-Movie"></i>
-                    <br>
-                    <span>Videoclase Hangouts</span>
-                </a>
-            </li>
-
-            <li class="menu-lateral-item {{ request()->is('docente/videoclase*') ? 'item-activo' : '' }}">
-                <a class="menu-lateral-item-link" href="#" onclick="window.open('https://meet.jit.si/','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">
-                    <i class="nav-icon i-Movie"></i>
-                    <br>
-                    <span>Videoclase <br> Jitsi</span>
-                </a>
-            </li>-->
         </ul>
         <!-- FIN DE NUEVO MENU SLIDER -->
     </div>
     <div class="sidebar-overlay"></div>
 </div>
+
+<div class="tools">
+    <div id="tools-container" class="tools-container">
+        <div class="tools-header">
+            <div class="tools-title">
+                <small>Mis herramientas</small>
+            </div>
+            <a class="tools-nav-min" href="#">-</a>
+        </div>
+        <div class="tools-nav">
+            <input type="text" placeholder="Buscar tus herramientas" class="textBuscar">
+        </div>
+        <div class="tools-list">
+            
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tools</small>
+            </div>
+
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tool number 3</small>
+            </div>
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tools</small>
+            </div>
+
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tool number 3</small>
+            </div>
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tools</small>
+            </div>
+
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tool number 3</small>
+            </div>
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tools</small>
+            </div>
+
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tool number 3</small>
+            </div>
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tools</small>
+            </div>
+
+            <div class="tools-item">
+                <img class="tools-img" src="{{asset('assets/images/user.png')}}" alt="Tool">
+                <small class="tools-name">Name Tool number 3</small>
+            </div>
+
+        </div>
+        <div class="tools-footer">
+            <a class="tools-nav-link" href="#"><i class="nav-icon i-Add"></i></a>
+        </div>
+    </div>
+</div>
+
+<div id="tools-icon" class="tools-icon">
+    <i class="nav-icon i-Management"></i>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function(){
+        $('#tools-container').show();
+        $('#tools-icon').hide();
+    });
+
+    $('#tools-icon').click(function(){
+        $('#tools-container').fadeIn();
+        $('#tools-icon').hide();
+    });
+    $('.tools-nav-min').click(function(){
+        $('#tools-container').fadeOut();
+        $('#tools-icon').fadeIn();
+    });
+</script>

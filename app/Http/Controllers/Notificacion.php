@@ -32,58 +32,153 @@ class Notificacion extends Controller
 
     public function marcar_como_leido_tipo_comunicado(Request $request)
     {
-        $comunicado = App\Comunicado_d::findOrFail($request->input('id_comunicado'));
-        //obtengo las notificaciones del usuario actual
-        $notificaciones = Auth::user()->unreadNotifications()->get();
-        $notificacion_a_marcar = null;
-        foreach ($notificaciones as $notificacion) {
-            if ($notificacion->data['notificacion']['tipo']=='comunicado') {
-                $id_comunicado = (int) $notificacion->data['notificacion']['comunicado']['id_comunicado'];
-                if ($id_comunicado === $comunicado->id_comunicado) {
-                    $notificacion_a_marcar = $notificacion;
+        if ($request->input('location') == 'TD') {
+            $comunicado = App\Comunicado_d::findOrFail($request->input('id_comunicado'));
+            //obtengo las notificaciones del usuario actual
+            $notificaciones = Auth::user()->unreadNotifications()->get();
+            $notificacion_a_marcar = null;
+            foreach ($notificaciones as $notificacion) {
+                if ($notificacion->data['notificacion']['tipo']=='comunicado') {
+                    $id_comunicado = (int) $notificacion->data['notificacion']['comunicado']['id_comunicado'];
+                    if ($id_comunicado === $comunicado->id_comunicado) {
+                        $notificacion_a_marcar = $notificacion;
+                    }
                 }
             }
-        }
-        $marcado = false;
-        if(!is_null($notificacion_a_marcar)){
-            $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
-            $notificacion_a_marcar->save();
-            $marcado = true;
-            //en el futuro podria dispararse un evento broadcast para que actualize la campa
+            $marcado = false;
+            if(!is_null($notificacion_a_marcar)){
+                $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
+                $notificacion_a_marcar->save();
+                $marcado = true;
+                //en el futuro podria dispararse un evento broadcast para que actualize la campa
 
-            broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
+                broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
+            }
+            $datos = array(
+                'marcadocomoleido' => $marcado,
+                'notificacionmarcada' => $notificacion_a_marcar
+            );
+            return redirect()->route('docente/cursos');
+
+        } elseif ($request->input('location') == 'TA') {
+            $comunicado = App\Comunicado_d::findOrFail($request->input('id_comunicado'));
+            //obtengo las notificaciones del usuario actual
+            $notificaciones = Auth::user()->unreadNotifications()->get();
+            $notificacion_a_marcar = null;
+            foreach ($notificaciones as $notificacion) {
+                if ($notificacion->data['notificacion']['tipo']=='comunicado') {
+                    $id_comunicado = (int) $notificacion->data['notificacion']['comunicado']['id_comunicado'];
+                    if ($id_comunicado === $comunicado->id_comunicado) {
+                        $notificacion_a_marcar = $notificacion;
+                    }
+                }
+            }
+            $marcado = false;
+            if(!is_null($notificacion_a_marcar)){
+                $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
+                $notificacion_a_marcar->save();
+                $marcado = true;
+                //en el futuro podria dispararse un evento broadcast para que actualize la campa
+
+                broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
+            }
+            $datos = array(
+                'marcadocomoleido' => $marcado,
+                'notificacionmarcada' => $notificacion_a_marcar
+            );
+            return redirect()->route('alumno/cursos');
+        } else {
+            $comunicado = App\Comunicado_d::findOrFail($request->input('id_comunicado'));
+            //obtengo las notificaciones del usuario actual
+            $notificaciones = Auth::user()->unreadNotifications()->get();
+            $notificacion_a_marcar = null;
+            foreach ($notificaciones as $notificacion) {
+                if ($notificacion->data['notificacion']['tipo']=='comunicado') {
+                    $id_comunicado = (int) $notificacion->data['notificacion']['comunicado']['id_comunicado'];
+                    if ($id_comunicado === $comunicado->id_comunicado) {
+                        $notificacion_a_marcar = $notificacion;
+                    }
+                }
+            }
+            $marcado = false;
+            if(!is_null($notificacion_a_marcar)){
+                $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
+                $notificacion_a_marcar->save();
+                $marcado = true;
+                //en el futuro podria dispararse un evento broadcast para que actualize la campa
+
+                broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
+            }
+            $datos = array(
+                'marcadocomoleido' => $marcado,
+                'notificacionmarcada' => $notificacion_a_marcar
+            );
+            return response()->json($datos);
         }
-        $datos = array(
-            'marcadocomoleido' => $marcado,
-            'notificacionmarcada' => $notificacion_a_marcar
-        );
-        return response()->json($datos);
     }
 
     public function marcar_como_leido_tipo_anuncio(Request $request){
-        $anuncio = App\Anuncio_d::findOrFail($request->input('id_anuncio'));
-        //obtengo las notificaciones del usuario actual
-        $notificaciones = Auth::user()->unreadNotifications()->get();
-        $notificacion_a_marcar = null;
-        foreach ($notificaciones as $notificacion) {
-            if ($notificacion->data['notificacion']['tipo']=='anuncio') {
-                $id_anuncio = (int) $notificacion->data['notificacion']['anuncio']['id_anuncio'];
-                if ($id_anuncio === $anuncio->id_anuncio) {
-                    $notificacion_a_marcar = $notificacion;
+        if ($request->input('ubicacion') == 'TD'){
+            
+            //Si se revisa desde Docente
+
+
+            return redirect()->route('docentes/cursos');
+
+        } elseif ($request->input('ubicacion') == 'TA'){
+            //Si se revisa desde Docente
+            
+            $anuncio = App\Anuncio_d::findOrFail($request->input('id_anuncio'));
+            //obtengo las notificaciones del usuario actual
+            $notificaciones = Auth::user()->unreadNotifications()->get();
+            $notificacion_a_marcar = null;
+            foreach ($notificaciones as $notificacion) {
+                if ($notificacion->data['notificacion']['tipo']=='anuncio') {
+                    $id_anuncio = (int) $notificacion->data['notificacion']['anuncio']['id_anuncio'];
+                    if ($id_anuncio === $anuncio->id_anuncio) {
+                        $notificacion_a_marcar = $notificacion;
+                    }
                 }
             }
+            $marcado = false;
+            if(!is_null($notificacion_a_marcar)){
+                $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
+                $notificacion_a_marcar->save();
+                $marcado = true;
+                broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
+            }
+            $datos = array(
+                'marcadocomoleido' => $marcado,
+                'notificacionmarcada' => $notificacion_a_marcar
+            );
+
+            return redirect()->route('alumno/cursos');
+
+        } else {
+            $anuncio = App\Anuncio_d::findOrFail($request->input('id_anuncio'));
+            //obtengo las notificaciones del usuario actual
+            $notificaciones = Auth::user()->unreadNotifications()->get();
+            $notificacion_a_marcar = null;
+            foreach ($notificaciones as $notificacion) {
+                if ($notificacion->data['notificacion']['tipo']=='anuncio') {
+                    $id_anuncio = (int) $notificacion->data['notificacion']['anuncio']['id_anuncio'];
+                    if ($id_anuncio === $anuncio->id_anuncio) {
+                        $notificacion_a_marcar = $notificacion;
+                    }
+                }
+            }
+            $marcado = false;
+            if(!is_null($notificacion_a_marcar)){
+                $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
+                $notificacion_a_marcar->save();
+                $marcado = true;
+                broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
+            }
+            $datos = array(
+                'marcadocomoleido' => $marcado,
+                'notificacionmarcada' => $notificacion_a_marcar
+            );
+            return response()->json($datos);
         }
-        $marcado = false;
-        if(!is_null($notificacion_a_marcar)){
-            $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
-            $notificacion_a_marcar->save();
-            $marcado = true;
-            broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
-        }
-        $datos = array(
-            'marcadocomoleido' => $marcado,
-            'notificacionmarcada' => $notificacion_a_marcar
-        );
-        return response()->json($datos);
     }
 }

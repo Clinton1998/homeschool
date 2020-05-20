@@ -30,30 +30,27 @@
         </div>
         <div class="row" id="rowMisDocentes" style="displa: flex; justify-content: center;">
             @foreach($docentes as $docente)
-                <div class="col-lg-5 col-xl-5 mb-2">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="ul-contact-page__profile">
-                                <div class="user-profile">
-                                @if(is_null($docente->c_foto)  || empty($docente->c_foto))
-                                    @if(strtoupper($docente->c_sexo)=='M')
-                                        <img class="profile-picture mb-1" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Foto del docente">
-                                    @else
-                                        <img class="profile-picture mb-1" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Foto del docente">
-                                    @endif
-                                @else
-                                    <img class="profile-picture mb-1" src="{{url('super/docente/foto/'.$docente->c_foto)}}" alt="Foto del docente">
-                                @endif
-                                </div>
-                                <div class="ul-contact-page__info">
-                                    <h4 class="hs_capitalize">{{$docente->c_nombre}}</h4>
-                                    <p class="text-muted hs_capitalize">{{$docente->c_nacionalidad}}</p>
-                                    <p class="text-muted hs_capitalize-first">{{$docente->c_direccion}}</p>
-                                    <p class="text-muted hs_lower"><a href="mailto:{{$docente->c_correo}}">{{$docente->c_correo}}</a></p>
-                                    <p class="text-muted">{{$docente->c_telefono}}</p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="box-card card docente-card col-lg-3">
+                    <div class="card-body text-center docente-card-body">
+                        @if(is_null($docente->c_foto)  || empty($docente->c_foto))
+                            @if(strtoupper($docente->c_sexo)=='M')
+                                <img class="docente-photo" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Foto del docente">
+                            @else
+                                <img class="docente-photo" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Foto del docente">
+                            @endif
+                        @else
+                            <img class="docente-photo" src="{{url('super/docente/foto/'.$docente->c_foto)}}" alt="Foto del docente">
+                        @endif
+                        <h5 class="docente-name hs_upper">{{$docente->c_nombre}}</h5>
+                        <strong>Cursos a cargo</strong>
+                        @foreach ($cursos_docente as $c)
+                            @if ($c->id_docente == $docente->id_docente)
+                                <p class="docente-specialty hs_capitalize-first">{{$c->nom_curso}}</p>
+                            @endif
+                        @endforeach
+                        <br>
+                        <strong>Correo electrónico</strong>
+                        <a href="mailto:{{$docente->c_correo}}"><p class="docente-email">{{$docente->c_correo}}</p></a>
                     </div>
                 </div>
             @endforeach

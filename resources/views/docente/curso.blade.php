@@ -8,7 +8,10 @@
     <div class="curso-main">
         <!--header-->
         <div class="curso-header" style="background: {{$curso->col_curso}}">
-            <h4 class="curso-name hs_capitalize-first">{{$curso->nom_curso}}</h4>
+            <div>
+                <h4 class="curso-name hs_capitalize-first">{{$curso->nom_curso}}</h4>
+                <small class="curso-name curso-name-sub hs_capitalize-first">{{$curso->nom_nivel}} {{substr($curso->nom_grado,3)}} "{{strtoupper($curso->nom_seccion)}}"</small>
+            </div>
             <a class="curso-back btn btn-secondary" href="{{url('/docente/cursos')}}">
                 <i class="nav-icon i-Arrow-Left"></i>
                 Ir a cursos

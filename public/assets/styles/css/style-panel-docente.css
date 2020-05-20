@@ -156,3 +156,122 @@
         display: none !important;
     }
 }
+
+/**********************************************/
+
+.tools,
+.tools-icon {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 250px;
+    z-index: 100;
+    display: none;
+}
+
+.tools-icon {
+    background-color: var(--pd-color-secundario);
+    color: #FFF;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.tools-icon:hover {
+    background: var(--pd-color-primario);
+}
+
+.tools-container {
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tools-header {
+    background: var(--pd-color-secundario);
+    color: #FFF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    padding: 15px;
+}
+
+.tools-nav-min {
+    font-size: 25px;
+    color: #FFF;
+    font-weight: bolder;
+    margin-bottom: 0;
+}
+
+.tools-nav-min:hover {
+    color: #FFF;
+}
+
+.tools-nav {
+    background-color: lightgrey;
+    text-align: center;
+}
+
+.textBuscar {
+    border: solid 1px lightgray;
+    width: 100%;
+    padding: 5px 12px;
+    font-size: 10px;
+    height: 30px;
+}
+
+.tools-list {
+    background: #FFF;
+    height: calc(100% - 100px);
+    padding: 10px;
+    border: solid 1px lightgrey;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+    grid-gap: 5px;
+    border: green 1px solid;
+    overflow-y: scroll;
+}
+
+.tools-item {
+    border: solid 1px red;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.tools-img {
+    border: solid 1px orange;
+    height: 32px;
+    width: 32px;
+    margin: auto;
+}
+
+.tools-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+}
+
+.tools-footer {
+    background: lightgrey;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 15px;
+}
+
+.tools-nav-link {
+
+    font-weight: bolder;
+    font-size: 15px;
+    margin-bottom: 0;
+}

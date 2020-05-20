@@ -9,9 +9,19 @@
     <div id="mis_cursos">
         <div id="cursos_tablero">
             <div class="cursos-header">
-                <strong><p class="hs_lower">{{substr($grado_seccion->nom_grado,3)}}</p></strong> 
-                <strong>&nbsp;"{{$grado_seccion->nom_seccion}}"&nbsp;</strong>
-                <strong>- {{ucfirst(strtolower($grado_seccion->nom_nivel))}}</strong>
+                @php
+                    $tmp = 0;
+                @endphp
+                @foreach ($cursos as $c)
+                    @if ($tmp == 0)
+                        <strong><p class="hs_lower">{{substr($c->nom_grado,3)}}</p></strong> 
+                        <strong>&nbsp;"{{$c->nom_seccion}}"&nbsp;</strong>
+                        <strong>- {{ucfirst(strtolower($c->nom_nivel))}}</strong>
+                        @php
+                            $tmp++;
+                        @endphp
+                    @endif
+                @endforeach
             </div>
             <section class="cursos-tablero">
                 @foreach ($cursos as $c)
@@ -116,8 +126,18 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btn-confirm-comunicado" class="btn btn-primary" data-dismiss="modal" {{-- onclick="ConfirmarComunicado()" --}}>Comunicado leído</button>
-                    <button type="button" id="btn-confirm-anuncio" class="btn btn-primary" data-dismiss="modal" {{-- onclick="ConfirmarAnuncio()" --}}>Anuncio leído</button>
+                    <form id="frm_comu" method="POST" action="{{url('/notificacionesdelusuario/comunicado/marcarcomoleido')}}" novalidate>
+                        @csrf
+                        <input type="hidden" id="location" name="location" value="">
+                        <input type="hidden" id="id_comunicado" name="id_comunicado" value="">
+                        <input type="submit" class="btn btn-primary" value="Comunicado leído">
+                    </form>
+                    <form id="frm_anun" method="POST" action="{{url('/notificacionesdelusuario/anuncio/marcarcomoleido')}}" novalidate>
+                        @csrf
+                        <input type="hidden" id="ubicacion" name="ubicacion" value="TA">
+                        <input type="hidden" id="id_anuncio" name="id_anuncio" value="">
+                        <input type="submit" class="btn btn-primary" value="Anuncio leído">
+                    </form>
                 </div>
             </div>
         </div>
@@ -144,7 +164,17 @@
                                     <h6 class="hs_capitalize-first">
                                         <a href="#" class="his-com-t" id="pusher--{{$call->id_comunicado}}" onclick="MostrarContenido({{$call->id_comunicado}})">{{$call->c_titulo}}</a>
                                     </h6>
-                                    <p class="contenido-acordion his-com-c hs_capitalize-first hs_justify" id="receptor--{{$call->id_comunicado}}">{{$call->c_descripcion}}</p>
+                                    <p class="contenido-acordion his-com-c hs_capitalize-first hs_justify" id="receptor--{{$call->id_comunicado}}">
+                                        {{$call->c_descripcion}}
+                                        <form method="POST" action="{{url('/notificacionesdelusuario/comunicado/marcarcomoleido')}}" novalidate>
+                                            @csrf
+                                            <input type="hidden" id="location" name="location" value="TA">
+                                            <input type="hidden" id="id_comunicado" name="id_comunicado" value="{{$call->id_comunicado}}">
+                                            <div class="text-right">
+                                                <input type="submit" class="btn btn-secondary btn-sm" value="Comunicado leído">
+                                            </div>
+                                        </form>
+                                    </p>
                                 </div>
                             @endif
                         @endforeach
@@ -214,17 +244,20 @@
             }
         });
     }
+    
     function OpenComunicado(id){
         t = $('#ct-'+id).text();
         c = $('#cc-'+id).text();
         d = $('#cd-'+id).text();
         
+        $('#location').val('TA');
+        $('#id_comunicado').val(id);
         $('#ntf-title').text(t);
         $('#ntf-content').text(c);
         $('#ntf-date').text('Fecha de publicación: ' + d);
 
-        $('#btn-confirm-comunicado').show();
-        $('#btn-confirm-anuncio').hide();
+        $('#frm_comu').show();
+        $('#frm_anun').hide();
 
         $('#OPEN-NTF').modal('show');
     };
@@ -234,12 +267,13 @@
         c = $('#ac-'+id).text();
         d = $('#ad-'+id).text();
         
+        $('#id_anuncio').val(id);
         $('#ntf-title').text(t);
         $('#ntf-content').text(c);
         $('#ntf-date').text('Fecha de publicación: ' + d);
 
-        $('#btn-confirm-comunicado').hide();
-        $('#btn-confirm-anuncio').show();
+        $('#frm_comu').hide();
+        $('#frm_anun').show();
 
         $('#OPEN-NTF').modal('show');
     };
@@ -253,13 +287,5 @@
         $('#push--' + id).toggleClass('seleccionado');
         $('#recept--' + id).toggle();
     };
-
-    /* function ConfirmarComunicado(){
-
-    };
-
-    function ConfirmarAnuncio(){
-
-    }; */
 </script>
 @endsection
