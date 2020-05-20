@@ -22,7 +22,9 @@ class Notificacion extends Controller
     public function marcar_como_leido(Request $request)
     {
 
-        Auth::user()->unreadNotifications->find($request->id_notification)->markAsRead();
+        $notificacion_marcada = Auth::user()->unreadNotifications->find($request->id_notification);
+        $notificacion_marcada->markAsRead();
+        broadcast(new NotificationRead($notificacion_marcada->toArray()));
     }
 
     public function marcar_todo_como_leido()
