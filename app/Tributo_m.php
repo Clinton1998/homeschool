@@ -10,10 +10,10 @@ class Tributo_m extends Model
     protected $primaryKey = 'id_tributo';
 
     public function creador(){
-        return $this->belongsTo('App\User','id');
+        return $this->belongsTo('App\User','creador');
     }
     public function modificador(){
-        return $this->belongsTo('App\User','id');
+        return $this->belongsTo('App\User','modificador');
     }
 
     public function colegios(){
