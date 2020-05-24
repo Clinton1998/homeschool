@@ -26,8 +26,8 @@
                                 <span href="#" class="hs_upper" style="margin-bottom: -2px"> {{$m->c_nombre}}</span>
                             </strong>
                             <div>
-                                <a href="#" class="badge badge-warning m-1" onclick="EditarModulo({{$m->id_modulo}},'{{$m->c_nombre}}')">Editar</a>
-                                <a href="#" class="badge badge-danger" onclick="EliminarModulo({{$m->id_modulo}}, {{$m->id_seccion_categoria}})">Eliminar</a>
+                                <a href="#" class="badge badge-warning m-1 p-1" onclick="EditarModulo({{$m->id_modulo}},'{{$m->c_nombre}}')">Editar</a>
+                                <a href="#" class="badge badge-danger p-1" onclick="EliminarModulo({{$m->id_modulo}}, {{$m->id_seccion_categoria}})">Eliminar</a>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                                                                 echo '<span class="mr-1">'.$num.'.'.$sub_item.'.'.'</span><p class="hs_capitalize-first">'.$a->c_nombre.'</p>';
                                                             @endphp
                                                         </div>
-                                                        <a href="#" class="badge badge-light" onclick="EliminarArchivo({{$a->id_archivo}}, {{$a->id_modulo}})">Eliminar</a>
+                                                        <a href="#" class="badge badge-light p-1" onclick="EliminarArchivo({{$a->id_archivo}}, {{$a->id_modulo}})">Eliminar</a>
                                                     </div>
                                                     <div class="boc-file-footer">
                                                         @if (($a->c_url != null) && ($a->c_link != null))
@@ -373,7 +373,28 @@
             }
         })
     };
-       
+    
+    //Validar tamaño de archivo
+    $(document).on('change', 'input[type="file"]', function(){
+        var file_name = this.files[0].name;
+        var file_size = this.files[0].size;
+
+        //256MB
+        if (file_size > 256000000) {
+            
+            Swal.fire({
+                position: 'center',
+                icon: 'info',
+                text: 'El archivo no debe superar los 256MB',
+                showConfirmButton: true,
+                confirmButtonColor: '#3498db'
+            });
+
+            this.value = '';
+            this.files[0].name = '';
+        } 
+    });
+
     function MSJ(cod){
         switch (cod) {
             case 'MAD':

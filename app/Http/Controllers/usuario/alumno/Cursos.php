@@ -98,7 +98,7 @@ class cursos extends Controller
         ->first();
 
         //Tareas asignadas
-        $tareas = $alumno->tareas_asignados()->where(['tarea_d.estado' => 1, 'tarea_d.id_categoria' => $id_curso])->get();
+        $tareas = $alumno->tareas_asignados()->where(['tarea_d.estado' => 1, 'tarea_d.id_categoria' => $id_curso])->orderBy('t_fecha_hora_entrega', 'DESC')->get();
 
         //Compañeros de sección
         $alumnosseccion = DB::table('alumno_d')

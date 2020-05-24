@@ -19,6 +19,23 @@
     </div>
 
     <div class="apps">
+        <div class="meet" disabled>
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-right" style="height: 10px">
+                        <i class="nav-icon i-Medal-2 text-warning" style="font-size: 30px; display: absolute"></i>
+                    </div>
+                    <img class="app-logo" src="{{asset('assets/images/meet.png')}}" alt="Meet">
+                    <h3 class="app-name"3>Google Meet</h3>
+                    <a class="app-btn btn-meet  btn" href="#" onclick="window.open('https://meet.google.com/','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">Iniciar videoclase</a>
+                    <br>
+                    <br>
+                    <p class="app-description"p>Google Meet es la aplicación de videoconferencias de Google, para navegadores web y dispositivos móviles, enfocada al entorno laboral.</p>
+                    <a class="link-meet text-link" href="https://meet.google.com/" target="_blank">Ir a página</a>
+                    <br><a class="link-meet text-link" href="https://youtu.be/9vpxVSh9tiI" target="_blank"><strong>Ver videotutorial</strong></a>
+                </div>
+            </div>
+        </div>
         <div class="jitsi">
             <div class="card">
                 <div class="card-body">
@@ -30,20 +47,6 @@
                     <p class="app-description"p>Jitsi Meet es una herramienta multiplataforma y gratuita que permite hacer videoconferencias grupales a través de Internet.</p>
                     <a class="link-jitsi text-link" href="https://jitsi.org/" target="_blank">Ir a página</a>
                     <br><a class="link-jitsi text-link" href="https://youtu.be/tR3mKe8wFVA" target="_blank"><strong>Ver videotutorial</strong></a>
-                </div>
-            </div>
-        </div>
-        <div class="meet" disabled>
-            <div class="card">
-                <div class="card-body">
-                    <img class="app-logo" src="{{asset('assets/images/meet.png')}}" alt="Meet">
-                    <h3 class="app-name"3>Google Meet</h3>
-                    <a class="app-btn btn-meet  btn" href="#" onclick="window.open('https://meet.google.com/','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">Iniciar videoclase</a>
-                    <br>
-                    <br>
-                    <p class="app-description"p>Google Meet es la aplicación de videoconferencias de Google, para navegadores web y dispositivos móviles, enfocada al entorno laboral.</p>
-                    <a class="link-meet text-link" href="https://meet.google.com/" target="_blank">Ir a página</a>
-                    <br><a class="link-meet text-link" href="https://youtu.be/9vpxVSh9tiI" target="_blank"><strong>Ver videotutorial</strong></a>
                 </div>
             </div>
         </div>
@@ -64,7 +67,7 @@
         <div class="zoom" disabled>
             <div class="card">
                 <div class="card-body">
-                    <img class="app-logo" src="{{asset('assets/images/zoom.png')}}" alt="Zoom">
+                    <img class="app-logo" style="border-radius: 50%" src="{{asset('assets/images/zoom.png')}}" alt="Zoom">
                     <h3 class="app-name"3>Zoom</h3>
                     <a class="app-btn btn-jitsi  btn" href="#" onclick="window.open('https://zoom.us/join','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">Iniciar videoclase</a>
                     <br>

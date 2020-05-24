@@ -31,7 +31,7 @@
         <!-- Pre Loader Strat  -->
         <div class='loadscreen' id="preloader">
 
-            <div class="loader spinner-bubble spinner-bubble-primary">
+            <div class="loader spinner-bubble spinner-bubble-light">
 
 
             </div>

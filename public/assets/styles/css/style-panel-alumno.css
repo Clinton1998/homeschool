@@ -17,13 +17,13 @@
     background-color: var(--pa-color-secundario);
     display: flex;
     flex-direction: column;
-    width: 120px;
+    width: 100px;
 }
 
 .menu-lateral-item {
     list-style: none;
     border-bottom: solid 1px var(--pa-color-primario);
-    max-height: 110px;
+    max-height: 100px;
     overflow: hidden;
 }
 
@@ -34,7 +34,7 @@
 .menu-lateral-item-link {
     color: #FFF;
     text-decoration: none;
-    padding: 25px 10px;
+    padding: 15px 10px;
     display: block;
     text-align: center;
 }
@@ -48,7 +48,7 @@
 }
 
 .menu-lateral-item-link i {
-    font-size: 32px;
+    font-size: 25px;
 }
 
 .layout-sidebar-large .sidebar-left.open {

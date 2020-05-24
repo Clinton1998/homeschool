@@ -163,7 +163,7 @@
             </div>
             <div class="modal-body">
                 <div class="text-center" id="spinnerInfoAlumnos">
-                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="spinner-bubble spinner-bubble-light m-5"></div>
                 </div>
                 <div id="divAlumnos" style="display: none;">
                     {{-- Inicio de de card --}}
@@ -231,7 +231,7 @@
             </div>
             <div class="modal-body">
                 <div class="text-center" id="spinnerInfoDocentes">
-                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="spinner-bubble spinner-bubble-light m-5"></div>
                 </div>
                 <div id="divDocentes">
                     {{-- Inicio de de card --}}

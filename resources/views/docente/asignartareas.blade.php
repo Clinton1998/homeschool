@@ -48,7 +48,7 @@
                                 <h5 class="tarea-titulo hs_upper">{{$tarea->c_titulo}}</h5>
                             </div>
                             <div class="col-auto">
-                                <span class="badge hs_capitalize" style="padding: 5px 10px; color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
+                                <span class="badge badge-light p-2 hs_capitalize" style="font-size: 11px; color: #FFF; background-color: {{$tarea->categoria->c_nivel_academico}};">{{$tarea->categoria->c_nombre}}</span>
                             </div>
                         </div>
                         
