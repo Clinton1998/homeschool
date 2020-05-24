@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="text-center" id="spinnerBuscadorDocente" style="display:none;">
-                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="spinner-bubble spinner-bubble-light m-5"></div>
                 </div>
             </div>
         </div>

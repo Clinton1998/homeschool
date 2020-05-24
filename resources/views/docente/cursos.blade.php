@@ -39,7 +39,7 @@
             </div>
             <div class="cn-box mb-1">
                 <div class="cn-header">
-                    <strong><a href="#" data-toggle="modal" data-target="#MODAL-CALL">Comunicados del Colegio <i class="nav-icon i-Information"></i></a></strong>
+                    <strong><a href="#" data-toggle="modal" data-target="#MODAL-CALL">Comunicados del Colegio <i class="nav-icon i-Information icon_"></i></a></strong>
                 </div>
                 <div class="cn-body">
                     @php
@@ -68,7 +68,7 @@
             </div>
             <div class="cn-box">
                 <div class="cn-header">
-                    <strong><a href="#" data-toggle="modal" data-target="#MODAL-AALL">Anuncios de la Sección <i class="nav-icon i-Information"></i></a></strong>
+                    <strong><a href="#" data-toggle="modal" data-target="#MODAL-AALL">Anuncios de la Sección <i class="nav-icon i-Information icon_"></i></a></strong>
                 </div>
                 <div class="cn-body">
                     @php

@@ -10,7 +10,7 @@
         <div class="curso-header" style="background: {{$curso->col_curso}}">
             <div>
                 <h4 class="curso-name hs_capitalize-first">{{$curso->nom_curso}}</h4>
-                <small class="curso-name curso-name-sub hs_capitalize">Docente:&nbsp;{{$curso->nom_docente}}</small>
+                <small class="celda_oculta curso-name curso-name-sub hs_capitalize">Docente:&nbsp;{{$curso->nom_docente}}</small>
             </div>
             <a class="curso-back btn btn-secondary" href="{{url('/alumno/cursos')}}">
                 <i class="nav-icon i-Arrow-Left"></i>
@@ -68,13 +68,13 @@
                         @endforeach
                         
                         @if ($counter_tareas > 0)
-                            <a class="show-ct option" href="#"><i class="mr-2 nav-icon i-Bell"></i>Tareas <span class="card-notify-count">@php echo $counter_tareas @endphp</span></a>
+                            <a class="show-ct option" href="#"><i class="mr-2 nav-icon i-Notepad"></i>Tareas <span class="card-notify-count">@php echo $counter_tareas @endphp</span></a>
                         @else
-                            <a class="show-ct option" href="#"><i class="mr-2 nav-icon i-Bell"></i>Tareas</a>
+                            <a class="show-ct option" href="#"><i class="mr-2 nav-icon i-Notepad"></i>Tareas</a>
                         @endif
                     </li>
                     <li>
-                        <a class="show-ca option" href="#"><i class="mr-2 nav-icon i-Mailbox-Empty"></i>Anuncios</a>
+                        <a class="show-ca option" href="#"><i class="mr-2 nav-icon i-Bell"></i>Anuncios</a>
                     </li>
                     <li>
                         <a class="show-cc option" href="#"><i class="mr-2 nav-icon i-Medal-2"></i>Calificaciones</a>
@@ -90,7 +90,7 @@
                         <a class="show-cd option" href="#"><i class="mr-2 nav-icon i-Geek"></i>Docente</a>
                     </li>
                     <li>
-                        <a class="show-cal option" href="#"><i class="mr-2 nav-icon i-Student-Hat-2"></i>Alumnos</a>
+                        <a class="show-cal option" href="#"><i class="mr-2 nav-icon i-MaleFemale"></i>Compañeros</a>
                     </li>
                 </ul>
             </div>
@@ -107,10 +107,10 @@
                 <a class="item" href="#"><i class="nav-icon i-Speach-Bubbles"></i><span>Foros</span></a>
             </li> --}}
             <li>
-                <a class="show-ct item" href="#"><i class="nav-icon i-Bell"></i><span>Tareas</span></a>
+                <a class="show-ct item" href="#"><i class="nav-icon i-Notepad"></i><span>Tareas</span></a>
             </li>
             <li>
-                <a class="show-ca item" href="#"><i class="nav-icon i-Mailbox-Empty"></i><span>Anuncios</span></a>
+                <a class="show-ca item" href="#"><i class="nav-icon i-Bell"></i><span>Anuncios</span></a>
             </li>
             <li>
                 <a class="show-cc item" href="#"><i class="nav-icon i-Medal-2"></i><span>Calificaciones</span></a>
@@ -128,7 +128,7 @@
                         <a class="show-cd item" href="#"><i class="nav-icon i-Geek"></i><span>Docente</span></a>
                     </li>
                     <li class="mt-2">
-                        <a class="show-cal item" href="#"><i class="nav-icon i-Student-Hat-2"></i><span>Alumnos</span></a>
+                        <a class="show-cal item" href="#"><i class="nav-icon i-MaleFemale"></i><span>Alumnos</span></a>
                     </li>
                 </ul>
             </li>

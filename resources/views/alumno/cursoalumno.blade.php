@@ -1,5 +1,5 @@
 <div class="content-header">
-    <h4 class="content-title">Alumnos</h4>
+    <h4 class="content-title">Compañeros de clase</h4>
 </div>
 
 <div class="content-main">

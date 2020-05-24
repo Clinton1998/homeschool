@@ -61,14 +61,14 @@ function fxAplicarTarea(id_tar) {
                         if (alumno.pivot.c_estado == 'ACAL') {
                             htmlAlumnosEnvFueraDeTiempo += '<li class="tarea-pendiente-alumno list-group-item">';
                             htmlAlumnosEnvFueraDeTiempo += alumno.c_nombre;
-                            htmlAlumnosEnvFueraDeTiempo += '<span class="btn-revisar badge badge-light" style="margin: auto 5px;" onclick="">Revisado</span>';
-                            htmlAlumnosEnvFueraDeTiempo += '<a href="#" class="badge badge-warning" onclick="fxAplicarRespuesta(' + alumno.pivot.id_alumno_docente_tarea + ');">';
+                            htmlAlumnosEnvFueraDeTiempo += '<span class="btn-revisar badge badge-light p-2" style="margin: auto 5px;" onclick="">Revisado</span>';
+                            htmlAlumnosEnvFueraDeTiempo += '<a href="#" class="badge badge-warning p-2" onclick="fxAplicarRespuesta(' + alumno.pivot.id_alumno_docente_tarea + ');">';
                             htmlAlumnosEnvFueraDeTiempo += '<svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z" clip-rule="evenodd"/></svg>';
                             htmlAlumnosEnvFueraDeTiempo += '</a></li>';
                         } else {
                             htmlAlumnosEnvFueraDeTiempo += '<li class="tarea-pendiente-alumno list-group-item" onclick="fxAplicarRespuesta(' + alumno.pivot.id_alumno_docente_tarea + ');">';
                             htmlAlumnosEnvFueraDeTiempo += alumno.c_nombre;
-                            htmlAlumnosEnvFueraDeTiempo += '<a href="#" class="badge badge-success" style="margin-left: 5px;">';
+                            htmlAlumnosEnvFueraDeTiempo += '<a href="#" class="badge badge-success p-2" style="margin-left: 5px;">';
                             htmlAlumnosEnvFueraDeTiempo += 'Revisar';
                             htmlAlumnosEnvFueraDeTiempo += '</a></li>';
                         }
@@ -78,14 +78,14 @@ function fxAplicarTarea(id_tar) {
                         if (alumno.pivot.c_estado == 'ACAL') {
                             htmlAlumnosEnviaron += '<li class="tarea-pendiente-alumno list-group-item">';
                             htmlAlumnosEnviaron += alumno.c_nombre;
-                            htmlAlumnosEnviaron += '<span class="btn-revisar badge badge-light" style="margin: auto 5px;" onclick="">Revisado</span>';
-                            htmlAlumnosEnviaron += '<a href="#" class="badge badge-warning" onclick="fxAplicarRespuesta(' + alumno.pivot.id_alumno_docente_tarea + ');">';
+                            htmlAlumnosEnviaron += '<span class="btn-revisar badge badge-light p-2" style="margin: auto 5px;" onclick="">Revisado</span>';
+                            htmlAlumnosEnviaron += '<a href="#" class="badge badge-warning p-2" onclick="fxAplicarRespuesta(' + alumno.pivot.id_alumno_docente_tarea + ');">';
                             htmlAlumnosEnviaron += '<svg class="bi bi-pencil" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.293 1.293a1 1 0 011.414 0l2 2a1 1 0 010 1.414l-9 9a1 1 0 01-.39.242l-3 1a1 1 0 01-1.266-1.265l1-3a1 1 0 01.242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z" clip-rule="evenodd"/><path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 00.5.5H4v.5a.5.5 0 00.5.5H5v.5a.5.5 0 00.5.5H6v-1.5a.5.5 0 00-.5-.5H5v-.5a.5.5 0 00-.5-.5H3z" clip-rule="evenodd"/></svg>';
                             htmlAlumnosEnviaron += '</a></li>';
                         } else {
                             htmlAlumnosEnviaron += '<li class="tarea-pendiente-alumno list-group-item" onclick="fxAplicarRespuesta(' + alumno.pivot.id_alumno_docente_tarea + ');">';
                             htmlAlumnosEnviaron += alumno.c_nombre;
-                            htmlAlumnosEnviaron += '<a href="#" class="badge badge-success" style="margin-left: 5px;">';
+                            htmlAlumnosEnviaron += '<a href="#" class="badge badge-success p-2" style="margin-left: 5px;">';
                             htmlAlumnosEnviaron += 'Revisar';
                             htmlAlumnosEnviaron += '</a></li>';
                         }
@@ -160,5 +160,3 @@ function fxConfirmarRevision(e) {
 function fxCalificarTareaDeAlumno() {
     $('#frmCalificarTareaDeAlumno').submit();
 }
-
-

@@ -265,6 +265,10 @@ a {
 
 /*************************** TABLERO DE CURSOS ***************************/
 
+.icon_ {
+    color: var(--a-color-secundario);
+}
+
 .cursos-header {
     background: var(--color-tmp-grey);
     color: grey;
@@ -786,6 +790,26 @@ a {
     margin-left: 10px;
 }
 
+@media screen and (max-width: 425px) {
+    .box-group {
+        grid-template-columns: 20px 35px auto;
+        grid-gap: 5px;
+    }
+
+    .alumno-number {
+        font-size: 13px;
+    }
+
+    .alumno-photo {
+        width: 35px;
+        height: 35px;
+    }
+
+    .alumno-email {
+        font-size: 11px;
+    }
+}
+
 /*************************** ************** ***************************/
 
 @media screen and (max-width: 768px) {
@@ -832,7 +856,7 @@ a {
 
     .curso-content {
         padding: 10px;
-        height: calc(100vh - 195px);
+        height: calc(100vh - 200px);
     }
 
     .curso-aside {
@@ -902,7 +926,7 @@ a {
 
     /* Scroll vertical de contenido */
     .my-scroll {
-        max-height: calc(100vh - 250px);
+        max-height: calc(100vh - 260px);
     }
 
     /* Scroll horizontal de calificaciones */
@@ -944,22 +968,229 @@ a {
     }
 }
 
+/*************************** TAREAS (Docente: Mis Cursos > Tareas) ***************************/
+
+.curso_table {
+
+    text-align: center;
+    width: 100%;
+}
+
+.curso_table thead,
+.curso_table th,
+.curso_table tbody {
+    border: solid 1px var(--color-tmp-grey);
+}
+
+.curso_table thead {
+    background-color: var(--color-tmp-grey);
+    padding: 5px 0;
+}
+
+.curso_table th {
+    padding: 10px;
+
+}
+
+.curso_table tr:hover {
+    background: #E5F1F6;
+    cursor: default;
+}
+
+.curso_table td {
+    border: solid 1px var(--color-tmp-grey);
+    padding: 5px;
+}
 
 
+@media screen and (min-width: 769px) {
+    .desk {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .mobile {
+        display: none;
+    }
+
+    .celda_oculta {
+        display: none;
+    }
+
+    .celda_titulo {
+        background: var(--color-tmp-grey);
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .curso_table:not(small) {
+        font-size: 11px;
+    }
+}
 
 
+/* Modal: Ver tarea */
 
+.tarea_details {}
 
+.tarea_details_title {
+    padding: 5px 10px;
+    color: #FFF;
+    text-align: center;
+    border-radius: 5px;
+}
 
+.tarea_details_box {
+    padding: 10px;
+}
 
+.tarea_details_description {
+    text-align: justify;
+    margin-bottom: 0;
+}
 
+.tarea_details_download,
+.tarea_details_download:hover {
+    color: var(--a-color-secundario);
+}
 
+.tarea_details_time {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 10px;
+}
 
+.tarea_details_time small {
+    margin-bottom: 0;
+}
 
+.tarea_details_send,
+.tarea_details_end {
+    display: flex;
+    flex-wrap: wrap;
+}
 
+.tarea_comments_write {
+    border: solid 1px var(--color-tmp-grey);
+    background: var(--grey);
+    border-bottom: none;
+}
 
+.tarea_comments_header {
+    background: var(--color-tmp-grey);
+    padding: 5px 10px;
+}
 
+.tarea_comments_form {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
 
+.tarea_comments_avatar_docente {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+}
+
+.tarea_comments_comment_docente {
+    height: 50px;
+    width: 100%;
+    padding: 5px 8px;
+    border-radius: 15px;
+    border-color: var(--color-tmp-grey);
+    background: #FFF;
+    margin-right: 10px;
+    resize: none;
+}
+
+.tarea_comments_send_btn {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 9px 8px 8px 12px;
+}
+
+.tarea_comments_send_btn:hover {
+    transform: scale(1.07);
+}
+
+.tarea_comments_send {}
+
+.tarea_comments {
+    padding: 10px;
+    border: solid 1px var(--color-tmp-grey);
+    overflow-y: scroll;
+    max-height: 250px;
+}
+
+.tarea_comment {}
+
+.c_docente {
+    margin-left: 100px;
+}
+
+.c_docente .tarea_comment_content {
+    background: #ECF1F1;
+}
+
+.c_alumno {
+    margin-right: 100px;
+}
+
+.c_alumno {}
+
+.tarea_comment_content {
+    padding: 10px;
+    background: var(--grey);
+    border-radius: 8px;
+    font-size: 11px;
+}
+
+.tarea_comment_autor {}
+
+.tarea_comment_text {
+    margin-bottom: 0;
+}
+
+.tarea_comment_time {
+    opacity: 0.7;
+}
+
+/* Modal: Tarea nueva */
+
+.tarea_fecha_hora {
+    display: flex;
+    justify-content: space-between;
+}
+
+.box-invert {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.tarea_contadores {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tarea_contador {
+    font-size: 12px !important;
+}
+
+@media screen and (max-width: 425px) {
+    .c_docente {
+        margin-left: 50px;
+    }
+
+    .c_alumno {
+        margin-right: 50px;
+    }
+}
 
 /******************************************************/
 
