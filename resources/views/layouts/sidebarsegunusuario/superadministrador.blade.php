@@ -64,8 +64,66 @@
                 </a>
             </li>
 
+            <li class="nav-item menu-lateral-item {{ request()->is('super/facturacion/*') ? 'item-activo' : '' }}" data-item="itemfacturacion">
+                <a class="nav-item-hold menu-lateral-item-link" href="#">
+                    <i class="nav-icon i-Library"></i>
+                    <span class="nav-text">Facturación electrónica</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+
         </ul> 
         <!-- FIN DE NUEVO MENU SLIDER -->
+    </div>
+
+
+    <div class="sidebar-left-secondary rtl-ps-none" data-perfect-scrollbar data-suppress-scroll-x="true">
+        <ul class="childNav" data-parent="itemfacturacion">
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='alerts' ? 'item-open' : '' }}" href="{{route('alerts')}}">
+                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                    <span class="item-name">Series</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='super/facturacion/productos' ? 'item-activo' : '' }}" href="{{route('super/facturacion/productos')}}">
+                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                    <span class="item-name">Productos o servicios</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
+                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                    <span class="item-name">Preferencias</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
+                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                    <span class="item-name">Comprobantes electrónicos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
+                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                    <span class="item-name">Comprobante</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
+                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                    <span class="item-name">Notas electrónicos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
+                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                    <span class="item-name">Nota</span>
+                </a>
+            </li>
+
+        </ul>
     </div>
 
     

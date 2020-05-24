@@ -176,5 +176,21 @@ class Notificacion extends Controller
             );
             return response()->json($datos);
         }
+<<<<<<< HEAD
+=======
+        $marcado = false;
+        if(!is_null($notificacion_a_marcar)){
+            $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
+            $notificacion_a_marcar->save();
+            $marcado = true;
+
+            broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
+        }
+        $datos = array(
+            'marcadocomoleido' => $marcado,
+            'notificacionmarcada' => $notificacion_a_marcar
+        );
+        return response()->json($datos);
+>>>>>>> facturacion-electronica
     }
 }

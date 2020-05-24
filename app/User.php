@@ -47,4 +47,14 @@ class User extends Authenticatable
     public function herramientas(){
         return $this->hasMany('App\Herramienta_d','id_usuario');
     }
+    //pivot table preferencia_d(revisar los id)
+    public function tipos_de_documento(){
+        return $this->belongsToMany('App\Tipo_documento_m', 'preferencia_d', 'id', 'id_tipo_documento');
+    }
+    public function tipos_de_impresion(){
+        return $this->belongsToMany('App\Tipo_impresion_m', 'preferencia_d', 'id', 'id_tipo_impresion');
+    }
+    public function series(){
+        return $this->belongsToMany('App\Serie_d', 'preferencia_d', 'id', 'id_serie');
+    }
 }
