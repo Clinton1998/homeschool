@@ -62,7 +62,7 @@
     </head>
     <body class="text-left">
         <div class='loadscreen' id="preloader">
-            <div class="loader spinner-bubble spinner-bubble-primary">
+            <div class="loader spinner-bubble spinner-bubble-light">
             </div>
         </div>
         

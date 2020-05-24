@@ -19,23 +19,12 @@
     </div>
 
     <div class="apps">
-        <div class="jitsi">
-            <div class="card">
-                <div class="card-body">
-                    <img class="app-logo logo-jitsi" src="{{asset('assets/images/jitsi-blue.png')}}" alt="Jitsi">
-                    <h3 class="app-name"3>Jitsi Meet</h3>
-                    <a class="app-btn btn-jitsi  btn" href="#" onclick="window.open('https://meet.jit.si/','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">Iniciar videoclase</a>
-                    <br>
-                    <br>
-                    <p class="app-description"p>Jitsi Meet es una herramienta multiplataforma y gratuita que permite hacer videoconferencias grupales a través de Internet.</p>
-                    <a class="link-jitsi text-link" href="https://jitsi.org/" target="_blank">Ir a página</a>
-                    <br><a class="link-jitsi text-link" href="https://youtu.be/tR3mKe8wFVA" target="_blank"><strong>Ver videotutorial</strong></a>
-                </div>
-            </div>
-        </div>
         <div class="meet" disabled>
             <div class="card">
                 <div class="card-body">
+                    <div class="text-right" style="height: 10px">
+                        <i class="nav-icon i-Medal-2 text-warning" style="font-size: 30px; display: absolute"></i>
+                    </div>
                     <img class="app-logo" src="{{asset('assets/images/meet.png')}}" alt="Meet">
                     <h3 class="app-name"3>Google Meet</h3>
                     <a class="app-btn btn-meet  btn" href="#" onclick="window.open('https://meet.google.com/','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">Iniciar videoclase</a>
@@ -47,9 +36,29 @@
                 </div>
             </div>
         </div>
+        <div class="jitsi">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-right" style="height: 10px">
+                        {{-- <i class="nav-icon i-Medal-2 text-warning" style="font-size: 30px; display: absolute"></i> --}}
+                    </div>
+                    <img class="app-logo logo-jitsi" src="{{asset('assets/images/jitsi-blue.png')}}" alt="Jitsi">
+                    <h3 class="app-name"3>Jitsi Meet</h3>
+                    <a class="app-btn btn-jitsi  btn" href="#" onclick="window.open('https://meet.jit.si/','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">Iniciar videoclase</a>
+                    <br>
+                    <br>
+                    <p class="app-description"p>Jitsi Meet es una herramienta multiplataforma y gratuita que permite hacer videoconferencias grupales a través de Internet.</p>
+                    <a class="link-jitsi text-link" href="https://jitsi.org/" target="_blank">Ir a página</a>
+                    <br><a class="link-jitsi text-link" href="https://youtu.be/tR3mKe8wFVA" target="_blank"><strong>Ver videotutorial</strong></a>
+                </div>
+            </div>
+        </div>
         <div class="skype">
             <div class="card">
                 <div class="card-body">
+                    <div class="text-right" style="height: 10px">
+                        {{-- <i class="nav-icon i-Medal-2 text-warning" style="font-size: 30px; display: absolute"></i> --}}
+                    </div>
                     <img class="app-logo" src="{{asset('assets/images/skype.png')}}" alt="Skype">
                     <h3 class="app-name">Skype</h3>
                     <a class="app-btn btn-skype btn" href="#" onclick="window.open('https://login.live.com/login.srf?wa=wsignin1.0&rpsnv=13&ct=1589058309&rver=7.1.6819.0&wp=MBI_SSL&wreply=https%3A%2F%2Flw.skype.com%2Flogin%2Foauth%2Fproxy%3Fclient_id%3D572381%26redirect_uri%3Dhttps%253A%252F%252Fweb.skype.com%252FAuth%252FPostHandler%26state%3Df60d6495-0165-4cce-9502-7033241cb584%26site_name%3Dlw.skype.com&lc=1033&id=293290&mkt=es-ES&psi=skype&lw=1&cobrandid=2befc4b5-19e3-46e8-8347-77317a16a5a5&client_flight=ReservedFlight33%2CReservedFlight67','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">Iniciar videoclase</a>
@@ -64,7 +73,10 @@
         <div class="zoom" disabled>
             <div class="card">
                 <div class="card-body">
-                    <img class="app-logo" src="{{asset('assets/images/zoom.png')}}" alt="Zoom">
+                    <div class="text-right" style="height: 10px">
+                        {{-- <i class="nav-icon i-Medal-2 text-warning" style="font-size: 30px; display: absolute"></i> --}}
+                    </div>
+                    <img class="app-logo" style="border-radius: 50%" src="{{asset('assets/images/zoom.png')}}" alt="Zoom">
                     <h3 class="app-name"3>Zoom</h3>
                     <a class="app-btn btn-jitsi  btn" href="#" onclick="window.open('https://zoom.us/join','_blank','location=no,menubar=no,height=500,width=900,scrollbars=yes,status=yes')">Iniciar videoclase</a>
                     <br>

@@ -82,7 +82,7 @@
                                             @if(!is_null($alumno->pivot->id_respuesta))
                                                 @if(!($alumno->pivot->c_estado=='ACAL'))
                                                     <li class="tarea-pendiente-alumno list-group-item" onclick="fxAplicarRespuesta({{$alumno->pivot->id_alumno_docente_tarea}});">{{$alumno->c_nombre}}
-                                                        <a href="#" class="badge badge-success" style="margin-left: 5px;">Ver respuesta
+                                                        <a href="#" class="badge badge-success p-2" style="margin-left: 5px;">Ver respuesta
                                                         </a>
                                                     </li>
                                                 @endif

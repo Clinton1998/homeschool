@@ -6,7 +6,35 @@
 </div>
 
 <div class="content-main">
-    <div id="anuncios-reload" class="my-scroll tbl-container">
+    <div id="anuncios-reload" class="my-scroll">
+        @if ($anuncios_curso->count() > 0)
+            <table class="curso_table">
+                <thead>
+                    <tr>
+                        <th>Título del anuncio</th>
+                        <th>Fecha de envío</th>
+                        <th>Ver</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($anuncios_curso as $anc)
+                        <tr>
+                            <td style="text-align: left" class="pl-2 hs_capitalize-first">{{$anc->c_titulo}}</td>
+                            <td><small>{{$anc->created_at}}</small></td>
+                            <td>
+                                <a href="#" class="badge badge-success p-1" onclick="VerAnuncio({{$anc->id_anuncio}})">&nbsp;Ver&nbsp;</a>
+                            </td>
+                        </tr>
+                        <span class="anc-title" id="ANT-{{$anc->id_anuncio}}">{{$anc->c_titulo}}</span>
+                        <span class="anc-content" id="ANC-{{$anc->id_anuncio}}">{{$anc->c_url_archivo}}</span>
+                        <span class="anc-content" id="AND-{{$anc->id_anuncio}}">{{$anc->created_at}}</span>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+    </div>
+
+    {{-- <div id="anuncios-reload" class="my-scroll tbl-container">
         @if ($anuncios_curso->count() > 0)
             <table id="tbl-anuncios" class="table-hover">
                 <thead>
@@ -22,8 +50,7 @@
                             <td style="text-align: left" class="hs_capitalize-first">{{$anc->c_titulo}}</td>
                             <td><small>{{$anc->created_at}}</small></td>
                             <td>
-                                <a href="#" class="badge badge-success" onclick="VerAnuncio({{$anc->id_anuncio}})">Ver</a>{{-- &nbsp; --}}
-                                {{-- <a href="#" class="badge badge-light" onclick="EliminarAnuncio({{$anc->id_anuncio}})">Eliminar</a> --}}
+                                <a href="#" class="badge badge-success p-1" onclick="VerAnuncio({{$anc->id_anuncio}})">&nbsp;Ver&nbsp;</a>
                             </td>
                         </tr>
                         <span class="anc-title" id="ANT-{{$anc->id_anuncio}}">{{$anc->c_titulo}}</span>
@@ -33,7 +60,7 @@
                 </tbody>
             </table>
         @endif
-    </div>
+    </div> --}}
 </div>
 
 <!-- Modal anuncio -->

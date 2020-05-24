@@ -531,7 +531,7 @@
             </div>
             <div class="modal-body">
                 <div class="text-center" id="spinnerInfoDocentes">
-                    <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                    <div class="spinner-bubble spinner-bubble-light m-5"></div>
                 </div>
 
                 <div id="divDocentes" style="display: none;">

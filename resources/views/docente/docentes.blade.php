@@ -26,7 +26,7 @@
             <br>
 
             <div class="text-center" id="spinnerBuscadorDocente" style="display:none;">
-                <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                <div class="spinner-bubble spinner-bubble-ligth m-5"></div>
             </div>
 
             <ul class="contenedor-scroll-grupo lista-docentes list-group list-group-flush" id="listDocentes">
@@ -66,7 +66,7 @@
                         $docente_default = $docentes->first();
                     @endphp
                         <div class="text-center" id="spinnerInfoDocente" style="display: none;">
-                            <div class="spinner-bubble spinner-bubble-primary m-5"></div>
+                            <div class="spinner-bubble spinner-bubble-light m-5"></div>
                         </div>
                     @if(!is_null($docente_default) && !empty($docente_default))
                         <div class="datos-docente" id="divInfoDocente">

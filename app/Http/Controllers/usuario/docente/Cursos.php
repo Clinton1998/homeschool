@@ -131,7 +131,30 @@ class Cursos extends Controller
             ->orderBy('alumno_d.c_nombre', 'ASC')
         ->get();
 
-        return view('docente.curso', compact('curso', 'id_sc', 'modulos', 'anuncios_seccion', 'anuncios_curso', 'archivos', 'alumnosseccion'));
+        //Tareas en general
+        $tareas = App\Tarea_d::where([
+            'id_docente' => $docente->id_docente,
+            'id_categoria' => $curso->id_categoria,
+            'estado' => 1])
+            ->orderBy('created_at', 'DESC')
+        ->get();
+
+        //Tareas calificadas
+        $tareas_calificadas = $docente->tareas()->where([
+            'tarea_d.c_estado' => 'DCAL',
+            'tarea_d.estado' => 1
+            ])->orderBy('tarea_d.created_at', 'DESC')
+        ->get();
+
+        //Tareas pendientes
+        $tareas_pendientes = $docente->tareas()->where([
+            ['tarea_d.c_estado','<>','DCAL'],
+            ['tarea_d.id_categoria','=',$curso->id_categoria],
+            ['tarea_d.t_fecha_hora_entrega', '<=',date('Y-m-d H:i:s')]
+            ])->orderBy('tarea_d.created_at','DESC')
+        ->get();
+        
+         return view('docente.curso', compact('docente','curso', 'modulos', 'anuncios_seccion', 'anuncios_curso', 'archivos', 'alumnosseccion', 'tareas', 'tareas_calificadas', 'tareas_pendientes'));
     }
 
     public function crear_modulo(Request $Request){
@@ -283,6 +306,160 @@ class Cursos extends Controller
 
         return response()->json($anuncios);
     }
+
+    public function crear_tarea(Request $request){
+        
+        if($request->input('radioAlumnos')=='option1'){
+                $request->validate([
+                    'tarea_titulo'=> 'required',
+                    'tarea_arch' => 'file|max:256000000',
+                    'tarea_fecha_entrega' => 'required',
+                ]);
+        }else if($request->input('radioAlumnos')=='option2'){
+                $request->validate([
+                    'tarea_titulo'=> 'required',
+                    'tarea_arch' => 'file|max:256000',
+                    'tarea_fecha_entrega' => 'required',
+                    'alumnos' => 'required|array'
+                ]);
+        }else{
+            return redirect('docente/cursos');
+        }
+        
+        $usuarioDocente = App\User::findOrFail(Auth::user()->id);
+        $docente = App\Docente_d::where(['id_docente' => $usuarioDocente->id_docente,'estado' => 1])->first();
+
+        $tarea_nueva = new App\Tarea_d;
+        $tarea_nueva->id_docente = $docente->id_docente;
+        $tarea_nueva->id_categoria = $request->input('id_categoria');
+        $tarea_nueva->c_titulo = $request->input('tarea_titulo');
+        $tarea_nueva->c_observacion = $request->input('tarea_desc');
+            $fecha_hora_entrega = date('Y-m-d', strtotime($request->input('tarea_fecha_entrega'))) . ' ' . $request->input('tarea_hora_entrega');
+        $tarea_nueva->t_fecha_hora_entrega = $fecha_hora_entrega;
+        $tarea_nueva->c_estado = 'DENV';
+        $tarea_nueva->creador = $usuarioDocente->id;
+        $tarea_nueva->save();
+
+        $archivo = $request->file('tarea_arch');
+
+        if (!is_null($archivo) && !empty($archivo)) {
+            $nombre = $archivo->getClientOriginalName();
+            $archivo->storeAs('tareaasignacion/' . $tarea_nueva->id_tarea . '/', $nombre);
+            $tarea_nueva->c_url_archivo = $nombre;
+            $tarea_nueva->save();
+        }
+
+        $seccion = App\Seccion_d::findOrFail($request->input('id_seccion'));
+
+        $opcion_radio = $request->input('radioAlumnos');
+
+        if ($opcion_radio == 'option1') {
+            foreach ($seccion->alumnos->where('estado', '=', 1) as $alumno) {
+                DB::table('alumno_tarea_respuesta_p')->insert(
+                    ['id_tarea' => $tarea_nueva->id_tarea, 'id_alumno' => $alumno->id_alumno, 'c_estado' => 'APEN', 'creador' => $usuarioDocente->id]
+                );
+            }
+        } else {
+            $alumnos = $request->input('alumnos');
+            for ($i = 0; $i < count($alumnos); $i++) {
+                DB::table('alumno_tarea_respuesta_p')->insert(
+                    ['id_tarea' => $tarea_nueva->id_tarea, 'id_alumno' => $alumnos[$i], 'c_estado' => 'APEN', 'creador' => $usuarioDocente->id]
+                );
+            }
+        }
+
+        $search_tarea = App\Tarea_d::findOrFail($tarea_nueva->id_tarea);
+
+        $alumnos_asignados = $search_tarea->alumnos_asignados()->select('alumno_d.id_alumno','alumno_d.c_nombre','alumno_d.c_telefono_representante1','alumno_d.c_telefono_representante2')->where('alumno_d.estado', '=', 1)->get();
+        
+        $id_usuarios = array();
+        
+        $i = 0;
+
+        foreach ($alumnos_asignados as $alumno) {
+            $id_usuarios[$i] = $alumno->usuario->id;
+            $i++;
+        }
+
+        $usuarios_a_notificar = App\User::whereIn('id', $id_usuarios)->get();
+        \Notification::send($usuarios_a_notificar, new NuevaTareaParaAlumnoNotification(array(
+            'titulo' => 'Nueva tarea',
+            'mensaje' => $search_tarea->c_titulo,
+            'url' => '/alumno/tareapendiente/' . $search_tarea->id_tarea,
+            'tipo' => 'nuevatarea'
+        )));
+
+        //sms para los representantes
+        //event(new NuevaTareaAsignada($alumnos_asignados,$docente->c_nombre));
+
+        return response()->json($tarea_nueva);
+    }
+
+    public function comentarios(Request $request){
+        $usuarioDocente = App\User::findOrFail(Auth::user()->id);
+        
+        $comentarios = DB::table('comentario_d')
+            ->select('comentario_d.*')
+            ->where(['comentario_d.estado' => 1, 'comentario_d.id_tarea' => $request->id_tarea])
+            ->orderBy('comentario_d.created_at', 'DESC')
+        ->get();
+
+        $comentarios_docente = DB::table('comentario_d')
+            ->join('users','comentario_d.id_usuario','=','users.id')
+            ->join('docente_d','users.id_docente','=','docente_d.id_docente')
+            ->select('comentario_d.*', 'docente_d.c_nombre as nom_docente', 'docente_d.*', 'users.id as id_usuario')
+            ->where(['comentario_d.estado' => 1, 'comentario_d.id_tarea' => $request->id_tarea])
+            ->orderBy('comentario_d.created_at', 'DESC')
+        ->get();
+
+        $comentarios_alumno = DB::table('comentario_d')
+            ->join('users','comentario_d.id_usuario','=','users.id')
+            ->join('alumno_d','users.id_alumno','=','alumno_d.id_alumno')
+            ->select('comentario_d.*', 'alumno_d.c_nombre as nom_alumno', 'alumno_d.*', 'users.id as id_usuario')
+            ->where(['comentario_d.estado' => 1, 'comentario_d.id_tarea' => $request->id_tarea])
+            ->orderBy('comentario_d.created_at', 'DESC')
+        ->get();
+
+        return response()->json([
+            'success' => true, 
+            'comentarios' => $comentarios,
+            'comentarios_docente' => $comentarios_docente,
+            'comentarios_alumno' => $comentarios_alumno,
+        ], 200);
+    }
+
+    public function crear_comentario(Request $request){
+
+        $usuarioDocente = App\User::findOrFail(Auth::user()->id);
+        $docente = App\Docente_d::where(['id_docente' => $usuarioDocente->id_docente,'estado' => 1])->first();
+
+        $tarea = App\Tarea_d::where([
+            'id_tarea' => $request->id_tarea,
+            'id_docente' => $docente->id_docente,
+            'estado' => 1
+        ])->first();
+
+        if (!is_null($tarea) && !empty($tarea)) {
+            $comentario = new App\Comentario_d;
+            $comentario->id_tarea = $tarea->id_tarea;
+            $comentario->id_usuario = $usuarioDocente->id;
+            $comentario->c_descripcion = $request->c_descripcion;
+            /* $id_referencia =  $request->input('id_comentario_referncia'); */
+            
+            /* if (!is_null($id_referencia) && !empty($id_referencia)) {
+                $ref_com = App\Comentario_d::findOrFail($id_referencia);
+                $comentario->id_comentario_referencia = $ref_com->id_comentario;
+            } */
+
+            $comentario->creador = $usuarioDocente->id;
+            $comentario->save();
+        }
+
+        return response()->json($comentario);
+    }
+
+    
+
 
     public function cursos_de_secciones(Request $request){
         $secciones = $request->input('secciones');
