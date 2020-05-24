@@ -53,10 +53,7 @@ class Notificacion extends Controller
 
             broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
         }
-        $datos = array(
-            'marcadocomoleido' => $marcado,
-            'notificacionmarcada' => $notificacion_a_marcar
-        );
+        $datos = array('marcadocomoleido' => $marcado, 'notificacionmarcada' => $notificacion_a_marcar);
         return response()->json($datos);
     }
 
@@ -78,6 +75,7 @@ class Notificacion extends Controller
             $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
             $notificacion_a_marcar->save();
             $marcado = true;
+
             broadcast(new NotificationRead($notificacion_a_marcar->toArray()));
         }
         $datos = array(

@@ -96,6 +96,7 @@ CREATE TABLE producto_servicio_d(
     c_nombre VARCHAR(191) NOT NULL,
     c_tipo VARCHAR(191) NOT NULL COMMENT 'PRODUCTO | SERVICIO',
     c_unidad VARCHAR(191),
+    c_unidad_sunat VARCHAR(191),
     n_precio_sin_igv DECIMAL(10,2),
     n_precio_con_igv DECIMAL(10,2),
     id_tributo INT NOT NULL,

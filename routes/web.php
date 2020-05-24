@@ -15,6 +15,10 @@ Route::get('/', 'HomeController@index');
 //rutas para la autenticacion del usuario
 Auth::routes();
 
+//rutas para facturacion electronica
+Route::get('super/facturacion/productos','usuario\super\facturacion\Producto@index')->name('super/facturacion/productos');
+Route::post('super/facturacion/producto/agregar','usuario\super\facturacion\Producto@agregar')->name('super/facturacion/producto/agregar');
+
 //rutas para el chat
 Route::get('chat','ChatController@index')->name('chat');
 Route::get('chat/contacts','ContactsController@get')->name('chat/contacts');
