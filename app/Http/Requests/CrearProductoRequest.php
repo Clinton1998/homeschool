@@ -27,7 +27,7 @@ class CrearProductoRequest extends FormRequest
             'tipo_producto'=> 'required|min:8|max:8',
             'nombre_producto' => 'required|max:191',
             'codigo_producto' => 'required|max:191',
-            'tributo_producto'=> 'required',
+            'tributo_producto'=> 'required|numeric',
             'unidad_producto' => 'required|max:191',
             'unidad_sunat_producto' =>'required|max:191',
             'precio_producto_sin_igv'=> 'required|numeric|min:0',

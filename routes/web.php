@@ -16,8 +16,17 @@ Route::get('/', 'HomeController@index');
 Auth::routes();
 
 //rutas para facturacion electronica
+//PRODUCTOS
 Route::get('super/facturacion/productos','usuario\super\facturacion\Producto@index')->name('super/facturacion/productos');
 Route::post('super/facturacion/producto/agregar','usuario\super\facturacion\Producto@agregar')->name('super/facturacion/producto/agregar');
+Route::post('super/facturacion/producto/actualizar','usuario\super\facturacion\Producto@actualizar')->name('super/facturacion/producto/actualizar');
+Route::post('super/facturacion/producto/aplicar','usuario\super\facturacion\Producto@aplicar')->name('super/facturacion/producto/aplicar');
+Route::post('super/facturacion/producto/eliminar','usuario\super\facturacion\Producto@eliminar')->name('super/facturacion/producto/eliminar');
+Route::post('super/facturacion/producto/restaurar','usuario\super\facturacion\Producto@restaurar')->name('super/facturacion/producto/restaurar');
+Route::post('super/facturacion/producto/busqueda/nombrecodigo','usuario\super\facturacion\Producto@busqueda_nombre_codigo')->name('super/facturacion/producto/busqueda/nombrecodigo');
+Route::post('super/facturacion/producto/filtrotipo','usuario\super\facturacion\Producto@filtro_tipo')->name('super/facturacion/producto/filtrotipo');
+Route::post('super/facturacion/producto/filtrounidad','usuario\super\facturacion\Producto@filtro_unidad')->name('super/facturacion/producto/filtrounidad');
+Route::post('super/facturacion/producto/eliminados','usuario\super\facturacion\Producto@eliminados')->name('super/facturacion/producto/eliminados');
 
 //rutas para el chat
 Route::get('chat','ChatController@index')->name('chat');

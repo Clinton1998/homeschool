@@ -20,7 +20,7 @@
                     <h4 class="hs_encabezado-titulo">Mis grados y secciones</h4>
                     <div class="hs_encabezado-linea"></div>
                 </div>
-                
+
                 <div class="botonera-superior-derecha">
                     <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#hs_MODAL" onclick="GradoSeccion()">Nueva sección</button>
                 </div>
@@ -101,7 +101,7 @@
                                 @endforeach
                             </select>
                         </div>
-    
+
                         <div class="form-group">
                             <label for="nombre">Sección</label>
                             <input type="text" class="form-control" id="nombre"name="nombre"  placeholder="Ejemplo: A" required>
@@ -133,7 +133,7 @@
                     <form id="frmActualizar" class="needs-validation" method="POST" action="{{url('/super/gradoseccion/actualizar')}}" novalidate>
                         @csrf
                         <input type="hidden" id="id_seccion" name="id_seccion">
-    
+
                         <div class="form-group">
                             <label for="actnombre">Sección</label>
                             <input type="text" class=" hs_upper form-control" id="actnombre" name="actnombre"  placeholder="Ejemplo: A" required>
@@ -180,7 +180,7 @@
                                     <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_contacto">
                                 <div class="card_list_telefono">
                                     <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
@@ -189,7 +189,7 @@
                                     <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_representante">
                                 <div class="card_list_representante_nombre">
                                     <small class="card_list_representante_nombre_block">
@@ -218,7 +218,7 @@
             </div>
         </div>
     </div>
-    
+
     {{-- lista de docentes --}}
     <div class="modal fade" id="docentes_seccion" tabindex="-1" role="dialog" aria-labelledby="docentes_seccionLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -248,7 +248,7 @@
                                     <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_contacto">
                                 <div class="card_list_telefono">
                                     <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
@@ -257,7 +257,7 @@
                                     <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_representante">
                                 <div class="card_list_representante_nombre">
                                     <small class="card_list_representante_nombre_block">
@@ -287,7 +287,7 @@
                                     <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_contacto">
                                 <div class="card_list_telefono">
                                     <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
@@ -296,7 +296,7 @@
                                     <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_representante">
                                 <div class="card_list_representante_nombre">
                                     <small class="card_list_representante_nombre_block">
@@ -326,7 +326,7 @@
                                     <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_contacto">
                                 <div class="card_list_telefono">
                                     <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
@@ -335,7 +335,7 @@
                                     <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_representante">
                                 <div class="card_list_representante_nombre">
                                     <small class="card_list_representante_nombre_block">
@@ -365,7 +365,7 @@
                                     <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_contacto">
                                 <div class="card_list_telefono">
                                     <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
@@ -374,7 +374,7 @@
                                     <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_representante">
                                 <div class="card_list_representante_nombre">
                                     <small class="card_list_representante_nombre_block">
@@ -404,7 +404,7 @@
                                     <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_contacto">
                                 <div class="card_list_telefono">
                                     <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
@@ -413,7 +413,7 @@
                                     <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_representante">
                                 <div class="card_list_representante_nombre">
                                     <small class="card_list_representante_nombre_block">
@@ -443,7 +443,7 @@
                                     <p><i class="nav-icon i-ID-Card">&nbsp;</i>DNI: 123456789</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_contacto">
                                 <div class="card_list_telefono">
                                     <strong><i class="nav-icon i-Address-Book">&nbsp;</i>Telf.: 950404040</strong>
@@ -452,7 +452,7 @@
                                     <p class="card_list_correo_ext"><i class="nav-icon i-Mail-with-At-Sign">&nbsp;</i>correo_electronico_extenso@gmail.com</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_representante">
                                 <div class="card_list_representante_nombre">
                                     <small class="card_list_representante_nombre_block">
@@ -481,7 +481,7 @@
 @endsection
 
 @section('page-js')
-<script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
 
 <script>
 
