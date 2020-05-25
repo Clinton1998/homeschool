@@ -149,7 +149,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" id="btn_agregar_archivo" class="btn btn-primary">Agregar archivo</button>
+                    <button type="submit" id="btn_agregar_archivo" class="btn btn-primary">Guardar</button>
                 </div>
             </form>
         </div>

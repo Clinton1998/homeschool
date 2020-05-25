@@ -13,18 +13,18 @@
                     <span>Tablero</span>
                 </a>
             </li>
-            <li class="menu-lateral-item {{ request()->is('alumno/cursos*') ? 'item-activo' : '' }}">
-                <a class="menu-lateral-item-link" href="{{route('alumno/cursos')}}">
-                    <i class="nav-icon i-Sidebar-Window"></i>
-                    <br>
-                    <span>Mis Cursos</span>
-                </a>
-            </li>
             <li class="menu-lateral-item {{ request()->is('alumno/calendario*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('alumno/calendario')}}">
                     <i class="nav-icon i-Calendar"></i>
                     <br>
                     <span>Mi calendario</span>
+                </a>
+            </li>
+            <li class="menu-lateral-item {{ request()->is('alumno/cursos*') ? 'item-activo' : '' }}">
+                <a class="menu-lateral-item-link" href="{{route('alumno/cursos')}}">
+                    <i class="nav-icon i-Sidebar-Window"></i>
+                    <br>
+                    <span>Mis Cursos</span>
                 </a>
             </li>
             <li class="menu-lateral-item {{ request()->is('alumno/tareas*') ? 'item-activo' : '' }}">

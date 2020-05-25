@@ -109,6 +109,13 @@
                     <label for="nombre">Nombre</label>
                     <input type="text" name="nombre" id="nombre" class="form-control" required>
                 </div>
+                
+                <br>
+                <div class="formgroup">
+                    <label for="link">Enlace de la herramienta</label>
+                    <input type="url" name="link" id="link" class="form-control" placeholder="https://www.mi-herramienta-online.com" required>
+                </div>
+
                 <br>
                 <div class="formgroup">
                     <label for="">Imagen</label>
@@ -131,12 +138,6 @@
                 <div class="formgroup">
                     <input type="file" name="logo_fisico" id="logo_fisico" class="form-control hs_upload">
                     <input type="url" name="logo_link" id="logo_link" class="form-control">
-                </div>
-    
-                <br>
-                <div class="formgroup">
-                    <label for="link">Enlace de la herramienta</label>
-                    <input type="url" name="link" id="link" class="form-control" placeholder="https://www.mi-herramienta-online.com" required>
                 </div>
             </div>
             <div class="modal-footer">
@@ -262,7 +263,7 @@
     });
 
     //Validar tamaño de archivo
-    $(document).on('change', 'input[type="file"]', function(){
+    $(document).on('change', 'input[name="logo_fisico"]', function(){
         var file_name = this.files[0].name;
         var file_size = this.files[0].size;
 
@@ -312,7 +313,7 @@
 
                 if (data.herramientas.length > 0) {
                     data.herramientas.forEach(function (herramienta, indice){
-                        Comentarios += '<div class="tools-item">';
+                        Comentarios += '<div class="tools-item" data-toggle="tooltip" data-placement="top" title="'+ herramienta.c_link +'">';
                             Comentarios += '<div class="text-right tools-delete-box"><a href="#" class="badge badge-danger boton_eliminar" onclick="EliminarHerramienta('+ herramienta.id_herramienta +')">x</a></div>';
                             Comentarios += '<a class="tools-link" id="tool_link_'+ herramienta.id_herramienta +'" href="'+ herramienta.c_link +'" target="_blank">';
                                 /* Comentarios +='<input type="hidden" id="tool_'+ herramienta.id_herramienta +'" name="tool_'+ herramienta.id_herramienta +'" value="">'; */

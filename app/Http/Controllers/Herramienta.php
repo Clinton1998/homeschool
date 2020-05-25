@@ -18,7 +18,7 @@ class Herramienta extends Controller
     }
 
     public function listar(){
-        $herramientas = App\Herramienta_d::where('id_usuario','=',Auth::user()->id)->orderBy('created_at','DESC')->get();
+        $herramientas = App\Herramienta_d::where('id_usuario','=',Auth::user()->id)->orderBy('c_nombre','ASC')->get();
         $datos = array(
             'herramientas' => $herramientas
         );

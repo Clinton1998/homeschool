@@ -52,15 +52,17 @@
                                     </a>
                                 </td>
                                 <td>{{$docente->usuario->email}}</td>
-                                <td><span class="hs_capitalize-first">{{$docente->c_nacionalidad}}</span></td>
+                                <td class="hs_capitalize-first"><span class="hs_capitalize-first">{{$docente->c_nacionalidad}}</span></td>
                                 <td>{{$docente->t_fecha_nacimiento}}</td>
                                 <td><a href="mailto:{{$docente->c_correo}}">{{$docente->c_correo}}</a></td>
                                 <td><span class="text-info">{{$docente->c_telefono}}</span></td>
                                 <td>
                                     <a href="{{url('super/docente/'.$docente->id_docente)}}" class="btn btn-sm btn-warning mr-2" data-toggle="tooltip" data-placement="top" title="Editar">
-                                        <i class="nav-icon i-Pen-4"></i>
+                                        <i class="nav-icon i-Pen-4" style="font-size: 15px"></i>
                                     </a>
-                                    <a id="btnEliminarDocente{{$docente->id_docente}}" onclick="fxConfirmacionEliminarDocente({{$docente->id_docente}});" data-toggle="tooltip" data-placement="top" title="Eliminar" href="#" class="btn btn-sm btn-danger">X</a>
+                                    <a id="btnEliminarDocente{{$docente->id_docente}}" onclick="fxConfirmacionEliminarDocente({{$docente->id_docente}});" data-toggle="tooltip" data-placement="top" title="Eliminar" href="#" class="btn btn-sm btn-danger">
+                                        <i class="far fa-trash-alt" style="font-size: 15px"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
@@ -111,7 +113,7 @@
 
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="nombre" >Nombre(s)</label>
-                                                    <input type="text" class="form-control form-control-sm" id="nombre" name="nombre" required>
+                                                    <input type="text" id="nombre_docente" name="nombre"  class="form-control form-control-sm" required>
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div> 
                                             </div>
@@ -222,7 +224,7 @@
             });
         });
 
-        $("#nombre").on("keypress", function () {
+        $("#nombre_docente").on("keypress", function () {
             $input=$(this);
             setTimeout(function () {
                 $input.val($input.val().toLocaleLowerCase());
@@ -267,7 +269,7 @@
             if(tecla.charCode > 47 && tecla.charCode < 58) return false;
         });
 
-        jQuery('#nombre').keypress(function(tecla) {
+        jQuery('#nombre_docente').keypress(function(tecla) {
             if(tecla.charCode > 47 && tecla.charCode < 58) return false;
         });
 
