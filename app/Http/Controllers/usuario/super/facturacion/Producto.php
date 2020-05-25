@@ -16,7 +16,10 @@ class Producto extends Controller
     }
 
     public function index(){
-		$colegio = App\Colegio_m::where('id_superadministrador','=',Auth::user()->id)->first();
+		$colegio = App\Colegio_m::where([
+		    'id_superadministrador' => Auth::user()->id,
+            'estado' => 1
+        ])->first();
 		if(!is_null($colegio) && !empty($colegio)){
 			//recuperamos los productos o servicios del colegio, solo los que no estan eliminados
 			$productos_o_servicios = App\Producto_servicio_d::where([
@@ -30,6 +33,20 @@ class Producto extends Controller
     	return redirect('/home');
     }
     public function agregar(CrearProductoRequest $request){
-    	return response()->json($request->all());
+    	//obtenemos el colegio
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado'=>1
+        ])->first();
+
+        if(!is_null($colegio) && !empty($colegio)){
+            $producto = new App\Producto_servicio_d;
+            $producto->c_codigo = $request->input('codigo_producto');
+            $producto->c_tipo_codigo = 'MANUAL';
+            $producto->c_nombre = $request->input('nombre_producto');
+            $producto->c_tipo = $request->input('dd');
+        }
+
+        return redirect('/home');
     }
 }
