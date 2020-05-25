@@ -54,7 +54,7 @@
                                     </td>
                                     <td class="text-center">
                                         <a href="#" class="badge badge-warning" id="btnActualizarSeccion{{$item->id_seccion}}" onclick="fxActualizarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="i-Pen-5" style="font-size: 17px"></i></a>
-                                        <a href="#" class="badge badge-danger" id="btnConfirmacionEliminarSeccion{{$item->id_seccion}}" onclick="fxConfirmacionEliminarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="i-Eraser-2" style="font-size: 17px"></i></a>
+                                        <a href="#" class="badge badge-danger" id="btnConfirmacionEliminarSeccion{{$item->id_seccion}}" onclick="fxConfirmacionEliminarSeccion({{$item->id_seccion}});" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="far fa-trash-alt" style="font-size: 17px; color: whitesmoke"></i></a>
                                     </td>
                                     <td>
                                         {{-- Llamada a modal Alumnos--}}

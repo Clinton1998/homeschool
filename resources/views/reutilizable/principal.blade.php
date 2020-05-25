@@ -43,7 +43,9 @@
         {{-- theme css --}}
         <link id="gull-theme" rel="stylesheet" href="{{  asset('assets/styles/css/themes/lite-purple.min.css')}}">
         <link rel="stylesheet" href="{{asset('assets/styles/vendor/perfect-scrollbar.css')}}">
-        <link rel="shortcut icon" href="{{asset('assets/images/Logo-HS.png')}}">
+        <link rel="stylesheet" href="{{asset('assets/styles/vendor/perfect-scrollbar.css')}}">
+        <link rel="stylesheet" href="{{asset('assets/fonts/fontawesome-free-5.10.1-web/css/all.css')}}">
+
         {{-- page specific css --}}
         @yield('page-css')
 

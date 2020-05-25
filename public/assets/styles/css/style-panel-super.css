@@ -141,6 +141,7 @@
     border: solid 1px lightgrey;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    grid-template-rows: repeat(auto-fill, 60px);
     grid-gap: 5px;
     overflow-y: scroll;
 }

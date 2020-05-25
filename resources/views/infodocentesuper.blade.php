@@ -62,7 +62,7 @@
 
                                         <label for="nombre" class="col-sm-2 col-form-label ">Apellidos y Nombres</label>
                                         <div class="col-sm-4">
-                                            <input type="text" id="nombre" name="nombre"
+                                            <input type="text" id="nombre_docente" name="nombre"
                                                 class="form-control hs_capitalize @error('nombre') is-invalid @enderror" value="{{$docente->c_nombre}}" required>    
                                                 <span class="invalid-feedback" role="alert">
                                                     El nombre es requerido
@@ -521,7 +521,7 @@
             });
         });
 
-        $("#nombre").on("keypress", function () {
+        $("#nombre_docente").on("keypress", function () {
             $input=$(this);
             setTimeout(function () {
                 $input.val($input.val().toLocaleLowerCase());
@@ -566,7 +566,7 @@
             if(tecla.charCode > 47 && tecla.charCode < 58) return false;
         });
 
-        jQuery('#nombre').keypress(function(tecla) {
+        jQuery('#nombre_docente').keypress(function(tecla) {
             if(tecla.charCode > 47 && tecla.charCode < 58) return false;
         });
 

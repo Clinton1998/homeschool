@@ -79,7 +79,7 @@ $(document).ready(function () {
                 "data": "nom_seccion"
             },
             {
-                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Eraser-2' style='font-size: 17px'></i></a></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
             },
             {
                 "defaultContent": "<div><a href='#' class='badge badge-info' onclick='fxDocentesDeCurso(event);'>Docente</a></div>"
@@ -128,7 +128,7 @@ $(document).ready(function () {
                 "data": "nom_seccion"
             },
             {
-                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asig_primaria badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asig_primaria badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Eraser-2' style='font-size: 17px'></i></a></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asig_primaria badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asig_primaria badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
             },
             {
                 "defaultContent": "<div><a href='#' class='badge badge-info' onclick='fxDocentesDeCurso(event);'>Docente</a></div>"
@@ -176,7 +176,7 @@ $(document).ready(function () {
                 "data": "nom_seccion"
             },
             {
-                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_secundaria badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_secundaria badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Eraser-2' style='font-size: 17px'></i></a></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_secundaria badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_secundaria badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
             },
             {
                 "defaultContent": "<div><a href='#' class='badge badge-info' onclick='fxDocentesDeCurso(event);'>Docente</a></div>"
