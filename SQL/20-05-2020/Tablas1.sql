@@ -27,7 +27,7 @@ CREATE TABLE moneda_m(
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     modificador INT,
     updated_at TIMESTAMP,
-    PRIMARY KEY(id_moneda)    
+    PRIMARY KEY(id_moneda)
 );
 
 ALTER TABLE moneda_m ADD CONSTRAINT moneda_m_users_creador FOREIGN KEY (creador) REFERENCES users (id);
@@ -56,7 +56,7 @@ CREATE TABLE serie_d(
     id_serie INT AUTO_INCREMENT,
     id_colegio INT NOT NULL,
     id_tipo_documento INT NOT NULL,
-    c_documento_afectacion CHAR(1) NOT NULL COMMENT 'F = Factura, B= Boleta',
+    c_documento_afectacion CHAR(1) COMMENT 'F = Factura, B= Boleta(nulo si el tipo de documento es un comprobante)',
     c_serie VARCHAR(191) NOT NULL,
     b_principal TINYINT(1),
     estado TINYINT(1) NOT NULL DEFAULT 1,

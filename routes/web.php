@@ -28,6 +28,16 @@ Route::post('super/facturacion/producto/filtrotipo','usuario\super\facturacion\P
 Route::post('super/facturacion/producto/filtrounidad','usuario\super\facturacion\Producto@filtro_unidad')->name('super/facturacion/producto/filtrounidad');
 Route::post('super/facturacion/producto/eliminados','usuario\super\facturacion\Producto@eliminados')->name('super/facturacion/producto/eliminados');
 
+//SERIES
+Route::get('super/facturacion/series','usuario\super\facturacion\Serie@index')->name('super/facturacion/series');
+Route::post('super/facturacion/serie/agregar','usuario\super\facturacion\Serie@agregar')->name('super/facturacion/serie/agregar');
+Route::post('super/facturacion/serie/aplicar','usuario\super\facturacion\Serie@aplicar')->name('super/facturacion/serie/aplicar');
+Route::post('super/facturacion/serie/eliminar','usuario\super\facturacion\Serie@eliminar')->name('super/facturacion/serie/eliminar');
+Route::post('super/facturacion/serie/restaurar','usuario\super\facturacion\Serie@restaurar')->name('super/facturacion/serie/restaurar');
+Route::post('super/facturacion/serie/tipodocumento','usuario\super\facturacion\Serie@tipo_documento')->name('super/facturacion/serie/tipodocumento');
+Route::post('super/facturacion/serie/actualizar','usuario\super\facturacion\Serie@actualizar')->name('super/facturacion/serie/actualizar');
+Route::post('super/facturacion/serie/eliminados','usuario\super\facturacion\Serie@eliminados')->name('super/facturacion/serie/eliminados');
+
 //rutas para el chat
 Route::get('chat','ChatController@index')->name('chat');
 Route::get('chat/contacts','ContactsController@get')->name('chat/contacts');

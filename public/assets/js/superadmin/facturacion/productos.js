@@ -81,15 +81,12 @@ function fxProductosEliminados(){
             console.error(error);
         }
     }).done(function(data){
-        console.log('Los datos devueltos son: ');
-        console.log(data);
-
         if(data.correcto){
             var f = 1;
             $.each(data.productos,function(){
                 var id_producto = this.id_producto_servicio;
                 this.numeroFila = f;
-                this.restaurar = '<button type="button" class="btn btn-success btn-sm" id="btnRestaurarProducto'+id_producto+'" onclick="fxRestaurarProducto('+id_producto+');">Restaurar</button>';
+                this.restaurar = '<button type="button" class="btn btn-success btn-sm" id="btnRestaurarProducto'+id_producto+'" onclick="fxConfirmacionRestaurarProducto('+id_producto+');">Restaurar</button>';
                 f++;
             });
             $('#tabEliminados').DataTable({
@@ -114,7 +111,6 @@ function fxProductosEliminados(){
 }
 function fxRestaurarProducto(producto){
     $('#btnRestaurarProducto'+producto).attr('disabled','true');
-
     $.ajax({
         type: 'POST',
         url: '/super/facturacion/producto/restaurar',
@@ -132,7 +128,6 @@ function fxRestaurarProducto(producto){
             alert('Algo salió mal...');
         }
     });
-
 }
 function fxFiltroUnidad(unidad){
     $.ajax({
@@ -273,11 +268,25 @@ function fxAplicarProducto(producto,e){
         }
     });
 }
+function fxConfirmacionRestaurarProducto(producto){
+    swal({
+        title: '¿Estas seguro?',
+        showCancelButton: true,
+        confirmButtonColor: '#0CC27E',
+        cancelButtonColor: '#FF586B',
+        confirmButtonText: 'Sí, restaurar!',
+        cancelButtonText: 'No, cancelar!',
+        confirmButtonClass: 'btn btn-success mr-5',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false
+    }).then(function() {
+        fxRestaurarProducto(producto);
+    }, function(dismiss) {});
+}
 
 function fxConfirmacionEliminarProducto(producto){
     swal({
         title: '¿Estas seguro?',
-        type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#0CC27E',
         cancelButtonColor: '#FF586B',
@@ -306,7 +315,7 @@ function fxEliminarProducto(producto){
         if(data.eliminado){
             location.reload();
         }else{
-            alert('Joder! algo salió mal');
+            alert('Algo salió mal. Recarga la página');
         }
     });
 }

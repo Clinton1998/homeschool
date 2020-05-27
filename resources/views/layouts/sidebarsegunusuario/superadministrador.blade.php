@@ -72,7 +72,7 @@
                 <div class="triangle"></div>
             </li>
 
-        </ul> 
+        </ul>
         <!-- FIN DE NUEVO MENU SLIDER -->
     </div>
 
@@ -80,7 +80,7 @@
     <div class="sidebar-left-secondary rtl-ps-none" data-perfect-scrollbar data-suppress-scroll-x="true">
         <ul class="childNav" data-parent="itemfacturacion">
             <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='alerts' ? 'item-open' : '' }}" href="{{route('alerts')}}">
+                <a class="{{ Route::currentRouteName()=='super/facturacion/series' ? 'item-activo' : '' }}" href="{{route('super/facturacion/series')}}">
                     <i class="nav-icon i-Split-Horizontal-2-Window"></i>
                     <span class="item-name">Series</span>
                 </a>
@@ -126,7 +126,7 @@
         </ul>
     </div>
 
-    
+
     <div class="sidebar-overlay"></div>
 </div>
 
@@ -142,7 +142,7 @@
             <input type="text" placeholder="Buscar tus herramientas" class="textBuscar" id="textBuscar">
         </div>
         <div class="tools-list" id="tools-list">
-            
+
         </div>
         <div class="tools-footer">
             <a class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#MODAL-TOOLS">Agregar</a>
@@ -185,14 +185,14 @@
                 <div class="formgroup">
                     <label for="">Imagen</label>
                 </div>
-                    
+
                 <div class="form-group" style="display: flex; flex-wrap: wrap; justify-content: space-between">
                     <label class="radio radio-light mr-1" id="file-web">
                         <input type="radio" name="radio" [value]="2" formControlName="radio" checked>
                         <span>Desde un enlace web</span>
                         <span class="checkmark"></span>
                     </label>
-                    
+
                     <label class="radio radio-light" id="file-pc">
                         <input type="radio" name="radio" [value]="1" formControlName="radio">
                         <span>Desde mi dispositivo</span>
@@ -223,7 +223,7 @@
         $('#tools-icon').show();
 
         MostrarHerramientas();
-        
+
         $('.boton_eliminar').hide();
         $('#quiero_cancelar').hide();
         $('#quiero_eliminar').show();
@@ -287,7 +287,7 @@
 
                 $.ajax({
                     url: "/herramienta/agregar",
-                    type: "post",  
+                    type: "post",
                     dataType: "html",
                     data: formData,
                     cache: false,
@@ -295,7 +295,7 @@
                     processData: false,
                     success:function(data){
                         /* $("#box_files"+id_modulo).load(" #box_files"+id_modulo); */
-                        
+
                         modal.modal('hide');
 
                         $("#nombre").val('');
@@ -334,7 +334,7 @@
 
         //5MB
         if (file_size > 5000000) {
-            
+
             Swal.fire({
                 position: 'center',
                 icon: 'info',
@@ -362,14 +362,14 @@
                 this.value = '';
                 this.files[0].name = '';
             }
-        } 
+        }
     });
 
     //Optener herramientas
     function MostrarHerramientas(){
         $.ajax({
             url: "/herramienta/listar",
-            type: "GET",  
+            type: "GET",
             /* data: {id_tarea: id}, */
             success:function(data){
                 console.log(data)

@@ -1,6 +1,6 @@
 @extends('reutilizable.principal')
 @section('page-css')
-    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
+    <!--<link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">-->
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
@@ -109,31 +109,32 @@
         </div>
     </div>
 
-    <!--modal crear producto-->
-  <div class="modal fade" id="mdlCrearProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+</section>
+<!--modal crear producto-->
+<div class="modal fade" id="mdlCrearProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Crear nuevo producto</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <form id="frmNuevoProducto" class="needs-validation" method="POST" action="{{url('/super/facturacion/producto/agregar')}}" novalidate>
-                @csrf
-                <div class="card-body">
-                    @error('tipo_producto')
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Crear nuevo producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="frmNuevoProducto" class="needs-validation" method="POST" action="{{url('/super/facturacion/producto/agregar')}}" novalidate>
+                    @csrf
+                    <div class="card-body">
+                        @error('tipo_producto')
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>{{$message}}</strong>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                                <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                    @enderror
-                    <div class="form-row">
-                        <div class="form-group col-md-4 radio-alumnos" id="divRadioAlumno">
-                            <label class="ul-form__label">Tipo:</label>
+                        @enderror
+                        <div class="form-row">
+                            <div class="form-group col-md-4 radio-alumnos" id="divRadioAlumno">
+                                <label class="ul-form__label">Tipo:</label>
                                 <div>
                                     <div class="radio-btn form-check form-check-inline">
                                         <label class="radio radio-success">
@@ -150,208 +151,208 @@
                                         </label>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
 
-                        <div class="form-group col-md-8">
-                            <label for="inpNombreProducto" class="ul-form__label">Nombre:</label>
-                            <input type="text" class="form-control @error('nombre_producto') is-invalid @enderror" name="nombre_producto" id="inpNombreProducto" placeholder="Ingrese el nombre del producto" required>
-                            <span class="invalid-feedback" role="alert">
+                            <div class="form-group col-md-8">
+                                <label for="inpNombreProducto" class="ul-form__label">Nombre:</label>
+                                <input type="text" class="form-control @error('nombre_producto') is-invalid @enderror" name="nombre_producto" id="inpNombreProducto" placeholder="Ingrese el nombre del producto" required>
+                                <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('nombre_producto'))
                                         @error('nombre_producto')
-                                            {{$message}}
+                                        {{$message}}
                                         @enderror
                                     @else
                                         El campo nombre producto es obligatorio
                                     @endif
                                     </strong>
                             </span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <span>Manual</span>
-                            <label class="switch switch-success mr-3 mt-5">
-                                <span>Autogenerado</span>
-                                <input type="checkbox" id="chkModoCodigo" name="modo_codigo_producto" value="generado">
-                                <span class="slider"></span>
-                            </label>
+                            </div>
                         </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="inpCodigoProducto" class="ul-form__label">Código:</label>
-                            <input type="text" class="form-control @error('codigo_producto') is-invalid @enderror" name="codigo_producto" id="inpCodigoProducto" placeholder="Ingrese código de producto" required>
-                            <span class="invalid-feedback" role="alert">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <span>Manual</span>
+                                <label class="switch switch-success mr-3 mt-5">
+                                    <span>Autogenerado</span>
+                                    <input type="checkbox" id="chkModoCodigo" name="modo_codigo_producto" value="generado">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="inpCodigoProducto" class="ul-form__label">Código:</label>
+                                <input type="text" class="form-control @error('codigo_producto') is-invalid @enderror" name="codigo_producto" id="inpCodigoProducto" placeholder="Ingrese código de producto" required>
+                                <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('codigo_producto'))
                                         @error('codigo_producto')
-                                            {{$message}}
+                                        {{$message}}
                                         @enderror
                                     @else
                                         El campo codigo producto es obligatorio
                                     @endif
                                     </strong>
                             </span>
-                        </div>
+                            </div>
 
-                        <div class="form-group col-md-4">
-                            <label for="selTributoProducto" class="ul-form__label">Tributo:</label>
-                            <select name="tributo_producto" id="selTributoProducto" class="form-control @error('tributo_producto') is-invalid @enderror" required>
-                                <option value="">--Seleccione--</option>
-                                @foreach($tributos as $tributo)
-                                    <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
-                                @endforeach
-                            </select>
-                            <span class="invalid-feedback" role="alert">
+                            <div class="form-group col-md-4">
+                                <label for="selTributoProducto" class="ul-form__label">Tributo:</label>
+                                <select name="tributo_producto" id="selTributoProducto" class="form-control @error('tributo_producto') is-invalid @enderror" required>
+                                    <option value="">--Seleccione--</option>
+                                    @foreach($tributos as $tributo)
+                                        <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+                                    @endforeach
+                                </select>
+                                <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('tributo_producto'))
                                         @error('tributo_producto')
-                                            {{$message}}
+                                        {{$message}}
                                         @enderror
                                     @else
                                         El campo tributo producto es obligatorio
                                     @endif
                                     </strong>
                             </span>
+                            </div>
+
                         </div>
 
-                    </div>
 
-
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inpUnidadProducto" class="ul-form__label">Unidad:</label>
-                            <input type="text" class="form-control @error('unidad_producto') is-invalid @enderror" name="unidad_producto" id="inpUnidadProducto" placeholder="Ingrese una unidad" required>
-                            <span class="invalid-feedback" role="alert">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inpUnidadProducto" class="ul-form__label">Unidad:</label>
+                                <input type="text" class="form-control @error('unidad_producto') is-invalid @enderror" name="unidad_producto" id="inpUnidadProducto" placeholder="Ingrese una unidad" required>
+                                <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('unidad_producto'))
                                         @error('unidad_producto')
-                                            {{$message}}
+                                        {{$message}}
                                         @enderror
                                     @else
                                         El campo unidad producto es obligatorio
                                     @endif
                                     </strong>
                             </span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="inpUnidadSunatProducto" class="ul-form__label">Unidad SUNAT:</label>
-                            <input type="text" class="form-control @error('unidad_sunat_producto') is-invalid @enderror" name="unidad_sunat_producto" id="inpUnidadSunatProducto" placeholder="Enter Contact Number" required>
-                            <span class="invalid-feedback" role="alert">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inpUnidadSunatProducto" class="ul-form__label">Unidad SUNAT:</label>
+                                <input type="text" class="form-control @error('unidad_sunat_producto') is-invalid @enderror" name="unidad_sunat_producto" id="inpUnidadSunatProducto" placeholder="Enter Contact Number" required>
+                                <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('unidad_sunat_producto'))
                                         @error('unidad_sunat_producto')
-                                            {{$message}}
+                                        {{$message}}
                                         @enderror
                                     @else
                                         El campo unidad sunat producto es obligatorio
                                     @endif
                                     </strong>
                             </span>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="inpPrecioProductoSinIgv" class="ul-form__label">Precio sin IGV:</label>
-                            <input type="text" class="form-control @error('precio_producto_sin_igv') is-invalid @enderror" name="precio_producto_sin_igv" id="inpPrecioProductoSinIgv" placeholder="Ingrese precio sin IGV" required>
-                            <span class="invalid-feedback" role="alert">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inpPrecioProductoSinIgv" class="ul-form__label">Precio sin IGV:</label>
+                                <input type="text" class="form-control @error('precio_producto_sin_igv') is-invalid @enderror" name="precio_producto_sin_igv" id="inpPrecioProductoSinIgv" placeholder="Ingrese precio sin IGV" required>
+                                <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('precio_producto_sin_igv'))
                                         @error('precio_producto_sin_igv')
-                                            {{$message}}
+                                        {{$message}}
                                         @enderror
                                     @else
                                         El campo precio producto sin igv es obligatorio
                                     @endif
                                     </strong>
                             </span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="inpPrecioProductoConIgv" class="ul-form__label">Precio con IGV:</label>
-                            <input type="text" class="form-control @error('precio_producto_con_igv') is-invalid @enderror" name="precio_producto_con_igv" id="inpPrecioProductoConIgv" placeholder="Ingrese precio con IGV" required>
-                            <span class="invalid-feedback" role="alert">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inpPrecioProductoConIgv" class="ul-form__label">Precio con IGV:</label>
+                                <input type="text" class="form-control @error('precio_producto_con_igv') is-invalid @enderror" name="precio_producto_con_igv" id="inpPrecioProductoConIgv" placeholder="Ingrese precio con IGV" required>
+                                <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('precio_producto_con_igv'))
                                         @error('precio_producto_con_igv')
-                                            {{$message}}
+                                        {{$message}}
                                         @enderror
                                     @else
                                         El campo precio producto con igv es obligatorio
                                     @endif
                                     </strong>
                             </span>
+                            </div>
                         </div>
+
                     </div>
 
-                </div>
-
-            </form>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary ladda-button" data-style="expand-left" form="frmNuevoProducto">
+                    <span class="ladda-label">Guardar</span>
+                </button>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary ladda-button" data-style="expand-left" form="frmNuevoProducto">
-            <span class="ladda-label">Guardar</span>
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
-  <!--final modal crear producto-->
+</div>
+<!--final modal crear producto-->
 
-    <!--modal editar producto-->
-    <div class="modal fade" id="mdlEditarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Editar producto</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+<!--modal editar producto-->
+<div class="modal fade" id="mdlEditarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Editar producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center" id="spinnerEditarProducto" style="display: none;">
+                    <div class="spinner-bubble spinner-bubble-light m-5"></div>
                 </div>
-                <div class="modal-body">
-                    <div class="text-center" id="spinnerEditarProducto" style="display: none;">
-                        <div class="spinner-bubble spinner-bubble-light m-5"></div>
-                    </div>
-                    <div id="divFrmProducto" style="display: block;">
-                        <form id="frmActualizarProducto" class="needs-validation" method="POST" action="{{url('/super/facturacion/producto/actualizar')}}" novalidate>
-                            @csrf
-                            <input type="hidden" id="inpIdProducto" name="id_producto" value="{{old('id_producto')}}">
-                            <div class="card-body">
-                                @error('tipo')
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>{{$message}}</strong>
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                @enderror
-                                <div class="form-row">
-                                    <div class="form-group col-md-4 radio-alumnos" id="divRadioAlumno">
-                                        <label class="ul-form__label">Tipo:</label>
-                                        <div>
-                                            <div class="radio-btn form-check form-check-inline">
-                                                <label class="radio radio-success">
-                                                    <input type="radio" name="tipo" [value]="1" formcontrolname="radio" class="form-check-input" id="optTipoProducto" value="producto" checked >
-                                                    <span>Producto</span>
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
-                                            <div class="radio-btn form-check form-check-inline">
-                                                <label class="radio radio-success">
-                                                    <input type="radio" name="tipo" [value]="1" formcontrolname="radio" class="form-check-input" id="optTipoServicio" value="servicio" >
-                                                    <span>Servicio</span>
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
+                <div id="divFrmProducto" style="display: block;">
+                    <form id="frmActualizarProducto" class="needs-validation" method="POST" action="{{url('/super/facturacion/producto/actualizar')}}" novalidate>
+                        @csrf
+                        <input type="hidden" id="inpIdProducto" name="id_producto" value="{{old('id_producto')}}">
+                        <div class="card-body">
+                            @error('tipo')
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{{$message}}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            @enderror
+                            <div class="form-row">
+                                <div class="form-group col-md-4 radio-alumnos" id="divRadioAlumno">
+                                    <label class="ul-form__label">Tipo:</label>
+                                    <div>
+                                        <div class="radio-btn form-check form-check-inline">
+                                            <label class="radio radio-success">
+                                                <input type="radio" name="tipo" [value]="1" formcontrolname="radio" class="form-check-input" id="optTipoProducto" value="producto" checked >
+                                                <span>Producto</span>
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                        <div class="radio-btn form-check form-check-inline">
+                                            <label class="radio radio-success">
+                                                <input type="radio" name="tipo" [value]="1" formcontrolname="radio" class="form-check-input" id="optTipoServicio" value="servicio" >
+                                                <span>Servicio</span>
+                                                <span class="checkmark"></span>
+                                            </label>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="form-group col-md-8">
-                                        <label for="inpNombre" class="ul-form__label">Nombre:</label>
-                                        <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" id="inpNombre" placeholder="Ingrese el nombre del producto" value="{{old('nombre')}}" required>
-                                        <span class="invalid-feedback" role="alert">
+                                <div class="form-group col-md-8">
+                                    <label for="inpNombre" class="ul-form__label">Nombre:</label>
+                                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" id="inpNombre" placeholder="Ingrese el nombre del producto" value="{{old('nombre')}}" required>
+                                    <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('nombre'))
                                         @error('nombre')
@@ -362,23 +363,23 @@
                                     @endif
                                     </strong>
                             </span>
-                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <span>Manual</span>
+                                    <label class="switch switch-success mr-3 mt-5">
+                                        <span>Autogenerado</span>
+                                        <input type="checkbox" id="chkModoCodigoEditar" name="modo_codigo">
+                                        <span class="slider"></span>
+                                    </label>
                                 </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-4">
-                                        <span>Manual</span>
-                                        <label class="switch switch-success mr-3 mt-5">
-                                            <span>Autogenerado</span>
-                                            <input type="checkbox" id="chkModoCodigoEditar" name="modo_codigo">
-                                            <span class="slider"></span>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label for="inpCodigo" class="ul-form__label">Código:</label>
-                                        <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" id="inpCodigo" placeholder="Ingrese código de producto" value="{{old('codigo')}}" required>
-                                        <span class="invalid-feedback" role="alert">
+                                <div class="form-group col-md-4">
+                                    <label for="inpCodigo" class="ul-form__label">Código:</label>
+                                    <input type="text" class="form-control @error('codigo') is-invalid @enderror" name="codigo" id="inpCodigo" placeholder="Ingrese código de producto" value="{{old('codigo')}}" required>
+                                    <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('codigo'))
                                         @error('codigo')
@@ -389,21 +390,21 @@
                                     @endif
                                     </strong>
                             </span>
-                                    </div>
+                                </div>
 
-                                    <div class="form-group col-md-4">
-                                        <label for="selTributo" class="ul-form__label">Tributo:</label>
-                                        <select name="tributo" id="selTributo" class="form-control @error('tributo') is-invalid @enderror" required>
-                                            <option value="">--Seleccione--</option>
-                                            @foreach($tributos as $tributo)
+                                <div class="form-group col-md-4">
+                                    <label for="selTributo" class="ul-form__label">Tributo:</label>
+                                    <select name="tributo" id="selTributo" class="form-control @error('tributo') is-invalid @enderror" required>
+                                        <option value="">--Seleccione--</option>
+                                        @foreach($tributos as $tributo)
                                             @if(old('tributo')==$tributo->id_tributo)
-                                                    <option value="{{$tributo->id_tributo}}" selected>{{$tributo->c_nombre}}</option>
-                                                @else
-                                                    <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+                                                <option value="{{$tributo->id_tributo}}" selected>{{$tributo->c_nombre}}</option>
+                                            @else
+                                                <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
                                             @endif
-                                            @endforeach
-                                        </select>
-                                        <span class="invalid-feedback" role="alert">
+                                        @endforeach
+                                    </select>
+                                    <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('tributo'))
                                         @error('tributo')
@@ -414,16 +415,16 @@
                                     @endif
                                     </strong>
                             </span>
-                                    </div>
-
                                 </div>
 
+                            </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inpUnidad" class="ul-form__label">Unidad:</label>
-                                        <input type="text" class="form-control @error('unidad') is-invalid @enderror" name="unidad" id="inpUnidad" placeholder="Ingrese una unidad" value="{{old('unidad')}}" required>
-                                        <span class="invalid-feedback" role="alert">
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inpUnidad" class="ul-form__label">Unidad:</label>
+                                    <input type="text" class="form-control @error('unidad') is-invalid @enderror" name="unidad" id="inpUnidad" placeholder="Ingrese una unidad" value="{{old('unidad')}}" required>
+                                    <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('unidad'))
                                         @error('unidad')
@@ -434,11 +435,11 @@
                                     @endif
                                     </strong>
                             </span>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inpUnidadSunat" class="ul-form__label">Unidad SUNAT:</label>
-                                        <input type="text" class="form-control @error('unidad_sunat') is-invalid @enderror" name="unidad_sunat" id="inpUnidadSunat" placeholder="Enter Contact Number" value="{{old('unidad_sunat')}}" required>
-                                        <span class="invalid-feedback" role="alert">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inpUnidadSunat" class="ul-form__label">Unidad SUNAT:</label>
+                                    <input type="text" class="form-control @error('unidad_sunat') is-invalid @enderror" name="unidad_sunat" id="inpUnidadSunat" placeholder="Enter Contact Number" value="{{old('unidad_sunat')}}" required>
+                                    <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('unidad_sunat'))
                                         @error('unidad_sunat')
@@ -449,14 +450,14 @@
                                     @endif
                                     </strong>
                             </span>
-                                    </div>
                                 </div>
+                            </div>
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <label for="inpPrecioSinIgv" class="ul-form__label">Precio sin IGV:</label>
-                                        <input type="text" class="form-control @error('precio_sin_igv') is-invalid @enderror" name="precio_sin_igv" id="inpPrecioSinIgv" placeholder="Ingrese precio sin IGV" value="{{old('precio_sin_igv')}}" required>
-                                        <span class="invalid-feedback" role="alert">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="inpPrecioSinIgv" class="ul-form__label">Precio sin IGV:</label>
+                                    <input type="text" class="form-control @error('precio_sin_igv') is-invalid @enderror" name="precio_sin_igv" id="inpPrecioSinIgv" placeholder="Ingrese precio sin IGV" value="{{old('precio_sin_igv')}}" required>
+                                    <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('precio_sin_igv'))
                                         @error('precio_sin_igv')
@@ -467,11 +468,11 @@
                                     @endif
                                     </strong>
                             </span>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <label for="inpPrecioConIgv" class="ul-form__label">Precio con IGV:</label>
-                                        <input type="text" class="form-control @error('precio_con_igv') is-invalid @enderror" name="precio_con_igv" id="inpPrecioConIgv" placeholder="Ingrese precio con IGV" value="{{old('precio_con_igv')}}" required>
-                                        <span class="invalid-feedback" role="alert">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="inpPrecioConIgv" class="ul-form__label">Precio con IGV:</label>
+                                    <input type="text" class="form-control @error('precio_con_igv') is-invalid @enderror" name="precio_con_igv" id="inpPrecioConIgv" placeholder="Ingrese precio con IGV" value="{{old('precio_con_igv')}}" required>
+                                    <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('precio_con_igv'))
                                         @error('precio_con_igv')
@@ -482,66 +483,64 @@
                                     @endif
                                     </strong>
                             </span>
-                                    </div>
                                 </div>
-
                             </div>
 
-                        </form>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary"  form="frmActualizarProducto">
-                        Guardar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--final modal editar producto-->
-
-    <!--modal ver productos eliminados-->
-    <div class="modal fade" id="mdlProductosEliminados" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Productos o servicios eliminados</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center" id="spinnerProductosEliminados" style="display: block;">
-                        <div class="spinner-bubble spinner-bubble-light m-5"></div>
-                    </div>
-                    <div id="divTabla" style="display: none;">
-                        <div class="table-responsive">
-                            <table id="tabEliminados" class="hs_tabla display table table-sm table-striped" style="width:100%">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Código</th>
-                                    <th>Tipo</th>
-                                    <th>Nombre</th>
-                                    <th>Restaurar</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
                         </div>
-                    </div>
+
+                    </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary"  form="frmActualizarProducto">
+                    Guardar
+                </button>
             </div>
         </div>
     </div>
-    <!--final modal ver productos eliminados-->
-</section>
+</div>
+<!--final modal editar producto-->
 
+<!--modal ver productos eliminados-->
+<div class="modal fade" id="mdlProductosEliminados" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Productos o servicios eliminados</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center" id="spinnerProductosEliminados" style="display: block;">
+                    <div class="spinner-bubble spinner-bubble-light m-5"></div>
+                </div>
+                <div id="divTabla" style="display: none;">
+                    <div class="table-responsive">
+                        <table id="tabEliminados" class="hs_tabla display table table-sm table-striped" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Código</th>
+                                <th>Tipo</th>
+                                <th>Nombre</th>
+                                <th>Restaurar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--final modal ver productos eliminados-->
 @endsection
 
 @section('page-js')
@@ -549,7 +548,7 @@
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
     <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
     <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
-    <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
+    <!--<script src="{{asset('assets/js/vendor/ladda.js')}}"></script>-->
     <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
     <script src="{{asset('assets/js/superadmin/facturacion/productos.js')}}"></script>
     @if($errors->has('tipo_producto') || $errors->has('nombre_producto') ||
