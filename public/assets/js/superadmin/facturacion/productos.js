@@ -18,12 +18,16 @@ $(document).ready(function() {
     $('#inpFiltroNombreCodigo').on('change',function(){
         fxBusquedaPorNombreCodigo($(this).val().trim());
     });
-    /*$('#inpFiltroNombreCodigo').on('keypress',function(e){
-        var code = (e.keyCode ? e.keyCode : e.which);
-        if(code==13){
-            fxBusquedaPorNombreCodigo($(this).val().trim());
+    //al momento de registrar
+    $('#chkModoCodigo').on('change',function(){
+        if($(this).prop('checked')){
+            $('#inpCodigoProducto').val('');
+            $('#inpCodigoProducto').attr('readonly','true');
+        }else{
+            $('#inpCodigoProducto').val('');
+            $('#inpCodigoProducto').removeAttr('readonly');
         }
-    });*/
+    });
 });
 
 function fxBusquedaPorNombreCodigo(nombreCodigo){

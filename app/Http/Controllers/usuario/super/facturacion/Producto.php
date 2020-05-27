@@ -56,8 +56,42 @@ class Producto extends Controller
         if(!is_null($colegio) && !empty($colegio)){
             $producto = new App\Producto_servicio_d;
             $producto->id_colegio = $colegio->id_colegio;
-            $producto->c_codigo = trim($request->input('codigo_producto'));
-            $producto->c_tipo_codigo = 'MANUAL';
+            //verificamos si el codigo es manual o autogenerado
+            $modo = $request->input('modo_codigo_producto');
+            if(isset($modo)){
+                //es autogenerado
+                //el codigo debe tener el formato de 00001
+                //obtener todos los productos de ese colegio con codigo generado(eliminados y no eliminados)
+                $generado_maximo = (int)(App\Producto_servicio_d::where([
+                    'id_colegio' => $colegio->id_colegio,
+                    'c_tipo_codigo' => 'GENERADO'
+                ])->max('c_codigo'));
+                $generado_maximo++;
+                $continua = true;
+                //posble cuando hay coincidencia de codigo de producto,
+                //cuando hay mixto(manual,generado)
+                while($continua){
+                    //verificamos si el codigo del producto,aun se encuntra
+                    $codigo_consulta = str_pad($generado_maximo, 5, "0", STR_PAD_LEFT);
+                    //consultamos un producto con ese codigo
+                    $pro_disponible = App\Producto_servicio_d::where([
+                        'id_colegio' => $colegio->id_colegio,
+                        'c_codigo' => $codigo_consulta
+                    ])->first();
+                    if(is_null($pro_disponible) || empty($pro_disponible)){
+                        $continua = false;
+                    }else{
+                        $generado_maximo++;
+                    }
+                }
+                $generado_maximo = str_pad($generado_maximo, 5, "0", STR_PAD_LEFT);
+                $producto->c_codigo = $generado_maximo;
+                $producto->c_tipo_codigo = 'GENERADO';
+            }else{
+                //es manual
+                $producto->c_codigo = trim($request->input('codigo_producto'));
+                $producto->c_tipo_codigo = 'MANUAL';
+            }
             $producto->c_nombre = trim($request->input('nombre_producto'));
             $producto->c_tipo = strtoupper($request->input('tipo_producto'));
             $producto->c_unidad = $request->input('unidad_producto');

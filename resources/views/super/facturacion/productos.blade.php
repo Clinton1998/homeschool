@@ -175,14 +175,14 @@
                                 <span>Manual</span>
                                 <label class="switch switch-success mr-3 mt-5">
                                     <span>Autogenerado</span>
-                                    <input type="checkbox" id="chkModoCodigo" name="modo_codigo_producto" value="generado">
+                                    <input type="checkbox" id="chkModoCodigo" name="modo_codigo_producto" value="generado" {{(old('modo_codigo_producto')!='')?'checked':''}}>
                                     <span class="slider"></span>
                                 </label>
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label for="inpCodigoProducto" class="ul-form__label">Código:</label>
-                                <input type="text" class="form-control @error('codigo_producto') is-invalid @enderror" name="codigo_producto" id="inpCodigoProducto" placeholder="Ingrese código de producto" value="{{old('codigo_producto')}}" required>
+                                <input type="text" class="form-control @error('codigo_producto') is-invalid @enderror" name="codigo_producto" id="inpCodigoProducto" placeholder="Ingrese código de producto" value="{{old('codigo_producto')}}" {{(old('modo_codigo_producto')!='')?'readonly':''}} required>
                                 <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('codigo_producto'))
