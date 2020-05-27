@@ -58,19 +58,23 @@ class AsignarTareas extends Controller
                 ->join('seccion_categoria_p','seccion_categoria_docente_p.id_seccion_categoria','=','seccion_categoria_p.id_seccion_categoria')
                 ->select('seccion_categoria_p.*','seccion_categoria_docente_p.id_seccion_categoria_docente as pivot_3')
                 ->where([
-                    'seccion_categoria_docente_p.id_docente' => $docente->id_docente
+                    'seccion_categoria_docente_p.id_docente' => $docente->id_docente,
                 ])->get();
         $array_cursos = array();
 
         foreach($pivot_seccion_categoria_docente as $pivot){
-            $item = array();
-            $temp_curso = App\Categoria_d::where([
-                'id_categoria' => $pivot->id_categoria,
-                'estado' => 1
-            ])->first();
-            if((!is_null($temp_curso) && !empty($temp_curso))){
-                $item['curso'] = $temp_curso;
-                array_push($array_cursos,$item);
+            //elegimos los cursos solo de la seccion que eligio
+            $pivot_seccion_categoria = DB::table('seccion_categoria_p')->where('id_seccion_categoria','=',$pivot->id_seccion_categoria)->first();
+            if($seccion->id_seccion == $pivot_seccion_categoria->id_seccion){
+                $item = array();
+                $temp_curso = App\Categoria_d::where([
+                    'id_categoria' => $pivot->id_categoria,
+                    'estado' => 1
+                ])->first();
+                if((!is_null($temp_curso) && !empty($temp_curso))){
+                    $item['curso'] = $temp_curso;
+                    array_push($array_cursos,$item);
+                }
             }
         }
         $cursos = collect($array_cursos);
@@ -109,7 +113,7 @@ class AsignarTareas extends Controller
         }else{
             return redirect('home');
         }
-        
+
         //return response()->json($request->all());
         $docente = App\Docente_d::findOrFail($request->input('id_docente'));
         $usuarioDocente = App\User::findOrFail(Auth::user()->id);
