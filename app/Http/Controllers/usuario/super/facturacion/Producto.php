@@ -56,9 +56,9 @@ class Producto extends Controller
         if(!is_null($colegio) && !empty($colegio)){
             $producto = new App\Producto_servicio_d;
             $producto->id_colegio = $colegio->id_colegio;
-            $producto->c_codigo = $request->input('codigo_producto');
+            $producto->c_codigo = trim($request->input('codigo_producto'));
             $producto->c_tipo_codigo = 'MANUAL';
-            $producto->c_nombre = $request->input('nombre_producto');
+            $producto->c_nombre = trim($request->input('nombre_producto'));
             $producto->c_tipo = strtoupper($request->input('tipo_producto'));
             $producto->c_unidad = $request->input('unidad_producto');
             $producto->c_unidad_sunat = $request->input('unidad_sunat_producto');
@@ -92,9 +92,9 @@ class Producto extends Controller
 
             if(!is_null($producto) && !empty($producto)){
                 //proceso para actualizar el producto
-                $producto->c_codigo = $request->input('codigo');
+                $producto->c_codigo = trim($request->input('codigo'));
                 $producto->c_tipo_codigo = 'MANUAL';
-                $producto->c_nombre = $request->input('nombre');
+                $producto->c_nombre = trim($request->input('nombre'));
                 $producto->c_tipo = strtoupper($request->input('tipo'));
                 $producto->c_unidad = $request->input('unidad');
                 $producto->c_unidad_sunat = $request->input('unidad_sunat');
@@ -311,7 +311,7 @@ class Producto extends Controller
             'id_superadministrador' => Auth::user()->id,
             'estado'=> 1
         ])->first();
-        
+
         if(!is_null($colegio) && !empty($colegio)){
             $nombre_codigo = $request->input('nombre_codigo');
             //obteniendo los productos con coincidencia en el nombre y codigo del producto

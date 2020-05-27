@@ -4,6 +4,7 @@ namespace App\Http\Controllers\usuario\super\facturacion;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App;
 use Auth;
 
@@ -107,7 +108,16 @@ class Serie extends Controller
                 $serie->c_documento_afectacion = strtoupper($request->input('documento_afectacion'));
             }
             $serie->c_serie = $request->input('serie');
-            $serie->b_principal = 0;
+            //verificamos si ya existe una serie no eliminado con el tipo de documento seleccionado
+            if(App\Serie_d::where([
+                'id_colegio' => $colegio->id_colegio,
+                'id_tipo_documento' => $tipo_documento->id_tipo_documento,
+                'estado' => 1
+            ])->count()==0){
+                $serie->b_principal = 1;
+            }else{
+                $serie->b_principal = 0;
+            }
             $serie->creador = Auth::user()->id;
             $serie->save();
             return redirect()->back();
@@ -162,6 +172,7 @@ class Serie extends Controller
             'id_superadministrador' => Auth::user()->id,
             'estado' => 1
         ])->first();
+
         if(!is_null($colegio) && !empty($colegio) && !is_null($tipo_documento) && !empty($tipo_documento)){
             //obtenemos la serie
             $serie = App\Serie_d::where([
@@ -169,7 +180,7 @@ class Serie extends Controller
                 'id_serie' => $request->input('id_serie'),
                 'estado' => 1
             ])->first();
-
+            $serie_tipo_documento = $serie->id_tipo_documento;
             if(!is_null($serie) && !empty($serie)){
                 //actualizamos la serie
                 $serie->id_tipo_documento = $tipo_documento->id_tipo_documento;
@@ -183,6 +194,18 @@ class Serie extends Controller
                 $serie->c_serie = $request->input('numero_serie');
                 $serie->modificador = Auth::user()->id;
                 $serie->save();
+
+                //verificamos si ha cambiado de tipo de documento
+                if($serie_tipo_documento!=$tipo_documento->id_tipo_documento){
+                    //verificamos si la serie actual era principal
+                    if($serie->b_principal==1){
+                        $affected = DB::table('serie_d')
+                            ->where([
+                                'id_colegio' => $colegio->id_colegio,
+                                'id_tipo_documento' => $serie_tipo_documento
+                            ])->update(['b_principal' => 0]);
+                    }
+                }
 
                 return redirect()->back();
             }
@@ -209,6 +232,14 @@ class Serie extends Controller
             ])->first();
 
             if(!is_null($serie) && !empty($serie)){
+                //verificamos si es una serie principal
+                if($serie->b_principal==1){
+                    $affected = DB::table('serie_d')
+                        ->where([
+                            'id_colegio' => $colegio->id_colegio,
+                            'id_tipo_documento' => $serie->id_tipo_documento
+                        ])->update(['b_principal' => 0]);
+                }
                 $serie->estado = 0;
                 $serie->save();
                 $datos = array(
@@ -285,6 +316,50 @@ class Serie extends Controller
 
         $datos = array(
             'restaurado' => FALSE
+        );
+        return response()->json($datos);
+    }
+    public function establecer_a_principal(Request $request){
+        $this->validate($request,[
+            'id_serie' => 'required|numeric'
+        ]);
+        //obtenemos el colegio
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado'=> 1
+        ])->first();
+
+        if(!is_null($colegio) && !empty($colegio)){
+            //verificamos que la serie exista  y no sea principal y que pertenesca al colegio
+            $serie = App\Serie_d::where([
+                'id_colegio' => $colegio->id_colegio,
+                'id_serie' => $request->input('id_serie'),
+                'estado' => 1,
+                'b_principal' => 0
+            ])->first();
+
+            if(!is_null($serie) && !empty($serie)){
+                //obtenemos series de ese tipo de documento de la serie y los actualizamos como no principal
+                //recuperamos las series eliminadas o no eliminadas
+                $affected = DB::table('serie_d')
+                    ->where([
+                        'id_colegio' => $colegio->id_colegio,
+                        'id_tipo_documento' => $serie->id_tipo_documento
+                    ])->update(['b_principal' => 0]);
+
+                //actualizamos la serie como principal de ese tipo
+                $serie->b_principal = 1;
+                $serie->save();
+
+                $datos = array(
+                    'correcto' => TRUE,
+                    'serie' => $serie
+                );
+                return response()->json($datos);
+            }
+        }
+        $datos = array(
+            'correcto' => FALSE
         );
         return response()->json($datos);
     }

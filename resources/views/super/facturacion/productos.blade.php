@@ -49,7 +49,7 @@
                     <div class="col">
                         <div class="form-group mt-3">
                             <button type="button" class="btn btn-danger btn-sm btn-icon m-1" id="btnVerProductosEliminados">
-                                <span class="ul-btn__icon"><i class="i-Facebook-2"></i></span>
+                                <span class="ul-btn__icon"><i class="i-File-Trash"></i></span>
                                 <span class="ul-btn__text">Registros eliminados</span>
                             </button>
                         </div>
@@ -138,14 +138,14 @@
                                 <div>
                                     <div class="radio-btn form-check form-check-inline">
                                         <label class="radio radio-success">
-                                            <input type="radio" name="tipo_producto" [value]="1" formcontrolname="radio" class="form-check-input" value="producto" checked >
+                                            <input type="radio" name="tipo_producto" [value]="1" formcontrolname="radio" class="form-check-input" value="producto" {{(old('tipo_producto')=='producto' || old('tipo_producto')=='')?'checked':''}} >
                                             <span>Producto</span>
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
                                     <div class="radio-btn form-check form-check-inline">
                                         <label class="radio radio-success">
-                                            <input type="radio" name="tipo_producto" [value]="1" formcontrolname="radio" class="form-check-input" value="servicio" >
+                                            <input type="radio" name="tipo_producto" [value]="1" formcontrolname="radio" class="form-check-input" value="servicio" {{(old('tipo_producto')=='servicio')?'checked':''}}>
                                             <span>Servicio</span>
                                             <span class="checkmark"></span>
                                         </label>
@@ -155,7 +155,7 @@
 
                             <div class="form-group col-md-8">
                                 <label for="inpNombreProducto" class="ul-form__label">Nombre:</label>
-                                <input type="text" class="form-control @error('nombre_producto') is-invalid @enderror" name="nombre_producto" id="inpNombreProducto" placeholder="Ingrese el nombre del producto" required>
+                                <input type="text" class="form-control @error('nombre_producto') is-invalid @enderror" name="nombre_producto" id="inpNombreProducto" placeholder="Ingrese el nombre del producto" value="{{old('nombre_producto')}}" required>
                                 <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('nombre_producto'))
@@ -182,7 +182,7 @@
 
                             <div class="form-group col-md-4">
                                 <label for="inpCodigoProducto" class="ul-form__label">Código:</label>
-                                <input type="text" class="form-control @error('codigo_producto') is-invalid @enderror" name="codigo_producto" id="inpCodigoProducto" placeholder="Ingrese código de producto" required>
+                                <input type="text" class="form-control @error('codigo_producto') is-invalid @enderror" name="codigo_producto" id="inpCodigoProducto" placeholder="Ingrese código de producto" value="{{old('codigo_producto')}}" required>
                                 <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('codigo_producto'))
@@ -201,7 +201,11 @@
                                 <select name="tributo_producto" id="selTributoProducto" class="form-control @error('tributo_producto') is-invalid @enderror" required>
                                     <option value="">--Seleccione--</option>
                                     @foreach($tributos as $tributo)
-                                        <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+                                        @if(old('tributo_producto') == $tributo->id_tributo)
+                                            <option value="{{$tributo->id_tributo}}" selected>{{$tributo->c_nombre}}</option>
+                                        @else
+                                            <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 <span class="invalid-feedback" role="alert">
@@ -223,7 +227,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inpUnidadProducto" class="ul-form__label">Unidad:</label>
-                                <input type="text" class="form-control @error('unidad_producto') is-invalid @enderror" name="unidad_producto" id="inpUnidadProducto" placeholder="Ingrese una unidad" required>
+                                <input type="text" class="form-control @error('unidad_producto') is-invalid @enderror" name="unidad_producto" id="inpUnidadProducto" placeholder="Ingrese una unidad" value="{{old('unidad_producto')}}" required>
                                 <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('unidad_producto'))
@@ -238,7 +242,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inpUnidadSunatProducto" class="ul-form__label">Unidad SUNAT:</label>
-                                <input type="text" class="form-control @error('unidad_sunat_producto') is-invalid @enderror" name="unidad_sunat_producto" id="inpUnidadSunatProducto" placeholder="Enter Contact Number" required>
+                                <input type="text" class="form-control @error('unidad_sunat_producto') is-invalid @enderror" name="unidad_sunat_producto" id="inpUnidadSunatProducto" placeholder="Enter Contact Number" value="{{old('unidad_sunat_producto')}}" required>
                                 <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('unidad_sunat_producto'))
@@ -256,7 +260,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inpPrecioProductoSinIgv" class="ul-form__label">Precio sin IGV:</label>
-                                <input type="text" class="form-control @error('precio_producto_sin_igv') is-invalid @enderror" name="precio_producto_sin_igv" id="inpPrecioProductoSinIgv" placeholder="Ingrese precio sin IGV" required>
+                                <input type="text" class="form-control @error('precio_producto_sin_igv') is-invalid @enderror" name="precio_producto_sin_igv" id="inpPrecioProductoSinIgv" placeholder="Ingrese precio sin IGV" value="{{old('precio_producto_sin_igv')}}" required>
                                 <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('precio_producto_sin_igv'))
@@ -271,7 +275,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inpPrecioProductoConIgv" class="ul-form__label">Precio con IGV:</label>
-                                <input type="text" class="form-control @error('precio_producto_con_igv') is-invalid @enderror" name="precio_producto_con_igv" id="inpPrecioProductoConIgv" placeholder="Ingrese precio con IGV" required>
+                                <input type="text" class="form-control @error('precio_producto_con_igv') is-invalid @enderror" name="precio_producto_con_igv" id="inpPrecioProductoConIgv" placeholder="Ingrese precio con IGV" value="{{old('precio_producto_con_igv')}}" required>
                                 <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('precio_producto_con_igv'))
@@ -334,14 +338,14 @@
                                     <div>
                                         <div class="radio-btn form-check form-check-inline">
                                             <label class="radio radio-success">
-                                                <input type="radio" name="tipo" [value]="1" formcontrolname="radio" class="form-check-input" id="optTipoProducto" value="producto" checked >
+                                                <input type="radio" name="tipo" [value]="1" formcontrolname="radio" class="form-check-input" id="optTipoProducto" value="producto" {{(old('tipo')=='producto')?'checked':''}} >
                                                 <span>Producto</span>
                                                 <span class="checkmark"></span>
                                             </label>
                                         </div>
                                         <div class="radio-btn form-check form-check-inline">
                                             <label class="radio radio-success">
-                                                <input type="radio" name="tipo" [value]="1" formcontrolname="radio" class="form-check-input" id="optTipoServicio" value="servicio" >
+                                                <input type="radio" name="tipo" [value]="1" formcontrolname="radio" class="form-check-input" id="optTipoServicio" value="servicio" {{(old('tipo')=='servicio')?'checked':''}}>
                                                 <span>Servicio</span>
                                                 <span class="checkmark"></span>
                                             </label>

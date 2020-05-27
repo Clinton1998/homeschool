@@ -37,6 +37,7 @@ Route::post('super/facturacion/serie/restaurar','usuario\super\facturacion\Serie
 Route::post('super/facturacion/serie/tipodocumento','usuario\super\facturacion\Serie@tipo_documento')->name('super/facturacion/serie/tipodocumento');
 Route::post('super/facturacion/serie/actualizar','usuario\super\facturacion\Serie@actualizar')->name('super/facturacion/serie/actualizar');
 Route::post('super/facturacion/serie/eliminados','usuario\super\facturacion\Serie@eliminados')->name('super/facturacion/serie/eliminados');
+Route::post('super/facturacion/serie/estableceraprincipal','usuario\super\facturacion\Serie@establecer_a_principal')->name('super/facturacion/serie/estableceraprincipal');
 
 //rutas para el chat
 Route::get('chat','ChatController@index')->name('chat');

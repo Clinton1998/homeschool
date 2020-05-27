@@ -18,6 +18,44 @@ $(document).ready(function(){
         destroy: true
     });
 });
+function fxConfirmacionEstablecerDefecto(serie,e){
+    e.preventDefault();
+    swal({
+        title: '¿Estas seguro?',
+        showCancelButton: true,
+        confirmButtonColor: '#0CC27E',
+        cancelButtonColor: '#FF586B',
+        confirmButtonText: 'Sí, establecer!',
+        cancelButtonText: 'No, cancelar!',
+        confirmButtonClass: 'btn btn-success mr-5',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false
+    }).then(function() {
+        fxEstablecerPorDefecto(serie);
+    }, function(dismiss) {});
+}
+
+function fxEstablecerPorDefecto(serie){
+    $('#btnEstablecerADefecto'+serie).attr('disabled','true');
+    $.ajax({
+        type: 'POST',
+        url: '/super/facturacion/serie/estableceraprincipal',
+        data: {
+            id_serie: serie
+        },
+        error: function(error){
+            alert('Ocurrió un error');
+            console.error(error);
+        }
+    }).done(function(data){
+        if(data.correcto){
+            location.reload();
+        }else{
+            alert('Algo salió mal. Recarga la página');
+        }
+    });
+
+}
 function fxConfirmacionRestaurarSerie(serie){
     swal({
         title: '¿Estas seguro?',

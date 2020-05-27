@@ -22,7 +22,7 @@
                         <div class="col">
                             <div class="form-group mt-3">
                                 <button type="button" class="btn btn-danger btn-sm btn-icon m-1" id="btnVerSeriesEliminados">
-                                    <span class="ul-btn__icon"><i class="i-Facebook-2"></i></span>
+                                    <span class="ul-btn__icon"><i class="i-File-Trash"></i></span>
                                     <span class="ul-btn__text">Registros eliminados</span>
                                 </button>
                             </div>
@@ -63,7 +63,14 @@
                                             @endif
                                         </td>
                                         <td>{{$serie->c_serie}}</td>
-                                        <td>{{$serie->b_principal}}</td>
+                                        <td class="text-center">
+                                            @if($serie->b_principal==1)
+                                                <span class="badge  badge-success sm">Por defecto</span>
+                                            @else
+
+                                                <a href="#" class="badge badge-danger" id="btnEstablecerADefecto{{$serie->id_serie}}" onclick="fxConfirmacionEstablecerDefecto({{$serie->id_serie}},event);">Establecer</a>
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="#" class="badge badge-warning" id="btnAplicarSerie{{$serie->id_serie}}" onclick="fxAplicarSerie({{$serie->id_serie}},event);" data-toggle="tooltip" data-placement="top" title="" data-original-title="Editar"><i class="i-Pen-5" style="font-size: 17px"></i></a>
                                             <a href="#" class="badge badge-danger" id="btnConfirmacionEliminarSerie{{$serie->id_serie}}" onclick="fxConfirmacionEliminarSerie({{$serie->id_serie}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Eliminar"><i class="i-Eraser-2" style="font-size: 17px"></i></a>
