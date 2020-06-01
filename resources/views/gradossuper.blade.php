@@ -1,7 +1,6 @@
 @extends('reutilizable.principal')
 @section('page-css')
 <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
-<link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
 @endsection
 
@@ -9,7 +8,7 @@
 <section class="contact-list">
     <div class="row">
         <div class="col-lg-12 col-md-12">
-            
+
             <div class="card mt-4">
                 <div class="card-body">
                     <!-- right control icon -->
@@ -41,7 +40,7 @@
                                         <button type="button" class="btn btn-sm btn-danger" id="btnConfirmacionEliminarGrado{{$grado->id_grado}}" onclick="fxConfirmacionEliminarGrado({{$grado->id_grado}});"data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="i-Eraser-2"></i></button>
                                         </h6>
                                     </div>
-    
+
                                 <div id="accordion-item-icon-right-{{$f}}" class="collapse" data-parent="#accordionRightIcon" style="">
                                         <div class="card-body">
                                             <ul>
@@ -53,22 +52,22 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         @endforeach
                         </div>
-                    
+
                     </div>
                     <!-- /right control icon -->
                 </div>
             </div>
         </div>
-        
+
     </div>
 </section>
 
 
 
-  
+
   <!-- Modal -->
   <div class="modal fade" id="mdlAgregarGrado" tabindex="-1" role="dialog" aria-labelledby="AgregarModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -112,7 +111,7 @@
     </div>
   </div>
 
-  
+
   <!-- Modal -->
   <div class="modal fade" id="mdlActualizarGrado" tabindex="-1" role="dialog" aria-labelledby="mdlActualizarGradoLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -162,9 +161,6 @@
 @endsection
 
 @section('page-js')
-
-
-<script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
 <!-- page script -->
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
@@ -177,11 +173,5 @@
 
 <script>
 $('#ul-contact-list').DataTable();
-/*new SlimSelect({
-  select: '#singleGrado'
-})
-new SlimSelect({
-  select: '#singleSeccion'
-})*/
 </script>
 @endsection

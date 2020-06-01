@@ -30,7 +30,7 @@
             }
             if (date('Y-m-d H:i:s') >= $fecha_corte) {
                 Session::flush();
-            }  
+            }
         @endphp
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -45,7 +45,9 @@
         <link rel="stylesheet" href="{{asset('assets/styles/vendor/perfect-scrollbar.css')}}">
         <link rel="stylesheet" href="{{asset('assets/styles/vendor/perfect-scrollbar.css')}}">
         <link rel="stylesheet" href="{{asset('assets/fonts/fontawesome-free-5.10.1-web/css/all.css')}}">
-
+        @if($tipo_usuario=='superadministrador')
+            <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
+        @endif
         {{-- page specific css --}}
         @yield('page-css')
 
@@ -67,9 +69,9 @@
             <div class="loader spinner-bubble spinner-bubble-light">
             </div>
         </div>
-        
 
-    
+
+
         <div class="app-admin-wrap layout-sidebar-large clearfix">
             @if($tipo_usuario=="superadministrador")
                 @include('layouts.menusegunusuario.superadministrador')
@@ -86,7 +88,7 @@
             @endif
             <!-- ============ Body content start ============= -->
             <div class="main-content-wrap sidenav-open d-flex flex-column">
-                <div class="main-content">                    
+                <div class="main-content">
                     @yield('main-content')
                 </div>
             </div>
@@ -147,13 +149,16 @@
 
         {{-- common js --}}
         <script src="{{  asset('assets/js/common-bundle-script.js')}}"></script>
+        @if($tipo_usuario=='superadministrador')
+            <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9" ></script>
+            <script src="{{asset('assets/js/superadmin/general.js')}}"></script>
+        @endif
         {{-- page specific javascript --}}
         @yield('page-js')
         <script src="{{asset('assets/js/script.js')}}"></script>
         <script src="{{asset('assets/js/sidebar.large.script.js')}}"></script>
         <script src="{{asset('assets/js/customizer.script.js')}}"></script>
-        
-        
         <script>
            $.ajaxSetup({
     headers: {

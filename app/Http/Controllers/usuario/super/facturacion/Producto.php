@@ -125,9 +125,52 @@ class Producto extends Controller
             ])->first();
 
             if(!is_null($producto) && !empty($producto)){
-                //proceso para actualizar el producto
-                $producto->c_codigo = trim($request->input('codigo'));
-                $producto->c_tipo_codigo = 'MANUAL';
+                //proceso para actualizar el producto}
+
+                $modo_anterior = strtoupper($producto->c_tipo_codigo);
+                //verificamos si el codigo es manual o autogenerado
+                $modo = $request->input('modo_codigo');
+                if(isset($modo)){
+                    //es autogenerado
+                    $modo = strtoupper($modo);
+
+                    //cuando se pasa de manual a generado
+                    if($modo=='GENERADO' && $modo_anterior=='MANUAL'){
+                        if($producto->c_codigo!=$request->input('codigo')){
+                            return "Falta implementar";
+                        }
+                        $generado_maximo = (int)(App\Producto_servicio_d::where([
+                            'id_colegio' => $colegio->id_colegio,
+                            'c_tipo_codigo' => 'GENERADO'
+                        ])->max('c_codigo'));
+                        $generado_maximo++;
+                        $continua = true;
+
+                        while($continua){
+                            //verificamos si el codigo del producto,aun se encuntra
+                            $codigo_consulta = str_pad($generado_maximo, 5, "0", STR_PAD_LEFT);
+                            //consultamos un producto con ese codigo
+                            $pro_disponible = App\Producto_servicio_d::where([
+                                'id_colegio' => $colegio->id_colegio,
+                                'c_codigo' => $codigo_consulta
+                            ])->first();
+                            if(is_null($pro_disponible) || empty($pro_disponible)){
+                                $continua = false;
+                            }else{
+                                $generado_maximo++;
+                            }
+                        }
+                        $generado_maximo = str_pad($generado_maximo, 5, "0", STR_PAD_LEFT);
+                        $producto->c_codigo = $generado_maximo;
+                        $producto->c_tipo_codigo = 'GENERADO';
+                    }
+                }else{
+                    //es manual
+                    $producto->c_codigo = $request->input('codigo');
+                    $producto->c_tipo_codigo = 'MANUAL';
+                }
+
+                //return "El valor de modo codigo es: ".$modo;
                 $producto->c_nombre = trim($request->input('nombre'));
                 $producto->c_tipo = strtoupper($request->input('tipo'));
                 $producto->c_unidad = $request->input('unidad');
@@ -137,7 +180,6 @@ class Producto extends Controller
                 $producto->id_tributo = $request->input('tributo');
                 $producto->modificador = Auth::user()->id;
                 $producto->save();
-
                 return redirect()->back();
             }
         }

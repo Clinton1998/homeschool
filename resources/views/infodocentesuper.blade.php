@@ -34,7 +34,7 @@
                             @else
                                 <div class="tab-pane fade active show" id="nav-editar" role="tabpanel" aria-labelledby="nav-editar-tab">
                             @endif
-                            
+
                                 <form id="frmActualizacionDocente" class="needs-validation" method="POST" action="{{route('super/docente/actualizar')}}" novalidate>
                                     @csrf
                                     <input type="hidden" id="id_docente" name="id_docente" value="{{$docente->id_docente}}">
@@ -43,8 +43,8 @@
                                         <div class="col-sm-4">
                                             <div class="input-group mb-3">
                                                 <input type="text" id="dni" name="dni"
-                                                class="form-control @error('dni') is-invalid @enderror" value="{{$docente->c_dni}}" minlength="8" minlength="8" required>    
-                                               
+                                                class="form-control @error('dni') is-invalid @enderror" value="{{$docente->c_dni}}" minlength="8" minlength="8" required>
+
                                                 <div class="input-group-append">
                                                     <button type="button" class="btn btn-light ladda-button"  data-style="expand-right" id="btnBuscarPorDNI">Buscar</button>
                                                 </div>
@@ -52,7 +52,7 @@
                                                     Debe ser un DNI válido
                                                 </span>
                                             </div>
-                                            
+
                                             @error('dni')
                                                 <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -63,7 +63,7 @@
                                         <label for="nombre" class="col-sm-2 col-form-label ">Apellidos y Nombres</label>
                                         <div class="col-sm-4">
                                             <input type="text" id="nombre_docente" name="nombre"
-                                                class="form-control hs_capitalize @error('nombre') is-invalid @enderror" value="{{$docente->c_nombre}}" required>    
+                                                class="form-control hs_capitalize @error('nombre') is-invalid @enderror" value="{{$docente->c_nombre}}" required>
                                                 <span class="invalid-feedback" role="alert">
                                                     El nombre es requerido
                                                     </span>
@@ -167,7 +167,7 @@
                                             @enderror
                                         </div>
 
-                                       
+
                                     </div>
 
                                     <div class="form-group row">
@@ -193,7 +193,7 @@
                                     </div>
                                 </form>
                             </div>
-    
+
                             <div class="tab-pane fade" id="nav-dicta" role="tabpanel" aria-labelledby="nav-dicta-tab">
                                 <div class="row">
                                     <div class="col-12">
@@ -202,14 +202,14 @@
                                 </div>
                                 <br>
                                 <div class="accordion" id="accordionRightIcon">
-                                    @foreach($docente->secciones()->where('seccion_d.estado','=',1)->get() as $seccion)                                        
+                                    @foreach($docente->secciones()->where('seccion_d.estado','=',1)->get() as $seccion)
                                         <div class="card " id="cardSeccion{{$seccion->id_seccion}}">
                                             <div class="card-header header-elements-inline">
                                                 <span class="card-title ul-collapse__icon--size ul-collapse__right-icon mb-0">
                                                     <span class="collapsed">
                                                         <strong>{{substr($seccion->grado->c_nombre,3)}} "{{$seccion->c_nombre}}"</strong>
                                                         <small>({{$seccion->grado->c_nivel_academico}})</small>
-                                                    </span> 
+                                                    </span>
                                                 </span>
                                                 <button type="button" class="btn btn-sm btn-danger float-right" id="btnQuitarSeccionDeDocente{{$seccion->id_seccion}}" onclick="fxQuitarSeccionDeDocente({{$docente->id_docente}},{{$seccion->id_seccion}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quitar"><i class="i-Eraser-2"></i></button>
                                             </div>
@@ -236,7 +236,7 @@
                                                         <span class="collapsed">
                                                             <strong>{{$curso['curso']['c_nombre']}}</strong>
                                                             <small>({{substr($curso['seccion']['grado']['c_nombre'],3)}} "{{$curso['seccion']['c_nombre']}}" {{$curso['seccion']['grado']['c_nivel_academico']}})</small>
-                                                        </span> 
+                                                        </span>
                                                     </span>
                                                     <button type="button" class="btn btn-sm btn-danger float-right" id="btnQuitarCategoriaDeDocente{{$curso['pivot']}}" onclick="fxQuitarCategoriaDeDocente({{$docente->id_docente}},{{$curso['pivot']}});" data-toggle="tooltip" data-placement="top" title="" data-original-title="Quitar"><i class="i-Eraser-2"></i></button>
                                                 </div>
@@ -250,7 +250,7 @@
                                 <div class="row mb-4">
                                     <div class="col-md-12 mb-4">
                                         <div class="card text-left">
-    
+
                                             <div class="card-body">
                                                 <div class="progress mb-3" id="divProgressFotoDocente" style="display: none;">
                                                     <div class="progress-bar w-100 progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Subiendo imagen</div>
@@ -271,23 +271,23 @@
                                                         <span class="invalid-feedback" role="alert">
                                                             Fotografía del docente
                                                         </span>
-                                                    </div>                                                
+                                                    </div>
                                                     <div class="form-group row">
                                                         <div class="col">
                                                             <button type="submit" id="btnActualizarFotoDocente" class="btn btn-primary float-right">Actualizar fotografía</button>
                                                         </div>
-                                                    </div>                                                
-                                                </form> 
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
-                    
+
                                     </div>
-    
+
                                 </div>
                             </div>
 
                             <div class="tab-pane fade" id="nav-acceso" role="tabpanel" aria-labelledby="nav-acceso-tab">
-                                
+
                                 <div class="form-group row">
                                     <label for="inpNombreUsuario" class="col-sm-3 col-form-label">Usuario</label>
                                     <div class="col-sm-9">
@@ -307,7 +307,7 @@
                                     <input type="hidden" id="infid_docente" id="infid_docente" value="{{$docente->id_docente}}">
                                     <div class="form-group row">
                                         <label for="inpContra" class="col-sm-3 col-form-label">Nueva contraseña</label>
-                                        
+
                                         <div class="col-sm-9">
                                             <input type="password" class="form-control @error('contrasena') is-invalid @enderror" name="contrasena" id="inpContra" minlength="6" required>
                                             <span class="invalid-feedback" role="alert">
@@ -356,12 +356,12 @@
                         @else
                             <img class="w-30" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Foto del docente">
                         @endif
-                        
+
                     @else
                         <img class="w-30" src="{{url('super/docente/foto/'.$docente->c_foto)}}" alt="Foto del docente">
                     @endif
                     </div>
-                    
+
                     <div class="card-body">
                         <div class="ul-contact-detail__info">
                             <div class="row">
@@ -409,11 +409,11 @@
                                         <span class="hs_capitalize-first">{{$docente->c_direccion}}</span>
                                      </div>
                                 </div>
-                                
+
                                 <div class="col-6 text-center">
-                                    
+
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -421,6 +421,7 @@
 
 
             </div>
+        </div>
         </div>
   </section>
 
@@ -439,21 +440,21 @@
             <form id="frmAgregarSeccionADocente" class="needs-validation" method="POST" action="{{route('super/docente/agregarseccion')}}" novalidate>
                 @csrf
                 <input type="hidden" id="sec_id_docente" name="sec_id_docente">
-                
+
                 <div class="form-group">
                     <label for="optsecciones">Eliga una o varias secciones</label>
-                    
+
                     <select id="optsecciones" name="optsecciones[]" multiple required>
                         @foreach($TMP as $seccion)
                             <option value="{{$seccion->id_seccion}}">{{substr($seccion->nom_grado,3)}} "{{$seccion->nom_seccion}}" {{$seccion->c_nivel_academico}}</option>
                         @endforeach
                     </select>
-                    
+
                     <span class="invalid-feedback" role="alert">
                         Seccion es necesario
                     </span>
                 </div>
-                
+
             </form>
         </div>
         <div class="modal-footer">

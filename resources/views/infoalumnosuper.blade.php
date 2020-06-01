@@ -40,8 +40,8 @@
                                     <div class="col-sm-4">
                                         <div class="input-group mb-3">
                                             <input type="text" id="dni" name="dni"
-                                            class="form-control @error('dni') is-invalid @enderror" value="{{$alumno->c_dni}}" minlength="8" maxlength="8" required>    
-                                            
+                                            class="form-control @error('dni') is-invalid @enderror" value="{{$alumno->c_dni}}" minlength="8" maxlength="8" required>
+
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-light ladda-button"  data-style="expand-right" id="btnBuscarPorDNI">Buscar</button>
                                             </div>
@@ -49,7 +49,7 @@
                                                 Debe ser un DNI válido
                                             </span>
                                         </div>
-                                        
+
                                         @error('dni')
                                             <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -60,7 +60,7 @@
                                     <label for="nombre" class="hs_capitalize col-sm-2 col-form-label  ">Nombre</label>
                                     <div class="col-sm-4">
                                         <input type="text" id="nombre_alumno" name="nombre"
-                                            class="form-control hs_capitalize @error('nombre') is-invalid @enderror" value="{{$alumno->c_nombre}}" required>    
+                                            class="form-control hs_capitalize @error('nombre') is-invalid @enderror" value="{{$alumno->c_nombre}}" required>
                                             <span class="invalid-feedback" role="alert">
                                                 El nombre es requerido
                                                 </span>
@@ -167,13 +167,13 @@
                                                 @if (strtoupper($seccion->c_nivel_academico) === 'INICIAL')
                                                     @if ($seccion->id_seccion == $alumno->id_seccion)
                                                         <option value="{{$seccion->id_seccion}}" selected>{{substr($seccion->nom_grado,3)}} "{{strtoupper($seccion->nom_seccion)}}" {{ucfirst(strtolower($seccion->c_nivel_academico))}}</option>
-                                                    @else 
+                                                    @else
                                                         <option value="{{$seccion->id_seccion}}">{{substr($seccion->nom_grado,3)}} "{{strtoupper($seccion->nom_seccion)}}" {{ucfirst(strtolower($seccion->c_nivel_academico))}}</option>
                                                     @endif
                                                 @else
                                                     @if ($seccion->id_seccion == $alumno->id_seccion)
                                                         <option value="{{$seccion->id_seccion}}" selected>{{ucfirst(strtolower(substr($seccion->nom_grado,3)))}} "{{strtoupper($seccion->nom_seccion)}}" {{ucfirst(strtolower($seccion->c_nivel_academico))}}</option>
-                                                    @else 
+                                                    @else
                                                         <option value="{{$seccion->id_seccion}}">{{ucfirst(strtolower(substr($seccion->nom_grado,3)))}} "{{strtoupper($seccion->nom_seccion)}}" {{ucfirst(strtolower($seccion->c_nivel_academico))}}</option>
                                                     @endif
                                                 @endif
@@ -255,7 +255,7 @@
                                             <option value="M">Masculino</option>
                                             <option value="F">Femenino</option>
                                         @endif
-                                        
+
                                     </select>
                                 </div>
                             </div>
@@ -385,23 +385,23 @@
                                                     <span class="invalid-feedback" role="alert">
                                                         Elige una foto
                                                     </span>
-                                                </div>                                                
+                                                </div>
                                                 <div class="form-group row">
                                                     <div class="col">
                                                         <button type="submit" id="btnSubirFotoAlumno" class="btn btn-primary float-right">Actualizar fotografía</button>
                                                     </div>
-                                                </div>                                                
-                                            </form> 
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
-                
+
                                 </div>
 
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-acceso" role="tabpanel" aria-labelledby="nav-acceso-tab">
-                            
+
                             <div class="form-group row">
                                 <label for="inpNombreUsuario" class="col-sm-3 col-form-label">Usuario</label>
                                 <div class="col-sm-9">
@@ -421,7 +421,7 @@
                             <input type="hidden" id="infid_alumno" id="infid_alumno" value="{{$alumno->id_alumno}}">
                             <div class="form-group row">
                                 <label for="inpContra" class="col-sm-3 col-form-label">Nueva contraseña</label>
-                                
+
                                 <div class="col-sm-9">
                                     <input type="password" class="form-control @error('contrasena') is-invalid @enderror" name="contrasena" id="inpContra" minlength="6" required>
                                     <span class="invalid-feedback" role="alert">
@@ -462,7 +462,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="col-lg-4 col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -475,23 +475,23 @@
                             <h5><small>({{strtoupper($alumno->seccion->grado->c_nivel_academico)}})</small></h5>
                         </div>
                     </div>
-    
+
                     <div class="text-center pt-4">
-    
+
                         @if(is_null($alumno->c_foto)  || empty($alumno->c_foto))
                             @if(strtoupper($alumno->c_sexo)=='M')
                                 <img class="w-30" src="{{asset('assets/images/usuario/studentman.png')}}" alt="Fotografía">
                             @else
                                 <img class="w-30" src="{{asset('assets/images/usuario/studentwoman.png')}}" alt="Fotografía">
                             @endif
-                            
+
                         @else
                             <img class="w-30" src="{{url('super/alumno/foto/'.$alumno->c_foto)}}" alt="Fotografía">
                         @endif
                     </div>
 
                     <div class="ul-contact-detail__info">
-                        
+
                         <div class="row">
                             <div class="col-6 text-center">
                                 <div class="ul-contact-detail__info-1">
@@ -521,7 +521,7 @@
                                     <span>{{$alumno->t_fecha_nacimiento}}</span>
                                 </div>
                             </div>
-                            
+
                             <div class="col-12 text-center">
                                 <div class="ul-contact-detail__info-1">
                                         <h5>Dirección</h5>
@@ -535,8 +535,8 @@
                                     <span class="hs_capitalize-first">{{$alumno->c_informacion_adicional}}</span>
                                 </div>
                             </div>
-                            
-                            
+
+
                         </div>
                     </div>
                 </div>
@@ -544,6 +544,7 @@
 
 
         </div>
+    </div>
     </div>
 </section>
 
@@ -601,7 +602,7 @@
             });
         });
 
-        // 
+        //
 
         $("#apellido_repre1").on("keypress", function () {
             $input=$(this);
@@ -645,7 +646,7 @@
             });
         });
 
-        // 
+        //
 
         $("#apellido_repre2").on("keypress", function () {
             $input=$(this);
@@ -736,7 +737,7 @@
         jQuery('#nacionalidad_repre1').keypress(function(tecla) {
             if(tecla.charCode > 47 && tecla.charCode < 58) return false;
         });
-        
+
         jQuery('#telefono_repre1').keypress(function(tecla) {
             if(tecla.charCode < 48 || tecla.charCode > 57) return false;
         });
@@ -762,7 +763,7 @@
         jQuery('#nacionalidad_repre2').keypress(function(tecla) {
             if(tecla.charCode > 47 && tecla.charCode < 58) return false;
         });
-        
+
         jQuery('#telefono_repre2').keypress(function(tecla) {
             if(tecla.charCode < 48 || tecla.charCode > 57) return false;
         });

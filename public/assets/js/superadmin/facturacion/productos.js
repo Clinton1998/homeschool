@@ -28,6 +28,16 @@ $(document).ready(function() {
             $('#inpCodigoProducto').removeAttr('readonly');
         }
     });
+
+    //al momento de actualizar
+    $('#chkModoCodigoEditar').on('change',function(){
+        if($(this).prop('checked')){
+            $('#inpCodigo').val('');
+            $('#inpCodigo').attr('readonly','true');
+        }else{
+            $('#inpCodigo').removeAttr('readonly');
+        }
+    });
 });
 
 function fxBusquedaPorNombreCodigo(nombreCodigo){

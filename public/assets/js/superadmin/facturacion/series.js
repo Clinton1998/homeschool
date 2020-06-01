@@ -231,17 +231,17 @@ function fxAplicarSerie(serie,e){
 }
 
 function fxAplicarTipoDocumento(tipo_documento,opcion){
-    if(tipo_documento.trim()==''){
-        if(opcion=='registrar'){
-            $('#divDocumentoAfectacion').html('');
-            $('#divDocumentoAfectacion').attr('style','display: none;');
-        }else if(opcion=='actualizar'){
-            $('#divDocumentoAfectacionEdicion').html('');
-            $('#divDocumentoAfectacionEdicion').attr('style','display: none;');
-        }
-    }else{
-        //console.log('Entro al else');
-        //alert('Ejecutandose');
+    if(opcion=='registrar'){
+        $('#btnCancelarRigistroSerie').attr('disabled','true');
+        $('#btnEnviarRegistroSerie').attr('disabled','true');
+        $('#divDocumentoAfectacion').html('');
+        $('#divDocumentoAfectacion').attr('style','display: none;');
+        $('#divFormGroupSerieRegistro').attr('style','display: none;');
+    }else if(opcion=='actualizar'){
+        $('#divDocumentoAfectacionEdicion').html('');
+        $('#divDocumentoAfectacionEdicion').attr('style','display: none;');
+    }
+    if(tipo_documento!=''){
         $.ajax({
             type: 'POST',
             url: '/super/facturacion/serie/tipodocumento',
@@ -253,8 +253,7 @@ function fxAplicarTipoDocumento(tipo_documento,opcion){
                 console.error(error);
             }
         }).done(function(data){
-            /*console.log('El tipo documento enviado es:  ');
-            console.log(data);*/
+
             if(opcion=='registrar'){
                 if(data.b_tipo==1){
                     //mostramos select de documento de afectacion
@@ -271,11 +270,32 @@ function fxAplicarTipoDocumento(tipo_documento,opcion){
                     </strong>
                 </span>
             `);
+                    $('#selDocumentoAfectacion').on('change',function(){
+                        fxPrefijo('registrar',data.id_tipo_documento,$(this).val());
+                    });
                     $('#divDocumentoAfectacion').show();
                 }else{
-                    //quitamos select de documento de afectacion
+                    //generamos el ayudante de autocompletado de la serie
+                    if(data.c_codigo_sunat=='01'){
+                        //factura electronica
+                        $('#divFormGroupSerieRegistro').find('span.input-group-text').text('F');
+                        $('#inpPrefijo').val('F');
+                    }else if(data.c_codigo_sunat=='03'){
+                        //boleta electronica
+                        $('#divFormGroupSerieRegistro').find('span.input-group-text').text('B');
+                        $('#inpPrefijo').val('B');
+                    }
                     $('#divDocumentoAfectacion').html('');
                     $('#divDocumentoAfectacion').attr('style','display: none;');
+
+                    $('#inpSerieRegistro').val('');
+                    $('#inpSerieRegistro').attr('minlength','3');
+                    $('#inpSerieRegistro').attr('maxlength','3');
+                    $('#inpSerieRegistro').removeAttr('readonly');
+                    $('#divFormGroupSerieRegistro').show();
+
+                    $('#btnCancelarRigistroSerie').removeAttr('disabled');
+                    $('#btnEnviarRegistroSerie').removeAttr('disabled');
                 }
             }else if(opcion=='actualizar'){
                 if(data.b_tipo==1){
@@ -301,5 +321,48 @@ function fxAplicarTipoDocumento(tipo_documento,opcion){
                 }
             }
         });
+    }
+}
+
+function fxPrefijo(opcion,tipo_documento,afectacion='-'){
+    //afectacion = -
+    //significa que no nos pasaron un valor para afectacion
+    if(opcion=='registrar'){
+        //alert('Se ejecuta');
+        if(afectacion=='-'){
+            afectacion = $('#selDocumentoAfectacion').val()
+        }
+        $('#btnCancelarRigistroSerie').attr('disabled','true');
+        $('#btnEnviarRegistroSerie').attr('disabled','true');
+        $('#divFormGroupSerieRegistro').attr('style','display: none;');
+        if(afectacion!=''){
+            var doc = afectacion.toUpperCase();
+            $.ajax({
+                type: 'POST',
+                url: '/super/facturacion/serie/prefijo',
+                data: {
+                    id_tipo_documento: tipo_documento,
+                    documento_afectacion: doc
+                },
+                error: function(error){
+                    alert('Ocurrió un error');
+                    console.error(error);
+                }
+            }).done(function(data){
+                if(data.correcto){
+                    $('#divFormGroupSerieRegistro').find('span.input-group-text').text(data.prefijo);
+                    $('#inpPrefijo').val(data.prefijo);
+                    $('#inpSerieRegistro').val('');
+                    $('#inpSerieRegistro').attr('minlength','2');
+                    $('#inpSerieRegistro').attr('maxlength','2');
+                    $('#inpSerieRegistro').removeAttr('readonly');
+                    $('#divFormGroupSerieRegistro').show();
+                    $('#btnCancelarRigistroSerie').removeAttr('disabled');
+                    $('#btnEnviarRegistroSerie').removeAttr('disabled');
+                }else{
+                    location.reload();
+                }
+            });
+        }
     }
 }

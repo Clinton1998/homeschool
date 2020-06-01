@@ -1,9 +1,7 @@
 @extends('reutilizable.principal')
 @section('page-css')
-    <!--<link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">-->
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 @endsection
 
 @section('main-content')
@@ -375,7 +373,7 @@
                                     <span>Manual</span>
                                     <label class="switch switch-success mr-3 mt-5">
                                         <span>Autogenerado</span>
-                                        <input type="checkbox" id="chkModoCodigoEditar" name="modo_codigo">
+                                        <input type="checkbox" id="chkModoCodigoEditar" name="modo_codigo" value="generado" {{(old('modo_codigo')!='')?'checked':''}}>
                                         <span class="slider"></span>
                                     </label>
                                 </div>
@@ -550,7 +548,6 @@
 @section('page-js')
     <script src="{{asset('assets/js/tooltip.script.js')}}"></script>
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
-    <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
     <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
     <!--<script src="{{asset('assets/js/vendor/ladda.js')}}"></script>-->
     <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>

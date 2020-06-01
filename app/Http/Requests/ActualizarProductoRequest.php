@@ -39,44 +39,12 @@ class ActualizarProductoRequest extends FormRequest
             'id_colegio' => $colegio->id_colegio,
             'estado' => 1
         ])->first();
-        //verificamos si el codigo del producto a cambiado
-        if((string)$producto->c_codigo!==(string)$codigo_producto && (string)$producto->c_nombre!==(string)$nombre_producto){
-            //validamos que el codigo y nombre no se repita
+
+        if(isset($this->modo_codigo)){
             return [
                 'id_producto' => 'required|numeric',
-                'id_colegio' => 'unique:producto_servicio_d,id_colegio,NULL,id_producto_servicio,c_nombre,'.$nombre_producto,
-                'id_colegio' => 'unique:producto_servicio_d,id_colegio,NULL,id_producto_servicio,c_codigo,'.$codigo_producto,
-                'tipo'=> 'required|min:8|max:8',
-                'nombre' => 'required|unique:producto_servicio_d,c_nombre,NULL,id_producto_servicio,id_colegio,'.$id_colegio.'|max:191',
-                'codigo' => 'required|unique:producto_servicio_d,c_codigo,NULL,id_producto_servicio,id_colegio,'.$id_colegio.'|max:191',
-                'tributo'=> 'required|numeric',
-                'unidad' => 'required|max:191',
-                'unidad_sunat' =>'required|max:191',
-                'precio_sin_igv'=> 'required|numeric|min:0',
-                'precio_con_igv'=> 'required|numeric|min:0',
-            ];
-        }else if((string)$producto->c_codigo===(string)$codigo_producto && (string)$producto->c_nombre!==(string)$nombre_producto){
-            //validamos que el nombre del producto no se repita
-            return [
-                'id_producto' => 'required|numeric',
-                'id_colegio' => 'unique:producto_servicio_d,id_colegio,NULL,id_producto_servicio,c_nombre,'.$nombre_producto,
-                'tipo'=> 'required|min:8|max:8',
-                'nombre' => 'required|unique:producto_servicio_d,c_nombre,NULL,id_producto_servicio,id_colegio,'.$id_colegio.'|max:191',
-                'codigo' => 'required|max:191',
-                'tributo'=> 'required|numeric',
-                'unidad' => 'required|max:191',
-                'unidad_sunat' =>'required|max:191',
-                'precio_sin_igv'=> 'required|numeric|min:0',
-                'precio_con_igv'=> 'required|numeric|min:0',
-            ];
-        }else if((string)$producto->c_codigo!==(string)$codigo_producto && (string)$producto->c_nombre===(string)$nombre_producto){
-            //validamos que el codigo no se repita
-            return [
-                'id_producto' => 'required|numeric',
-                'id_colegio' => 'unique:producto_servicio_d,id_colegio,NULL,id_producto_servicio,c_codigo,'.$codigo_producto,
                 'tipo'=> 'required|min:8|max:8',
                 'nombre' => 'required|max:191',
-                'codigo' => 'required|unique:producto_servicio_d,c_codigo,NULL,id_producto_servicio,id_colegio,'.$id_colegio.'|max:191',
                 'tributo'=> 'required|numeric',
                 'unidad' => 'required|max:191',
                 'unidad_sunat' =>'required|max:191',
@@ -84,17 +52,63 @@ class ActualizarProductoRequest extends FormRequest
                 'precio_con_igv'=> 'required|numeric|min:0',
             ];
         }else{
-            return [
-                'id_producto' => 'required|numeric',
-                'tipo'=> 'required|min:8|max:8',
-                'nombre' => 'required|max:191',
-                'codigo' => 'required|max:191',
-                'tributo'=> 'required|numeric',
-                'unidad' => 'required|max:191',
-                'unidad_sunat' =>'required|max:191',
-                'precio_sin_igv'=> 'required|numeric|min:0',
-                'precio_con_igv'=> 'required|numeric|min:0',
-            ];
+            //verificamos si el codigo y nombre del producto a cambiado
+            if((string)$producto->c_codigo!==(string)$codigo_producto && (string)$producto->c_nombre!==(string)$nombre_producto){
+                //validamos que el codigo y nombre no se repita
+                return [
+                    'id_producto' => 'required|numeric',
+                    'id_colegio' => 'unique:producto_servicio_d,id_colegio,NULL,id_producto_servicio,c_nombre,'.$nombre_producto,
+                    'id_colegio' => 'unique:producto_servicio_d,id_colegio,NULL,id_producto_servicio,c_codigo,'.$codigo_producto,
+                    'tipo'=> 'required|min:8|max:8',
+                    'nombre' => 'required|unique:producto_servicio_d,c_nombre,NULL,id_producto_servicio,id_colegio,'.$id_colegio.'|max:191',
+                    'codigo' => 'required|unique:producto_servicio_d,c_codigo,NULL,id_producto_servicio,id_colegio,'.$id_colegio.'|max:191',
+                    'tributo'=> 'required|numeric',
+                    'unidad' => 'required|max:191',
+                    'unidad_sunat' =>'required|max:191',
+                    'precio_sin_igv'=> 'required|numeric|min:0',
+                    'precio_con_igv'=> 'required|numeric|min:0',
+                ];
+            }else if((string)$producto->c_codigo===(string)$codigo_producto && (string)$producto->c_nombre!==(string)$nombre_producto){
+                //validamos que el nombre del producto no se repita
+                return [
+                    'id_producto' => 'required|numeric',
+                    'id_colegio' => 'unique:producto_servicio_d,id_colegio,NULL,id_producto_servicio,c_nombre,'.$nombre_producto,
+                    'tipo'=> 'required|min:8|max:8',
+                    'nombre' => 'required|unique:producto_servicio_d,c_nombre,NULL,id_producto_servicio,id_colegio,'.$id_colegio.'|max:191',
+                    'codigo' => 'required|max:191',
+                    'tributo'=> 'required|numeric',
+                    'unidad' => 'required|max:191',
+                    'unidad_sunat' =>'required|max:191',
+                    'precio_sin_igv'=> 'required|numeric|min:0',
+                    'precio_con_igv'=> 'required|numeric|min:0',
+                ];
+            }else if((string)$producto->c_codigo!==(string)$codigo_producto && (string)$producto->c_nombre===(string)$nombre_producto){
+                //validamos que el codigo no se repita
+                return [
+                    'id_producto' => 'required|numeric',
+                    'id_colegio' => 'unique:producto_servicio_d,id_colegio,NULL,id_producto_servicio,c_codigo,'.$codigo_producto,
+                    'tipo'=> 'required|min:8|max:8',
+                    'nombre' => 'required|max:191',
+                    'codigo' => 'required|unique:producto_servicio_d,c_codigo,NULL,id_producto_servicio,id_colegio,'.$id_colegio.'|max:191',
+                    'tributo'=> 'required|numeric',
+                    'unidad' => 'required|max:191',
+                    'unidad_sunat' =>'required|max:191',
+                    'precio_sin_igv'=> 'required|numeric|min:0',
+                    'precio_con_igv'=> 'required|numeric|min:0',
+                ];
+            }else{
+                return [
+                    'id_producto' => 'required|numeric',
+                    'tipo'=> 'required|min:8|max:8',
+                    'nombre' => 'required|max:191',
+                    'codigo' => 'required|max:191',
+                    'tributo'=> 'required|numeric',
+                    'unidad' => 'required|max:191',
+                    'unidad_sunat' =>'required|max:191',
+                    'precio_sin_igv'=> 'required|numeric|min:0',
+                    'precio_con_igv'=> 'required|numeric|min:0',
+                ];
+            }
         }
     }
 }

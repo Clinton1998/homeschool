@@ -38,6 +38,14 @@ Route::post('super/facturacion/serie/tipodocumento','usuario\super\facturacion\S
 Route::post('super/facturacion/serie/actualizar','usuario\super\facturacion\Serie@actualizar')->name('super/facturacion/serie/actualizar');
 Route::post('super/facturacion/serie/eliminados','usuario\super\facturacion\Serie@eliminados')->name('super/facturacion/serie/eliminados');
 Route::post('super/facturacion/serie/estableceraprincipal','usuario\super\facturacion\Serie@establecer_a_principal')->name('super/facturacion/serie/estableceraprincipal');
+Route::post('super/facturacion/serie/prefijo','usuario\super\facturacion\Serie@prefijo')->name('super/facturacion/serie/prefijo');
+
+//COMPROBANTE
+Route::get('super/facturacion/comprobante','usuario\super\facturacion\Comprobante@index')->name('super/facturacion/comprobante');
+Route::post('super/facturacion/comprobante/basiconecesario','usuario\super\facturacion\Comprobante@basico_necesario')->name('super/facturacion/comprobante/basiconecesario');
+Route::post('super/facturacion/comprobante/alumnos','usuario\super\facturacion\Comprobante@alumnos')->name('super/facturacion/comprobante/alumnos');
+Route::post('super/facturacion/comprobante/alumno','usuario\super\facturacion\Comprobante@alumno')->name('super/facturacion/comprobante/alumno');
+Route::post('super/facturacion/comprobante/posiblesclientes','usuario\super\facturacion\Comprobante@posibles_clientes')->name('super/facturacion/comprobante/posiblesclientes');
 
 //rutas para el chat
 Route::get('chat','ChatController@index')->name('chat');

@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 class Ruc extends Controller
 {
     public function buscar(Request $request){
-        $data = array(
-            'ruc' => $request->input('ruc')
-        );
-        $ch = curl_init("https://dniruc.apisperu.com/api/v1/ruc/" . $data['ruc'] . "?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImNsaW50b250YXBpYWxhZ2FyQGdtYWlsLmNvbSJ9.wEBYhpOvFDf_EpdRbDIDi6Oh5wYNUyFXqWa-V28_nV8");
+
+        $ruc = $request->input('ruc');
+        $ch = curl_init("http://144.217.215.6/sunat/libre.php?ruc=".$ruc);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
         $response = curl_exec($ch);
         curl_close($ch);
+
         return $response;
     }
 }

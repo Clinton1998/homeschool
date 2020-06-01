@@ -1,15 +1,15 @@
 @extends('reutilizable.principal')
 @section('page-css')
-    <!--<link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">-->
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 @endsection
 
 @section('main-content')
     <section class="ul-contact-detail">
         <!--<h2 class="hs_titulo">Productos o servicios</h2>-->
-
+        @foreach($errors->all() as $error)
+            <h1>{{$error}}</h1>
+        @endforeach
         <div class="row hs_contenedor">
             <div class="card  col col-sm-12">
                 <div class="card-body">
@@ -132,7 +132,7 @@
                             @if($errors->has('documento_afectacion') || old('documento_afectacion'))
                                 <div class="form-group" id="divDocumentoAfectacion">
                                     <label for="selDocumentoAfectacion">Documento afectación</label>
-                                    <select name="documento_afectacion" id="selDocumentoAfectacion" class="form-control" required>
+                                    <select name="documento_afectacion" id="selDocumentoAfectacion" onchange="fxPrefijo('registrar',{{old('tipo_documento')}});" class="form-control @error('documento_afectacion') is-invalid @enderror" required>
                                         @if(old('documento_afectacion')=='B')
                                             <option value="">--Seleccione--</option>
                                             <option value="B" selected>BOLETA</option>
@@ -164,7 +164,29 @@
                                 </div>
                             @endif
 
-                            <div class="form-group">
+                            <div class="form-group" id="divFormGroupSerieRegistro" style="display: {{($errors->has('serie'))?'block':'none'}};">
+                                <label for="inpSerieRegistro">Serie</label>
+                                <div class="input-group mb-3">
+                                    <input type="hidden" name="prefijo" id="inpPrefijo">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">{{old('prefijo')}}</span>
+                                    </div>
+                                    <input type="text" class="form-control @error('serie') is-invalid @enderror" id="inpSerieRegistro" name="serie" value="{{old('serie')}}" {{($errors->has('serie'))?'minlength=2 maxlength=3':'readonly'}} required>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>
+                                            @if($errors->has('serie'))
+                                                @error('serie')
+                                                {{$message}}
+                                                @enderror
+                                            @else
+                                                El campo serie debe contener como mínimo 2 números y como máximo 3 números
+                                            @endif
+                                        </strong>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!--<div class="form-group">
                                 <label for="inpSerie">Serie</label>
                                 <input type="text" name="serie" id="inpSerie" class="form-control @error('serie') is-invalid @enderror" value="{{old('serie')}}" required>
                                 <span class="invalid-feedback" role="alert">
@@ -178,12 +200,12 @@
                                     @endif
                                     </strong>
                                 </span>
-                            </div>
+                            </div>-->
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="frmNuevaSerie">Guardar</button>
+                    <button type="button" class="btn btn-danger" id="btnCancelarRigistroSerie" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btnEnviarRegistroSerie" form="frmNuevaSerie">Guardar</button>
                 </div>
             </div>
         </div>
@@ -341,9 +363,7 @@
 @section('page-js')
     <script src="{{asset('assets/js/tooltip.script.js')}}"></script>
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
-    <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
     <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
-    <!--<script src="{{asset('assets/js/vendor/ladda.js')}}"></script>-->
     <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
     <script src="{{asset('assets/js/superadmin/facturacion/series.js')}}"></script>
 

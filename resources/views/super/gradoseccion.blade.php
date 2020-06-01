@@ -7,7 +7,6 @@
 
 <head>
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 </head>
 
 <body>
@@ -481,8 +480,6 @@
 @endsection
 
 @section('page-js')
-    <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
-
 <script>
 
     $('#ul-contact-list').DataTable( {

@@ -9,14 +9,13 @@
 
 <head>
   <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
-  <link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 </head>
 
 <body onload="LlenarSelects()">
 
     <!--Contendor principal de los Cards-->
     <div class="row justify-content-center">
-        
+
         <!--Aside: Asignaturas o cursos-->
         <div id="hs_aside_cursos" class="mb-3 col col-lg-5 col-md-5 col-sm-12">
             <div class="card">
@@ -30,7 +29,7 @@
                         <div class="hs_encabezado-linea" style="margin-bottom: 5px;"></div>
                         <small>En este apartado, usted puede registrar cursos, áreas o asignaturas.</small>
                     </div>
-    
+
                     <br>
 
                     <!--Formulario de asignaturas-->
@@ -106,7 +105,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <div class="table-responsive">
                         <table id="tbl_asignaturas" class="hs_tabla nowrap table table-striped table-hover" style="width:100%;">
                             <thead>
@@ -120,7 +119,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            
+
                             </tbody>
                         </table>
                     </div>
@@ -163,15 +162,15 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="ul-widget__body">
                     <div class="tab-content">
-                        
+
                         <div class="tab-pane active" id="ul-widget2-tab1-content">
                             <div class="botonera-superior-derecha">
                                 <button id="btn_inicial" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_asign_inicial">Asignar</button>
                             </div>
-            
+
                             <div class="table-responsive">
                                 <table id="tbl_inicial" class=" hs_tabla display table table-striped nowrap" style="width:100%;">
                                     <thead>
@@ -187,17 +186,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    
+
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-    
+
                         <div class="tab-pane" id="ul-widget2-tab2-content">
                             <div class="botonera-superior-derecha">
                                 <button id="btn_primaria" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_asign_primaria">Asignar</button>
                             </div>
-            
+
                             <div class="table-responsive">
                                 <table id="tbl_primaria" class=" hs_tabla display table table-striped" style="width:100%;">
                                     <thead>
@@ -213,17 +212,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    
+
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-    
+
                         <div class="tab-pane " id="ul-widget2-tab3-content">
                             <div class="botonera-superior-derecha">
                                 <button id="btn_secundaria" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_asign_secundaria">Asignar</button>
                             </div>
-            
+
                             <div class="table-responsive">
                                 <table id="tbl_secundaria" class=" hs_tabla display table table-striped" style="width:100%;">
                                     <thead>
@@ -239,17 +238,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    
+
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-    
+
                     </div>
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <!--Crear asignación de cursos para Inicial-->
@@ -268,7 +267,7 @@
                         <div class="form-group">
                             <label for="asignaturas">Asignatura(s)</label>
                             <select id="asignaturas" name="asignaturas[]" multiple>
-                                
+
                             </select>
                             <div class="invalid-feedback">
                                 Seleccione uno o varias asignaturas
@@ -312,7 +311,7 @@
                         <div class="form-group">
                             <label for="asignatura">Asignatura</label>
                             <select id="asignatura" name="asignatura" class="form-control">
-                                
+
                             </select>
                             <div class="invalid-feedback">
                                 Seleccione una asignatura
@@ -356,7 +355,7 @@
                         <div class="form-group">
                             <label for="asignaturas2">Asignatura(s)</label>
                             <select id="asignaturas2" name="asignaturas2[]" multiple>
-                                
+
                             </select>
                             <div class="invalid-feedback">
                                 Seleccione uno o varias asignaturas
@@ -400,7 +399,7 @@
                         <div class="form-group">
                             <label for="asignatura2">Asignatura</label>
                             <select id="asignatura2" name="asignatura2" class="form-control">
-                                
+
                             </select>
                             <div class="invalid-feedback">
                                 Seleccione una asignatura
@@ -444,7 +443,7 @@
                         <div class="form-group">
                             <label for="asignaturas3">Asignatura(s)</label>
                             <select id="asignaturas3" name="asignaturas3[]" multiple>
-                                
+
                             </select>
                             <div class="invalid-feedback">
                                 Seleccione uno o varias asignaturas
@@ -488,7 +487,7 @@
                         <div class="form-group">
                             <label for="asignatura3">Asignatura</label>
                             <select id="asignatura3" name="asignatura3" class="form-control">
-                                
+
                             </select>
                             <div class="invalid-feedback">
                                 Seleccione una asignatura
@@ -549,7 +548,7 @@
                                     <p>DNI: 123456789</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_contacto">
                                 <div class="card_list_telefono">
                                     <strong>Telf.: 950404040</strong>
@@ -558,7 +557,7 @@
                                     <p class="card_list_correo_ext">correo_electronico_extenso@gmail.com</p>
                                 </div>
                             </div>
-    
+
                             <div class="card_list_representante">
                                 <div class="card_list_representante_nombre">
                                     <small class="card_list_representante_nombre_block">
@@ -600,7 +599,6 @@
 </script>
 
 <script src="{{asset('assets/js/superadmin/asignaturas.js')}}"></script>
-<script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
 <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>

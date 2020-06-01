@@ -1,5 +1,17 @@
 <head>
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-panel-super.css')}}">
+    <style>
+        .bg-primary-super{
+            background-color: #4563BF;
+        }
+        .bg-primary-super:hover{
+            cursor: pointer;
+            border-left: 0.8em solid #F1C40F;
+        }
+        .card-necesario-activo{
+            border-left: 0.8em solid #F1C40F;
+        }
+    </style>
 </head>
 
 <div class="side-content-wrap">
@@ -104,7 +116,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
+                <a class="{{ Route::currentRouteName()=='super/facturacion/comprobante' ? 'item-activo' : '' }}" href="#" data-toggle="modal" data-target="#mdlElegirTipoComprobante">
                     <i class="nav-icon i-Split-Horizontal-2-Window"></i>
                     <span class="item-name">Comprobante</span>
                 </a>
@@ -157,6 +169,190 @@
 
     </div>
 </div>
+
+<!--modal elegir boleta o factura-->
+    <div class="modal" id="mdlElegirTipoComprobante" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form id="frmNecesarioParaComprobante" class="needs-validation" method="GET" action="{{url('/super/facturacion/comprobante')}}" novalidate>
+                        @csrf
+
+                    <div class="row row-cols-1 row-cols-md-2">
+                        <div class="col mb-4 select-tipo">
+                            <div class="card bg-primary-super" onclick="fxElegirTipoComprobante('B');" id="cardTipoBoleta">
+                                <div class="card-body">
+                                    <h2 class="text-white text-center">Boleta</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col mb-4 select-tipo">
+                            <div class="card bg-primary-super" onclick="fxElegirTipoComprobante('F');" id="cardTipoFactura">
+
+                                <div class="card-body">
+                                    <h2 class="text-white text-center">Factura</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center" id="spinnerBasicoNecesario" style="display: none;">
+                        <div class="spinner-bubble spinner-bubble-light m-5"></div>
+                    </div>
+
+                    <div id="divBasicoNecesario" style="display: none;">
+
+                        <div class="form-group row">
+                            <label for="selNecesarioSerie" class="ul-form__label ul-form--margin col-lg-3 col-form-label ">Serie:</label>
+                            <div class="col">
+                                <select name="serie_comprobante" id="selNecesarioSerie" class="form-control form-control-lg input-necesario" required>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="selNecesarioMoneda" class="ul-form__label ul-form--margin col-lg-3 col-form-label ">Moneda:</label>
+                            <div class="col">
+                                <select name="moneda_comprobante" id="selNecesarioMoneda" class="form-control form-control-lg input-necesario" required>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="selNecesarioTipoImpresion" class="ul-form__label ul-form--margin col-lg-3 col-form-label ">Tipo impresion:</label>
+                            <div class="col">
+                                <select name="tipo_impresion_comprobante" id="selNecesarioTipoImpresion" class="form-control form-control-lg input-necesario">
+                                </select>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="inpNecesarioIdAlumno" name="id_alumno_comprobante" value="">
+                        <!--<input type="hidden" id="inpNecesarioDniCliente" name="dni_comprobante" value="">
+                        <input type="hidden" id="inpNecesarioNombreCliente" name="nombre_comprobante" value="">-->
+                        <!--posibles valores = ['alumno','representante1','representante2','personalizado']-->
+                        <input type="hidden" id="inpNecesarioTipoDatoClienteParaAlumno" name="tipo_dato_cliente_comprobante">
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success btn-lg" id="btnSiguienteBasicoParaComprobante" style="display: none;" data-toggle="modal" data-target="#mdlElegirAlumnoParaComprobante">Siguiente</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--final modal elegir boleta o factura-->
+
+<!--modal elegir alumno para comprobante-->
+<div class="modal" id="mdlElegirAlumnoParaComprobante" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="text-primary font-weight-bold text-center">¿Es para alumno?</h3>
+
+                <div class="row row-cols-1 row-cols-md-2">
+                    <div class="col mb-4 select-alumno">
+                        <div class="card bg-primary-super" onclick="fxElegirAlumno('SI');" id="cardSiEsParaAlumno">
+                            <div class="card-body">
+                                <h2 class="text-white text-center">SÍ</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col mb-4 select-alumno">
+                        <div class="card bg-primary-super" onclick="fxElegirAlumno('NO');" id="cardNoEsParaAlumno">
+
+                            <div class="card-body">
+                                <h2 class="text-white text-center">NO</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center" id="spinnerBasicoNecesarioParaAlumno" style="display: none;">
+                    <div class="spinner-bubble spinner-bubble-light m-5"></div>
+                </div>
+
+                <div id="divBasicoNecesarioParaAlumno" style="display: none;">
+                    <h4 class="text-primary">Elige alumno(a)</h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-sm" id="tabAlumnosParaComprobante" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>DNI</th>
+                                    <th>Apellidos y nombres</th>
+                                    <th>Grado-Sección-Nivel</th>
+                                    <th>Elegir</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#mdlElegirTipoComprobante">Atrás</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--final modal elegir alumno para comprobante-->
+
+<!--modal elegir cliente para alumno en comprobante-->
+<div class="modal" id="mdlElegirClienteParaAlumno" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3 class="text-primary font-weight-bold text-center">¿Cuál dato desea utilizar para el comprobante?</h3>
+
+                <div class="row row-cols-1 row-cols-md-2" id="divElegirCliente" style="display: none;">
+                    <div class="col-12 mb-2 select-cliente">
+                        <div class="card bg-primary-super" id="cardClienteAlumno">
+                            <div class="card-body">
+                                <span class="text-white text-center"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-2 select-cliente">
+                        <div class="card bg-primary-super" id="cardClienteRepresentante1">
+                            <div class="card-body">
+                                <span class="text-white text-center"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-2 select-cliente">
+                        <div class="card bg-primary-super" id="cardClienteRepresentante2">
+                            <div class="card-body">
+                                <span class="text-white text-center"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-2 select-cliente">
+                        <div class="card bg-primary-super" id="cardClientePersonalizado">
+                            <div class="card-body">
+                                <span class="text-white text-center">Personalizado</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center" id="spinnerClienteNecesarioParaAlumno" style="display: none;">
+                    <div class="spinner-bubble spinner-bubble-light m-5"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#mdlElegirAlumnoParaComprobante">Atrás</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--final modal elegir cliente para alumno en comprobante-->
+
 
 <div class="modal fade" id="MODAL-TOOLS" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
@@ -214,260 +410,3 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9" ></script>
-
-<script>
-    $(document).ready(function(){
-        $('#tools-container').hide();
-        $('#tools-icon').show();
-
-        MostrarHerramientas();
-
-        $('.boton_eliminar').hide();
-        $('#quiero_cancelar').hide();
-        $('#quiero_eliminar').show();
-
-        $('#textBuscar').keyup(function () {
-            var rex = new RegExp($(this).val(), 'i');
-
-            $('.tools-item').hide();
-
-            $('.tools-item').filter(function () {
-                return rex.test($(this).text());
-            }).show();
-        });
-
-        $('#logo_fisico').hide();
-        $('#logo_link').show();
-    });
-
-    $('#tools-icon').click(function(){
-        $('#tools-container').fadeIn();
-        $('#tools-icon').hide();
-    });
-
-    $('.tools-nav-min').click(function(){
-        $('#tools-container').fadeOut();
-        $('#tools-icon').fadeIn();
-    });
-
-    //Agregar herramienta
-    $("#frm-tools").on("submit", function(e){
-        e.preventDefault();
-        var f = $(this);
-
-        nombre = $("#nombre").val();
-        file = $("#logo_fisico").val();
-        link = $("#logo_link").val();
-        url = $("#link").val();
-
-        modal = $('#MODAL-TOOLS');
-
-        if (nombre == '') {
-            Swal.fire({
-                position: 'center',
-                icon: 'info',
-                text: 'Su nueva herramienta, necesita un título',
-                showConfirmButton: true,
-                confirmButtonColor: '#3498db'
-            });
-        } else {
-            if (url == '') {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'info',
-                    text: 'Necesita escribir o copiar el enlace de la herramienta',
-                    showConfirmButton: true,
-                    confirmButtonColor: '#3498db'
-                });
-            } else {
-                var formData = new FormData(document.getElementById("frm-tools"));
-                formData.append("dato", "valor");
-
-                $.ajax({
-                    url: "/herramienta/agregar",
-                    type: "post",
-                    dataType: "html",
-                    data: formData,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    success:function(data){
-                        /* $("#box_files"+id_modulo).load(" #box_files"+id_modulo); */
-
-                        modal.modal('hide');
-
-                        $("#nombre").val('');
-                        $("#logo_fisico").val('');
-                        $("#logo_link").val('');
-                        $("#link").val('');
-
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            text: 'Su nueva herramienta fue configurada correctamente',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        MostrarHerramientas();
-                        console.log(data);
-                    },
-                    error: function(){
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'warning',
-                            text: 'Su herramienta no pudo ser configurada, vuelva a intentarlo',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    }
-                });
-            }
-        }
-    });
-
-    //Validar tamaño de archivo
-    $(document).on('change', 'input[type="file"]', function(){
-        var file_name = this.files[0].name;
-        var file_size = this.files[0].size;
-
-        //5MB
-        if (file_size > 5000000) {
-
-            Swal.fire({
-                position: 'center',
-                icon: 'info',
-                text: 'El archivo no debe superar los 5MB',
-                showConfirmButton: true,
-                confirmButtonColor: '#3498db'
-            });
-
-            this.value = '';
-            this.files[0].name = '';
-        } else {
-            var archivo = this.value;
-            var extensiones = archivo.substring(archivo.lastIndexOf("."));
-
-            if(extensiones != ".jpg" && extensiones != ".jpeg" && extensiones != ".png" && extensiones != ".gif")
-            {
-                Swal.fire({
-                    position: 'center',
-                    icon: 'info',
-                    text: 'Archivo no válido, intente con otro archivo',
-                    showConfirmButton: true,
-                    confirmButtonColor: '#3498db'
-                });
-
-                this.value = '';
-                this.files[0].name = '';
-            }
-        }
-    });
-
-    //Optener herramientas
-    function MostrarHerramientas(){
-        $.ajax({
-            url: "/herramienta/listar",
-            type: "GET",
-            /* data: {id_tarea: id}, */
-            success:function(data){
-                console.log(data)
-
-                Comentarios = '';
-
-                if (data.herramientas.length > 0) {
-                    data.herramientas.forEach(function (herramienta, indice){
-                        Comentarios += '<div class="tools-item" data-toggle="tooltip" data-placement="top" title="'+ herramienta.c_link +'">';
-                            Comentarios += '<div class="text-right tools-delete-box"><a href="#" class="badge badge-danger boton_eliminar" onclick="EliminarHerramienta('+ herramienta.id_herramienta +')">x</a></div>';
-                            Comentarios += '<a class="tools-link" id="tool_link_'+ herramienta.id_herramienta +'" href="'+ herramienta.c_link +'" target="_blank">';
-                                /* Comentarios +='<input type="hidden" id="tool_'+ herramienta.id_herramienta +'" name="tool_'+ herramienta.id_herramienta +'" value="">'; */
-                                if (herramienta.c_logo_fisico == null && herramienta.c_logo_link == null) {
-                                    Comentarios += '<img id="tool_image_'+ herramienta.id_herramienta +'" class="tools-img" src="/assets/images/briefcase.png" alt="Tool">';
-                                } else if (herramienta.c_logo_fisico == null){
-                                    Comentarios += '<img id="tool_image_'+ herramienta.id_herramienta +'" class="tools-img" src="'+ herramienta.c_logo_link +'" alt="Tool">';
-                                } else {
-                                    Comentarios += '<img id="tool_image_'+ herramienta.id_herramienta +'" class="tools-img" src="' + '/herramienta/logo/' + herramienta.c_logo_fisico + '" alt="Tool">';
-                                }
-                                Comentarios += '<small id="tool_name_'+ herramienta.id_herramienta +'" class="tools-name">'+ herramienta.c_nombre +'</small>';
-                            Comentarios += '</a>';
-                        Comentarios += '</div>';
-                    })
-                };
-
-                $('#tools-list').html(Comentarios);
-            },
-            error: function(){
-                alert('Error al leer los comentarios');
-            }
-        })
-    };
-
-    //Eliminar herramienta
-    function EliminarHerramienta(id){
-        Swal.fire({
-            text: "¿Quiere eliminar esta herramienta?",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#ffffff',
-            cancelButtonColor: '#e74c3c',
-            confirmButtonText: 'Si, eliminar'
-        }).then((result) => {
-            if (result.value) {
-                $.ajax({
-                    url: '/herramienta/eliminar',
-                    type: 'POST',
-                    data: {
-                        id_herramienta: id
-                    },
-                    success:function(data){
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            text: 'Herramienta eliminada correctamente',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        MostrarHerramientas();
-                        $('#quiero_cancelar').hide();
-                        $('#quiero_eliminar').show();
-                    },
-                    error: function(){
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'warning',
-                            text: 'Problemas al intentar eliminar la herramienta, vuelva a intentarlo',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                        $('#quiero_cancelar').hide();
-                        $('#quiero_eliminar').show();
-                    }
-                })
-            }
-        })
-    }
-
-    function MostrarEliminar(){
-        $('.boton_eliminar').show();
-        $('#quiero_cancelar').show();
-        $('#quiero_eliminar').hide();
-    }
-
-    function CancelarEliminar(){
-        $('.boton_eliminar').hide();
-        $('#quiero_cancelar').hide();
-        $('#quiero_eliminar').show();
-    }
-
-    $('#file-pc').click(function(){
-        $('#logo_fisico').show();
-        $('#logo_link').hide();
-    });
-
-    $('#file-web').click(function(){
-        $('#logo_fisico').hide();
-        $('#logo_link').show();
-    });
-
-</script>

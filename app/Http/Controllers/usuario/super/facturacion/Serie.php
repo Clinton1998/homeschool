@@ -75,7 +75,8 @@ class Serie extends Controller
             $this->validate($request,[
                 'tipo_documento' => 'required|numeric',
                 'documento_afectacion' => 'required|string|size:1',
-                'serie' => 'required|max:191'
+                'prefijo' => 'required|string|min:1|max:2',
+                'serie' => 'required|numeric|digits:2'
             ]);
             //verificamos que el documento de afectacion sea F O B
             $documento_afectacion = strtoupper($request->input('documento_afectacion'));
@@ -85,7 +86,8 @@ class Serie extends Controller
         }else{
             $this->validate($request,[
                 'tipo_documento' => 'required|numeric',
-                'serie' => 'required|max:191'
+                'prefijo' => 'required|string|min:1|max:2',
+                'serie' => 'required|numeric|digits:3'
             ]);
         }
         //verificamos que el tipo documento exista
@@ -107,7 +109,7 @@ class Serie extends Controller
                 //guardamos el documento de afectacion
                 $serie->c_documento_afectacion = strtoupper($request->input('documento_afectacion'));
             }
-            $serie->c_serie = $request->input('serie');
+            $serie->c_serie = $request->input('prefijo').$request->input('serie');
             //verificamos si ya existe una serie no eliminado con el tipo de documento seleccionado
             if(App\Serie_d::where([
                 'id_colegio' => $colegio->id_colegio,
@@ -356,6 +358,59 @@ class Serie extends Controller
                     'serie' => $serie
                 );
                 return response()->json($datos);
+            }
+        }
+        $datos = array(
+            'correcto' => FALSE
+        );
+        return response()->json($datos);
+    }
+
+    public function prefijo(Request $request){
+        $this->validate($request,[
+            'id_tipo_documento' => 'required|numeric',
+            'documento_afectacion' => 'required|string|size:1'
+        ]);
+
+        //obtenemos el tipo de documento
+        $tipo_documento = App\Tipo_documento_m::where([
+            'id_tipo_documento' => $request->input('id_tipo_documento'),
+            'estado'=> 1
+        ])->first();
+
+        if(!is_null($tipo_documento) && !empty($tipo_documento) && $tipo_documento->b_tipo==1){
+            $documento_afectacion = strtoupper($request->input('documento_afectacion'));
+            //es nota de credito o debito
+            if($tipo_documento->c_codigo_sunat=='07'){
+                //nota de credito
+                if($documento_afectacion=='F') {
+                    $datos = array(
+                        'correcto' => TRUE,
+                        'prefijo' => 'FC'
+                    );
+                    return response()->json($datos);
+                }else if($documento_afectacion=='B'){
+                    $datos = array(
+                        'correcto' => TRUE,
+                        'prefijo' => 'BC'
+                    );
+                    return response()->json($datos);
+                }
+            }else if($tipo_documento->c_codigo_sunat=='08'){
+                //nota de debito
+                if($documento_afectacion=='F') {
+                    $datos = array(
+                        'correcto' => TRUE,
+                        'prefijo' => 'FD'
+                    );
+                    return response()->json($datos);
+                }else if($documento_afectacion=='B'){
+                    $datos = array(
+                        'correcto' => TRUE,
+                        'prefijo' => 'BD'
+                    );
+                    return response()->json($datos);
+                }
             }
         }
         $datos = array(

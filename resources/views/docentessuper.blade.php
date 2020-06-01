@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
 
 <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
-<link rel="stylesheet" href="{{ asset('assets/styles/vendor/datatables.min.css') }}">
 @endsection
 
 @section('main-content')
@@ -21,7 +20,7 @@
                 <h4 class="hs_encabezado-titulo">Docentes de la Institución</h4>
                 <div class="hs_encabezado-linea"></div>
             </div>
-            
+
             <div class="col" style="padding-right: 0;">
                 <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg" class="btn btn-primary float-right mb-3"><i class="i-Add-User text-white mr-2"></i>Nuevo docente</button>
             </div>
@@ -67,7 +66,7 @@
                             </tr>
                         @endforeach
                     </tbody>
-                   
+
                 </table>
             </div>
         </div>
@@ -103,21 +102,21 @@
                                                     <label for="dni" >Número de DNI</label>
                                                     <input type="text" class="form-control form-control-sm" id="dni" name="dni" minlength="8" maxlength="8" required>
                                                     <div class="help-block with-errors text-danger"></div>
-                                                </div>  
-                                                
+                                                </div>
+
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="apellido" >Apellidos</label>
                                                     <input type="text" class="form-control form-control-sm" id="apellido" name="apellido" required>
                                                     <div class="help-block with-errors text-danger"></div>
-                                                </div> 
+                                                </div>
 
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="nombre" >Nombre(s)</label>
                                                     <input type="text" id="nombre_docente" name="nombre"  class="form-control form-control-sm" required>
                                                     <div class="help-block with-errors text-danger"></div>
-                                                </div> 
+                                                </div>
                                             </div>
-                                        
+
                                             <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                 <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="nacionalidad" >Nacionalidad</label>
@@ -166,7 +165,7 @@
 
                                     <div id="step-2">
                                         <div class="form-group">
-                                        
+
                                             <label for="optsecciones"><strong>Asignar secciones</strong></label>
                                             <select id="optsecciones" name="optsecciones[]" multiple>
                                                 @foreach($TMP as $seccion)
@@ -177,28 +176,28 @@
                                                     @endif
 
                                                 @endforeach
-                                            </select> 
+                                            </select>
                                         </div>
 
                                     </div>
 
                                     <div id="step-3">
                                         <div id="divCursos">
-                                            
+
                                         </div>
-                                        
+
                                     </div>
-                                    
+
                                     <div id="step-4">
                                         <div class="form-group">
                                             <input type='file' class="hs_upload form-control form-control-lg" id="fotodocente" name="fotodocente" accept="image/x-png,image/gif,image/jpeg">
-                                        </div>                                                
+                                        </div>
                                     </div>
 
                                 </div>
                             </div>
                         </form>
-                        
+
 
 
             </div>
@@ -286,11 +285,6 @@
         });
     });
 </script>
-
-
-
-<script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
-
 <!-- page script -->
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
