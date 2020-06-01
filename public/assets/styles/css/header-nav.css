@@ -100,6 +100,7 @@
     text-transform: capitalize;
     margin-bottom: 0;
     max-width: 125px;
+    font-size: 11px;
 }
 
 .user_avatar {

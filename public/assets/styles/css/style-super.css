@@ -178,6 +178,7 @@ a {
     color: #FFF;
     cursor: s-resize;
     font-weight: 400;
+    vertical-align: middle !important;
 }
 
 .hs_tabla td {
@@ -625,4 +626,10 @@ a {
             "meet";
         max-width: 320px;
     }
+}
+
+
+.press-mayusculas {
+    font-size: 12px;
+    text-transform: uppercase;
 }

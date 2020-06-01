@@ -103,7 +103,7 @@
 
                         <div class="form-group">
                             <label for="nombre">Sección</label>
-                            <input type="text" class="form-control" id="nombre"name="nombre"  placeholder="Ejemplo: A" required>
+                            <input type="text" class="form-control press-mayusculas key-letras-numeros" id="nombre"name="nombre"  placeholder="Ejemplo: A" required>
                             <div class="invalid-feedback">
                                 La sección es necesaria
                             </div>
@@ -135,7 +135,7 @@
 
                         <div class="form-group">
                             <label for="actnombre">Sección</label>
-                            <input type="text" class=" hs_upper form-control" id="actnombre" name="actnombre"  placeholder="Ejemplo: A" required>
+                            <input type="text" class=" hs_upper form-control press-mayusculas key-letras-numeros" id="actnombre" name="actnombre"  placeholder="Ejemplo: A" required>
                             <div class="invalid-feedback">
                                 La sección es necesaria
                             </div>
@@ -486,31 +486,6 @@
         //paging: false,
         //"bInfo" : false
     } );
-
-    $(document).ready( function () {
-        $("#nombre").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toUpperCase());
-            });
-        });
-        $("#actnombre").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toUpperCase());
-            });
-        })
-    });
-
-    jQuery(document).ready(function() {
-        jQuery('#nombre').keypress(function(tecla) {
-            if((tecla.charCode < 48 || tecla.charCode > 57) && (tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90)) return false;
-        });
-        jQuery('#actnombre').keypress(function(tecla) {
-            if((tecla.charCode < 48 || tecla.charCode > 57) && (tecla.charCode < 97 || tecla.charCode > 122) && (tecla.charCode < 65 || tecla.charCode > 90)) return false;
-        });
-    });
-
 </script>
 
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
@@ -520,5 +495,6 @@
 <script src="{{asset('assets/js/ladda.script.js')}}"></script>
 <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
 <script src="{{asset('assets/js/superadmin/secciones.js')}}"></script>
+<script src="{{asset('assets/js/all/validacionKey.js')}}"></script>
 
 @endsection

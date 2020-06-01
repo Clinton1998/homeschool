@@ -43,7 +43,7 @@
                                         <div class="col-sm-4">
                                             <div class="input-group mb-3">
                                                 <input type="text" id="dni" name="dni"
-                                                class="form-control @error('dni') is-invalid @enderror" value="{{$docente->c_dni}}" minlength="8" minlength="8" required>
+                                                class="only-numeros form-control @error('dni') is-invalid @enderror" value="{{$docente->c_dni}}" minlength="8" maxlength="8" required>
 
                                                 <div class="input-group-append">
                                                     <button type="button" class="btn btn-light ladda-button"  data-style="expand-right" id="btnBuscarPorDNI">Buscar</button>
@@ -63,7 +63,7 @@
                                         <label for="nombre" class="col-sm-2 col-form-label ">Apellidos y Nombres</label>
                                         <div class="col-sm-4">
                                             <input type="text" id="nombre_docente" name="nombre"
-                                                class="form-control hs_capitalize @error('nombre') is-invalid @enderror" value="{{$docente->c_nombre}}" required>
+                                                class="press-mayusculas only-letras form-control hs_capitalize @error('nombre') is-invalid @enderror" value="{{$docente->c_nombre}}" required>
                                                 <span class="invalid-feedback" role="alert">
                                                     El nombre es requerido
                                                     </span>
@@ -78,7 +78,7 @@
                                     <div class="form-group row">
                                         <label for="nacionalidad" class="col-sm-2 col-form-label ">Nacionalidad</label>
                                         <div class="col-sm-4">
-                                        <input type="text" id="nacionalidad" name="nacionalidad" class="hs_capitalize form-control  @error('nacionalidad') is-invalid @enderror" value="{{$docente->c_nacionalidad}}" required>
+                                        <input type="text" id="nacionalidad" name="nacionalidad" class="press-mayusculas only-letras hs_capitalize form-control  @error('nacionalidad') is-invalid @enderror" value="{{$docente->c_nacionalidad}}" required>
                                         <span class="invalid-feedback" role="alert">
                                             La nacionalidad es requerido
                                             </span>
@@ -94,11 +94,11 @@
                                         <div class="col-sm-4">
                                             <select name="sexo" id="sexo" class="form-control @error('sexo') is-invalid @enderror" required>
                                                 @if(strtoupper($docente->c_sexo)=='M')
-                                                    <option value="M" selected>Masculino</option>
-                                                    <option value="F">Femenino</option>
+                                                    <option value="M" selected>MASCULINO</option>
+                                                    <option value="F">FEMENINO</option>
                                                 @else
-                                                    <option value="M">Masculino</option>
-                                                    <option value="F" selected>Femenino</option>
+                                                    <option value="M">MASCULINO</option>
+                                                    <option value="F" selected>FEMENINO</option>
                                                 @endif
                                             </select>
 
@@ -126,7 +126,7 @@
 
                                         <label for="correo" class="col-sm-2 col-form-label ">Correo</label>
                                         <div class="col-sm-4">
-                                        <input type="email" class="form-control @error('correo') is-invalid @enderror" id="correo" name="correo" value="{{$docente->c_correo}}" required>
+                                        <input type="email" class="press-mayusculas form-control @error('correo') is-invalid @enderror" id="correo" name="correo" value="{{$docente->c_correo}}" required>
                                         <span class="invalid-feedback" role="alert">
                                             Debe ser un correo válido
                                             </span>
@@ -142,7 +142,7 @@
                                     <div class="form-group row">
                                         <label for="telefono" class="col-sm-2 col-form-label ">Teléfono</label>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="telefono" name="telefono" value="{{$docente->c_telefono}}" required>
+                                            <input type="text" class="only-numeros form-control @error('telefono') is-invalid @enderror" id="telefono" name="telefono" value="{{$docente->c_telefono}}" maxlength="15" required>
                                             <span class="invalid-feedback" role="alert">
                                                 El telefono es requerido
                                                 </span>
@@ -156,7 +156,7 @@
 
                                         <label for="especialidad" class="col-sm-2 col-form-label ">Especialidad</label>
                                         <div class="col-sm-4">
-                                            <input type="text" class="form-control hs_capitalize @error('especialidad') is-invalid @enderror" id="especialidad" name="especialidad" value="{{$docente->c_especialidad}}">
+                                            <input type="text" class="press-mayusculas only-letras form-control hs_capitalize @error('especialidad') is-invalid @enderror" id="especialidad" name="especialidad" value="{{$docente->c_especialidad}}">
                                             <span class="invalid-feedback" role="alert">
                                                 Especialidad es requerido
                                                 </span>
@@ -173,7 +173,7 @@
                                     <div class="form-group row">
                                         <label for="direccion" class="col-sm-2 col-form-label ">Dirección</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="hs_capitalize-first form-control  @error('direccion') is-invalid @enderror" id="direccion" name="direccion" value="{{$docente->c_direccion}}" required>
+                                            <input type="text" class="press-mayusculas hs_capitalize-first form-control  @error('direccion') is-invalid @enderror" id="direccion" name="direccion" value="{{$docente->c_direccion}}" required>
                                             <span class="invalid-feedback" role="alert">
                                                 La dirección es requerido
                                                 </span>
@@ -187,7 +187,7 @@
 
                                     <div class="form-group row">
                                         <div class="col" style="display:flex; justify-content: space-between;">
-                                            <a href="{{route('super/docentes')}}" class="btn btn-light float-right">Atrás</a>
+                                            <a href="{{route('super/docentes')}}" class="btn btn-light float-right">Volver a lista de docentes</a>
                                             <button type="submit" class="btn btn-primary float-right">Actualizar datos</button>
                                         </div>
                                     </div>
@@ -372,18 +372,22 @@
                                     </div>
                                     <div class="ul-contact-detail__info-1">
                                         <h5>Nombre</h5>
-                                        <span class="hs_capitalize">{{$docente->c_nombre}}</span>
+                                        <span class="press-mayusculas">{{$docente->c_nombre}}</span>
                                     </div>
                                 </div>
 
                                 <div class="col-6 text-center">
                                     <div class="ul-contact-detail__info-1">
                                         <h5>Nacionalidad</h5>
-                                        <span class="hs_capitalize">{{$docente->c_nacionalidad}}</span>
+                                        <span class="press-mayusculas">{{$docente->c_nacionalidad}}</span>
                                     </div>
                                     <div class="ul-contact-detail__info-1">
                                         <h5>Sexo</h5>
-                                        <span>{{$docente->c_sexo}}</span>
+                                        @if ($docente->c_sexo == 'F')
+                                            <span class="press-mayusculas">FEMENINO</span>
+                                        @else
+                                            <span class="press-mayusculas">MASCULINO</span>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -402,11 +406,11 @@
                                 <div class="col-6 text-center">
                                     <div class="ul-contact-detail__info-1">
                                         <h5>Correo</h5>
-                                        <span><a href="mailto:{{$docente->c_correo}}">{{$docente->c_correo}}</a></span>
+                                        <span><a class="press-mayusculas" href="mailto:{{$docente->c_correo}}">{{$docente->c_correo}}</a></span>
                                     </div>
                                     <div class="ul-contact-detail__info-1">
                                         <h5>Dirección</h5>
-                                        <span class="hs_capitalize-first">{{$docente->c_direccion}}</span>
+                                        <span class="press-mayusculas">{{$docente->c_direccion}}</span>
                                      </div>
                                 </div>
 
@@ -513,82 +517,11 @@
 @endsection
 @section('page-js')
 
-<script>
-    $(document).ready( function () {
-        $("#apellido").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#nombre_docente").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#nacionalidad").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#especialidad").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#correo").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#direccion").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-    });
-
-    jQuery(document).ready(function() {
-        jQuery('#dni').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-
-        jQuery('#apellido').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nombre_docente').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nacionalidad').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#especialidad').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#telefono').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-    });
-</script>
-
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/superadmin/infodocente.js')}}"></script>
+<script src="{{asset('assets/js/all/validacionKey.js')}}"></script>
 @endsection

@@ -37,7 +37,7 @@ $(document).ready(function () {
                 }
             },
             {
-                "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-warning btn-sm btn_edit_asignatura' style='margin: 0 5px;'><i class='i-Pen-4'></i></button><button class='btn btn-danger btn-sm btn_del_asignatura' style='margin: 0 5px;'><i class='i-Eraser-2'></i></button></div></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='badge badge-warning btn_edit_asignatura' data-toggle='tooltip' data-placement='top' title='Editar' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a> &nbsp; <a href='#' class='badge badge-danger btn_del_asignatura' data-toggle='tooltip' data-placement='top' title='Eliminar' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
             },
         ]
     });
@@ -79,7 +79,7 @@ $(document).ready(function () {
                 "data": "nom_seccion"
             },
             {
-                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asi_sec badge badge-warning' data-toggle='tooltip' data-placement='top' title='Editar' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asi_sec badge badge-danger' data-toggle='tooltip' data-placement='top' title='Eliminar' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
             },
             {
                 "defaultContent": "<div><a href='#' class='badge badge-info' onclick='fxDocentesDeCurso(event);'>Docente</a></div>"
@@ -128,7 +128,7 @@ $(document).ready(function () {
                 "data": "nom_seccion"
             },
             {
-                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asig_primaria badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asig_primaria badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_asig_primaria badge badge-warning' data-toggle='tooltip' data-placement='top' title='Editar' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_asig_primaria badge badge-danger' data-toggle='tooltip' data-placement='top' title='Eliminar' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
             },
             {
                 "defaultContent": "<div><a href='#' class='badge badge-info' onclick='fxDocentesDeCurso(event);'>Docente</a></div>"
@@ -176,7 +176,7 @@ $(document).ready(function () {
                 "data": "nom_seccion"
             },
             {
-                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_secundaria badge badge-warning' data-toggle='tooltip' data-placement='top' title='' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_secundaria badge badge-danger' data-toggle='tooltip' data-placement='top' title='' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
+                "defaultContent": "<div class='text-center'><a href='#' class='btn_edit_secundaria badge badge-warning' data-toggle='tooltip' data-placement='top' title='Editar' data-original-title='Editar'><i class='i-Pen-5' style='font-size: 17px'></i></a>&nbsp;<a href='#' class='btn_del_secundaria badge badge-danger' data-toggle='tooltip' data-placement='top' title='Eliminar' data-original-title='Eliminar'><i class='far fa-trash-alt' style='font-size: 17px; color: whitesmoke'></i></a></div>"
             },
             {
                 "defaultContent": "<div><a href='#' class='badge badge-info' onclick='fxDocentesDeCurso(event);'>Docente</a></div>"
@@ -256,7 +256,7 @@ $(document).on("click", ".btn_edit_asignatura", function () {
     $('#btn_update_asignatura').show();
     $('#btn_create_asignatura').hide();
 
-    $("#nom_asignatura").val(nom);
+    $("#nom_asignatura").val(nom.toLocaleUpperCase());
     $("#color_asignatura").val(col);
 });
 
@@ -265,8 +265,8 @@ $(document).on("click", ".btn_del_asignatura", function () {
     id = parseInt($(this).closest('tr').find('td:eq(0)').text());
 
     swal({
-        title: 'Está seguro(a) de eliminar el registro?',
-        text: "",
+        title: '',
+        text: "Está seguro(a) de eliminar el registro?",
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#d33',
@@ -390,8 +390,8 @@ $(document).on("click", ".btn_del_asi_sec", function () {
     id = parseInt($(this).closest('tr').find('td:eq(0)').text());
 
     swal({
-        title: 'Está seguro(a) de eliminar el registro?',
-        text: "",
+        title: '',
+        text: "Está seguro(a) de eliminar el registro?",
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#d33',
@@ -507,8 +507,8 @@ $(document).on("click", ".btn_del_asig_primaria", function () {
     id = parseInt($(this).closest('tr').find('td:eq(0)').text());
 
     swal({
-        title: 'Está seguro(a) de eliminar el registro?',
-        text: "",
+        title: '',
+        text: "Está seguro(a) de eliminar el registro?",
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#d33',
@@ -624,8 +624,8 @@ $(document).on("click", ".btn_del_secundaria", function () {
     id = parseInt($(this).closest('tr').find('td:eq(0)').text());
 
     swal({
-        title: 'Está seguro(a) de eliminar el registro?',
-        text: "",
+        title: '',
+        text: "Está seguro(a) de eliminar el registro?",
         icon: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#d33',

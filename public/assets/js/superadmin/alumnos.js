@@ -24,6 +24,7 @@ $(document).ready(function () {
         .on('click', function () {
             $('#smartwizard').smartWizard("reset");
             $('#myForm').find("input, textarea,select").val("");
+            $('#bd-example-modal-lg').modal('hide');
         });
 
 
@@ -77,16 +78,11 @@ $(document).ready(function () {
 
 function fxConfirmacionEliminarAlumno(id_alumno) {
     swal({
-        title: '¿Estas seguro?',
-        type: 'warning',
+        title: '',
+        text: "Está seguro(a) de eliminar el registro?",
         showCancelButton: true,
-        confirmButtonColor: '#0CC27E',
-        cancelButtonColor: '#FF586B',
-        confirmButtonText: 'Sí, elimínalo!',
-        cancelButtonText: 'No, cancelar!',
-        confirmButtonClass: 'btn btn-success mr-5',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!'
     }).then(function () {
         fxEliminarAlumno(id_alumno);
     }, function (dismiss) {});

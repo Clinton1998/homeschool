@@ -9,6 +9,15 @@
 
 <head>
   <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
+  <style>
+      #tbl_asignaturas td:nth-child(2),
+      #tbl_inicial td:nth-child(4),
+      #tbl_primaria td:nth-child(4),
+      #tbl_secundaria td:nth-child(4){
+        text-transform: uppercase;
+        font-size: 11px;
+      }
+  </style>
 </head>
 
 <body onload="LlenarSelects()">
@@ -39,7 +48,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="nom_asignatura">Nombre del curso</label>
-                                    <input type="text" class="form-control" id="nom_asignatura" name="nom_asignatura" required placeholder="Ejemplo: Matemática">
+                                    <input type="text" class="form-control press-mayusculas" id="nom_asignatura" name="nom_asignatura" required placeholder="Ejemplo: Matemática">
                                     <div class="invalid-feedback">
                                         El curso necesita un nombre
                                     </div>
@@ -587,17 +596,6 @@
 
 @section('page-js')
 
-<script>
-    $(document).ready( function () {
-        $("#nom_asignatura").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-    });
-</script>
-
 <script src="{{asset('assets/js/superadmin/asignaturas.js')}}"></script>
 <script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
@@ -605,4 +603,6 @@
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
+<script src="{{asset('assets/js/all/validacionKey.js')}}"></script>
+
 @endsection

@@ -31,7 +31,7 @@
                         <tr>
                             <th>DNI</th>
                             <th>Apellidos y nombres</th>
-                            <th>Usuario de acceso</th>
+                            <th>Usuario</th>
                             <th>Nacionalidad</th>
                             <th>Fecha Nacimiento</th>
                             <th>Correo</th>
@@ -39,29 +39,31 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="press-mayusculas">
                         @foreach($docentes as $docente)
                             <tr>
                                 <td>{{$docente->c_dni}}</td>
-                                <td>
+                                <td nowrap>
                                 <a href="{{url('super/docente/'.$docente->id_docente)}}">
-                                        <div class="ul-widget-app__profile-pic">
-                                            <span class="hs_capitalize">{{$docente->c_nombre}}</span>
-                                        </div>
-                                    </a>
+                                    <div class="ul-widget-app__profile-pic">
+                                        <span>{{$docente->c_nombre}}</span>
+                                    </div>
+                                </a>
                                 </td>
                                 <td>{{$docente->usuario->email}}</td>
-                                <td class="hs_capitalize-first"><span class="hs_capitalize-first">{{$docente->c_nacionalidad}}</span></td>
+                                <td><span class="hs_capitalize-first">{{$docente->c_nacionalidad}}</span></td>
                                 <td>{{$docente->t_fecha_nacimiento}}</td>
                                 <td><a href="mailto:{{$docente->c_correo}}">{{$docente->c_correo}}</a></td>
                                 <td><span class="text-info">{{$docente->c_telefono}}</span></td>
-                                <td>
-                                    <a href="{{url('super/docente/'.$docente->id_docente)}}" class="btn btn-sm btn-warning mr-2" data-toggle="tooltip" data-placement="top" title="Editar">
-                                        <i class="nav-icon i-Pen-4" style="font-size: 15px"></i>
-                                    </a>
-                                    <a id="btnEliminarDocente{{$docente->id_docente}}" onclick="fxConfirmacionEliminarDocente({{$docente->id_docente}});" data-toggle="tooltip" data-placement="top" title="Eliminar" href="#" class="btn btn-sm btn-danger">
-                                        <i class="far fa-trash-alt" style="font-size: 15px"></i>
-                                    </a>
+                                <td nowrap>
+                                    <div style="display: flex;">
+                                        <a href="{{url('super/docente/'.$docente->id_docente)}}" class="btn btn-sm btn-warning mr-2" data-toggle="tooltip" data-placement="top" title="Editar">
+                                            <i class="nav-icon i-Pen-4" style="font-size: 15px"></i>
+                                        </a>
+                                        <a id="btnEliminarDocente{{$docente->id_docente}}" onclick="fxConfirmacionEliminarDocente({{$docente->id_docente}});" data-toggle="tooltip" data-placement="top" title="Eliminar" href="#" class="btn btn-sm btn-danger">
+                                            <i class="far fa-trash-alt" style="font-size: 15px"></i>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -74,7 +76,7 @@
 </div>
 
 <!-- begin::modal -->
-<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -92,7 +94,7 @@
                                     <li><a href="#step-1">Paso 1<br /><small>Datos personales</small></a></li>
                                     <li><a href="#step-2">Paso 2<br /><small>Secciones</small></a></li>
                                     <li><a href="#step-3">Paso 3<br /><small>Asignaturas</small></a></li>
-                                    <li><a href="#step-4">Paso 3<br /><small>Foto del docente</small></a></li>
+                                    <li><a href="#step-4">Paso 4<br /><small>Foto del docente</small></a></li>
                                 </ul>
                                 <div>
                                     <div id="step-1">
@@ -100,19 +102,19 @@
                                             <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                 <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="dni" >Número de DNI</label>
-                                                    <input type="text" class="form-control form-control-sm" id="dni" name="dni" minlength="8" maxlength="8" required>
+                                                    <input type="text" class="form-control form-control-sm only-numeros" id="dni" name="dni" minlength="8" maxlength="8" required>
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
 
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="apellido" >Apellidos</label>
-                                                    <input type="text" class="form-control form-control-sm" id="apellido" name="apellido" required>
+                                                    <input type="text" class="form-control form-control-sm press-mayusculas only-letras" id="apellido" name="apellido" required>
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
 
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="nombre" >Nombre(s)</label>
-                                                    <input type="text" id="nombre_docente" name="nombre"  class="form-control form-control-sm" required>
+                                                    <input type="text" id="nombre_docente" name="nombre"  class="form-control form-control-sm press-mayusculas only-letras" required>
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                             </div>
@@ -120,14 +122,14 @@
                                             <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                 <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="nacionalidad" >Nacionalidad</label>
-                                                    <input type="text" class="hs_capitalize form-control form-control-sm" id="nacionalidad" name="nacionalidad" required placeholder="Peruano(a)">
+                                                    <input type="text" class="hs_capitalize form-control form-control-sm press-mayusculas only-letras" id="nacionalidad" name="nacionalidad" required placeholder="Peruano(a)">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="sexo">Sexo</label>
                                                     <select name="sexo" id="sexo" class="form-control form-control-sm">
-                                                        <option value="M">Masculino</option>
-                                                        <option value="F" selected>Femenino</option>
+                                                        <option value="M">MASCULINO</option>
+                                                        <option value="F" selected>FEMENINO</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
@@ -139,25 +141,25 @@
 
                                             <div class="form-group">
                                                 <strong><label for="especialidad">Especialidad</label></strong>
-                                                <input type="text" class="form-control form-control-sm" id="especialidad" name="especialidad" placeholder="Ejemplo: Ciencia y Tecnología">
+                                                <input type="text" class="form-control form-control-sm press-mayusculas only-letras" id="especialidad" name="especialidad" placeholder="Ejemplo: Ciencia y Tecnología">
                                                 <div class="help-block with-errors text-danger"></div>
                                             </div>
 
                                             <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                 <div class="form-group col-lg-7 col-md-7 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="correo">Correo electrónico</label>
-                                                    <input type="email" class="form-control form-control-sm" id="correo" name="correo" required>
+                                                    <input type="email" class="form-control form-control-sm press-mayusculas" id="correo" name="correo" required>
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                                 <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                     <label for="telefono">Teléfono</label>
-                                                    <input type="text" class="form-control form-control-sm" id="telefono" name="telefono" required maxlength="15">
+                                                    <input type="text" class="form-control form-control-sm only-numeros" id="telefono" name="telefono" required maxlength="15">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="direccion">Dirección</label>
-                                                <input type="text" class="form-control form-control-sm" id="direccion" name="direccion" required placeholder="Ejemplo: Av. El Valle 9999, Miraflores">
+                                                <input type="text" class="form-control form-control-sm press-mayusculas" id="direccion" name="direccion" required placeholder="Ejemplo: Av. El Valle 9999, Miraflores">
                                                 <div class="help-block with-errors text-danger"></div>
                                             </div>
                                         </div>
@@ -196,10 +198,7 @@
 
                                 </div>
                             </div>
-                        </form>
-
-
-
+                    </form>
             </div>
 
             <!--<div class="modal-footer">
@@ -214,77 +213,6 @@
 
 @section('page-js')
 
-<script>
-    $(document).ready( function () {
-        $("#apellido").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#nombre_docente").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#nacionalidad").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#especialidad").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#correo").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#direccion").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-    });
-
-    jQuery(document).ready(function() {
-        jQuery('#dni').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-
-        jQuery('#apellido').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nombre_docente').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nacionalidad').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#especialidad').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#telefono').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-    });
-</script>
 <!-- page script -->
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
@@ -295,4 +223,6 @@
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/superadmin/docentes.js')}}"></script>
+<script src="{{asset('assets/js/all/validacionKey.js')}}"></script>
+
 @endsection
