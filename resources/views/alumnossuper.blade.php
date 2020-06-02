@@ -31,7 +31,7 @@
                         <tr>
                             <th>DNI</th>
                             <th>Apellidos y nombres</th>
-                            <th>Usuario de acceso</th>
+                            <th>Usuario</th>
                             <th>Grado</th>
                             <th>Sección</th>
                             <th>Nivel</th>
@@ -39,36 +39,37 @@
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="press-mayusculas">
                         @foreach($grados as $grado)
                             @foreach($grado->secciones->where('estado','=',1) as $seccion)
                                 @foreach($seccion->alumnos->where('estado','=',1) as $alumno)
                                 <tr>
                                     <td>{{$alumno->c_dni}}</td>
-                                    <td>
+                                    <td nowrap>
                                         <a href="{{url('super/alumno/'.$alumno->id_alumno)}}">
-                                                <span class="hs_capitalize">{{$alumno->c_nombre}}</span>
+                                                <span>{{$alumno->c_nombre}}</span>
                                             </a>
                                     </td>
                                     <td>{{$alumno->usuario->email}}</td>
                                     @if (strtoupper($grado->c_nivel_academico) === 'INICIAL')
                                         <td>{{substr($grado->c_nombre,3)}}</td>
                                     @else
-                                        <td class="hs_capitalize">{{strtolower(substr($grado->c_nombre,3))}}</td>
+                                        <td>{{strtolower(substr($grado->c_nombre,3))}}</td>
                                     @endif
 
-                                    <td class="hs_upper">{{$seccion->c_nombre}}</td>
-                                    <td class="hs_capitalize">{{strtolower($grado->c_nivel_academico)}}</td>
-                                    <td class="hs_capitalize-first">{{$alumno->c_direccion}}</td>
-                                    <td>
-
-                                        <a href="{{url('super/alumno/'.$alumno->id_alumno)}}" class="btn btn-sm btn-warning mr-2"  data-toggle="tooltip" data-placement="top" title="Editar">
-                                            <i class="nav-icon i-Pen-4" style="font-size: 15px"></i>
-                                        </a>
-
-                                        <a href="#" class="btn btn-sm btn-danger" id="btnEliminarAlumno{{$alumno->id_alumno}}" onclick="fxConfirmacionEliminarAlumno({{$alumno->id_alumno}});" data-toggle="tooltip" data-placement="top" title="Eliminar">
-                                            <i class="far fa-trash-alt" style="font-size: 15px"></i>
-                                        </a>
+                                    <td>{{$seccion->c_nombre}}</td>
+                                    <td >{{strtolower($grado->c_nivel_academico)}}</td>
+                                    <td nowrap>{{$alumno->c_direccion}}</td>
+                                    <td nowrap>
+                                        <div style="display: flex">
+                                            <a href="{{url('super/alumno/'.$alumno->id_alumno)}}" class="btn btn-sm btn-warning mr-2"  data-toggle="tooltip" data-placement="top" title="Editar">
+                                                <i class="nav-icon i-Pen-4" style="font-size: 15px"></i>
+                                            </a>
+    
+                                            <a href="#" class="btn btn-sm btn-danger" id="btnEliminarAlumno{{$alumno->id_alumno}}" onclick="fxConfirmacionEliminarAlumno({{$alumno->id_alumno}});" data-toggle="tooltip" data-placement="top" title="Eliminar">
+                                                <i class="far fa-trash-alt" style="font-size: 15px"></i>
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -83,7 +84,7 @@
 
 <!-- begin::modal -->
 <div class="ul-card-list__modal">
-    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade bd-example-modal-lg" id="bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -114,19 +115,19 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="dni" >Número de DNI</label>
-                                                        <input type="text" class="form-control form-control-sm" id="dni" name="dni" minlength="8" maxlength="8" required>
+                                                        <input type="text" class="only-numeros form-control form-control-sm" id="dni" name="dni" minlength="8" maxlength="8" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="apellido" >Apellidos</label>
-                                                        <input type="text" class="form-control form-control-sm" id="apellido" name="apellido" required>
+                                                        <input type="text" class="press-mayusculas only-letras form-control form-control-sm" id="apellido" name="apellido" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nombre" >Nombre(s)</label>
-                                                        <input type="text" class="form-control form-control-sm" id="nombre_alumno" name="nombre" required>
+                                                        <input type="text" class="press-mayusculas only-letras  form-control form-control-sm" id="nombre_alumno" name="nombre" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
                                                 </div>
@@ -134,15 +135,15 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nacionalidad" >Nacionalidad</label>
-                                                        <input type="text" class="form-control form-control-sm" id="nacionalidad" name="nacionalidad" required placeholder="Peruano(a)">
+                                                        <input type="text" class="press-mayusculas only-letras form-control form-control-sm" id="nacionalidad" name="nacionalidad" required placeholder="Peruano(a)">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="sexo">Sexo</label>
                                                         <select name="sexo" id="sexo" class="form-control form-control-sm">
-                                                            <option value="M">Masculino</option>
-                                                            <option value="F">Femenino</option>
+                                                            <option value="M">MASCULINO</option>
+                                                            <option value="F">FEMENINO</option>
                                                         </select>
                                                     </div>
 
@@ -155,19 +156,19 @@
 
                                                 <div class="form-group">
                                                     <label for="correo_alumno">Correo del alumno</label>
-                                                    <input type="email" class="form-control form-control-sm" id="correo_alumno" name="correo_alumno">
+                                                    <input type="email" class="press-mayusculas form-control form-control-sm" id="correo_alumno" name="correo_alumno">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="direccion">Dirección</label>
-                                                    <input type="text" class="form-control form-control-sm" id="direccion" name="direccion" required placeholder="Ejemplo: Av. El Valle 155, Miraflores">
+                                                    <input type="text" class="press-mayusculas form-control form-control-sm" id="direccion" name="direccion" required placeholder="Ejemplo: Av. El Valle 155, Miraflores">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="adicional">Información adicional</label>
-                                                    <input type="text" class="form-control form-control-sm" id="adicional" name="adicional" placeholder="(Opcional)">
+                                                    <input type="text" class="press-mayusculas form-control form-control-sm" id="adicional" name="adicional" placeholder="(Opcional)">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                             </div>
@@ -180,19 +181,19 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="dni_repre1">Número de DNI</label>
-                                                        <input type="text" class="form-control form-control-sm" id="dni_repre1" name="dni_repre1" minlength="8" maxlength="8">
+                                                        <input type="text" class="only-numeros form-control form-control-sm" id="dni_repre1" name="dni_repre1" minlength="8" maxlength="8" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="apellido_repre1">Apellidos</label>
-                                                        <input type="text" class="form-control form-control-sm" id="apellido_repre1" name="apellido_repre1">
+                                                        <input type="text" class="press-mayusculas only-letras form-control form-control-sm" id="apellido_repre1" name="apellido_repre1" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nombre_repre1">Nombre(s)</label>
-                                                        <input type="text" class="form-control form-control-sm" id="nombre_repre1" name="nombre_repre1">
+                                                        <input type="text" class="press-mayusculas only-letras form-control form-control-sm" id="nombre_repre1" name="nombre_repre1" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
                                                 </div>
@@ -200,21 +201,21 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="vinculo_repre1">Vínculo</label>
-                                                        <input type="text" class="form-control form-control-sm" id="vinculo_repre1" name="vinculo_repre1">
+                                                        <input type="text" class="press-mayusculas only-letras form-control form-control-sm" id="vinculo_repre1" name="vinculo_repre1" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nacionalidad_repre1">Nacionalidad</label>
-                                                        <input  type="text" class="form-control form-control-sm" id="nacionalidad_repre1" name="nacionalidad_repre1" placeholder="Peruano(a)">
+                                                        <input  type="text" class="press-mayusculas only-letras form-control form-control-sm" id="nacionalidad_repre1" name="nacionalidad_repre1" placeholder="Peruano(a)" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="sexo_repre1">Sexo</label>
-                                                        <select name="sexo_repre1" id="sexo_repre1" class="form-control form-control-sm">
-                                                            <option value="M">Masculino</option>
-                                                            <option value="F">Femenino</option>
+                                                        <select name="sexo_repre1" id="sexo_repre1" class="form-control form-control-sm" required>
+                                                            <option value="M">MASCULINO</option>
+                                                            <option value="F">FEMENINO</option>
                                                         </select>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
@@ -223,20 +224,20 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="telefono_repre1">Teléfono</label>
-                                                        <input type="text" class="form-control form-control-sm" id="telefono_repre1" name="telefono_repre1">
+                                                        <input type="text" class="only-numeros form-control form-control-sm" id="telefono_repre1" name="telefono_repre1" maxlength="15" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="correo_repre1">Correo electrónico</label>
-                                                        <input type="email" class="form-control form-control-sm" id="correo_repre1" name="correo_repre1">
+                                                        <input type="email" class="press-mayusculas form-control form-control-sm" id="correo_repre1" name="correo_repre1" required>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="direccion_repre1">Dirección</label>
-                                                    <input type="text" class="form-control form-control-sm" id="direccion_repre1" name="direccion_repre1" placeholder="Ejemplo: Av. El Valle 155, Miraflores">
+                                                    <input type="text" class="press-mayusculas form-control form-control-sm" id="direccion_repre1" name="direccion_repre1" placeholder="Ejemplo: Av. El Valle 155, Miraflores" required>
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                             </div>
@@ -249,19 +250,19 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="dni_repre2">Número de DNI</label>
-                                                        <input type="text" class="form-control form-control-sm" id="dni_repre2" name="dni_repre2" maxlength="8">
+                                                        <input type="text" class="only-numeros form-control form-control-sm" id="dni_repre2" name="dni_repre2" maxlength="8">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="apellido_repre2">Apellidos</label>
-                                                        <input type="text" class="form-control form-control-sm" id="apellido_repre2" name="apellido_repre2">
+                                                        <input type="text" class="press-mayusculas only-letras form-control form-control-sm" id="apellido_repre2" name="apellido_repre2">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nombre_repre2">Nombre(s)</label>
-                                                        <input type="text" class="form-control form-control-sm" id="nombre_repre2" name="nombre_repre2">
+                                                        <input type="text" class="press-mayusculas only-letras form-control form-control-sm" id="nombre_repre2" name="nombre_repre2">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
                                                 </div>
@@ -269,21 +270,21 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="vinculo_repre2">Vínculo</label>
-                                                        <input type="text" class="form-control form-control-sm" id="vinculo_repre2" name="vinculo_repre2">
+                                                        <input type="text" class="press-mayusculas only-letras form-control form-control-sm" id="vinculo_repre2" name="vinculo_repre2">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="nacionalidad_repre2">Nacionalidad</label>
-                                                        <input type="text" class="form-control form-control-sm" id="nacionalidad_repre2" name="nacionalidad_repre2" placeholder="Peruano(a)">
+                                                        <input type="text" class="press-mayusculas only-letras form-control form-control-sm" id="nacionalidad_repre2" name="nacionalidad_repre2" placeholder="Peruano(a)">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-4 col-md-4 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="sexo_repre2">Sexo</label>
                                                         <select name="sexo_repre2" id="sexo_repre2" class="form-control form-control-sm">
-                                                            <option value="M">Masculino</option>
-                                                            <option value="F">Femenino</option>
+                                                            <option value="M">MASCULINO</option>
+                                                            <option value="F">FEMENINO</option>
                                                         </select>
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
@@ -292,20 +293,20 @@
                                                 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                                                     <div class="form-group col-lg-3 col-md-3 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="telefono_repre2">Teléfono</label>
-                                                        <input type="text" class="form-control form-control-sm" id="telefono_repre2" name="telefono_repre2">
+                                                        <input type="text" class="only-numeros form-control form-control-sm" id="telefono_repre2" name="telefono_repre2" maxlength="15">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
 
                                                     <div class="form-group col-lg-8 col-md-8 col-sm-12 col-xs-12" style="padding: 0;">
                                                         <label for="correo_repre2">Correo electrónico</label>
-                                                        <input type="email" class="form-control form-control-sm" id="correo_repre2" name="correo_repre2">
+                                                        <input type="email" class="press-mayusculas form-control form-control-sm" id="correo_repre2" name="correo_repre2">
                                                         <div class="help-block with-errors text-danger"></div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label for="direccion_repre2">Dirección</label>
-                                                    <input type="text" class="form-control form-control-sm" id="direccion_repre2" name="direccion_repre2" placeholder="Ejemplo: Av. El Valle 155, Miraflores">
+                                                    <input type="text" class="press-mayusculas form-control form-control-sm" id="direccion_repre2" name="direccion_repre2" placeholder="Ejemplo: Av. El Valle 155, Miraflores">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
                                             </div>
@@ -320,6 +321,7 @@
                                                     <label for="optseccion">Registrar en la sección</label>
 
                                                     <select name="optseccion" id="optseccion" class="form-control form-control-sm" required>
+                                                        <option value=""></option>
                                                         @foreach($TMP as $seccion)
                                                             @if (strtoupper($seccion->c_nivel_academico) === 'INICIAL')
                                                                 <option value="{{$seccion->id_seccion}}">{{substr($seccion->nom_grado,3)}} "{{strtoupper($seccion->nom_seccion)}}" {{ucfirst(strtolower($seccion->c_nivel_academico))}}</option>
@@ -364,224 +366,15 @@
 @section('page-js')
 
 <script>
-    $(document).ready( function () {
-        $("#apellido").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
+    $('#optseccion').on('change', function(){
+        tmp = $('#optseccion').val();
 
-        $("#nombre_alumno").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#nacionalidad").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#especialidad").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#correo_alumno").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#direccion").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#adicional").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        //
-
-        $("#apellido_repre1").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#nombre_repre1").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#vinculo_repre1").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#nacionalidad_repre1").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#correo_repre1").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#direccion_repre1").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        //
-
-        $("#apellido_repre2").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#nombre_repre2").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#vinculo_repre2").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#nacionalidad_repre2").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#correo_repre2").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-
-        $("#direccion_repre2").on("keypress", function () {
-            $input=$(this);
-            setTimeout(function () {
-                $input.val($input.val().toLocaleLowerCase());
-            });
-        });
-    });
-
-    jQuery(document).ready(function() {
-        jQuery('#dni').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-
-        jQuery('#apellido').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nombre_alumno').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nacionalidad').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#especialidad').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#telefono').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-
-        //
-
-        jQuery('#dni_repre1').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-
-        jQuery('#apellido_repre1').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nombre_repre1').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#vinculo_repre1').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nacionalidad_repre1').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#telefono_repre1').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-
-        //
-
-        jQuery('#dni_repre2').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-
-        jQuery('#apellido_repre2').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nombre_repre2').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#vinculo_repre2').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#nacionalidad_repre2').keypress(function(tecla) {
-            if(tecla.charCode > 47 && tecla.charCode < 58) return false;
-        });
-
-        jQuery('#telefono_repre2').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-
-    });
+        if(tmp == ''){
+            alert('Debe seleccionar una sección');
+        }
+    })
 </script>
+
 <!-- page script -->
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
 <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
@@ -592,6 +385,7 @@
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/superadmin/alumnos.js')}}"></script>
+<script src="{{asset('assets/js/all/validacionKey.js')}}"></script>
 
 <script>
 $('#ul-contact-list').DataTable();

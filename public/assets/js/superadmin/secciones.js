@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     Ladda.bind('button[type=submit]', {
         timeout: 5000
     });
@@ -19,15 +19,15 @@ function fxConsultarAlumnosDeSeccion(seccion) {
         data: {
             id_seccion: seccion
         },
-        error: function(error) {
+        error: function (error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function(data) {
+    }).done(function (data) {
         if (data.correcto) {
             var htmlAlumnos = ``;
 
-            data.alumnos.forEach(function(alumno, indice) {
+            data.alumnos.forEach(function (alumno, indice) {
                 htmlAlumnos += `
                 <div class="card_list">
                         <div class="card_list_fotografia">`;
@@ -113,14 +113,14 @@ function fxConsultarDocentesDeSeccion(seccion) {
         data: {
             id_seccion: seccion
         },
-        error: function(error) {
+        error: function (error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function(data) {
+    }).done(function (data) {
         if (data.correcto) {
             var htmlDocentes = ``;
-            data.docentes.forEach(function(docente, indice) {
+            data.docentes.forEach(function (docente, indice) {
                 htmlDocentes += `<div class="card_list">
                     <div class="card_list_fotografia">`;
                 var srcFoto = '';
@@ -194,12 +194,12 @@ function fxAplicarGrado(id_grado) {
         data: {
             id_grado: id_grado
         },
-        error: function(error) {
+        error: function (error) {
             alert('Ocurrió un error');
             console.error(error);
             l.top();
         }
-    }).done(function(data) {
+    }).done(function (data) {
         $('#id_grado').val(data.id_grado);
         $('#spanNombreGrado').text(data.c_nombre);
         $('#spanNivelGrado').text(data.c_nivel_academico);
@@ -220,7 +220,7 @@ function fxCancelarEdicion(id_seccion) {
 }
 
 function fxConfirmacionEliminarSeccion(id_seccion) {
-    swal({
+    /* swal({
         title: '¿Estas seguro?',
         type: 'warning',
         showCancelButton: true,
@@ -233,8 +233,17 @@ function fxConfirmacionEliminarSeccion(id_seccion) {
         buttonsStyling: false
     }).then(function() {
         fxEliminarSeccion(id_seccion);
-    }, function(dismiss) {});
+    }, function(dismiss) {}); */
 
+    swal({
+        title: '',
+        text: "Está seguro(a) de eliminar el registro?",
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!'
+    }).then(function () {
+        fxEliminarSeccion(id_seccion);
+    }, function (dismiss) {});
 }
 
 function fxEliminarSeccion(id) {
@@ -245,11 +254,11 @@ function fxEliminarSeccion(id) {
         data: {
             id_seccion: id
         },
-        error: function(error) {
+        error: function (error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function(data) {
+    }).done(function (data) {
         if (data.correcto) {
             location.reload();
         }
@@ -267,12 +276,12 @@ function fxActualizarSeccion(id) {
         data: {
             id_seccion: id
         },
-        error: function(error) {
+        error: function (error) {
             alert('Ocurrió un error');
             console.error(error);
             l.stop();
         }
-    }).done(function(data) {
+    }).done(function (data) {
         $('#id_seccion').val(data.id_seccion);
         $('#actnombre').val(data.c_nombre);
         $('#hs_MODAL-2').modal('show');

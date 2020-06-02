@@ -36,7 +36,7 @@
 
                                     <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
                                         <strong style="color: var(--a-color-primario);">Fecha de entrega: <span class="font-weight-semibold">{{$tarea->t_fecha_hora_entrega}}</span></strong>
-                                        <a href="{{url('alumno/tareapendiente/'.$tarea->id_tarea)}}" class="text-default ">Ver y responder</a>
+                                        <a href="{{url('alumno/tareapendiente/'.$tarea->id_tarea)}}" class="btn btn-primary">Ver y responder</a>
                                     </div>
                                 </div>
                             </div>    

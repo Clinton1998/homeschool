@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('#tabla').DataTable({
         //paging: false,
         //"bInfo" : false
@@ -14,7 +14,7 @@ $(document).ready(function() {
     // Toolbar extra buttons
     var btnFinish = $('<button></button>').text('Registrar')
         .addClass('btn btn-primary')
-        .on('click', function() {
+        .on('click', function () {
             if (!$(this).hasClass('disabled')) {
                 var elmForm = $("#myForm");
                 if (elmForm) {
@@ -32,9 +32,10 @@ $(document).ready(function() {
         });
     var btnCancel = $('<button></button>').text('Cancelar')
         .addClass('btn btn-danger')
-        .on('click', function() {
+        .on('click', function () {
             $('#smartwizard').smartWizard("reset");
             $('#myForm').find("input, textarea,select").val("");
+            $('#bd-example-modal-lg').modal('hide');
         });
 
 
@@ -60,7 +61,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+    $("#smartwizard").on("leaveStep", function (e, anchorObject, stepNumber, stepDirection) {
         var elmForm = $("#form-step-" + stepNumber);
         // stepDirection === 'forward' :- this condition allows to do the form validation
         // only on forward navigation, that makes easy navigation on backwards still do the validation when going next
@@ -75,7 +76,7 @@ $(document).ready(function() {
         return true;
     });
 
-    $("#smartwizard").on("showStep", function(e, anchorObject, stepNumber, stepDirection) {
+    $("#smartwizard").on("showStep", function (e, anchorObject, stepNumber, stepDirection) {
         // Enable finish button only on last step
         if (stepNumber == 3) {
             $('.btn-finish').removeClass('disabled');
@@ -96,20 +97,20 @@ function fxArmar(secciones) {
             type: 'POST',
             url: '/docente/seccion/cursos',
             data: datos,
-            error: function(error) {
+            error: function (error) {
                 alert('Ocurrió un error');
                 console.error(error);
             }
-        }).done(function(data) {
+        }).done(function (data) {
             var htmlCursos = '';
 
-            data.forEach(function(seccion, index) {
+            data.forEach(function (seccion, index) {
                 var grado = seccion.grado;
                 htmlCursos += '<div id="divSeccion' + seccion.id_seccion + '">';
                 htmlCursos += '<h4 class="text-primary">' + grado.c_nivel_academico + ' ' + (grado.c_nombre.substr(3)) + ' "' + seccion.c_nombre + '"</h4>';
                 htmlCursos += '<div class="form-group">';
                 htmlCursos += '<select id="optcursos' + seccion.id_seccion + '" name="optcursos' + seccion.id_seccion + '[]" class="cursosdeseccion" multiple>';
-                seccion.categorias.forEach(function(categoria, indice) {
+                seccion.categorias.forEach(function (categoria, indice) {
                     htmlCursos += '<option value="' + categoria.id_categoria + '">' + categoria.c_nombre + '</option>';
                 });
                 htmlCursos += '</select>';
@@ -137,12 +138,12 @@ function fxEliminarDocente(id_doc) {
         data: {
             id_docente: id_doc
         },
-        error: function(error) {
+        error: function (error) {
             alert('Ocurrió un error');
             console.error(error);
             l.stop();
         }
-    }).done(function(data) {
+    }).done(function (data) {
         if (data.correcto) {
             location.reload();
         }
@@ -152,18 +153,13 @@ function fxEliminarDocente(id_doc) {
 
 function fxConfirmacionEliminarDocente(id_docente) {
     swal({
-        title: '¿Estas seguro?',
-        type: 'warning',
+        title: '',
+        text: "Está seguro(a) de eliminar el registro?",
         showCancelButton: true,
-        confirmButtonColor: '#0CC27E',
-        cancelButtonColor: '#FF586B',
-        confirmButtonText: 'Sí, elimínalo!',
-        cancelButtonText: 'No, cancelar!',
-        confirmButtonClass: 'btn btn-success mr-5',
-        cancelButtonClass: 'btn btn-danger',
-        buttonsStyling: false
-    }).then(function() {
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!'
+    }).then(function () {
         fxEliminarDocente(id_docente);
-    }, function(dismiss) {});
+    }, function (dismiss) {});
 
 }

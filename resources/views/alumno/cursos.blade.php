@@ -14,9 +14,9 @@
                 @endphp
                 @foreach ($cursos as $c)
                     @if ($tmp == 0)
-                        <strong><p class="hs_lower">{{substr($c->nom_grado,3)}}</p></strong> 
+                        <strong><p class="hs_upper">{{substr($c->nom_grado,3)}}</p></strong> 
                         <strong>&nbsp;"{{$c->nom_seccion}}"&nbsp;</strong>
-                        <strong>- {{ucfirst(strtolower($c->nom_nivel))}}</strong>
+                        <strong>({{ucfirst(strtolower($c->nom_nivel))}})</strong>
                         @php
                             $tmp++;
                         @endphp

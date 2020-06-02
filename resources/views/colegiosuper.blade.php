@@ -44,7 +44,7 @@
                                 @csrf
                                 <div class="form-group row">
                                     <label for="inpActRuc" class="col-sm-2 col-form-label">Número de RUC</label>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-3">
                                         <input type="text" class="form-control @error('ruc') is-invalid @enderror" id="inpActRuc" name="ruc" value="{{$colegio->c_ruc}}" readonly>
                                         @error('ruc')
                                              <span class="invalid-feedback" role="alert">
@@ -54,8 +54,8 @@
                                     </div>
 
                                     <label for="inpActRazonSocial" class="col-sm-2 form-label">Razon social</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control @error('razon_social') is-invalid @enderror" id="inpActRazonSocial" name="razon_social" value="{{$colegio->c_razon_social}}" readonly>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="press-mayusculas form-control @error('razon_social') is-invalid @enderror" id="inpActRazonSocial" name="razon_social" value="{{$colegio->c_razon_social}}" readonly>
                                         @error('razon_social')
                                              <span class="invalid-feedback" role="alert">
                                                  <strong>{{ $message }}</strong>
@@ -64,21 +64,21 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="inpActCorreo" class="col-sm-2 col-form-label">Correo electrónico</label>
-
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control @error('correo') is-invalid @enderror"  id="inpActCorreo" name="correo" value="{{$colegio->c_correo}}">
-                                        @error('correo')
+                                    <label for="inpActTelefono" class="col-sm-2 col-form-label">Teléfono</label>
+                                    <div class="col-sm-3">
+                                    <input type="text" class="only-numeros form-control @error('telefono') is-invalid @enderror" id="inpActTelefono" name="telefono" value="{{$colegio->c_telefono}}" maxlength="15">
+                                        @error('telefono')
                                              <span class="invalid-feedback" role="alert">
                                                  <strong>{{ $message }}</strong>
                                              </span>
                                         @enderror
                                     </div>
 
-                                    <label for="inpActTelefono" class="col-sm-2 col-form-label">Teléfono</label>
-                                    <div class="col-sm-4">
-                                    <input type="text" class="form-control @error('telefono') is-invalid @enderror" id="inpActTelefono" name="telefono" value="{{$colegio->c_telefono}}" maxlength="15">
-                                        @error('telefono')
+                                    <label for="inpActCorreo" class="col-sm-2 col-form-label">Correo electrónico</label>
+
+                                    <div class="col-sm-5">
+                                        <input type="text" class="press-mayusculas form-control @error('correo') is-invalid @enderror"  id="inpActCorreo" name="correo" value="{{$colegio->c_correo}}">
+                                        @error('correo')
                                              <span class="invalid-feedback" role="alert">
                                                  <strong>{{ $message }}</strong>
                                              </span>
@@ -87,13 +87,13 @@
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="inpNombreColegio" class="col-sm-2 col-form-label">Nombre de la institución</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control @error('nombrecolegio') is-invalid @enderror"  id="inpNombreColegio" name="nombrecolegio" value="{{$colegio->c_nombre}}">
+                                    <div class="col">
+                                        <label for="inpNombreColegio">Nombre de la institución</label>
+                                        <input type="text" class="press-mayusculas form-control @error('nombrecolegio') is-invalid @enderror"  id="inpNombreColegio" name="nombrecolegio" value="{{$colegio->c_nombre}}">
                                         @error('nombrecolegio')
-                                             <span class="invalid-feedback" role="alert">
-                                                 <strong>{{ $message }}</strong>
-                                             </span>
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
@@ -102,9 +102,9 @@
                                 <div class="form-group row">
                                     <label for="inpActDniRepresentante" class="col-sm-2 col-form-label">Número de DNI</label>
 
-                                    <div class="col-sm-4 input-group mb-3">
+                                    <div class="col-sm-3 input-group mb-3">
                                         <input type="text"id="inpActDniRepresentante" name="dni"
-                                        class="form-control @error('dni') is-invalid @enderror" value="{{$colegio->c_dni_representante}}">    
+                                        class="only-numeros form-control @error('dni') is-invalid @enderror" value="{{$colegio->c_dni_representante}}" maxlength="8">    
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-light ladda-button"  data-style="expand-right" id="btnBuscarPorDNI">Buscar</button>
                                         </div>
@@ -114,9 +114,9 @@
                                              </span>
                                         @enderror
                                     </div>
-                                    <label for="inpActNombreRepresentante" class="col-sm-2 col-form-label">Nombre</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control hs_capitalize @error('nombre') is-invalid @enderror" id="inpActNombreRepresentante" name="nombre" value="{{$colegio->c_representante_legal}}">
+                                    <label for="inpActNombreRepresentante" class="col-sm-2 col-form-label">Nombre completo</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="press-mayusculas only-letras form-control hs_capitalize @error('nombre') is-invalid @enderror" id="inpActNombreRepresentante" name="nombre" value="{{$colegio->c_representante_legal}}">
                                         @error('nombre')
                                              <span class="invalid-feedback" role="alert">
                                                  <strong>{{ $message }}</strong>
@@ -128,12 +128,12 @@
                                 <div class="form-group row">
                                     <div class="col">
                                         <label for="comentarios">Comentarios adicionales</label>
-                                        <input type="text" class="form-control" id="txtComentarios" name="comentarios" value="{{$colegio->c_comentarios}}">
+                                        <input type="text" class="press-mayusculas form-control" id="txtComentarios" name="comentarios" value="{{$colegio->c_comentarios}}">
                                     </div>
                                 </div>
 
                                 <div class="form-group" style="display: flex; justify-content: flex-end;">
-                                    <button type="submit" class="btn btn-primary ">Guardar</button>
+                                    <button type="submit" class="btn btn-primary ">Guardar información</button>
                                 </div>
                             </form>
                         </div>
@@ -216,7 +216,7 @@
                                                     </span>
                                                 </div>                                                
                                                 <div class="form-group" style="display: flex; justify-content: flex-end;">
-                                                        <button type="submit" id="btnSubirLogoColegio" class="btn btn-primary">Subir</button>
+                                                        <button type="submit" id="btnSubirLogoColegio" class="btn btn-primary">Guardar logo</button>
                                                 </div> 
                                             </form> 
                                         </div>
@@ -251,13 +251,13 @@
                                 </div>
                                 <div class="ul-contact-detail__info-1">
                                     <h5>Email</h5>
-                                <span>{{$colegio->c_correo}}</span>
+                                <span class="press-mayusculas">{{$colegio->c_correo}}</span>
                                 </div>
                             </div>
                             <div class="col-6 text-center">
                                 <div class="ul-contact-detail__info-1">
                                     <h5>Razon social</h5>
-                                <span>{{$colegio->c_razon_social}}</span>
+                                <span class="press-mayusculas">{{$colegio->c_razon_social}}</span>
                                 </div>
                                  <div class="ul-contact-detail__info-1">
                                     <h5>Teléfono</h5>
@@ -267,7 +267,7 @@
                             <div class="col-12 text-center">
                                 <div class="ul-contact-detail__info-1">
                                     <h5>Representante legal</h5>
-                                    <span class="hs_capitalize">{{$colegio->c_representante_legal}}</span><br>
+                                    <span class="press-mayusculas">{{$colegio->c_representante_legal}}</span><br>
                                     <span class="text-primary">DNI N° {{$colegio->c_dni_representante}}</span>
                                 </div>
                             </div>
@@ -281,17 +281,10 @@
 </section>
 @endsection
 @section('page-js')
-<script>
-    jQuery(document).ready(function() {
-        jQuery('#inpActTelefono').keypress(function(tecla) {
-            if(tecla.charCode < 48 || tecla.charCode > 57) return false;
-        });
-    });
-</script>
-
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
 <script src="{{asset('assets/js/superadmin/colegio.js')}}"></script>
+<script src="{{asset('assets/js/all/validacionKey.js')}}"></script>
 
 @endsection
