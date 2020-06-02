@@ -46,6 +46,8 @@ Route::post('super/facturacion/comprobante/basiconecesario','usuario\super\factu
 Route::post('super/facturacion/comprobante/alumnos','usuario\super\facturacion\Comprobante@alumnos')->name('super/facturacion/comprobante/alumnos');
 Route::post('super/facturacion/comprobante/alumno','usuario\super\facturacion\Comprobante@alumno')->name('super/facturacion/comprobante/alumno');
 Route::post('super/facturacion/comprobante/posiblesclientes','usuario\super\facturacion\Comprobante@posibles_clientes')->name('super/facturacion/comprobante/posiblesclientes');
+Route::get('super/facturacion/comprobante/productos/{q}/{tipo}','usuario\super\facturacion\Comprobante@productos')->name('super/facturacion/comprobante/productos/{q}/{tipo}');
+Route::post('super/facturacion/comprobante/producto','usuario\super\facturacion\Comprobante@producto')->name('super/facturacion/comprobante/producto');
 
 //rutas para el chat
 Route::get('chat','ChatController@index')->name('chat');

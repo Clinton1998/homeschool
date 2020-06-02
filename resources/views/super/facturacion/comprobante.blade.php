@@ -2,6 +2,8 @@
 @section('page-css')
     <link rel="stylesheet" href="{{asset('assets/styles/css/libreria/jqueryui/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
     <style>
         .ui-autocomplete-category {
@@ -26,11 +28,19 @@
 @endsection
 
 @section('main-content')
+    <input type="hidden" id="inpNumFilaProducto" value="0">
+    <select  id="selTributos" style="display: none;">
+        <option value=""></option>
+        @foreach($tributos_para_producto as $tributo)
+            <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+        @endforeach
+    </select>
     <section class="ul-contact-detail">
         <!--<h2 class="hs_titulo">Productos o servicios</h2>-->
         <div class="row hs_contenedor">
             <div class="card  col col-sm-12">
                 <div class="card-header">
+
                     <div class="float-left">
                         <h3 class="d-inline-block" style="margin-right: 1.5em;"><span>{{date('Y-m-d')}}</span>&nbsp;&nbsp;<span>{{($serie_para_comprobante->tipo_documento->c_codigo_sunat=='01')?'FACTURA': 'BOLETA'}}</span>&nbsp;&nbsp;
                         <span>{{$serie_para_comprobante->c_serie}}</span>&nbsp;&nbsp;<span class="text-primary font-weight-bold">1</span></h3>
@@ -117,19 +127,21 @@
                                 <input type="text" class="form-control form-control-sm" id="inpFecha">
                             </div>
                         </div>
+                        <button type="button" class="btn btn-success btn-sm float-right" id="btnAgregarProductoOServicio" data-toggle="tooltip" data-placement="top" title="Agregar producto o servicio">+</button>
                     <div class="table-responsive">
-                        <table id="tabProductos" class="table table-sm table-bordered table-striped" style="width:100%">
+                        <table id="tabProductos" class="table table-sm table-bordered table-striped" style="width:100%;">
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Código</th>
-                                <th>Nombre</th>
-                                <th>Unidad</th>
-                                <th>Cantidad</th>
-                                <th>Precio Unit.</th>
-                                <th>Total</th>
-                                <th>Tributo</th>
-                            </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Unidad</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unit.</th>
+                                    <th>Total</th>
+                                    <th>Tributo</th>
+                                    <th>Quitar</th>
+                                </tr>
                             </thead>
                             <tbody>
                             </tbody>
@@ -148,6 +160,7 @@
     <script src="{{asset('assets/js/tooltip.script.js')}}"></script>
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
     <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{{asset('assets/js/superadmin/facturacion/comprobante.js')}}"></script>
 
 @endsection

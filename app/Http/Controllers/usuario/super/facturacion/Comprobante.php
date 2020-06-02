@@ -29,6 +29,10 @@ class Comprobante extends Controller
             'estado' => 1
         ])->first();
         if(!is_null($colegio) && !empty($colegio)){
+            //obtenemos los tributos generales
+            $tributos_para_producto = App\Tributo_m::where([
+                'estado'=> 1
+            ])->orderBy('c_nombre','ASC')->get();
             //obtenemos la serie
             $serie_para_comprobante = App\Serie_d::where([
                 'id_colegio' => $colegio->id_colegio,
@@ -58,12 +62,12 @@ class Comprobante extends Controller
                         //ese alumno pertenece al colegio
                         //obteniendo al cliente para el alumno
                         $tipo_dato_cliente_para_alumno = strtolower(trim($request->input('tipo_dato_cliente_comprobante')));
-                        return view('super.facturacion.comprobante',compact('alumno_para_comprobante','tipo_dato_cliente_para_alumno','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
+                        return view('super.facturacion.comprobante',compact('alumno_para_comprobante','tipo_dato_cliente_para_alumno','tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
                     }else{
                         return redirect('/home');
                     }
                 }else{
-                    return view('super.facturacion.comprobante',compact('serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
+                    return view('super.facturacion.comprobante',compact('tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
                 }
             }
         }
@@ -117,6 +121,77 @@ class Comprobante extends Controller
         }
         $datos = array(
             'correcto' => FALSE
+        );
+        return response()->json($datos);
+    }
+    public function productos($q,$tipo)
+    {
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado' => 1
+        ])->first();
+        if(!is_null($colegio) && !empty($colegio)){
+            //obtenemos todos los productos del colegio
+            if($tipo=='nombre'){
+                $productos = App\Producto_servicio_d::where([
+                    ['id_colegio','=',$colegio->id_colegio],
+                    ['estado','=',1],
+                    ['c_nombre','like','%'.$q.'%']
+                ])->select('producto_servicio_d.id_producto_servicio as id', 'producto_servicio_d.c_nombre as text')->get();
+                $datos = array(
+                    'correcto' => TRUE,
+                    'productos' => $productos
+                );
+                return response()->json($datos);
+            }elseif($tipo=='codigo'){
+                $productos = App\Producto_servicio_d::where([
+                    ['id_colegio','=',$colegio->id_colegio],
+                    ['estado','=',1],
+                    ['c_codigo','like','%'.$q.'%']
+                ])->select('producto_servicio_d.id_producto_servicio as id', 'producto_servicio_d.c_codigo as text')->get();
+                $datos = array(
+                    'correcto' => TRUE,
+                    'productos' => $productos
+                );
+                return response()->json($datos);
+            }else{
+                $datos = array(
+                    'correctoelse' => FALSE
+                );
+                return response()->json($datos);
+            }
+        }
+        $datos = array(
+            'correctofuera' => FALSE
+        );
+        return response()->json($datos);
+    }
+    public function producto(Request $request){
+
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado' => 1
+        ])->first();
+
+        if(!is_null($colegio) && !empty($colegio)){
+            //obtenemos el producto o servicio
+            $producto = App\Producto_servicio_d::where([
+                'id_colegio' => $colegio->id_colegio,
+                'id_producto_servicio' => $request->input('id_producto_servicio'),
+                'estado' => 1
+            ])->first();
+
+            if(!is_null($producto) && !empty($producto)){
+                $producto->load('tributo');
+                $datos = array(
+                    'correcto' => TRUE,
+                    'producto' => $producto
+                );
+                return response()->json($datos);
+            }
+        }
+        $datos = array(
+                'correcto' => FALSE
         );
         return response()->json($datos);
     }
