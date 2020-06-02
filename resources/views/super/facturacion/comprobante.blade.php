@@ -28,7 +28,7 @@
 @endsection
 
 @section('main-content')
-    <input type="hidden" id="inpNumFilaProducto" value="0">
+    <input type="hidden" id="inpNumFilaProducto" value="1">
     <select  id="selTributos" style="display: none;">
         <option value=""></option>
         @foreach($tributos_para_producto as $tributo)
@@ -144,8 +144,48 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                 <tr>
+                                    <td>1</td>
+                                    <td><select id="selFiltroCodigoCom1" style="width: 100%;" class="campo-variable-com"></select></td>
+                                    <td><select type="text" id="selFiltroNombreCom1" style="width: 100%;" class="campo-variable-com"></select></td>
+                                    <td></td>
+                                    <td><input type="number" class="form-control form-control-sm campo-variable-com calc-cantidad" value="1" style="display: none;" onchange="fxCalcularTotalPorProducto(event);"></td>
+                                    <td><input type="text" class="form-control form-control-sm campo-variable-com calc-precio" value="0.00" style="display: none;" onchange="fxCalcularTotalPorProducto(event);"></td>
+                                    <td><input type="text" class="form-control form-control-sm campo-variable-com calc-total" value="0.00" style="display:  none;" onchange="fxCalcularPrecioDeProducto(event);"></td>
+                                    <td><select class="form-control form-control-sm campo-variable-com" style="display: none;">
+                                            <option value=""></option>
+                                            @foreach($tributos_para_producto as $tributo)
+                                                <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+                                            @endforeach
+                                        </select></td>
+                                    <td><button type="button" class="btn btn-danger btn-sm" onclick="fxQuitarProducto(event);">X</button></td>
+                                </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <h4> Importe: <span class="text-primary" id="spnImporteComprobante">0.00</span></h4>
+                        </div>
+
+                        <div class="col-md-2">
+                            <h4> IGV: <span class="text-primary" id="spnIgvComprobante">0.00</span></h4>
+                        </div>
+
+                        <div class="col-md-2">
+                            <h4> SubTotal: <span class="text-primary" id="spnSubTotalComprobante">0.00</span></h4>
+                        </div>
+
+                        <div class="col-md-2">
+                            <h4> Descuento: <span class="text-primary" id="spanDescuentoComprobante">0.00</span></h4>
+                        </div>
+
+                        <div class="col-md-2">
+                            <h4> Total: <span class="text-primary" id="spanTotalComprobante">0.00</span></h4>
+                        </div>
+                        <div></div>
                     </div>
                 </div>
             </div>
