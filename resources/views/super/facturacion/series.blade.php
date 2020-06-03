@@ -167,7 +167,7 @@
                             <div class="form-group" id="divFormGroupSerieRegistro" style="display: {{($errors->has('serie'))?'block':'none'}};">
                                 <label for="inpSerieRegistro">Serie</label>
                                 <div class="input-group mb-3">
-                                    <input type="hidden" name="prefijo" id="inpPrefijo">
+                                    <input type="hidden" name="prefijo" id="inpPrefijo" value="{{old('prefijo')}}">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">{{old('prefijo')}}</span>
                                     </div>
@@ -186,25 +186,10 @@
                                 </div>
                             </div>
 
-                            <!--<div class="form-group">
-                                <label for="inpSerie">Serie</label>
-                                <input type="text" name="serie" id="inpSerie" class="form-control @error('serie') is-invalid @enderror" value="{{old('serie')}}" required>
-                                <span class="invalid-feedback" role="alert">
-                                <strong>
-                                    @if($errors->has('serie'))
-                                        @error('serie')
-                                        {{$message}}
-                                        @enderror
-                                    @else
-                                        El campo serie es obligatorio
-                                    @endif
-                                    </strong>
-                                </span>
-                            </div>-->
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="btnCancelarRigistroSerie" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="btnCancelarRegistroSerie" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary" id="btnEnviarRegistroSerie" form="frmNuevaSerie">Guardar</button>
                 </div>
             </div>
@@ -259,7 +244,7 @@
                             @if($errors->has('documento_afectacion_serie') || old('documento_afectacion_serie'))
                                 <div class="form-group" id="divDocumentoAfectacionEdicion">
                                     <label for="selDocumentoAfectacionSerie">Documento afectación</label>
-                                    <select name="documento_afectacion_serie" id="selDocumentoAfectacionSerie" class="form-control" required>
+                                    <select name="documento_afectacion_serie" id="selDocumentoAfectacionSerie" onchange="fxPrefijo('actualizar',{{old('tipo_documento_serie')}});" class="form-control" required>
                                         @if(old('documento_afectacion_serie')=='B')
                                             <option value="">--Seleccione--</option>
                                             <option value="B" selected>BOLETA</option>
@@ -291,27 +276,34 @@
                                 </div>
                             @endif
 
-                            <div class="form-group">
+                            <div class="form-group" id="divFormGroupSerieEdicion">
                                 <label for="inpSerieSerie">Serie</label>
-                                <input type="text" name="numero_serie" id="inpSerieSerie" class="form-control @error('numero_serie') is-invalid @enderror" value="{{old('numero_serie')}}" required>
-                                <span class="invalid-feedback" role="alert">
-                                <strong>
-                                    @if($errors->has('numero_serie'))
-                                        @error('numero_serie')
-                                        {{$message}}
-                                        @enderror
-                                    @else
-                                        El campo serie es obligatorio
-                                    @endif
-                                    </strong>
-                                </span>
+                                <div class="input-group mb-3">
+                                    <input type="hidden" name="prefijo_edit" id="inpPrefijoEdit" value="{{old('prefijo_edit')}}">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">{{old('prefijo_edit')}}</span>
+                                    </div>
+                                    <input type="text" class="form-control @error('numero_serie') is-invalid @enderror" id="inpSerieSerie" name="numero_serie" value="{{old('numero_serie')}}" minlength="2" maxlength="3" required>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>
+                                            @if($errors->has('numero_serie'))
+                                                @error('numero_serie')
+                                                {{$message}}
+                                                @enderror
+                                            @else
+                                                El campo serie debe contener como mínimo 2 números y como máximo 3 números
+                                            @endif
+                                        </strong>
+                                    </span>
+                                </div>
                             </div>
+
                         </form>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary" form="frmEditarSerie">Guardar</button>
+                    <button type="button" class="btn btn-danger" id="btnCancelarEdicionSerie" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" id="btnEnviarEdicionSerie" form="frmEditarSerie">Guardar</button>
                 </div>
             </div>
         </div>

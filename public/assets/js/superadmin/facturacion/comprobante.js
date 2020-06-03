@@ -3,6 +3,20 @@ $( function() {
     $('#inpDniRuc').on('change',function(){
         fxConsultaPorRucDni($(this).val());
     });
+    $('#btnCancelarEmision').on('click',function(){
+        location.reload();
+    });
+
+    $('#inpDateFechaEmision').on('change',function(){
+        //verificamos si el valor actual es vacio
+        var valor = $(this).val();
+        if(!(valor=='' || valor==null)){
+            $('#spnFechaEmisionComprobante').find('i.text-fecha-emision').text(valor);
+        }
+        $('#spnFechaEmisionComprobante').find('i.input-fecha-emision').attr('style','display: none;');
+        $('#spnFechaEmisionComprobante').find('i.text-fecha-emision').show();
+        $('#iconEditEmision').show();
+    });
 
     $("#selFiltroCodigoCom1").select2({
         ajax: {
@@ -65,8 +79,6 @@ $( function() {
                     alert('Algo salió mal. Elige de nuevo');
                 }
             });
-        }else{
-            alert('No hacemos niguna peticion');
         }
     });
 
@@ -130,8 +142,6 @@ $( function() {
                     alert('Algo salió mal. Elige de nuevo');
                 }
             });
-        }else{
-            alert('No hacemos niguna peticion');
         }
     });
 
@@ -214,8 +224,6 @@ $( function() {
                         alert('Algo salió mal. Elige de nuevo');
                     }
                 });
-            }else{
-                alert('No hacemos niguna peticion');
             }
         });
 
@@ -279,8 +287,6 @@ $( function() {
                         alert('Algo salió mal. Elige de nuevo');
                     }
                 });
-            }else{
-                alert('No hacemos niguna peticion');
             }
         });
 
@@ -384,6 +390,15 @@ $( function() {
     });
 } );
 
+function fxMostrarCampoFecha(e){
+    e.preventDefault();
+    var fecha_emision = $('#spnFechaEmisionComprobante').find('i.text-fecha-emision').text();
+    $('#inpDateFechaEmision').val(fecha_emision);
+    $('#spnFechaEmisionComprobante').find('i.text-fecha-emision').attr('style','display: none;');
+    $('#iconEditEmision').attr('style','display: none;');
+    $('#spnFechaEmisionComprobante').find('i.input-fecha-emision').show();
+}
+
 //para calculo de totales(global)
 function fxCalcularTotales(){
     //primero hallamos el subtotal
@@ -476,8 +491,6 @@ function fxConsultaPorRucDni(documento){
     }else if(longitud==11){
         //busqueda por RUC
         fxConsultaPorRuc(doc);
-    }else{
-        alert('No hacemos la consulta');
     }
 }
 
@@ -497,9 +510,8 @@ function fxConsultaPorRuc(r){
     }).done(function(data){
         if(data.success){
             $('#inpNombreCliente').val(data.nombre_o_razon_social);
+            $('#inpDireccion').val(data.direccion);
             $('#inpDniRuc').removeAttr('readonly');
-        }else{
-            alert('Algo salió mal. Recarga la página');
         }
     });
 }
@@ -520,8 +532,6 @@ function fxConsultaPorDni(d){
         if(data.success){
             $('#inpNombreCliente').val(data.result.Apellidos+' '+data.result.Nombres);
             $('#inpDniRuc').removeAttr('readonly');
-        }else{
-            alert('Algo salió mal. Recarga la página');
         }
     });
 }

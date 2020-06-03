@@ -42,7 +42,7 @@
                 <div class="card-header">
 
                     <div class="float-left">
-                        <h3 class="d-inline-block" style="margin-right: 1.5em;"><span>{{date('Y-m-d')}}</span>&nbsp;&nbsp;<span>{{($serie_para_comprobante->tipo_documento->c_codigo_sunat=='01')?'FACTURA': 'BOLETA'}}</span>&nbsp;&nbsp;
+                        <h3 class="d-inline-block" style="margin-right: 1.5em;"><span id="spnFechaEmisionComprobante"><i class="text-fecha-emision">{{date('Y-m-d')}}</i><i class="input-fecha-emision" style="display: none;"><input type="date"  id="inpDateFechaEmision" style="display: inline-block;" value="{{date('Y-m-d')}}"></i></span><a href="#" onclick="fxMostrarCampoFecha(event);"><i class="i-Pen-5 text-muted" id="iconEditEmision"></i></a>&nbsp;&nbsp;<span>{{($serie_para_comprobante->tipo_documento->c_codigo_sunat=='01')?'FACTURA': 'BOLETA'}}</span>&nbsp;&nbsp;
                         <span>{{$serie_para_comprobante->c_serie}}</span>&nbsp;&nbsp;<span class="text-primary font-weight-bold">1</span></h3>
                         <div class="d-inline-block tipo-impresion-border">
                             <span>{{$moneda_para_comprobante->c_nombre}}</span>
@@ -55,7 +55,7 @@
                         <button type="button" class="btn btn-warning">+ Productos</button>
                         <button type="button" class="btn btn-primary">Previsualizar</button>
                         <button type="button" class="btn btn-success">Guardar</button>
-                        <button type="button" class="btn btn-danger">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="btnCancelarEmision">Cancelar</button>
                     </div>
                 </div>
                 <div class="card-body">
