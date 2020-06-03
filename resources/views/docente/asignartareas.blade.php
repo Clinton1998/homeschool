@@ -117,8 +117,8 @@
                         </div>
                         <input type="file" class="form-control form-control-lg" name="archivo" id="txtArchivo">
                         <div class="mt-1" style="text-align: justify; font-size: 10px">
-                            <i class="fas fa-info-circle my-link"></i>&nbsp;Solo se permite la carga de un archivo por tarea, por lo que si desea adjuntar varios archivos, estos deben estar en un archivo comprimido (Zip, Rar, etc...)&nbsp;
-                            <a class="my-link" href="http://www.imprimaonline.com/es/ayuda/tutoriales/como-comprimir-documentos-en-zip-o-rar/" target="_blank">Más información</a>
+                            <i class="fas fa-info-circle my-link"></i>&nbsp;Solo se permite la carga de un archivo por tarea, por lo que si desea adjuntar varios archivos, estos deben estar en un archivo comprimido (Zip, Rar, etc)&nbsp;
+                            <a class="my-link" href="https://youtu.be/x9f8m9hEXpA" target="_blank">Ver tutorial</a>
                         </div>
                     </div>
                     
