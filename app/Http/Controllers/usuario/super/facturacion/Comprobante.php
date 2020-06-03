@@ -87,13 +87,11 @@ class Comprobante extends Controller
                 foreach($grado->secciones()->where('seccion_d.estado','=',1)->orderBy('seccion_d.c_nombre','ASC')->get() as $seccion){
                     foreach($seccion->alumnos()->where('alumno_d.estado','=',1)->orderBy('alumno_d.c_nombre','ASC')->get() as $alumno){
                         //{ label: "anders", category: "Alumno|Representante" }
-                        $item_alumno = array(
-                            'label' => $alumno->c_nombre,
-                            'category' => 'Alumno'
-                        );
                         //verificamos si ese alumno tiene el primer representante
                         if(!is_null($alumno->c_dni_representante1) && !empty($alumno->c_dni_representante1) && !is_null($alumno->c_nombre_representante1) && !empty($alumno->c_nombre_representante1)){
                             $item_repre1 = array(
+                                'dni' => $alumno->c_dni_representante1,
+                                'direccion' => $alumno->c_direccion_representante1,
                                 'label' => $alumno->c_nombre_representante1,
                                 'category' => 'Representante'
                             );
@@ -103,13 +101,27 @@ class Comprobante extends Controller
                         //verificamos si ese alumno tiene el segundo representante
                         if(!is_null($alumno->c_dni_representante2) && !empty($alumno->c_dni_representante2) && !is_null($alumno->c_nombre_representante2) && !empty($alumno->c_nombre_representante2)){
                             $item_repre2 = array(
+                                'dni' => $alumno->c_dni_representante2,
+                                'direccion' => $alumno->c_direccion_representante2,
                                 'label' => $alumno->c_nombre_representante2,
                                 'category' => 'Representante'
                             );
                             array_push($arr_posibles_clientes,$item_repre2);
                         }
 
-                        array_push($arr_posibles_clientes,$item_alumno);
+                        //verificamos si alumno(a) es mayor de edad
+                        $fecha_nacimiento = new \DateTime($alumno->t_fecha_nacimiento);
+                        $hoy = new \DateTime();
+                        $edad = $hoy->diff($fecha_nacimiento);
+                        if($edad->y>=18){
+                            $item_alumno = array(
+                                'dni' => $alumno->c_dni,
+                                'direccion' => $alumno->c_direccion,
+                                'label' => $alumno->c_nombre,
+                                'category' => 'Alumno'
+                            );
+                            array_push($arr_posibles_clientes,$item_alumno);
+                        }
                     }
                 }
             }

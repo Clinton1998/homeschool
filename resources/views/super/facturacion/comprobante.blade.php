@@ -55,7 +55,7 @@
                         <button type="button" class="btn btn-warning">+ Productos</button>
                         <button type="button" class="btn btn-primary">Previsualizar</button>
                         <button type="button" class="btn btn-success">Guardar</button>
-                        <button type="button" class="btn btn-danger" onclick="location.reload();">Cancelar</button>
+                        <button type="button" class="btn btn-danger">Cancelar</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -108,13 +108,13 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="inpDireccion">Dirección:</label>
-                                @if(isset($alumno_para_representante) && !empty($tipo_dato_cliente_para_alumno))
+                                @if(isset($alumno_para_comprobante) && !empty($tipo_dato_cliente_para_alumno))
                                     @if($tipo_dato_cliente_para_alumno=='alumno')
-                                        <input type="text" class="form-control form-control-sm" id="inpDireccion" value="{{$alumno->c_direccion}}">
+                                        <input type="text" class="form-control form-control-sm" id="inpDireccion" value="{{$alumno_para_comprobante->c_direccion}}">
                                     @elseif($tipo_dato_cliente_para_alumno=='representante1')
-                                        <input type="text" class="form-control form-control-sm" id="inpDireccion" value="{{$alumno->c_direccion_representante1}}">
+                                        <input type="text" class="form-control form-control-sm" id="inpDireccion" value="{{$alumno_para_comprobante->c_direccion_representante1}}">
                                     @elseif($tipo_dato_cliente_para_alumno=='representante2')
-                                        <input type="text" class="form-control form-control-sm" id="inpDireccion" value="{{$alumno->c_direccion_representante2}}">
+                                        <input type="text" class="form-control form-control-sm" id="inpDireccion" value="{{$alumno_para_comprobante->c_direccion_representante2}}">
                                     @else
                                         <input type="text" class="form-control form-control-sm" id="inpDireccion">
                                     @endif
@@ -185,14 +185,66 @@
                         <div class="col-md-2">
                             <h4> Total: <span class="text-primary" id="spanTotalComprobante">0.00</span></h4>
                         </div>
-                        <div></div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-warning btn-sm btn-block"id="btnDescuentoGlobal">Descuento global</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
     </section>
+    <!--modal para el descuento global-->
+    <div class="modal" id="mdlAgregarDescuentoGlobal" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Agregar Descuento Global</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label for="inpImporteGlobal" class="ul-form__label">Importe:</label>
+                            <input type="text" class="form-control form-control-lg" id="inpImporteGlobal" value="0.00" readonly>
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inpIgvGlobal" class="ul-form__label">IGV:</label>
+                            <input type="text" class="form-control form-control-lg" id="inpIgvGlobal" value="0.00" readonly>
+                        </div>
 
+                        <div class="form-group col-md-2">
+                            <label for="inpSubTotalGlobal" class="ul-form__label">SubTotal:</label>
+                            <input type="text" class="form-control form-control-lg" id="inpSubTotalGlobal" value="0.00" readonly>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="inpDescuentoGlobal" class="ul-form__label">Descuento:</label>
+                            <input type="text" class="form-control form-control-lg is-invalid" id="inpDescuentoGlobal" value="0.00">
+                            <div class="invalid-feedback" style="display: none;" id="divInvalidDescuento">
+                                El monto no puede se mayor que SubTotal
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label for="inpTotalGlobal" class="ul-form__label">Total:</label>
+                            <input type="text" class="form-control form-control-lg" id="inpTotalGlobal" value="0.00" readonly>
+                        </div>
+
+
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="btnListoDescuentoGlobal">Listo</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--final modal para el descuento global-->
 @endsection
 
 @section('page-js')

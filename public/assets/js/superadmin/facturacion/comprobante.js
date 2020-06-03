@@ -135,8 +135,6 @@ $( function() {
         }
     });
 
-
-
     $('#btnAgregarProductoOServicio').on('click',function(){
         var tributos = $('#selTributos').html();
         var fila = parseInt($('#inpNumFilaProducto').val());
@@ -319,11 +317,70 @@ $( function() {
             if(data.correcto){
                 $( "#inpNombreCliente" ).catcomplete({
                     delay: 0,
-                    source: data.posibles_clientes
+                    source: data.posibles_clientes,
+                    change: function(event,ui){
+                        var item = ui.item;
+                        if(item!=null){
+                            //obtengo el dni y direccion
+                            var dni = item.dni;
+                            var direccion = item.direccion;
+                            $('#inpDniRuc').val(dni);
+                            $('#inpDireccion').val(direccion);
+                        }
+                    }
                 });
             }else{
                 alert('Algo salió mal. Recarga la página');
             }
+    });
+
+    //descuento global
+    $('#mdlAgregarDescuentoGlobal').on('shown.bs.modal',function(){
+        $('#inpDescuentoGlobal').removeClass('is-invalid');
+        $('#divInvalidDescuento').attr('style','display: none;');
+        $('#btnListoDescuentoGlobal').show();
+        $('#inpDescuentoGlobal').focus();
+    });
+    $('#btnDescuentoGlobal').on('click',function(){
+        //alert('Abrimos el modal de calculo de descuento');
+        fxCalcularTotales();
+        $('#mdlAgregarDescuentoGlobal').modal('show');
+    });
+
+    $('#btnListoDescuentoGlobal').on('click',function(){
+        //primero verificamos si el descuento global no supera al subtotal global
+        var inpSubTotalGlobal = $('#inpSubTotalGlobal');
+        var subTotalGlobal = parseFloat(inpSubTotalGlobal.val()!=''?inpSubTotalGlobal.val():0);
+        var inpDescuentoGlobal = $('#inpDescuentoGlobal');
+        var descuentoGlobal = parseFloat(inpDescuentoGlobal.val()!=''?inpDescuentoGlobal.val():0);
+        if(descuentoGlobal<=subTotalGlobal){
+            $('#spanDescuentoComprobante').text(inpDescuentoGlobal.val());
+        }
+        fxCalcularTotales();
+        $('#mdlAgregarDescuentoGlobal').modal('hide');
+    });
+    $('#inpDescuentoGlobal').on('change',function(){
+        //calculamos el nuevo total, considerando el descuento
+        //fxCalcularTotales()
+        var inpSubTotalGlobal = $('#inpSubTotalGlobal');
+        var subTotalGlobal = parseFloat(inpSubTotalGlobal.val()!=''?inpSubTotalGlobal.val():0);
+        var inpDescuentoGlobal = $('#inpDescuentoGlobal');
+        var descuentoGlobal = parseFloat(inpDescuentoGlobal.val()!=''?inpDescuentoGlobal.val():0);
+
+        //verificamos que el descuento dea menor o igual a subtotal
+        if(descuentoGlobal<=subTotalGlobal){
+            var total = subTotalGlobal-descuentoGlobal;
+            $('#inpDescuentoGlobal').val(redondea(descuentoGlobal,2));
+            $('#inpTotalGlobal').val(redondea(total,2));
+            $('#inpDescuentoGlobal').removeClass('is-invalid');
+            $('#divInvalidDescuento').attr('style','display: none;');
+            $('#btnListoDescuentoGlobal').show();
+        }else{
+            //inpDescuentoGlobal.val(redondea(descuentoGlobal,2));
+            $('#inpDescuentoGlobal').addClass('is-invalid');
+            $('#divInvalidDescuento').show();
+            $('#btnListoDescuentoGlobal').attr('style','display: none;');
+        }
     });
 } );
 
@@ -354,6 +411,13 @@ function fxCalcularTotales(){
 
     spnDescuento.text(redondea(descuentoGlobal,2));
     $('#spanTotalComprobante').text(redondea(totalGlobal,2));
+
+    //Los totales tambien almacenamos en el modal de descuento global
+    $('#inpImporteGlobal').val(redondea(importeGlobal,2));
+    $('#inpIgvGlobal').val(redondea(igvGlobal,2));
+    $('#inpSubTotalGlobal').val(redondea(subTotalGlobal,2));
+    $('#inpDescuentoGlobal').val(redondea(descuentoGlobal,2));
+    $('#inpTotalGlobal').val(redondea(totalGlobal,2));
 }
 
 function fxCalcularTotalPorProducto(e){
@@ -398,6 +462,8 @@ function fxQuitarProducto(e){
     }else{
         $('#inpNumFilaProducto').val(0);
     }
+
+    fxCalcularTotales();
 }
 
 function fxConsultaPorRucDni(documento){
