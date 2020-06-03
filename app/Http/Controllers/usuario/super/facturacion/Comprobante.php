@@ -29,6 +29,10 @@ class Comprobante extends Controller
             'estado' => 1
         ])->first();
         if(!is_null($colegio) && !empty($colegio)){
+            //obtenemos los tributos generales
+            $tributos_para_producto = App\Tributo_m::where([
+                'estado'=> 1
+            ])->orderBy('c_nombre','ASC')->get();
             //obtenemos la serie
             $serie_para_comprobante = App\Serie_d::where([
                 'id_colegio' => $colegio->id_colegio,
@@ -58,12 +62,12 @@ class Comprobante extends Controller
                         //ese alumno pertenece al colegio
                         //obteniendo al cliente para el alumno
                         $tipo_dato_cliente_para_alumno = strtolower(trim($request->input('tipo_dato_cliente_comprobante')));
-                        return view('super.facturacion.comprobante',compact('alumno_para_comprobante','tipo_dato_cliente_para_alumno','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
+                        return view('super.facturacion.comprobante',compact('alumno_para_comprobante','tipo_dato_cliente_para_alumno','tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
                     }else{
                         return redirect('/home');
                     }
                 }else{
-                    return view('super.facturacion.comprobante',compact('serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
+                    return view('super.facturacion.comprobante',compact('tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
                 }
             }
         }
@@ -83,13 +87,11 @@ class Comprobante extends Controller
                 foreach($grado->secciones()->where('seccion_d.estado','=',1)->orderBy('seccion_d.c_nombre','ASC')->get() as $seccion){
                     foreach($seccion->alumnos()->where('alumno_d.estado','=',1)->orderBy('alumno_d.c_nombre','ASC')->get() as $alumno){
                         //{ label: "anders", category: "Alumno|Representante" }
-                        $item_alumno = array(
-                            'label' => $alumno->c_nombre,
-                            'category' => 'Alumno'
-                        );
                         //verificamos si ese alumno tiene el primer representante
                         if(!is_null($alumno->c_dni_representante1) && !empty($alumno->c_dni_representante1) && !is_null($alumno->c_nombre_representante1) && !empty($alumno->c_nombre_representante1)){
                             $item_repre1 = array(
+                                'dni' => $alumno->c_dni_representante1,
+                                'direccion' => $alumno->c_direccion_representante1,
                                 'label' => $alumno->c_nombre_representante1,
                                 'category' => 'Representante'
                             );
@@ -99,13 +101,27 @@ class Comprobante extends Controller
                         //verificamos si ese alumno tiene el segundo representante
                         if(!is_null($alumno->c_dni_representante2) && !empty($alumno->c_dni_representante2) && !is_null($alumno->c_nombre_representante2) && !empty($alumno->c_nombre_representante2)){
                             $item_repre2 = array(
+                                'dni' => $alumno->c_dni_representante2,
+                                'direccion' => $alumno->c_direccion_representante2,
                                 'label' => $alumno->c_nombre_representante2,
                                 'category' => 'Representante'
                             );
                             array_push($arr_posibles_clientes,$item_repre2);
                         }
 
-                        array_push($arr_posibles_clientes,$item_alumno);
+                        //verificamos si alumno(a) es mayor de edad
+                        $fecha_nacimiento = new \DateTime($alumno->t_fecha_nacimiento);
+                        $hoy = new \DateTime();
+                        $edad = $hoy->diff($fecha_nacimiento);
+                        if($edad->y>=18){
+                            $item_alumno = array(
+                                'dni' => $alumno->c_dni,
+                                'direccion' => $alumno->c_direccion,
+                                'label' => $alumno->c_nombre,
+                                'category' => 'Alumno'
+                            );
+                            array_push($arr_posibles_clientes,$item_alumno);
+                        }
                     }
                 }
             }
@@ -117,6 +133,77 @@ class Comprobante extends Controller
         }
         $datos = array(
             'correcto' => FALSE
+        );
+        return response()->json($datos);
+    }
+    public function productos($q,$tipo)
+    {
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado' => 1
+        ])->first();
+        if(!is_null($colegio) && !empty($colegio)){
+            //obtenemos todos los productos del colegio
+            if($tipo=='nombre'){
+                $productos = App\Producto_servicio_d::where([
+                    ['id_colegio','=',$colegio->id_colegio],
+                    ['estado','=',1],
+                    ['c_nombre','like','%'.$q.'%']
+                ])->select('producto_servicio_d.id_producto_servicio as id', 'producto_servicio_d.c_nombre as text')->get();
+                $datos = array(
+                    'correcto' => TRUE,
+                    'productos' => $productos
+                );
+                return response()->json($datos);
+            }elseif($tipo=='codigo'){
+                $productos = App\Producto_servicio_d::where([
+                    ['id_colegio','=',$colegio->id_colegio],
+                    ['estado','=',1],
+                    ['c_codigo','like','%'.$q.'%']
+                ])->select('producto_servicio_d.id_producto_servicio as id', 'producto_servicio_d.c_codigo as text')->get();
+                $datos = array(
+                    'correcto' => TRUE,
+                    'productos' => $productos
+                );
+                return response()->json($datos);
+            }else{
+                $datos = array(
+                    'correctoelse' => FALSE
+                );
+                return response()->json($datos);
+            }
+        }
+        $datos = array(
+            'correctofuera' => FALSE
+        );
+        return response()->json($datos);
+    }
+    public function producto(Request $request){
+
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado' => 1
+        ])->first();
+
+        if(!is_null($colegio) && !empty($colegio)){
+            //obtenemos el producto o servicio
+            $producto = App\Producto_servicio_d::where([
+                'id_colegio' => $colegio->id_colegio,
+                'id_producto_servicio' => $request->input('id_producto_servicio'),
+                'estado' => 1
+            ])->first();
+
+            if(!is_null($producto) && !empty($producto)){
+                $producto->load('tributo');
+                $datos = array(
+                    'correcto' => TRUE,
+                    'producto' => $producto
+                );
+                return response()->json($datos);
+            }
+        }
+        $datos = array(
+                'correcto' => FALSE
         );
         return response()->json($datos);
     }

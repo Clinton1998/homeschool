@@ -199,9 +199,6 @@
                         </div>
 
                         <input type="hidden" id="inpNecesarioIdAlumno" name="id_alumno_comprobante" value="">
-                        <!--<input type="hidden" id="inpNecesarioDniCliente" name="dni_comprobante" value="">
-                        <input type="hidden" id="inpNecesarioNombreCliente" name="nombre_comprobante" value="">-->
-                        <!--posibles valores = ['alumno','representante1','representante2','personalizado']-->
                         <input type="hidden" id="inpNecesarioTipoDatoClienteParaAlumno" name="tipo_dato_cliente_comprobante">
                     </div>
                     </form>
