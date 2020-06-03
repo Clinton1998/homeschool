@@ -14,7 +14,7 @@
                 @endphp
                 @foreach ($cursos as $c)
                     @if ($tmp == 0)
-                        <strong><p class="hs_upper">{{substr($c->nom_grado,3)}}</p></strong> 
+                        <strong><p class="hs_capitalize">{{mb_strtolower(substr($c->nom_grado,3))}}</p></strong> 
                         <strong>&nbsp;"{{$c->nom_seccion}}"&nbsp;</strong>
                         <strong>({{ucfirst(strtolower($c->nom_nivel))}})</strong>
                         @php
@@ -27,7 +27,7 @@
                 @foreach ($cursos as $c)
                     <article class="curso-card">
                         <div class="curso-card-header" style="background: {{$c->col_curso}}">
-                            <h4 class="curso-card-titulo hs_capitalize-first">{{$c->nom_curso}}</h4>
+                            <h4 class="curso-card-titulo hs_capitalize-first">{{mb_strtolower($c->nom_curso)}}</h4>
                         </div>
                         <div class="curso-card-footer">
                             <div class="curso-card-notify">

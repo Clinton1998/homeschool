@@ -81,23 +81,24 @@
         </div>
         <div class="tools-footer">
             <a class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#MODAL-TOOLS">Agregar</a>
-            <a  id="quiero_eliminar"  href="#" class="btn btn-sm" onclick="MostrarEliminar()">Quiero eliminar</a>
+            <a  id="quiero_eliminar"  href="#" class="btn btn-sm" onclick="MostrarEliminar()">Mantenimiento</a>
             <a  id="quiero_cancelar"  href="#" class="btn btn-sm" onclick="CancelarEliminar()">Cancelar</a>
         </div>
     </div>
 </div>
 
 <div id="tools-icon" class="tools-icon">
-    <div class="maletin">
+    {{-- <div class="maletin">
 
-    </div>
+    </div> --}}
+    <i class="fas fa-th "></i>
 </div>
 
 <div class="modal fade" id="MODAL-TOOLS" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="modal-tools-title">Nueva herramienta</h5>
+            <h5 class="modal-title" id="modal-tools-title">Herramienta</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -105,6 +106,7 @@
         <form enctype="multipart/form-data" id="frm-tools" name="frm-tools" method="POST" action="{{url('/herramienta/agregar')}}" novalidate>
             @csrf
             <div class="modal-body">
+                <input type="hidden" name="id_tool" id="id_tool" value="">
                 <div class="formgroup">
                     <label for="nombre">Nombre</label>
                     <input type="text" name="nombre" id="nombre" class="form-control" required>
@@ -141,8 +143,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" form="frm-tools">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="LimpiarInputs()" >Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="btn_guardar" form="frm-tools">Guardar</button>
+                <button class="btn btn-primary" id="btn_actualizar">Actualizar</button>
             </div>
         </form>
     </div>
@@ -159,6 +162,7 @@
 
         MostrarHerramientas();
         
+        $('.boton_editar').hide();
         $('.boton_eliminar').hide();
         $('#quiero_cancelar').hide();
         $('#quiero_eliminar').show();
@@ -175,6 +179,8 @@
 
         $('#logo_fisico').hide();
         $('#logo_link').show();
+
+        $('#btn_actualizar').hide();
     });
 
     $('#tools-icon').click(function(){
@@ -246,7 +252,6 @@
                             timer: 1500
                         });
                         MostrarHerramientas();
-                        console.log(data);
                     },
                     error: function(){
                         Swal.fire({
@@ -300,21 +305,19 @@
         } 
     });
 
-    //Optener herramientas
+    //Mostrar herramientas
     function MostrarHerramientas(){
         $.ajax({
             url: "/herramienta/listar",
             type: "GET",  
             /* data: {id_tarea: id}, */
             success:function(data){
-                console.log(data)
-
                 Comentarios = '';
 
                 if (data.herramientas.length > 0) {
                     data.herramientas.forEach(function (herramienta, indice){
                         Comentarios += '<div class="tools-item" data-toggle="tooltip" data-placement="top" title="'+ herramienta.c_link +'">';
-                            Comentarios += '<div class="text-right tools-delete-box"><a href="#" class="badge badge-danger boton_eliminar" onclick="EliminarHerramienta('+ herramienta.id_herramienta +')">x</a></div>';
+                            Comentarios += '<div class="text-right tools-delete-box"><a href="#" class="pt-1 pb-1 badge badge-warning boton_editar" onclick="EditarHerramienta('+ herramienta.id_herramienta +')"><i class="i-Pen-5"></i></a><a href="#" class="badge badge-danger boton_eliminar" onclick="EliminarHerramienta('+ herramienta.id_herramienta +')">x</a></div>';
                             Comentarios += '<a class="tools-link" id="tool_link_'+ herramienta.id_herramienta +'" href="'+ herramienta.c_link +'" target="_blank">';
                                 /* Comentarios +='<input type="hidden" id="tool_'+ herramienta.id_herramienta +'" name="tool_'+ herramienta.id_herramienta +'" value="">'; */
                                 if (herramienta.c_logo_fisico == null && herramienta.c_logo_link == null) {
@@ -337,6 +340,99 @@
             }
         })
     };
+
+    //Cargar datos para Editar
+    function EditarHerramienta(id){
+        modal = $('#MODAL-TOOLS');
+
+        $("#id_tool").val(id);
+
+        nombre = $("#nombre").val($('#tool_name_'+id).text());
+        url = $("#link").val($('#tool_link_'+id).attr('href'));
+
+        $('#btn_guardar').hide();
+        $('#btn_actualizar').show();
+
+        modal.modal('show');
+    }
+
+    //Actualziar datos de herramienta
+    $('#btn_actualizar').click(function(){
+        event.preventDefault();
+
+        var f = $(this);
+
+        nombre = $("#nombre").val();
+        file = $("#logo_fisico").val();
+        link = $("#logo_link").val();
+        url = $("#link").val();
+
+        modal = $('#MODAL-TOOLS');
+
+        if (nombre == '') {
+            Swal.fire({
+                position: 'center',
+                icon: 'info',
+                text: 'Su herramienta, necesita un título',
+                showConfirmButton: true,
+                confirmButtonColor: '#3498db'
+            });
+        } else {
+            if (url == '') {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'info',
+                    text: 'Necesita escribir o copiar el enlace de la herramienta',
+                    showConfirmButton: true,
+                    confirmButtonColor: '#3498db'
+                });
+            } else {
+                var formData = new FormData(document.getElementById("frm-tools"));
+                formData.append("dato", "valor");
+
+                $.ajax({
+                    url: "/herramienta/actualizar",
+                    type: "post",
+                    dataType: "html",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success:function(data){
+                        modal.modal('hide');
+
+                        $("#nombre").val('');
+                        $("#logo_fisico").val('');
+                        $("#logo_link").val('');
+                        $("#link").val('');
+
+                        MostrarHerramientas();
+
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            text: 'Su herramienta fue actualizada correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+                        $('#btn_guardar').show();
+                        $('#btn_actualizar').hide();
+                        CancelarEliminar();
+                    },
+                    error: function(){
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'warning',
+                            text: 'Su herramienta no pudo ser actualizada, vuelva a intentarlo',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                });
+            }
+        }
+    });
 
     //Eliminar herramienta
     function EliminarHerramienta(id){
@@ -385,12 +481,14 @@
     }
 
     function MostrarEliminar(){
+        $('.boton_editar').show();
         $('.boton_eliminar').show();
         $('#quiero_cancelar').show();
         $('#quiero_eliminar').hide();
     }
 
     function CancelarEliminar(){
+        $('.boton_editar').hide();
         $('.boton_eliminar').hide();
         $('#quiero_cancelar').hide();
         $('#quiero_eliminar').show();
@@ -405,4 +503,11 @@
         $('#logo_fisico').hide();
         $('#logo_link').show();
     });
+
+    function LimpiarInputs(){
+    $("#nombre").val('');
+    $("#logo_fisico").val('');
+    $("#logo_link").val('');
+    $("#link").val('');
+}
 </script>

@@ -11,7 +11,7 @@ $(document).ready(function () {
 
         "dom": 'tp',
         "order": [
-            [4, "desc"]
+            [3, "desc"]
         ],
         "ajax": {
             "url": "/super/categorias/read_asignatura",
@@ -751,27 +751,39 @@ function Clear() {
 function ActivarSelect() {
 
     new SlimSelect({
-        select: '#asignaturas'
+        select: '#asignaturas',
+        placeholder: 'Seleccione uno o varios cursos',
+        showSearch: false,
     });
 
     new SlimSelect({
-        select: '#asignaturas2'
+        select: '#asignaturas2',
+        placeholder: 'Seleccione uno o varios cursos',
+        showSearch: false,
     });
 
     new SlimSelect({
-        select: '#asignaturas3'
+        select: '#asignaturas3',
+        placeholder: 'Seleccione uno o varios cursos',
+        showSearch: false,
     });
 
     new SlimSelect({
-        select: '#secciones'
+        select: '#secciones',
+        placeholder: 'Seleccione una o varias secciones',
+        showSearch: false,
     });
 
     new SlimSelect({
-        select: '#secciones2'
+        select: '#secciones2',
+        placeholder: 'Seleccione una o varias secciones',
+        showSearch: false,
     });
 
     new SlimSelect({
-        select: '#secciones3'
+        select: '#secciones3',
+        placeholder: 'Seleccione una o varias secciones',
+        showSearch: false,
     });
 };
 

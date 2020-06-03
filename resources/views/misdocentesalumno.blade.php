@@ -41,16 +41,16 @@
                         @else
                             <img class="docente-photo" src="{{url('super/docente/foto/'.$docente->c_foto)}}" alt="Foto del docente">
                         @endif
-                        <h5 class="docente-name hs_upper">{{$docente->c_nombre}}</h5>
+                        <h4 class="docente-name hs_capitalize">{{mb_strtolower($docente->c_nombre)}}</h4>
                         <strong>Cursos a cargo</strong>
                         @foreach ($cursos_docente as $c)
                             @if ($c->id_docente == $docente->id_docente)
-                                <p class="docente-specialty hs_capitalize-first">{{$c->nom_curso}}</p>
+                                <p class="docente-specialty hs_capitalize-first">{{mb_strtolower($c->nom_curso)}}</p>
                             @endif
                         @endforeach
                         <br>
                         <strong>Correo electrónico</strong>
-                        <a href="mailto:{{$docente->c_correo}}"><p class="docente-email">{{$docente->c_correo}}</p></a>
+                        <a href="mailto:{{$docente->c_correo}}"><p class="docente-email hs_lower">{{$docente->c_correo}}</p></a>
                     </div>
                 </div>
             @endforeach

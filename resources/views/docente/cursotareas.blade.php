@@ -114,17 +114,17 @@
                                 <label for="tarea_arch">Archivo</label>&nbsp;<small>(Opcional)</small>
                             </div>
                             <div>
-                                <small><strong><i class="nav-icon i-Information text-danger"></i>&nbsp;El archivo no debe superar los 256MB</strong></small>
+                                <small><strong><i class="fas fa-exclamation-circle text-warning"></i>&nbsp;El archivo no debe superar los 256MB</strong></small>
                             </div>
                         </div>
                         <input type="file" id="tarea_arch" name="tarea_arch" class="form-control hs_upload" style="height: 50px">
                         <div class="mt-1" style="text-align: justify; font-size: 10px">
-                            Solo se permite la carga de un archivo por tarea, por lo que si desea adjuntar varios archivos, estos deben estar en un archivo comprimido (Zip, Rar, etc...)&nbsp;
+                            <i class="fas fa-info-circle box-link"></i>&nbsp;Solo se permite la carga de un archivo por tarea, por lo que si desea adjuntar varios archivos, estos deben estar en un archivo comprimido (Zip, Rar, etc...)&nbsp;
                             <a class="box-link" href="http://www.imprimaonline.com/es/ayuda/tutoriales/como-comprimir-documentos-en-zip-o-rar/" target="_blank">Más información</a>
                         </div>
                     </div>
                     <div class="form-group radio-alumnos" id="divRadioAlumno">
-                        <label for="radioAlumnos">Para&nbsp;&nbsp;</label>
+                        <label for="radioAlumnos" class="mr-3">Para&nbsp;</label>
                         <div>
                             <div class="radio-btn form-check form-check-inline">
                                 <label class="radio radio-dark">
@@ -182,7 +182,7 @@
                 @foreach ($alumnosseccion as $al)
                     <label class="checkbox checkbox-success">
                         <input type="checkbox" name="alumnos[]" value="{{$al->id_alumno}}" form="frm_tarea_nueva">
-                        <span class="hs_capitalize">{{$al->c_nombre}}</span>
+                        <span class="hs_capitalize">{{mb_strtolower($al->c_nombre)}}</span>
                         <span class="checkmark"></span>
                     </label>
                 @endforeach

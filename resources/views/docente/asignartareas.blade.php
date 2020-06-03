@@ -107,16 +107,27 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="txtArchivo">Archivo</label>
+                        <div style="display: flex; flex-wrap: wrap; justify-content: space-between">
+                            <div>
+                                <label for="txtArchivo">Archivo</label>&nbsp;<small>(Opcional)</small>
+                            </div>
+                            <div>
+                                <small><strong><i class="fas fa-exclamation-circle text-warning"></i>&nbsp;El archivo no debe superar los 256MB</strong></small>
+                            </div>
+                        </div>
                         <input type="file" class="form-control form-control-lg" name="archivo" id="txtArchivo">
+                        <div class="mt-1" style="text-align: justify; font-size: 10px">
+                            <i class="fas fa-info-circle my-link"></i>&nbsp;Solo se permite la carga de un archivo por tarea, por lo que si desea adjuntar varios archivos, estos deben estar en un archivo comprimido (Zip, Rar, etc...)&nbsp;
+                            <a class="my-link" href="http://www.imprimaonline.com/es/ayuda/tutoriales/como-comprimir-documentos-en-zip-o-rar/" target="_blank">Más información</a>
+                        </div>
                     </div>
                     
                     <div class="form-group">
                         <label class="label-text" for="cbGradoSeccion">Para</label>
-                        <select id="cbGradoSeccion" name="seccion" required>
-                                <option value=""></option>
+                        <select id="cbGradoSeccion" name="seccion" class="hs_capitalize" required>
+                                <option class="hs_capitalize" value=""></option>
                             @foreach($docente->secciones()->where('seccion_d.estado','=',1)->get() as $seccion)
-                                <option value="{{$seccion->id_seccion}}">{{substr($seccion->grado->c_nombre,3)}} "{{$seccion->c_nombre}}" - {{$seccion->grado->c_nivel_academico}}</option>
+                                <option class="hs_capitalize" value="{{$seccion->id_seccion}}">{{mb_strtolower(substr($seccion->grado->c_nombre,3))}} "{{$seccion->c_nombre}}" - {{mb_strtolower($seccion->grado->c_nivel_academico)}}</option>
                             @endforeach
                         </select>
                         <span class="invalid-feedback" role="alert">
@@ -157,7 +168,7 @@
 
                     <h5>Fecha y hora de entrega</h5>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-6" style="min-width: 190px!important">
                             <div class="form-group">
                                 <label class="label-text" for="txtFechaEntrega">Fecha</label>
                             <input class="form-control" id="txtFechaEntrega"  name="fecha_hora_entrega" type="date" min="{{date('Y-m-d')}}" disabled required>
@@ -166,7 +177,7 @@
                                 </span>
                             </div>                            
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-3" style="min-width: 50px!important">
                             <div class="form-group">
                                 <label class="label-text" for="txtHoraEntrega">Hora</label>
                                 <input class="form-control" id="txtHoraEntrega"  name="hora_entrega" type="number" min="0" max="23" disabled>
@@ -176,7 +187,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-3" style="min-width: 50px!important">
                             <div class="form-group">
                                 <label class="label-text" for="txtMinutoEntrega">Minuto</label>
                                 <input class="form-control" id="txtMinutoEntrega"  name="minuto_entrega" type="number" min="0" max="59" disabled>

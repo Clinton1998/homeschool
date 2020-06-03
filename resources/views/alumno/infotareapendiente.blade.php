@@ -30,7 +30,7 @@
                         @else
                                 <img class="rounded-circle" width="50" height="50" src="{{url('super/docente/foto/'.$tarea->docente->c_foto)}}" alt="Foto del docente">
                         @endif
-                                {{$tarea->docente->c_nombre}}
+                                <span class="hs_capitalize">{{mb_strtolower($tarea->docente->c_nombre)}}</span>
                         </div>
 
                         <ul class="list list-unstyled mb-0 mt-3 mt-sm-0 ml-auto">

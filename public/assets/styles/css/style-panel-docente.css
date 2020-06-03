@@ -110,8 +110,9 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 0;
-    max-height: 480px;
-    overflow: hidden;
+    max-height: 500px;
+
+    border-radius: 5px;
 }
 
 .hs_wallpaper {
@@ -135,7 +136,7 @@
 
 .hs_login-footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
     align-items: center;
     margin-top: 20px;
@@ -145,6 +146,11 @@
     .hs_container {
         padding-top: 20px;
         display: block;
+    }
+
+    .hs_board {
+        border: solid 15px transparent;
+        border-radius: 12px;
     }
 
     .hs_logo-innova-container {
@@ -174,6 +180,10 @@
     .hs_wallpaper {
         display: none !important;
     }
+
+    .hs_login {
+        border-radius: 12px;
+    }
 }
 
 /**********************************************/
@@ -182,7 +192,7 @@
 .tools-icon {
     position: fixed;
     bottom: 30px;
-    right: 20px;
+    right: 10px;
     width: 250px;
     z-index: 100;
     /* display: none; */
@@ -190,10 +200,10 @@
 
 .tools-icon {
     background-color: lightgrey;
-    color: #FFF;
+    /* color: #FFF; */
     font-size: 20px;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     padding: 8px;
     display: flex;
     justify-content: center;
@@ -203,7 +213,7 @@
 }
 
 .maletin {
-    background-image: url(../../images/briefcase.png);
+    /* background-image: url(../../images/briefcase.png); */
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -333,13 +343,14 @@
     z-index: 10000;
 }
 
+.boton_editar,
 .boton_eliminar {
     display: none;
 }
 
 @media screen and (max-width: 425px) {
     .tools-icon {
-        bottom: 5px;
+        bottom: 10px;
         right: -10px;
         z-index: 110;
     }

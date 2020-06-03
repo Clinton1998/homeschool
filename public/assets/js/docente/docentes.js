@@ -42,8 +42,8 @@ function fxAplicarDocente(id_doc) {
                 srcFoto = '../super/docente/foto/' + data.docente.c_foto;
             }
             $('#imgInfoDocente').attr('src', srcFoto);
-            $('#infoNombreDocente').text(data.docente.c_nombre);
-            $('#infoEspecilidadDocente').text(data.docente.c_especialidad);
+            $('#infoNombreDocente').text(data.docente.c_nombre.toLowerCase());
+            $('#infoEspecilidadDocente').text(data.docente.c_especialidad.toLowerCase());
             $('#infoCorreoDocente').text(data.docente.c_correo);
             $('#infoTelefonoDocente').text(data.docente.c_telefono);
         } else {

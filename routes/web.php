@@ -78,6 +78,7 @@ Route::get('herramienta/logo/{fileName}', 'Herramienta@logo_fisico')->name('herr
 
 //devuelve un redirect
 Route::post('herramienta/agregar','Herramienta@agregar')->name('herramienta/agregar');
+Route::post('herramienta/actualizar','Herramienta@actualizar')->name('herramienta/actualizar');
 
 //devuelve json no sirve para blade, valido para peticiones AJAX
 

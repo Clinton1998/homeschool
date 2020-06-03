@@ -187,7 +187,7 @@
                                             <th>id_s_c</th>
                                             <th>id_s</th>
                                             <th>id_c</th>
-                                            <th>Asignatura</th>
+                                            <th>Curso</th>
                                             <th>Grado</th>
                                             <th>Sección</th>
                                             <th>Acciones</th>
@@ -213,7 +213,7 @@
                                             <th>id_s_c</th>
                                             <th>id_s</th>
                                             <th>id_c</th>
-                                            <th>Asignatura</th>
+                                            <th>Curso</th>
                                             <th>Grado</th>
                                             <th>Sección</th>
                                             <th>Acciones</th>
@@ -239,7 +239,7 @@
                                             <th>id_s_c</th>
                                             <th>id_s</th>
                                             <th>id_c</th>
-                                            <th>Asignatura</th>
+                                            <th>Curso</th>
                                             <th>Grado</th>
                                             <th>Sección</th>
                                             <th>Acciones</th>
@@ -274,18 +274,18 @@
                     <div class="modal-body">
                         @csrf
                         <div class="form-group">
-                            <label for="asignaturas">Asignatura(s)</label>
-                            <select id="asignaturas" name="asignaturas[]" multiple>
+                            <label for="asignaturas">Curso(s)</label>
+                            <select id="asignaturas" class="hs_select" name="asignaturas[]" multiple>
 
                             </select>
                             <div class="invalid-feedback">
-                                Seleccione uno o varias asignaturas
+                                Seleccione uno o varios cursos
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="secciones">Sección(es)</label>
-                            <select id="secciones" name="secciones[]" multiple>
+                            <select id="secciones" class="hs_select" name="secciones[]" multiple>
                                 @foreach ($inicial as $item)
                                     <option value="{{$item->id_seccion}}">{{substr($item->nom_grado,3)}} <span class="hs_upper"> {{strtoupper($item->nom_seccion)}}</span></option>
                                 @endforeach
@@ -318,12 +318,12 @@
                     <div class="modal-body">
                         @csrf
                         <div class="form-group">
-                            <label for="asignatura">Asignatura</label>
-                            <select id="asignatura" name="asignatura" class="form-control">
+                            <label for="asignatura">Curso</label>
+                            <select id="asignatura" name="asignatura" class="hs_select form-control">
 
                             </select>
                             <div class="invalid-feedback">
-                                Seleccione una asignatura
+                                Seleccione un curso
                             </div>
                         </div>
 
@@ -362,8 +362,8 @@
                     <div class="modal-body">
                         @csrf
                         <div class="form-group">
-                            <label for="asignaturas2">Asignatura(s)</label>
-                            <select id="asignaturas2" name="asignaturas2[]" multiple>
+                            <label for="asignaturas2">Curso(s)</label>
+                            <select id="asignaturas2" class="hs_select" name="asignaturas2[]" multiple>
 
                             </select>
                             <div class="invalid-feedback">
@@ -406,12 +406,12 @@
                     <div class="modal-body">
                         @csrf
                         <div class="form-group">
-                            <label for="asignatura2">Asignatura</label>
-                            <select id="asignatura2" name="asignatura2" class="form-control">
+                            <label for="asignatura2">Curso</label>
+                            <select id="asignatura2" name="asignatura2" class="hs_select form-control">
 
                             </select>
                             <div class="invalid-feedback">
-                                Seleccione una asignatura
+                                Seleccione un curso
                             </div>
                         </div>
 
@@ -450,12 +450,12 @@
                     <div class="modal-body">
                         @csrf
                         <div class="form-group">
-                            <label for="asignaturas3">Asignatura(s)</label>
-                            <select id="asignaturas3" name="asignaturas3[]" multiple>
+                            <label for="asignaturas3">Curso(s)</label>
+                            <select id="asignaturas3" class="hs_select" name="asignaturas3[]" multiple>
 
                             </select>
                             <div class="invalid-feedback">
-                                Seleccione uno o varias asignaturas
+                                Seleccione uno o varios cursos
                             </div>
                         </div>
 
@@ -494,12 +494,12 @@
                     <div class="modal-body">
                         @csrf
                         <div class="form-group">
-                            <label for="asignatura3">Asignatura</label>
-                            <select id="asignatura3" name="asignatura3" class="form-control">
+                            <label for="asignatura3">Curso</label>
+                            <select id="asignatura3" name="asignatura3" class="hs_select form-control">
 
                             </select>
                             <div class="invalid-feedback">
-                                Seleccione una asignatura
+                                Seleccione un curso
                             </div>
                         </div>
 

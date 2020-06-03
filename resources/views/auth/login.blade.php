@@ -113,9 +113,9 @@
                     <div class="hs_login-footer">
                         <a href="/register" id="btn-registrar" class="btn btn-raised ripple btn-raised-secondary">Registrar mi colegio</a>
                         
-                        @if (Route::has('password.request'))
+                        {{-- @if (Route::has('password.request'))
                             <a href="{{ route('password.request') }}" class="hs_olvide-contraseña text-muted"><u>Olvidé mi contraseña</u></a>
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
             </div>

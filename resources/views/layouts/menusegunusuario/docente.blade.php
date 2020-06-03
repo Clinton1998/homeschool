@@ -47,7 +47,7 @@
             </div>
             {{-- nombre de usuario --}}
             <div class="user_name">
-                <p class="user_name_text ml-1 mr-1">{{$re_docente->c_nombre}}</p>
+                <p class="hs_capitalize-first user_name_text ml-1 mr-1">{{mb_strtolower($re_docente->c_nombre)}}</p>
             </div>
             {{-- opciones de perfil de usuario --}}
             <div class="user_profile">
@@ -66,7 +66,7 @@
 
                         <div class="dropdown-menu dropdown-menu-right mt-2" aria-labelledby="userDropdown">
                             <div class="dropdown-header">
-                                <p class="user_name_text user_name_in">{{$re_docente->c_nombre}}</p>
+                                <p class="hs_capitalize-first user_name_text user_name_in">{{mb_strtolower($re_docente->c_nombre)}}</p>
                                 {{-- <i class="i-Lock-User mr-1"></i> --}}ID: {{ Auth::user()->email }}
                             </div>
                             <a href="{{url('/docente/cambiarcontrasena')}}" class="dropdown-item">Cambiar contraseña</a>
@@ -85,7 +85,7 @@
     </div>
     <div id="chat_float">
         <div class="user_chat uc">
-            <a class="i-Speach-Bubble-Dialog header-icon" href="{{url('/chat')}}" data-toggle="tooltip" data-placement="bottom" title="Chat"></a>
+            <a class="i-Speach-Bubble-Dialog" href="{{url('/chat')}}"></a>
         </div>
     </div>
 </div>

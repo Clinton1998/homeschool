@@ -41,8 +41,8 @@
                                     @endif
                                 </div>
                                 <div class="ul-contact-page__info">
-                                    <h4 class="hs_capitalize">{{$companiero->c_nombre}}</h4>
-                                    <p class="text-muted m-0 hs_capitalize">{{$companiero->c_correo}}</p>
+                                    <h4 class="hs_capitalize">{{mb_strtolower($companiero->c_nombre)}}</h4>
+                                    <p class="text-muted m-0 hs_lower">{{$companiero->c_correo}}</p>
                                 </div>
                             </div>
                         </div>

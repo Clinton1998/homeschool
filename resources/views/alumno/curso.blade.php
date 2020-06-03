@@ -9,8 +9,8 @@
         <!--header-->
         <div class="curso-header" style="background: {{$curso->col_curso}}">
             <div>
-                <h4 class="curso-name hs_capitalize-first">{{$curso->nom_curso}}</h4>
-                <small class="celda_oculta curso-name curso-name-sub hs_capitalize">Docente:&nbsp;{{$curso->nom_docente}}</small>
+                <h4 class="curso-name hs_capitalize-first">{{mb_strtolower($curso->nom_curso)}}</h4>
+                <small class="celda_oculta curso-name curso-name-sub hs_upper">DOCENTE:&nbsp;{{$curso->nom_docente}}</small>
             </div>
             <a class="curso-back btn btn-secondary" href="{{url('/alumno/cursos')}}">
                 <i class="nav-icon i-Arrow-Left"></i>

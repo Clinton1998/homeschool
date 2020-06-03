@@ -17,35 +17,35 @@
                 <a class="menu-lateral-item-link" href="{{route('alumno/calendario')}}">
                     <i class="nav-icon i-Calendar"></i>
                     <br>
-                    <span>Mi calendario</span>
+                    <span>Calendario</span>
                 </a>
             </li>
             <li class="menu-lateral-item {{ request()->is('alumno/cursos*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('alumno/cursos')}}">
                     <i class="nav-icon i-Sidebar-Window"></i>
                     <br>
-                    <span>Mis Cursos</span>
+                    <span>Cursos</span>
                 </a>
             </li>
             <li class="menu-lateral-item {{ request()->is('alumno/tareas*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('alumno/tareas')}}">
                     <i class="nav-icon i-Box-Full"></i>
                     <br>
-                    <span>Mis tareas</span>
+                    <span>Tareas</span>
                 </a>
             </li>
             <li class="menu-lateral-item {{ request()->is('alumno/docentes*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('alumno/docentes')}}">
                     <i class="nav-icon i-Geek"></i>
                     <br>
-                    <span>Mis docentes</span>
+                    <span>Docentes</span>
                 </a>
             </li>
             <li class="menu-lateral-item {{ request()->is('alumno/companieros*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('alumno/companieros')}}">
                     <i class="nav-icon i-MaleFemale"></i>
                     <br>
-                    <span>Mis compañeros</span>
+                    <span>Compañeros</span>
                 </a>
             </li>
             

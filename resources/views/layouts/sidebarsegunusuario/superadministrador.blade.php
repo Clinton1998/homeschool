@@ -142,34 +142,6 @@
     <div class="sidebar-overlay"></div>
 </div>
 
-<div class="tools">
-    <div id="tools-container" class="tools-container">
-        <div class="tools-header">
-            <div class="tools-title">
-                <span>Mis herramientas</span>
-            </div>
-            <a class="tools-nav-min" href="#">-</a>
-        </div>
-        <div class="tools-nav">
-            <input type="text" placeholder="Buscar tus herramientas" class="textBuscar" id="textBuscar">
-        </div>
-        <div class="tools-list" id="tools-list">
-
-        </div>
-        <div class="tools-footer">
-            <a class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#MODAL-TOOLS">Agregar</a>
-            <a  id="quiero_eliminar"  href="#" class="btn btn-sm" onclick="MostrarEliminar()">Quiero eliminar</a>
-            <a  id="quiero_cancelar"  href="#" class="btn btn-sm" onclick="CancelarEliminar()">Cancelar</a>
-        </div>
-    </div>
-</div>
-
-<div id="tools-icon" class="tools-icon">
-    <div class="maletin">
-
-    </div>
-</div>
-
 <!--modal elegir boleta o factura-->
     <div class="modal" id="mdlElegirTipoComprobante" tabindex="-1" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -354,59 +326,4 @@
 <!--final modal elegir cliente para alumno en comprobante-->
 
 
-<div class="modal fade" id="MODAL-TOOLS" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="modal-tools-title">Nueva herramienta</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <form enctype="multipart/form-data" id="frm-tools" name="frm-tools" method="POST" action="{{url('/herramienta/agregar')}}" novalidate>
-            @csrf
-            <div class="modal-body">
-                <div class="formgroup">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" class="form-control" required>
-                </div>
-
-                <br>
-                <div class="formgroup">
-                    <label for="link">Enlace de la herramienta</label>
-                    <input type="url" name="link" id="link" class="form-control" placeholder="https://www.mi-herramienta-online.com" required>
-                </div>
-
-                <br>
-                <div class="formgroup">
-                    <label for="">Imagen</label>
-                </div>
-
-                <div class="form-group" style="display: flex; flex-wrap: wrap; justify-content: space-between">
-                    <label class="radio radio-light mr-1" id="file-web">
-                        <input type="radio" name="radio" [value]="2" formControlName="radio" checked>
-                        <span>Desde un enlace web</span>
-                        <span class="checkmark"></span>
-                    </label>
-
-                    <label class="radio radio-light" id="file-pc">
-                        <input type="radio" name="radio" [value]="1" formControlName="radio">
-                        <span>Desde mi dispositivo</span>
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-
-                <div class="formgroup">
-                    <input type="file" name="logo_fisico" id="logo_fisico" class="form-control hs_upload">
-                    <input type="url" name="logo_link" id="logo_link" class="form-control">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" form="frm-tools">Guardar</button>
-            </div>
-        </form>
-    </div>
-    </div>
-</div>
 

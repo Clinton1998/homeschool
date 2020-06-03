@@ -76,6 +76,7 @@
             @if($tipo_usuario=="superadministrador")
                 @include('layouts.menusegunusuario.superadministrador')
                 @include('layouts.sidebarsegunusuario.superadministrador')
+                @include('layouts.tools')
             @elseif($tipo_usuario=='docente')
                 @include('layouts.menusegunusuario.docente')
                 @include('layouts.sidebarsegunusuario.docente')

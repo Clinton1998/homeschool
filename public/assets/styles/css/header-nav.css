@@ -9,24 +9,48 @@
     --grey: #f9f9f9;
 }
 
+.hs_lower {
+    text-transform: lowercase;
+}
+
+.hs_upper {
+    text-transform: uppercase;
+}
+
+.hs_capitalize {
+    text-transform: capitalize;
+}
+
+.hs_capitalize-first::first-letter {
+    text-transform: uppercase;
+}
+
 #chat_float {
-    color: #FFF;
-    background: var(--doc-cs);
-    border: solid var(--doc-cs) 1px;
-    padding-right: 5px;
+    /* color: #FFF; */
+    /* background: var(--doc-cs); */
+    background: lightgrey;
+    /* border: solid var(--doc-cs) 1px; */
+    /* padding-right: 5px; */
     position: fixed;
-    right: 0;
-    top: 80px;
-    display: none;
-    border-radius: 8px 0 0 8px;
+    bottom: 80px;
+    right: 10px;
+    /* display: none; */
+    /* border-radius: 8px 0 0 8px; */
+    border-radius: 50%;
+}
+
+#chat_float:hover {
+    transform: scale(1.08);
 }
 
 #chat_float a {
-    color: #FFF;
+    color: #47404F;
+    font-size: 20px;
+    margin: 10px;
 }
 
 #chat_float a:hover {
-    background: var(--doc-cs);
+    color: #47404F;
 }
 
 .uc {
@@ -77,6 +101,8 @@
 .school_name {
     color: grey;
     margin-top: 3px;
+    font-size: 11px;
+    font-weight: bold;
 }
 
 .user_info {
@@ -175,7 +201,15 @@
         display: none;
     }
 
-    #chat_float {
+    /*#chat_float {
         display: block;
+    } */
+}
+
+@media screen and (max-width: 425px) {
+
+    #chat_float {
+        bottom: 60px;
+        z-index: 100;
     }
 }

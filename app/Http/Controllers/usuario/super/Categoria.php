@@ -22,8 +22,8 @@ class Categoria extends Controller
         $asignaturas = App\Categoria_d::where([
             'id_colegio' => $colegio->id_colegio,
             'estado'=> 1
-        //])->orderBy('c_nombre','ASC')->get();
-        ])->orderBy('created_at','DESC')->get();
+        ])->orderBy('c_nombre','ASC')->get();
+        /* ])->orderBy('created_at','DESC')->get(); */
 
         return response()->json($asignaturas);
     }

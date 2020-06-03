@@ -15,7 +15,7 @@
                 @foreach ($cursos_del_docente as $c)
                     <article class="curso-card">
                         <div class="curso-card-header" style="background: {{$c->col_curso}}">
-                            <h4 class="curso-card-titulo hs_capitalize-first">{{$c->nom_curso}}</h4>
+                            <h4 class="curso-card-titulo hs_capitalize-first">{{mb_strtolower($c->nom_curso)}}</h4>
                             <small class="curso-card-titulo hs_capitalize-first">{{$c->nom_nivel}}</small>
                             <h6 class="curso-card-titulo hs_capitalize-first">{{substr($c->nom_grado,3)}} "{{strtoupper($c->nom_seccion)}}"</h6>
                         </div>

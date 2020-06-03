@@ -41,7 +41,7 @@
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
                                     @foreach($seccion->alumnos->where('estado','=',1) as $alumno)
-                                        <li class="list-group-item hs_capitalize" id="liListGroupAlumno{{$alumno->id_alumno}}" onclick="fxAplicarAlumno({{$alumno->id_alumno}});">{{$alumno->c_nombre}}</li>
+                                        <li class="list-group-item hs_capitalize" id="liListGroupAlumno{{$alumno->id_alumno}}" onclick="fxAplicarAlumno({{$alumno->id_alumno}});">{{mb_strtolower($alumno->c_nombre)}}</li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -67,16 +67,16 @@
                     <h4 id="nombreAlumno" class="hs_capitalize"></h4>
                     <br>
                     <strong>Correo electrónico</strong>
-                    <p id="correoAlumno"></p>
+                    <p id="correoAlumno" class="hs_lower"></p>
                     <br>
                     <hr>
                     <h4>Representantes</h4>
                     <h5 id="nombreRepresentante1" class="hs_capitalize">Clinton</h5>
-                    <strong>Número de teléfono</strong>
+                    <strong>Número de teléfono (Principal)</strong>
                     <p id="telefono1">{999-999999}</p>
                     <br>
-                    <h5 id="nombreRepresentante2" class="Capitalize">Clinton</h5>
-                    <strong>Número de teléfono</strong>
+                    <h5 id="nombreRepresentante2" class="hs_capitalize">Clinton</h5>
+                    <strong>Número de teléfono (Secundario)</strong>
                     <p id="telefono2">{999-999999}</p>
                 </div>
                 <div class="modal-footer">

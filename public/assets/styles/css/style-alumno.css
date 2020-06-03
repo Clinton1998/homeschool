@@ -1162,6 +1162,11 @@ a {
 
 /* Modal: Tarea nueva */
 
+.radio-alumnos {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .tarea_fecha_hora {
     display: flex;
     justify-content: space-between;

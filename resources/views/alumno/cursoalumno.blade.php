@@ -23,8 +23,8 @@
                 @endif
                 
                 <div class="alumno-group">
-                    <p class="alumno-name hs_capitalize">{{$as->c_nombre}} </p>
-                    <p class="alumno-email"> {{$as->c_correo}}</p>
+                    <p class="alumno-name hs_capitalize">{{mb_strtolower($as->c_nombre)}} </p>
+                    <p class="alumno-email hs_lower"> {{$as->c_correo}}</p>
                 </div>
             </div>
         @endforeach

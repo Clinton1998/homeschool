@@ -11,12 +11,12 @@
                 @else
                     <img class="docente-photo" src="{{url('super/docente/foto/'.$curso->c_foto)}}" alt="Docente">
                 @endif
-                <h5 class="docente-name hs_upper">{{$curso->nom_docente}}</h5>
+                <h4 class="docente-name hs_capitalize">{{mb_strtolower($curso->nom_docente)}}</h4>
                 <strong>Especialidad</strong>
-                <p class="docente-specialty hs_capitalize-first">{{$curso->c_especialidad}}</p>
+                <p class="docente-specialty hs_capitalize-first">{{mb_strtolower($curso->c_especialidad)}}</p>
                 <br>
                 <strong>Correo electrónico</strong>
-                <p class="docente-email">{{$curso->c_correo}}</p>
+                <p class="docente-email hs_lower">{{$curso->c_correo}}</p>
             </div>
         </div>
     </div>

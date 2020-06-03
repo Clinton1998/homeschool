@@ -69,16 +69,60 @@ class Herramienta extends Controller
         return response()->json($herramienta);
     }
 
+    public function actualizar(Request $request){
+
+        $herramienta = App\Herramienta_d::findOrFail($request->id_tool);
+        $herramienta->c_nombre = $request->input('nombre');
+        $herramienta->c_link = $request->input('link');
+        $herramienta->modificador = Auth::user()->id;
+        $herramienta->save();
+
+        $logo_link = $request->input('logo_link');
+        $logo_fisico = $request->file('logo_fisico');
+
+        if (!is_null($logo_fisico) && !empty($logo_fisico)) {
+
+            if (!is_null($herramienta->c_logo_fisico)) {
+                unlink($this->fotos_path.'/'.$herramienta->c_logo_fisico);
+            }
+
+            if (!is_dir($this->fotos_path)) {
+                mkdir($this->fotos_path, 0777);
+            }
+
+            $name = sha1(date('YmdHis'));
+            $resize_name = $name . '.' . $logo_fisico->getClientOriginalExtension();
+            
+            Image::make($logo_fisico)
+                ->resize(250, null, function ($constraints) {
+                    $constraints->aspectRatio();
+                })
+                ->save($this->fotos_path . '/' . $resize_name);
+
+            $herramienta->c_logo_fisico = $resize_name;
+            $herramienta->save();
+        }
+        elseif (!is_null($logo_link) && !empty($logo_link)) {
+            
+            if (!is_null($herramienta->c_logo_fisico)) {
+                unlink($this->fotos_path.'/'.$herramienta->c_logo_fisico);
+                $herramienta->c_logo_fisico = NULL;
+            }
+
+            $herramienta->c_logo_link = $request->input('logo_link');
+            $herramienta->save();
+        }
+
+        return response()->json($herramienta);
+    }
+    
     public function eliminar(Request $request){
-        /* $request->validate([
-            'id_herramienta' => 'required'
-        ]); */
 
         $herramienta = App\Herramienta_d::findOrFail($request->id_herramienta);
 
-        if(!is_null($herramienta->c_logo_fisico) && !empty($herramienta->c_logo_fisico) ){
+        /* if(!is_null($herramienta->c_logo_fisico) && !empty($herramienta->c_logo_fisico) ){
             unlink($this->fotos_path.'/'.$herramienta->c_logo_fisico);
-        }
+        } */
 
         $herramienta->delete();
         
