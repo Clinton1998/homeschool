@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\usuario\super\facturacion;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\facturacion\GenerarPrevisualizacion;
 use Illuminate\Http\Request;
 use App;
 use Auth;
@@ -320,6 +321,15 @@ class Comprobante extends Controller
         $datos = array(
             'correcto' => FALSE
         );
+        return response()->json($datos);
+    }
+
+    public function generar_previsualizacion(GenerarPrevisualizacion $request){
+        $datos = array(
+            'correcto' => TRUE,
+            'datos' => $request->all()
+        );
+
         return response()->json($datos);
     }
 }

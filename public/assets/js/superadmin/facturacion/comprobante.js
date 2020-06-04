@@ -1,12 +1,15 @@
 
 $( function() {
-    $('#inpDniRuc').on('change',function(){
+    $('#inpDniRuc').on('change', function () {
         fxConsultaPorRucDni($(this).val());
     });
-    $('#btnCancelarEmision').on('click',function(){
+    $('#btnCancelarEmision').on('click', function () {
         location.reload();
     });
 
+    $('#btnPrevisualizarComrpobante').on('click', function () {
+        fxPrevisualizarComprobante();
+    });
     $('#inpDateFechaEmision').on('change',function(){
         //verificamos si el valor actual es vacio
         var valor = $(this).val();
@@ -389,6 +392,32 @@ $( function() {
         }
     });
 } );
+
+function fxPrevisualizarComprobante(){
+
+    var comprobante = {
+        tipo_documento: 'FACTURA',
+        tipo_impresion: 'A4'
+    };
+    $('#spinnerPrevisualizarComprobante').show();
+    $('#divPrevisualizarComprobante').attr('style','display: none;');
+    $('#mdlPrevisualizarComprobante').modal('show');
+    $.ajax({
+        type: 'POST',
+        url: '/super/facturacion/comprobante/generarprevisualizacion',
+        data: comprobante,
+        error: function(error){
+            alert('Ocurrió un error');
+            console.error(error);
+        }
+    }).done(function(data){
+        console.log('Los datos devueltos son: ');
+        console.log(data);
+
+        $('#spinnerPrevisualizarComprobante').attr('style','display: none;');
+        $('#divPrevisualizarComprobante').show();
+    });
+}
 
 function fxMostrarCampoFecha(e){
     e.preventDefault();
