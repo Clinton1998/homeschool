@@ -70,8 +70,6 @@
             </div>
         </div>
 
-
-
         <div class="app-admin-wrap layout-sidebar-large clearfix">
             @if($tipo_usuario=="superadministrador")
                 @include('layouts.menusegunusuario.superadministrador')

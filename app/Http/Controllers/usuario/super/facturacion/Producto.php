@@ -41,7 +41,6 @@ class Producto extends Controller
                 'id_colegio' => $colegio->id_colegio,
                 'estado' => 1
             ])->distinct()->get();
-            //return response()->json($unidades);
 			return view('super.facturacion.productos',compact('productos_o_servicios','tributos','unidades'));
 		}
     	return redirect('/home');
@@ -201,8 +200,8 @@ class Producto extends Controller
                 'id_producto_servicio' => $request->input('id_producto'),
                 'estado' => 1
             ])->first();
-
             if(!is_null($producto) && !empty($producto)){
+                $producto->load('tributo');
                 $datos = array(
                     'correcto' => TRUE,
                     'producto' => $producto

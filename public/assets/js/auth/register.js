@@ -67,8 +67,13 @@ function fxConsultaRuc(obj) {
             l.stop();
         }
     }).done(function (data) {
-        $('#razonsocial').val(data.razonSocial);
-        l.stop();
+        if(data.success){
+            $('#razonsocial').val(data.nombre_o_razon_social);
+            l.stop();
+        }else{
+            toastr.error('No hay resultados');
+            l.stop();
+        }
     });
 }
 
@@ -91,24 +96,28 @@ function fxConsultaDni(obj) {
     }).done(function (data) {
         //proceso para generar un usuario segun dni del representante
         var apiconsulta = data;
-        $.ajax({
-            type: 'POST',
-            url: '/register/generarusuario',
-            data: {
-                dni: $('#dni').val()
-            },
-            error: function (error) {
-                toastr.error('Ups! algo salió mal. Intenta nuevamente');
-                console.error(error);
-            }
-        }).done(function (repsonse) {
-            console.log('Los datos devueltos son: ');
-            console.log(repsonse);
-            $('#nombre').val(apiconsulta.nombres + ' ' + apiconsulta.apellidoPaterno + ' ' + apiconsulta.apellidoMaterno);
-            $('#email').val(repsonse.usuario_generado);
-            $('#password').removeAttr('disabled');
-            $('#password-confirm').removeAttr('disabled');
+        if(apiconsulta.success){
+            $.ajax({
+                type: 'POST',
+                url: '/register/generarusuario',
+                data: {
+                    dni: $('#dni').val()
+                },
+                error: function (error) {
+                    toastr.error('Algo salió mal. Intenta nuevamente');
+                    console.error(error);
+                    l.stop();
+                }
+            }).done(function (response) {
+                $('#nombre').val(apiconsulta.result.Nombres + ' ' + apiconsulta.result.Apellidos);
+                $('#email').val(response.usuario_generado);
+                $('#password').removeAttr('disabled');
+                $('#password-confirm').removeAttr('disabled');
+                l.stop();
+            });
+        }else{
+            toastr.error('No hay resultados');
             l.stop();
-        });
+        }
     });
 }

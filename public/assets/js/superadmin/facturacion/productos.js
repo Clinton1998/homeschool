@@ -1,6 +1,112 @@
 $(document).ready(function() {
-    /*Ladda.bind('button[type=submit]', { timeout: 20000 });
-    alert('Todo es correcto');*/
+    $('#frmNuevoProducto').on('keyup keypress',function(e){
+        var keyCode = e.keyCode || e.which;
+        if(keyCode==13){
+            e.preventDefault();
+            return false;
+        }
+    });
+    //al momento de registrar
+    $('#selTributoProducto').on('change',function(){
+        if($(this).val().trim()!=''){
+            var tributo = $(this).find('option:selected').text().toUpperCase();
+            if(tributo=='EXONERADO' || tributo=='INAFECTO'){
+                $('#inpPrecioProductoSinIgv').val('0.00');
+                $('#inpPrecioProductoConIgv').val('0.00');
+                $('#inpPrecioProductoSinIgv').attr('readonly','true');
+            }else if(tributo=='IGV'){
+                $('#inpPrecioProductoSinIgv').val('0.00');
+                $('#inpPrecioProductoConIgv').val('0.00');
+                $('#inpPrecioProductoSinIgv').removeAttr('readonly');
+            }
+        }
+    });
+
+    //al momento de actualizar
+    $('#selTributo').on('change',function(){
+        if($(this).val().trim()!=''){
+            var tributo = $(this).find('option:selected').text().toUpperCase();
+            if(tributo=='EXONERADO' || tributo=='INAFECTO'){
+                $('#inpPrecioSinIgv').val('0.00');
+                $('#inpPrecioConIgv').val('0.00');
+                $('#inpPrecioSinIgv').attr('readonly','true');
+            }else if(tributo=='IGV'){
+                $('#inpPrecioSinIgv').val('0.00');
+                $('#inpPrecioConIgv').val('0.00');
+                $('#inpPrecioSinIgv').removeAttr('readonly');
+            }
+        }
+    });
+    //al momento de registrar
+    $('#inpPrecioProductoSinIgv').on('change',function(){
+        //verificamos que el tributo seleccionado sea diferente a inafecto y exonerado
+        if($('#selTributoProducto').val()!=''){
+            var tributo = $('#selTributoProducto').find('option:selected').text().toUpperCase();
+            if(tributo=='IGV'){
+                var importeSinIgv = parseFloat($(this).val()!=''?$(this).val():0);
+                var impuesto = importeSinIgv*0.18;
+                var importeTotal = importeSinIgv+impuesto;
+                $(this).val(redondea(importeSinIgv,2));
+                $('#inpPrecioProductoConIgv').val(redondea(importeTotal,2));
+            }
+        }
+    });
+    $('#inpPrecioProductoConIgv').on('change',function(){
+        //verificamos que exista un tributo seleccionado
+        if($('#selTributoProducto').val()!=''){
+            var tributo = $('#selTributoProducto').find('option:selected').text().toUpperCase();
+            if(tributo=='IGV'){
+                var importeTotal = parseFloat($(this).val()!=''?$(this).val():0);
+                var importeSinIgv = importeTotal/1.18;
+                var impuesto = importeSinIgv*0.18;
+                //la suma debe ser correcta
+                importeTotal = importeSinIgv+impuesto;
+                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv,2));
+                $(this).val(redondea(importeTotal,2));
+            }else {
+                //debe ser inafecto o exonerado
+                var importeTotal = parseFloat($(this).val()!=''?$(this).val():0);
+                var importeSinIgv = importeTotal;
+                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv,2));
+                $(this).val(redondea(importeTotal,2));
+            }
+        }
+    });
+    //al momento de actualizar
+    $('#inpPrecioSinIgv').on('change',function(){
+        //verificamos que el tributo seleccionado sea diferente a inafecto y exonerado
+        if($('#selTributo').val()!=''){
+            var tributo = $('#selTributo').find('option:selected').text().toUpperCase();
+            if(tributo=='IGV'){
+                var importeSinIgv = parseFloat($(this).val()!=''?$(this).val():0);
+                var impuesto = importeSinIgv*0.18;
+                var importeTotal = importeSinIgv+impuesto;
+                $(this).val(redondea(importeSinIgv,2));
+                $('#inpPrecioConIgv').val(redondea(importeTotal,2));
+            }
+        }
+    });
+    $('#inpPrecioConIgv').on('change',function(){
+        //verificamos que exista un tributo seleccionado
+        if($('#selTributo').val()!=''){
+            var tributo = $('#selTributo').find('option:selected').text().toUpperCase();
+            if(tributo=='IGV'){
+                var importeTotal = parseFloat($(this).val()!=''?$(this).val():0);
+                var importeSinIgv = importeTotal/1.18;
+                var impuesto = importeSinIgv*0.18;
+                //la suma debe ser correcta
+                importeTotal = importeSinIgv+impuesto;
+                $('#inpPrecioSinIgv').val(redondea(importeSinIgv,2));
+                $(this).val(redondea(importeTotal,2));
+            }else {
+                //debe ser inafecto o exonerado
+                var importeTotal = parseFloat($(this).val()!=''?$(this).val():0);
+                var importeSinIgv = importeTotal;
+                $('#inpPrecioSinIgv').val(redondea(importeSinIgv,2));
+                $(this).val(redondea(importeTotal,2));
+            }
+        }
+    });
     $('#tabProductos').DataTable({
         destroy: true
     });
@@ -245,9 +351,8 @@ function fxAplicarProducto(producto,e){
             console.error(error);
         }
     }).done(function(data){
-        console.log('Los datos devueltos son: ');
+        console.log('el productito es: ');
         console.log(data);
-        data.correcto = true;
         if(data.correcto){
             var producto = data.producto;
             $('#inpIdProducto').val(producto.id_producto_servicio);
@@ -274,6 +379,12 @@ function fxAplicarProducto(producto,e){
             $('#inpUnidadSunat').val(producto.c_unidad_sunat);
             $('#inpPrecioSinIgv').val(producto.n_precio_sin_igv);
             $('#inpPrecioConIgv').val(producto.n_precio_con_igv);
+            var codigo_sunat = producto.tributo.c_codigo_sunat.toUpperCase();
+            if(codigo_sunat=='EXO' || codigo_sunat=='INA'){
+                $('#inpPrecioSinIgv').attr('readonly','true');
+            }else{
+                $('#inpPrecioSinIgv').removeAttr('readonly');
+            }
             //mostramos los datos
             $('#spinnerEditarProducto').attr('style','display: none;');
             $('#divFrmProducto').show();
@@ -298,7 +409,8 @@ function fxConfirmacionRestaurarProducto(producto){
     }, function(dismiss) {});
 }
 
-function fxConfirmacionEliminarProducto(producto){
+function fxConfirmacionEliminarProducto(producto,e){
+
     swal({
         title: '¿Estas seguro?',
         showCancelButton: true,
@@ -332,4 +444,16 @@ function fxEliminarProducto(producto){
             alert('Algo salió mal. Recarga la página');
         }
     });
+}
+
+function redondea(sVal, nDec) {
+    var n = parseFloat(sVal);
+    var s = "0.00";
+    if (!isNaN(n)) {
+        n = Math.round(n * Math.pow(10, nDec)) / Math.pow(10, nDec);
+        s = String(n);
+        s += (s.indexOf(".") == -1 ? "." : "") + String(Math.pow(10, nDec)).substr(1);
+        s = s.substr(0, s.indexOf(".") + nDec + 1);
+    }
+    return s;
 }

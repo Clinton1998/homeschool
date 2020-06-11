@@ -32,6 +32,15 @@
                     <span>Colegio</span>
                 </a>
             </li>
+
+            <li class="nav-item menu-lateral-item {{ request()->is('super/facturacion/*') ? 'item-activo' : '' }}" data-item="itemfacturacion">
+                <a class="nav-item-hold menu-lateral-item-link" href="#">
+                    <i class="nav-icon i-Library"></i>
+                    <span class="nav-text">Facturación electrónica</span>
+                </a>
+                <div class="triangle"></div>
+            </li>
+
             <li class="menu-lateral-item {{ request()->is('super/gradoseccion*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('super/gradoseccion')}}">
                     <i class="nav-icon i-Tag"></i>
@@ -75,21 +84,44 @@
                     <span>Comunicados</span>
                 </a>
             </li>
-
-            <li class="nav-item menu-lateral-item {{ request()->is('super/facturacion/*') ? 'item-activo' : '' }}" data-item="itemfacturacion">
-                <a class="nav-item-hold menu-lateral-item-link" href="#">
-                    <i class="nav-icon i-Library"></i>
-                    <span class="nav-text">Facturación electrónica</span>
-                </a>
-                <div class="triangle"></div>
-            </li>
-
         </ul>
         <!-- FIN DE NUEVO MENU SLIDER -->
     </div>
 
 
     <div class="sidebar-left-secondary rtl-ps-none" data-perfect-scrollbar data-suppress-scroll-x="true">
+        @php
+            //obtenemos la moneda utilizada en la plataforma
+            $moneda_default_pref = App\Moneda_m::where([
+                'b_principal' => 1,
+                'estado' => 1
+            ])->first();
+            //obtenemos la preferencia para boleta
+            $sunat_boleta_pref = '03';
+            $tipo_boleta_pref = App\Tipo_documento_m::where([
+                'c_codigo_sunat' => $sunat_boleta_pref,
+                'estado' => 1
+            ])->first();
+
+            $preferencia_boleta_pref = App\Preferencia_d::where([
+                'id_usuario' => Auth::user()->id,
+                'id_tipo_documento' => $tipo_boleta_pref->id_tipo_documento,
+                'estado' =>1
+            ])->first();
+
+            //obtenemos la preferencia para factura
+            $sunat_factura_pref = '01';
+            $tipo_factura_pref = App\Tipo_documento_m::where([
+                'c_codigo_sunat' => $sunat_factura_pref,
+                'estado' => 1
+            ])->first();
+
+            $preferencia_factura_pref = App\Preferencia_d::where([
+                'id_usuario' => Auth::user()->id,
+                'id_tipo_documento' => $tipo_factura_pref->id_tipo_documento,
+                'estado' =>1
+            ])->first();
+        @endphp
         <ul class="childNav" data-parent="itemfacturacion">
             <li class="nav-item">
                 <a class="{{ Route::currentRouteName()=='super/facturacion/series' ? 'item-activo' : '' }}" href="{{route('super/facturacion/series')}}">
@@ -97,6 +129,14 @@
                     <span class="item-name">Series</span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="{{ Route::currentRouteName()=='super/facturacion/preferencias' ? 'item-activo' : '' }}" href="{{route('super/facturacion/preferencias')}}">
+                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                    <span class="item-name">Preferencias</span>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a class="{{ Route::currentRouteName()=='super/facturacion/productos' ? 'item-activo' : '' }}" href="{{route('super/facturacion/productos')}}">
                     <i class="nav-icon i-Split-Horizontal-2-Window"></i>
@@ -104,35 +144,47 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
-                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
-                    <span class="item-name">Preferencias</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
-                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
-                    <span class="item-name">Comprobantes electrónicos</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='super/facturacion/comprobante' ? 'item-activo' : '' }}" href="#" data-toggle="modal" data-target="#mdlElegirTipoComprobante">
-                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
-                    <span class="item-name">Comprobante</span>
-                </a>
+                @if(!is_null($preferencia_boleta_pref) && !empty($preferencia_boleta_pref))
+                    @if(strtoupper($preferencia_boleta_pref->c_modo_emision)=='DET')
+                        <a class="{{ Route::currentRouteName()=='super/facturacion/comprobante' ? '' : '' }}" href="#" onclick="fxElegirTipoComprobante('B',event);">
+                            <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                            <span class="item-name">Boleta de venta</span>
+                        </a>
+                    @else
+                        <a class="{{ Route::currentRouteName()=='super/facturacion/comprobante' ? '' : '' }}" href="{{url('/super/facturacion/comprobante?_token='.csrf_token().'&serie_comprobante='.$preferencia_boleta_pref->id_serie.'&moneda_comprobante='.$moneda_default_pref->id_moneda.'&tipo_impresion_comprobante='.$preferencia_boleta_pref->id_tipo_impresion.'&datos_adicionales_calculo='.$preferencia_boleta_pref->b_datos_adicionales_calculo)}}">
+                            <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                            <span class="item-name">Boleta de venta</span>
+                        </a>
+                    @endif
+                @else
+                    {{--siempre mostramos el modo detallado sin valores por defecto para los listbox--}}
+                    <a class="{{ Route::currentRouteName()=='super/facturacion/comprobante' ? '' : '' }}" href="#" onclick="fxElegirTipoComprobante('B',event);">
+                        <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                        <span class="item-name">Boleta de venta</span>
+                    </a>
+                @endif
             </li>
 
             <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
-                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
-                    <span class="item-name">Notas electrónicos</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="{{ Route::currentRouteName()=='accordion' ? 'open' : '' }}" href="{{route('accordion')}}">
-                    <i class="nav-icon i-Split-Horizontal-2-Window"></i>
-                    <span class="item-name">Nota</span>
-                </a>
+                @if(!is_null($preferencia_factura_pref) && !empty($preferencia_factura_pref))
+                    @if(strtoupper($preferencia_factura_pref->c_modo_emision)=='DET')
+                        <a class="{{ Route::currentRouteName()=='super/facturacion/comprobante' ? '' : '' }}" href="#" onclick="fxElegirTipoComprobante('F',event);">
+                            <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                            <span class="item-name">Factura</span>
+                        </a>
+                    @else
+                        <a class="{{ Route::currentRouteName()=='super/facturacion/comprobante' ? '' : '' }}" href="{{url('/super/facturacion/comprobante?_token='.csrf_token().'&serie_comprobante='.$preferencia_factura_pref->id_serie.'&moneda_comprobante='.$moneda_default_pref->id_moneda.'&tipo_impresion_comprobante='.$preferencia_factura_pref->id_tipo_impresion.'&datos_adicionales_calculo='.$preferencia_factura_pref->b_datos_adicionales_calculo)}}">
+                            <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                            <span class="item-name">Factura</span>
+                        </a>
+                    @endif
+                @else
+                    {{--siempre mostramos el modo detallado sin valores por defecto para los listbox--}}
+                    <a class="{{ Route::currentRouteName()=='super/facturacion/comprobante' ? '' : '' }}" href="#" onclick="fxElegirTipoComprobante('F',event);">
+                        <i class="nav-icon i-Split-Horizontal-2-Window"></i>
+                        <span class="item-name">Factura</span>
+                    </a>
+                @endif
             </li>
 
         </ul>
@@ -149,25 +201,6 @@
                 <div class="modal-body">
                     <form id="frmNecesarioParaComprobante" class="needs-validation" method="GET" action="{{url('/super/facturacion/comprobante')}}" novalidate>
                         @csrf
-
-                    <div class="row row-cols-1 row-cols-md-2">
-                        <div class="col mb-4 select-tipo">
-                            <div class="card bg-primary-super" onclick="fxElegirTipoComprobante('B');" id="cardTipoBoleta">
-                                <div class="card-body">
-                                    <h2 class="text-white text-center">Boleta</h2>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col mb-4 select-tipo">
-                            <div class="card bg-primary-super" onclick="fxElegirTipoComprobante('F');" id="cardTipoFactura">
-
-                                <div class="card-body">
-                                    <h2 class="text-white text-center">Factura</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="text-center" id="spinnerBasicoNecesario" style="display: none;">
                         <div class="spinner-bubble spinner-bubble-light m-5"></div>
                     </div>
@@ -198,6 +231,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group row">
+                            <div class="offset-lg-3 col">
+                                <label class="checkbox checkbox-info">
+                                    <input type="checkbox" name="datos_adicionales_calculo" id="chkDatosAdicionalesCalculo" value="1">
+                                    <span>Mostrar datos adicionales de cálculo</span>
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+
                         <input type="hidden" id="inpNecesarioIdAlumno" name="id_alumno_comprobante" value="">
                         <input type="hidden" id="inpNecesarioTipoDatoClienteParaAlumno" name="tipo_dato_cliente_comprobante">
                     </div>
@@ -217,7 +260,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <h3 class="text-primary font-weight-bold text-center">¿Es para alumno?</h3>
+                <h3 class="text-primary font-weight-bold text-center">¿Deseas elegir alumno(a)?</h3>
 
                 <div class="row row-cols-1 row-cols-md-2">
                     <div class="col mb-4 select-alumno">

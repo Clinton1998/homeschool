@@ -1,8 +1,4 @@
 $(document).ready(function () {
-
-
-    //generaciond de comprobante
-
     $('.input-necesario').on('change', function () {
         if ($('#selNecesarioSerie').val().trim() != '' && $('#selNecesarioMoneda').val().trim() != '' && $('#selNecesarioTipoImpresion').val().trim() != '') {
             $('#btnSiguienteBasicoParaComprobante').show();
@@ -26,15 +22,11 @@ $(document).ready(function () {
 });
 
 //tipo de comprobante boleta o factura
-function fxElegirTipoComprobante(t) {
-    $('.select-tipo .bg-primary-super').removeClass('card-necesario-activo')
-    if (t.toUpperCase() == 'F') {
-        $('#cardTipoFactura').addClass('card-necesario-activo');
-    } else {
-        $('#cardTipoBoleta').addClass('card-necesario-activo');
-    }
+function fxElegirTipoComprobante(t,e) {
+    e.preventDefault();
     $('#spinnerBasicoNecesario').show();
     $('#divBasicoNecesario').attr('style', 'display: none;');
+    $('#mdlElegirTipoComprobante').modal('show');
     $('#btnSiguienteBasicoParaComprobante').attr('style', 'display: none;');
     $.ajax({
         type: 'POST',
@@ -47,15 +39,27 @@ function fxElegirTipoComprobante(t) {
             console.error(error);
         }
     }).done(function (data) {
+
+        console.log('Los datitos devueltos son: ');
+        console.log(data);
         if (data.correcto) {
             var htmlSeries = '<option value="">--Seleccione--</option>';
             var htmlMonedas = '<option value="">--Seleccione--</option>';
             var htmlTiposImpresion = '<option value="">--Seleccione--</option>';
             data.series.forEach(function (serie, indice) {
-                if (serie.b_principal == 1) {
-                    htmlSeries += '<option value="' + serie.id_serie + '" selected>' + serie.c_serie + '</option>';
-                } else {
-                    htmlSeries += '<option value="' + serie.id_serie + '">' + serie.c_serie + '</option>';
+                if(data.preferencia==null){
+                    if (serie.b_principal == 1) {
+                        htmlSeries += '<option value="' + serie.id_serie + '" selected>' + serie.c_serie + '</option>';
+                    } else {
+                        htmlSeries += '<option value="' + serie.id_serie + '">' + serie.c_serie + '</option>';
+                    }
+                }else{
+                    //elegimos la preferencia guardada
+                    if(serie.id_serie==data.preferencia.id_serie){
+                        htmlSeries += '<option value="' + serie.id_serie + '" selected>' + serie.c_serie + '</option>';
+                    }else{
+                        htmlSeries += '<option value="' + serie.id_serie + '">' + serie.c_serie + '</option>';
+                    }
                 }
             });
             data.monedas.forEach(function (moneda, indice) {
@@ -66,11 +70,29 @@ function fxElegirTipoComprobante(t) {
                 }
             });
             data.tipos_de_impresion.forEach(function (tipo, indice) {
-                htmlTiposImpresion += '<option value="' + tipo + '">' + tipo + '</option>';
+                if(data.preferencia==null){
+                    htmlTiposImpresion += '<option value="' + tipo.id_tipo_impresion + '">' + tipo.c_nombre + '</option>';
+                }else{
+                    if(tipo.id_tipo_impresion==data.preferencia.id_tipo_impresion){
+                        htmlTiposImpresion += '<option value="' + tipo.id_tipo_impresion + '" selected>' + tipo.c_nombre + '</option>';
+                    }else{
+                        htmlTiposImpresion += '<option value="' + tipo.id_tipo_impresion + '">' + tipo.c_nombre + '</option>';
+                    }
+                }
             });
             $('#selNecesarioSerie').html(htmlSeries);
             $('#selNecesarioMoneda').html(htmlMonedas);
             $('#selNecesarioTipoImpresion').html(htmlTiposImpresion);
+            if(data.preferencia!=null){
+                if(data.preferencia.b_datos_adicionales_calculo==1){
+                    //activamos el checkbox
+                    $('#chkDatosAdicionalesCalculo').prop('checked',true);
+                }else{
+                    $('#chkDatosAdicionalesCalculo').prop('checked',false);
+                }
+            }else{
+                $('#chkDatosAdicionalesCalculo').prop('checked',false);
+            }
             if ($('#selNecesarioSerie').val().trim() != '' && $('#selNecesarioMoneda').val().trim() != '' && $('#selNecesarioTipoImpresion').val().trim() != '') {
                 //Mostramos el boton de enviar formulario
                 $('#btnSiguienteBasicoParaComprobante').show();

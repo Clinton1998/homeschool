@@ -22,14 +22,20 @@ class Comprobante extends Controller
             'moneda_comprobante' => 'required|numeric',
             'tipo_impresion_comprobante' => 'required'
         ]);
-        //obteniendo datos basicos
-        //obteniendo el alumno
-        $id_alumno = trim($request->input('id_alumno_comprobante'));
         $colegio = App\Colegio_m::where([
             'id_superadministrador' => Auth::user()->id,
             'estado' => 1
         ])->first();
         if(!is_null($colegio) && !empty($colegio)){
+            //obteniendo el alumno
+            $id_alumno = trim($request->input('id_alumno_comprobante'));
+            //obteniendo valor de datos adicionales calculo
+            $datos_adicionales_calculo = 0;
+            $adicional_para_calculo = $request->input('datos_adicionales_calculo');
+            if(isset($adicional_para_calculo)){
+                $datos_adicionales_calculo = 1;
+            }
+            $datos_adicionales_calculo = $request->input('datos_adicionales_calculo');
             //obtenemos los tributos generales
             $tributos_para_producto = App\Tributo_m::where([
                 'estado'=> 1
@@ -49,9 +55,34 @@ class Comprobante extends Controller
 
             if((!is_null($serie_para_comprobante) && !empty($serie_para_comprobante)) && (!is_null($moneda_para_comprobante) && !empty($moneda_para_comprobante))){
                 $serie_para_comprobante->load('tipo_documento');
-                //falta validar el tipo impresion
-                $tipo_impresion_comprobante = $request->input('tipo_impresion_comprobante');
+                //obtenemos el colegio
+                $colegio_para_comprobante = $colegio;
+                //tipo impresion para comprobante
+                $tipo_impresion_para_comprobante = App\Tipo_impresion_m::where([
+                    'id_tipo_impresion' => $request->input('tipo_impresion_comprobante'),
+                    'estado' => 1
+                ])->first();
 
+                //verificamos si el tipo documento elegigo es un registro preferencia o no, del usuario actual
+                $preferencia_para_comprobante = App\Preferencia_d::where([
+                    'id_tipo_documento' => $serie_para_comprobante->id_tipo_documento,
+                    'id_usuario' => Auth::user()->id,
+                    'estado' =>1
+                ])->first();
+                if(is_null($preferencia_para_comprobante) || empty($preferencia_para_comprobante)){
+                    //guardamos la preferencia de ese tipo de documento del usuario logueado
+                    $preferencia = new App\Preferencia_d;
+                    $preferencia->id_tipo_documento = $serie_para_comprobante->id_tipo_documento;
+                    $preferencia->id_tipo_impresion = $tipo_impresion_para_comprobante->id_tipo_impresion;
+                    $preferencia->id_serie = $serie_para_comprobante->id_serie;
+                    $preferencia->id_usuario = Auth::user()->id;
+                    $preferencia->b_datos_adicionales_calculo = (int)$datos_adicionales_calculo;
+                    $preferencia->c_modo_emision = 'DET';
+                    $preferencia->creador = Auth::user()->id;
+                    $preferencia->save();
+                }
+                //obteniendo los tributos
+                $tributos = App\Tributo_m::where('estado','=',1)->orderBy('c_nombre','ASC')->get();
                 //si hay un alumno elegido
                 if($id_alumno!='' && !empty($id_alumno)){
                     $alumno_para_comprobante = App\Alumno_d::where([
@@ -63,12 +94,13 @@ class Comprobante extends Controller
                         //ese alumno pertenece al colegio
                         //obteniendo al cliente para el alumno
                         $tipo_dato_cliente_para_alumno = strtolower(trim($request->input('tipo_dato_cliente_comprobante')));
-                        return view('super.facturacion.comprobante',compact('alumno_para_comprobante','tipo_dato_cliente_para_alumno','tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
+                        return view('super.facturacion.comprobante',compact('colegio_para_comprobante','alumno_para_comprobante','tipo_dato_cliente_para_alumno','tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_para_comprobante','datos_adicionales_calculo','tributos'));
                     }else{
+                        /*REVIEW*/
                         return redirect('/home');
                     }
                 }else{
-                    return view('super.facturacion.comprobante',compact('tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_comprobante'));
+                    return view('super.facturacion.comprobante',compact('colegio_para_comprobante','tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_para_comprobante','datos_adicionales_calculo','tributos'));
                 }
             }
         }
@@ -236,6 +268,12 @@ class Comprobante extends Controller
                 'estado' => 1
             ])->first();
             if(!is_null($tipo_documento) && !empty($tipo_documento)){
+                //verificamos si el usuario actual, tiene preferencias con este tipo de documento
+                $preferencia = App\Preferencia_d::where([
+                    'id_usuario' => Auth::user()->id,
+                    'id_tipo_documento' => $tipo_documento->id_tipo_documento,
+                    'estado' => 1
+                ])->first();
                 //obtenemos las series del colegio con ese tipo de documento
                 $series = App\Serie_d::where([
                     'id_colegio'=> $colegio->id_colegio,
@@ -243,7 +281,10 @@ class Comprobante extends Controller
                     'estado'=> 1
                 ])->orderBy('created_at','DESC')->get();
                 //obteniendo los tipos de impresion
-                $tipos_de_impresion = array('A4','TICKET');
+                $tipos_de_impresion = App\Tipo_impresion_m::where([
+                    'c_tipo' => 'comprobante',
+                    'estado' => 1
+                ])->orderBy('c_nombre','ASC')->get();
                 //obteniendo las monedas
                 $monedas = App\Moneda_m::where([
                     'estado' => 1
@@ -252,7 +293,8 @@ class Comprobante extends Controller
                     'correcto' => TRUE,
                     'series'=> $series,
                     'tipos_de_impresion' => $tipos_de_impresion,
-                    'monedas'=> $monedas
+                    'monedas'=> $monedas,
+                    'preferencia' => $preferencia
                 );
                 return response()->json($datos);
             }
@@ -323,13 +365,81 @@ class Comprobante extends Controller
         );
         return response()->json($datos);
     }
+    public function alumno_por_dni(Request $request){
+        $this->validate($request,[
+            'dni' => 'required|string|size:8'
+        ]);
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado' => 1
+        ])->first();
+        if(!is_null($colegio) && !empty($colegio)){
+            //buscamos un alumno con ese dni
+            $alumno = App\Alumno_d::where([
+                'c_dni' => trim($request->input('dni')),
+                'estado' => 1
+            ])->first();
+            if(!is_null($alumno) && !empty($alumno)){
+                //verificamos que ese alumno pertenesca al colegio
+                $colegio_del_alumno = $alumno->seccion->grado->colegio;
+                if($colegio->id_colegio == $colegio_del_alumno->id_colegio){
+                    $datos = array(
+                        'encontrado' => TRUE,
+                        'alumno' => $alumno
+                    );
+                    return response()->json($datos);
+                }
+            }
+        }
+        $datos = array(
+            'encontrado' => FALSE
+        );
+        return response()->json($datos);
 
-    public function generar_previsualizacion(GenerarPrevisualizacion $request){
+    }
+
+    public function alumnos_para_comprobante(Request $request){
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado' => 1
+        ])->first();
+        if(!is_null($colegio) && !empty($colegio)){
+            $array_alumnos = array();
+            //criterio de busqueda
+            $term = $request->input('term');
+            $grados = $colegio->grados()->where('grado_m.estado','=',1)->orderBy('grado_m.c_nombre','ASC')->orderBy('grado_m.c_nivel_academico','ASC')->get();
+
+            foreach($grados as $grado){
+                foreach($grado->secciones()->where('seccion_d.estado','=',1)->get() as $seccion){
+                    foreach($seccion->alumnos()->where([
+                        ['c_nombre','like','%'.$term.'%'],
+                        ['estado','=',1]
+                    ])->get() as $alumno){
+                        $item_alumno = array(
+                            'label' => $alumno->c_nombre,
+                            'value' => $alumno->c_nombre,
+                            'dni_alumno' => $alumno->c_dni,
+                            'dni_repre1' => $alumno->c_dni_representante1,
+                            'nombre_repre1' => $alumno->c_nombre_representante1,
+                            'direccion_repre1' => $alumno->c_direccion_representante1
+                        );
+                        array_push($array_alumnos,$item_alumno);
+                    }
+                }
+            }
+
+            return response()->json($array_alumnos);
+        }
+        $datos = array();
+        return response()->json($datos);
+    }
+
+    /*public function generar_previsualizacion(GenerarPrevisualizacion $request){
         $datos = array(
             'correcto' => TRUE,
             'datos' => $request->all()
         );
 
         return response()->json($datos);
-    }
+    }*/
 }

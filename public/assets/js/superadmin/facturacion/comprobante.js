@@ -1,5 +1,34 @@
 
 $( function() {
+    $('#chkComprobanteParaAlumno').on('change',function(){
+        $('.col-comprobante-para-alumno').find('input').val('');
+        if($(this).prop('checked')){
+            $('.col-comprobante-para-alumno').show();
+        }else{
+            $('.col-comprobante-para-alumno').attr('style','display: none;');
+        }
+    });
+
+    $('#inpDniAlumnoParaComprobante').on('change',function(){
+        var dni = $(this).val().trim();
+        if(dni.length==8){
+            fxConsultaAlumnoPorDni(dni);
+        }
+    });
+
+    $('#inpNombreAlumnoParaComprobante').autocomplete({
+        source: "/super/facturacion/comprobante/alumnosparacomprobante",
+        minLength: 3,
+        select: function(event,ui){
+            var item = ui.item;
+            if(item!=null){
+                $('#inpDniAlumnoParaComprobante').val(item.dni_alumno);
+                $('#inpDniRuc').val(item.dni_repre1);
+                $('#inpNombreCliente').val(item.nombre_repre1);
+                $('#inpDireccion').val(item.direccion_repre1);
+            }
+        }
+    });
     $('#inpDniRuc').on('change', function () {
         fxConsultaPorRucDni($(this).val());
     });
@@ -7,9 +36,9 @@ $( function() {
         location.reload();
     });
 
-    $('#btnPrevisualizarComrpobante').on('click', function () {
+    /*$('#btnPrevisualizarComrpobante').on('click', function () {
         fxPrevisualizarComprobante();
-    });
+    });*/
     $('#inpDateFechaEmision').on('change',function(){
         //verificamos si el valor actual es vacio
         var valor = $(this).val();
@@ -66,13 +95,21 @@ $( function() {
                         var cantidad = parseInt((tds.filter(':eq(4)').find('input').val()!='')?tds.filter(':eq(4)').find('input').val():0);
 
                         var precio = parseFloat(producto.n_precio_con_igv);
+                        var valor_venta_unitario = parseFloat(producto.n_precio_sin_igv);
                         var total = cantidad*precio;
                         tds.filter(':eq(2)').find('select').html('<option value="'+producto.id_producto_servicio+'">'+producto.c_nombre+'</option>');
                         tds.filter(':eq(3)').text(producto.c_unidad);
-                        tds.filter(':eq(5)').find('input').val(redondea(precio,2));
-                        tds.filter(':eq(6)').find('input').val(redondea(total,2));
-                        tds.filter(':eq(7)').find('select').val(producto.id_tributo);
-
+                        tds.filter(':eq(5)').text(redondea(valor_venta_unitario,2));
+                        //verificamos que tipo de tributo se aplica al producto
+                        var impuesto = 0;
+                        if(producto.tributo.c_codigo_sunat.toUpperCase()=='IGV'){
+                            var porcentaje = parseInt(producto.tributo.n_porcentaje);
+                            impuesto = valor_venta_unitario*(porcentaje/100);
+                        }
+                        tds.filter(':eq(6)').text(redondea(impuesto,2));
+                        tds.filter(':eq(7)').find('input').val(redondea(precio,2));
+                        tds.filter(':eq(8)').find('input').val(redondea(total,2));
+                        tds.filter(':eq(9)').find('select').val(producto.id_tributo);
                     });
                     fxCalcularTotales();
                     //muestro los campos ocultos
@@ -130,12 +167,21 @@ $( function() {
                         var cantidad = parseInt((tds.filter(':eq(4)').find('input').val()!='')?tds.filter(':eq(4)').find('input').val():0);
 
                         var precio = parseFloat(producto.n_precio_con_igv);
+                        var valor_venta_unitario = parseFloat(producto.n_precio_sin_igv);
                         var total = cantidad*precio;
                         tds.filter(':eq(1)').find('select').html('<option value="'+producto.id_producto_servicio+'">'+producto.c_codigo+'</option>');
                         tds.filter(':eq(3)').text(producto.c_unidad);
-                        tds.filter(':eq(5)').find('input').val(redondea(precio,2));
-                        tds.filter(':eq(6)').find('input').val(redondea(total,2));
-                        tds.filter(':eq(7)').find('select').val(producto.id_tributo);
+                        tds.filter(':eq(5)').text(redondea(valor_venta_unitario,2));
+                        //verificamos que tipo de tributo se aplica al producto
+                        var impuesto = 0;
+                        if(producto.tributo.c_codigo_sunat.toUpperCase()=='IGV'){
+                            var porcentaje = parseInt(producto.tributo.n_porcentaje);
+                            impuesto = valor_venta_unitario*(porcentaje/100);
+                        }
+                        tds.filter(':eq(6)').text(redondea(impuesto,2));
+                        tds.filter(':eq(7)').find('input').val(redondea(precio,2));
+                        tds.filter(':eq(8)').find('input').val(redondea(total,2));
+                        tds.filter(':eq(9)').find('select').val(producto.id_tributo);
                     });
                     fxCalcularTotales();
                     //muestro los campos ocultos
@@ -149,6 +195,7 @@ $( function() {
     });
 
     $('#btnAgregarProductoOServicio').on('click',function(){
+        var datos_adicionales_calculo = $('#inpDatosAdicionalesCalculo').val()!=''?1:0;
         var tributos = $('#selTributos').html();
         var fila = parseInt($('#inpNumFilaProducto').val());
         fila++;
@@ -160,9 +207,14 @@ $( function() {
         htmlfila += '<td><select type="text" id="selFiltroNombreCom'+fila+'" style="width: 100%;" class="campo-variable-com"></select></td>';
         htmlfila += '<td></td>';
         htmlfila += '<td><input type="number" class="form-control form-control-sm campo-variable-com calc-cantidad" value="1" style="display: none;" onchange="fxCalcularTotalPorProducto(event);"></td>';
+        if(datos_adicionales_calculo==1){
+            htmlfila += '<td class="td-valor-unitario"></td><td class="td-impuesto"></td>';
+        }else{
+            htmlfila += '<td style="display: none;" class="td-valor-unitario"></td><td style="display: none;" class="td-impuesto"></td>';
+        }
         htmlfila += '<td><input type="text" class="form-control form-control-sm campo-variable-com calc-precio" value="0.00" style="display: none;" onchange="fxCalcularTotalPorProducto(event);"></td>';
         htmlfila += '<td><input type="text" class="form-control form-control-sm campo-variable-com calc-total" value="0.00" style="display:  none;" onchange="fxCalcularPrecioDeProducto(event);"></td>';
-        htmlfila += '<td><select class="form-control form-control-sm campo-variable-com" style="display: none;">'+tributos+'</select></td>';
+        htmlfila += '<td><select class="form-control form-control-sm campo-variable-com" style="display: none;" onchange="fxActualizarPrecioDeProducto(event);">'+tributos+'</select></td>';
         htmlfila += '<td><button type="button" class="btn btn-danger btn-sm" onclick="fxQuitarProducto(event);">X</button></td>'
         htmlfila += '</tr>';
         $('#tabProductos tbody').append(htmlfila);
@@ -212,12 +264,21 @@ $( function() {
                             var cantidad = parseInt((tds.filter(':eq(4)').find('input').val()!='')?tds.filter(':eq(4)').find('input').val():0);
 
                             var precio = parseFloat(producto.n_precio_con_igv);
+                            var valor_venta_unitario = parseFloat(producto.n_precio_sin_igv);
                             var total = cantidad*precio;
                             tds.filter(':eq(2)').find('select').html('<option value="'+producto.id_producto_servicio+'">'+producto.c_nombre+'</option>');
                             tds.filter(':eq(3)').text(producto.c_unidad);
-                            tds.filter(':eq(5)').find('input').val(redondea(precio,2));
-                            tds.filter(':eq(6)').find('input').val(redondea(total,2));
-                            tds.filter(':eq(7)').find('select').val(producto.id_tributo);
+                            tds.filter(':eq(5)').text(redondea(valor_venta_unitario,2));
+                            //verificamos que tipo de tributo se aplica al producto
+                            var impuesto = 0;
+                            if(producto.tributo.c_codigo_sunat.toUpperCase()=='IGV'){
+                                var porcentaje = parseInt(producto.tributo.n_porcentaje);
+                                impuesto = valor_venta_unitario*(porcentaje/100);
+                            }
+                            tds.filter(':eq(6)').text(redondea(impuesto,2));
+                            tds.filter(':eq(7)').find('input').val(redondea(precio,2));
+                            tds.filter(':eq(8)').find('input').val(redondea(total,2));
+                            tds.filter(':eq(9)').find('select').val(producto.id_tributo);
                         });
                         fxCalcularTotales();
                         //muestro los campos ocultos
@@ -275,12 +336,21 @@ $( function() {
                             var cantidad = parseInt((tds.filter(':eq(4)').find('input').val()!='')?tds.filter(':eq(4)').find('input').val():0);
 
                             var precio = parseFloat(producto.n_precio_con_igv);
+                            var valor_venta_unitario = parseFloat(producto.n_precio_sin_igv);
                             var total = cantidad*precio;
                             tds.filter(':eq(1)').find('select').html('<option value="'+producto.id_producto_servicio+'">'+producto.c_codigo+'</option>');
                             tds.filter(':eq(3)').text(producto.c_unidad);
-                            tds.filter(':eq(5)').find('input').val(redondea(precio,2));
-                            tds.filter(':eq(6)').find('input').val(redondea(total,2));
-                            tds.filter(':eq(7)').find('select').val(producto.id_tributo);
+                            tds.filter(':eq(5)').text(redondea(valor_venta_unitario,2));
+                            //verificamos que tipo de tributo se aplica al producto
+                            var impuesto = 0;
+                            if(producto.tributo.c_codigo_sunat.toUpperCase()=='IGV'){
+                                var porcentaje = parseInt(producto.tributo.n_porcentaje);
+                                impuesto = valor_venta_unitario*(porcentaje/100);
+                            }
+                            tds.filter(':eq(6)').text(redondea(impuesto,2));
+                            tds.filter(':eq(7)').find('input').val(redondea(precio,2));
+                            tds.filter(':eq(8)').find('input').val(redondea(total,2));
+                            tds.filter(':eq(9)').find('select').val(producto.id_tributo);
                         });
                         fxCalcularTotales();
                         //muestro los campos ocultos
@@ -389,11 +459,114 @@ $( function() {
             $('#inpDescuentoGlobal').addClass('is-invalid');
             $('#divInvalidDescuento').show();
             $('#btnListoDescuentoGlobal').attr('style','display: none;');
+        }selFiltroNombreCom
+    });
+
+    //al momento de registrar
+    $('#chkModoCodigo').on('change',function(){
+        if($(this).prop('checked')){
+            $('#inpCodigoProducto').val('');
+            $('#inpCodigoProducto').attr('readonly','true');
+        }else{
+            $('#inpCodigoProducto').val('');
+            $('#inpCodigoProducto').removeAttr('readonly');
+        }
+    });
+
+    //al momento de registrar
+    $('#selTributoProducto').on('change',function(){
+        if($(this).val().trim()!=''){
+            var tributo = $(this).find('option:selected').text().toUpperCase();
+            if(tributo=='EXONERADO' || tributo=='INAFECTO'){
+                $('#inpPrecioProductoSinIgv').val('0.00');
+                $('#inpPrecioProductoConIgv').val('0.00');
+                $('#inpPrecioProductoSinIgv').attr('readonly','true');
+            }else if(tributo=='IGV'){
+                $('#inpPrecioProductoSinIgv').val('0.00');
+                $('#inpPrecioProductoConIgv').val('0.00');
+                $('#inpPrecioProductoSinIgv').removeAttr('readonly');
+            }
+        }
+    });
+
+    //al momento de registrar
+    $('#inpPrecioProductoSinIgv').on('change',function(){
+        //verificamos que el tributo seleccionado sea diferente a inafecto y exonerado
+        if($('#selTributoProducto').val()!=''){
+            var tributo = $('#selTributoProducto').find('option:selected').text().toUpperCase();
+            if(tributo=='IGV'){
+                var importeSinIgv = parseFloat($(this).val()!=''?$(this).val():0);
+                var impuesto = importeSinIgv*0.18;
+                var importeTotal = importeSinIgv+impuesto;
+                $(this).val(redondea(importeSinIgv,2));
+                $('#inpPrecioProductoConIgv').val(redondea(importeTotal,2));
+            }
+        }
+    });
+    $('#inpPrecioProductoConIgv').on('change',function(){
+        //verificamos que exista un tributo seleccionado
+        if($('#selTributoProducto').val()!=''){
+            var tributo = $('#selTributoProducto').find('option:selected').text().toUpperCase();
+            if(tributo=='IGV'){
+                var importeTotal = parseFloat($(this).val()!=''?$(this).val():0);
+                var importeSinIgv = importeTotal/1.18;
+                var impuesto = importeSinIgv*0.18;
+                //la suma debe ser correcta
+                importeTotal = importeSinIgv+impuesto;
+                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv,2));
+                $(this).val(redondea(importeTotal,2));
+            }else {
+                //debe ser inafecto o exonerado
+                var importeTotal = parseFloat($(this).val()!=''?$(this).val():0);
+                var importeSinIgv = importeTotal;
+                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv,2));
+                $(this).val(redondea(importeTotal,2));
+            }
         }
     });
 } );
 
-function fxPrevisualizarComprobante(){
+function fxActualizarPrecioDeProducto(e){
+    //$(e.target).parent().parent().remove();
+    var valor = $(e.target).val().trim();
+    if(valor!=''){
+        var tributo = $(e.target).find('option:selected').text().toUpperCase();
+        var fila = $(e.target).parent().parent();
+        var valor_unitario = parseFloat(fila.find('td.td-valor-unitario').text()!=''?fila.find('td.td-valor-unitario').text():0);
+        if(tributo=='IGV'){
+            //impuesto IGV
+            var impuesto = valor_unitario*0.18;
+            var precio_venta = valor_unitario+impuesto;
+            fila.find('td.td-impuesto').text(redondea(impuesto,2));
+            fila.find('input.calc-precio').val(redondea(precio_venta,2));
+            //fxCalcularTotales();
+            fila.find('input.calc-precio').trigger('change');
+        }else{
+            //sin impuesto, cuando es inafecto o exonerado
+            var impuesto = 0;
+            var precio_venta = valor_unitario+impuesto;
+            fila.find('td.td-impuesto').text(redondea(impuesto,2));
+            fila.find('input.calc-precio').val(redondea(precio_venta,2));
+            fila.find('input.calc-precio').trigger('change');
+        }
+    }
+}
+
+//Cliente,Fecha emision,etc
+function fxReplicarBasicoParaPrevisualizacion(){
+    var divDatos = $('#divDatosPrevisualizacion');
+    var cliente = $('#inpNombreCliente').val();
+    var dniRuc = $('#inpDniRuc').val();
+    var direccion = $('#inpDireccion').val();
+    var fechaEmision = $('#spnFechaEmisionComprobante').find('text-fecha-emision');
+
+    divDatos.find('.prev-cliente').text(cliente);
+    divDatos.find('.prev-documento-dni-ruc').text(dniRuc);
+    divDatos.find('.prev-direccion').text(direccion);
+    divDatos.find('.prev-fecha-emision').text(fechaEmision);
+}
+
+/*function fxPrevisualizarComprobante(){
 
     var comprobante = {
         tipo_documento: 'FACTURA',
@@ -417,7 +590,7 @@ function fxPrevisualizarComprobante(){
         $('#spinnerPrevisualizarComprobante').attr('style','display: none;');
         $('#divPrevisualizarComprobante').show();
     });
-}
+}*/
 
 function fxMostrarCampoFecha(e){
     e.preventDefault();
@@ -432,18 +605,23 @@ function fxMostrarCampoFecha(e){
 function fxCalcularTotales(){
     //primero hallamos el subtotal
     var suma = 0;
+    var sumaImpuesto = 0;
     var filas = $('#tabProductos tbody').find('tr');
     $.each(filas,function(parm){
         var tds = $(this).find('td');
         //obtenemos el total del producto
-        var inputTotal = tds.filter(':eq(6)').find('input.calc-total');
+        var inputTotal = tds.filter(':eq(8)').find('input.calc-total');
+        var tdInpuesto = tds.filter(':eq(6)');
+
         var total = parseFloat((inputTotal.val()!='')?inputTotal.val():0);
         suma += total;
-    });
 
-    var subTotalGlobal = suma;
-    var importeGlobal = suma/1.18;
-    var igvGlobal = importeGlobal*0.18;
+        var impuesto = parseFloat(tdInpuesto.text()!=''?tdInpuesto.text():0);
+        sumaImpuesto += impuesto;
+    });
+    var importeGlobal = suma;
+    var igvGlobal = sumaImpuesto;
+    var subTotalGlobal = importeGlobal+sumaImpuesto;
 
     $('#spnImporteComprobante').text(redondea(importeGlobal,2));
     $('#spnIgvComprobante').text(redondea(igvGlobal,2));
@@ -540,9 +718,9 @@ function fxConsultaPorRuc(r){
         if(data.success){
             $('#inpNombreCliente').val(data.nombre_o_razon_social);
             $('#inpDireccion').val(data.direccion);
-            $('#inpDniRuc').removeAttr('readonly');
         }
     });
+    $('#inpDniRuc').removeAttr('readonly');
 }
 function fxConsultaPorDni(d){
     $('#inpDniRuc').attr('readonly','true');
@@ -560,8 +738,39 @@ function fxConsultaPorDni(d){
     }).done(function(data){
         if(data.success){
             $('#inpNombreCliente').val(data.result.Apellidos+' '+data.result.Nombres);
-            $('#inpDniRuc').removeAttr('readonly');
         }
+    });
+    $('#inpDniRuc').removeAttr('readonly');
+}
+function fxConsultaAlumnoPorDni(d){
+    $('#spnAlertDniAlumno').attr('style','display: none;');
+    $('#inpDniAlumnoParaComprobante').removeClass('is-invalid is-valid');
+    $('#inpDniAlumnoParaComprobante').attr('readonly','true');
+    $.ajax({
+        type: 'POST',
+        url: '/super/facturacion/comprobante/alumnopordni',
+        data: {
+            dni: d
+        },
+        dataType:'JSON',
+        error: function(error){
+            alert('Ocurrió un error');
+            console.err(error);
+            $('#inpDniAlumnoParaComprobante').removeAttr('readonly');
+        }
+    }).done(function(data){
+        if(data.encontrado){
+            $('#inpNombreAlumnoParaComprobante').val(data.alumno.c_nombre);
+            //datos del primer representante
+            $('#inpDniRuc').val(data.alumno.c_dni_representante1);
+            $('#inpNombreCliente').val(data.alumno.c_nombre_representante1);
+            $('#inpDireccion').val(data.alumno.c_direccion_representante1);
+        }else{
+            $('#inpNombreAlumnoParaComprobante').val('');
+            $('#spnAlertDniAlumno').show();
+            $('#inpDniAlumnoParaComprobante').addClass('is-invalid');
+        }
+        $('#inpDniAlumnoParaComprobante').removeAttr('readonly');
     });
 }
 

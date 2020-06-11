@@ -6,7 +6,6 @@
 
 @section('main-content')
 <section class="ul-contact-detail">
-    <!--<h2 class="hs_titulo">Productos o servicios</h2>-->
 
     <div class="row hs_contenedor">
         <div class="card  col col-sm-12">
@@ -16,7 +15,7 @@
                     <div class="hs_encabezado-linea"></div>
                 </div>
 
-                <div class="botonera-superior-derechadddddxdxdd row">
+                <div class="row">
                     <div class="col">
                         <div class="form-group">
                             <label for="inpFiltroNombreCodigo">Nombre/Código</label>
@@ -70,8 +69,8 @@
                                 <th>Nombre</th>
                                 <th>Unidad</th>
                                 <th>Unidad sunat</th>
-                                <th>Precio sin IGV</th>
-                                <th>Precio con IGV</th>
+                                <th>Importe sin IGV</th>
+                                <th>Importe total</th>
                                 <th>Tributo</th>
                                 <th>Acciones</th>
                             </tr>
@@ -136,14 +135,18 @@
                                 <div>
                                     <div class="radio-btn form-check form-check-inline">
                                         <label class="radio radio-success">
-                                            <input type="radio" name="tipo_producto" [value]="1" formcontrolname="radio" class="form-check-input" value="producto" {{(old('tipo_producto')=='producto' || old('tipo_producto')=='')?'checked':''}} >
+                                            <input type="radio" name="tipo_producto" [value]="1" formcontrolname="radio" class="form-check-input" value="producto" {{(old('tipo_producto')=='producto')?'checked':''}} >
                                             <span>Producto</span>
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
                                     <div class="radio-btn form-check form-check-inline">
                                         <label class="radio radio-success">
-                                            <input type="radio" name="tipo_producto" [value]="1" formcontrolname="radio" class="form-check-input" value="servicio" {{(old('tipo_producto')=='servicio')?'checked':''}}>
+                                            @if(old('tipo_producto')=='' || empty(old('tipo_producto')))
+                                                <input type="radio" name="tipo_producto" [value]="1" formcontrolname="radio" class="form-check-input" value="servicio" checked>
+                                            @else
+                                                <input type="radio" name="tipo_producto" [value]="1" formcontrolname="radio" class="form-check-input" value="servicio" {{(old('tipo_producto')=='servicio')?'checked':''}}>
+                                            @endif
                                             <span>Servicio</span>
                                             <span class="checkmark"></span>
                                         </label>
@@ -190,7 +193,7 @@
                                     @else
                                         El campo codigo producto es obligatorio
                                     @endif
-                                    </strong>
+                                </strong>
                             </span>
                             </div>
 
@@ -202,7 +205,11 @@
                                         @if(old('tributo_producto') == $tributo->id_tributo)
                                             <option value="{{$tributo->id_tributo}}" selected>{{$tributo->c_nombre}}</option>
                                         @else
-                                            <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+                                            @if($tributo->c_codigo_sunat=='INA')
+                                                <option value="{{$tributo->id_tributo}}" selected>{{$tributo->c_nombre}}</option>
+                                            @else
+                                                <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+                                            @endif
                                         @endif
                                     @endforeach
                                 </select>
@@ -257,8 +264,8 @@
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inpPrecioProductoSinIgv" class="ul-form__label">Precio sin IGV:</label>
-                                <input type="text" class="form-control @error('precio_producto_sin_igv') is-invalid @enderror" name="precio_producto_sin_igv" id="inpPrecioProductoSinIgv" placeholder="Ingrese precio sin IGV" value="{{old('precio_producto_sin_igv')}}" required>
+                                <label for="inpPrecioProductoSinIgv" class="ul-form__label">Importe sin IGV:</label>
+                                <input type="text" class="form-control @error('precio_producto_sin_igv') is-invalid @enderror" name="precio_producto_sin_igv" id="inpPrecioProductoSinIgv" value="{{old('precio_producto_sin_igv')}}" readonly required>
                                 <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('precio_producto_sin_igv'))
@@ -266,14 +273,14 @@
                                         {{$message}}
                                         @enderror
                                     @else
-                                        El campo precio producto sin igv es obligatorio
+                                        El campo importe producto sin igv es obligatorio
                                     @endif
-                                    </strong>
+                                </strong>
                             </span>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inpPrecioProductoConIgv" class="ul-form__label">Precio con IGV:</label>
-                                <input type="text" class="form-control @error('precio_producto_con_igv') is-invalid @enderror" name="precio_producto_con_igv" id="inpPrecioProductoConIgv" placeholder="Ingrese precio con IGV" value="{{old('precio_producto_con_igv')}}" required>
+                                <label for="inpPrecioProductoConIgv" class="ul-form__label">Importe total:</label>
+                                <input type="text" class="form-control @error('precio_producto_con_igv') is-invalid @enderror" name="precio_producto_con_igv" id="inpPrecioProductoConIgv" value="{{old('precio_producto_con_igv')}}" required>
                                 <span class="invalid-feedback" role="alert">
                                 <strong>
                                     @if($errors->has('precio_producto_con_igv'))
@@ -281,7 +288,7 @@
                                         {{$message}}
                                         @enderror
                                     @else
-                                        El campo precio producto con igv es obligatorio
+                                        El campo importe total producto con igv es obligatorio
                                     @endif
                                     </strong>
                             </span>
@@ -466,7 +473,7 @@
                                         {{$message}}
                                         @enderror
                                     @else
-                                        El campo precio sin igv es obligatorio
+                                        El campo importe sin igv es obligatorio
                                     @endif
                                     </strong>
                             </span>
@@ -475,16 +482,16 @@
                                     <label for="inpPrecioConIgv" class="ul-form__label">Precio con IGV:</label>
                                     <input type="text" class="form-control @error('precio_con_igv') is-invalid @enderror" name="precio_con_igv" id="inpPrecioConIgv" placeholder="Ingrese precio con IGV" value="{{old('precio_con_igv')}}" required>
                                     <span class="invalid-feedback" role="alert">
-                                <strong>
-                                    @if($errors->has('precio_con_igv'))
-                                        @error('precio_con_igv')
-                                        {{$message}}
-                                        @enderror
-                                    @else
-                                        El campo precio con igv es obligatorio
-                                    @endif
-                                    </strong>
-                            </span>
+                                        <strong>
+                                            @if($errors->has('precio_con_igv'))
+                                                @error('precio_con_igv')
+                                                {{$message}}
+                                                @enderror
+                                            @else
+                                            El campo importe total es obligatorio
+                                            @endif
+                                        </strong>
+                                    </span>
                                 </div>
                             </div>
 
@@ -549,7 +556,6 @@
     <script src="{{asset('assets/js/tooltip.script.js')}}"></script>
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
     <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
-    <!--<script src="{{asset('assets/js/vendor/ladda.js')}}"></script>-->
     <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
     <script src="{{asset('assets/js/superadmin/facturacion/productos.js')}}"></script>
     @if($errors->has('tipo_producto') || $errors->has('nombre_producto') ||
