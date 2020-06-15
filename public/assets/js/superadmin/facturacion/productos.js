@@ -11,11 +11,11 @@ $(document).ready(function() {
         if($(this).val().trim()!=''){
             var tributo = $(this).find('option:selected').text().toUpperCase();
             if(tributo=='EXONERADO' || tributo=='INAFECTO'){
-                $('#inpPrecioProductoSinIgv').val('0.00');
+                $('#inpPrecioProductoSinIgv').val('0.00000000');
                 $('#inpPrecioProductoConIgv').val('0.00');
                 $('#inpPrecioProductoSinIgv').attr('readonly','true');
             }else if(tributo=='IGV'){
-                $('#inpPrecioProductoSinIgv').val('0.00');
+                $('#inpPrecioProductoSinIgv').val('0.00000000');
                 $('#inpPrecioProductoConIgv').val('0.00');
                 $('#inpPrecioProductoSinIgv').removeAttr('readonly');
             }
@@ -27,11 +27,11 @@ $(document).ready(function() {
         if($(this).val().trim()!=''){
             var tributo = $(this).find('option:selected').text().toUpperCase();
             if(tributo=='EXONERADO' || tributo=='INAFECTO'){
-                $('#inpPrecioSinIgv').val('0.00');
+                $('#inpPrecioSinIgv').val('0.00000000');
                 $('#inpPrecioConIgv').val('0.00');
                 $('#inpPrecioSinIgv').attr('readonly','true');
             }else if(tributo=='IGV'){
-                $('#inpPrecioSinIgv').val('0.00');
+                $('#inpPrecioSinIgv').val('0.00000000');
                 $('#inpPrecioConIgv').val('0.00');
                 $('#inpPrecioSinIgv').removeAttr('readonly');
             }
@@ -46,7 +46,7 @@ $(document).ready(function() {
                 var importeSinIgv = parseFloat($(this).val()!=''?$(this).val():0);
                 var impuesto = importeSinIgv*0.18;
                 var importeTotal = importeSinIgv+impuesto;
-                $(this).val(redondea(importeSinIgv,2));
+                $(this).val(redondea(importeSinIgv,8));
                 $('#inpPrecioProductoConIgv').val(redondea(importeTotal,2));
             }
         }
@@ -61,13 +61,13 @@ $(document).ready(function() {
                 var impuesto = importeSinIgv*0.18;
                 //la suma debe ser correcta
                 importeTotal = importeSinIgv+impuesto;
-                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv,2));
+                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv,8));
                 $(this).val(redondea(importeTotal,2));
             }else {
                 //debe ser inafecto o exonerado
                 var importeTotal = parseFloat($(this).val()!=''?$(this).val():0);
                 var importeSinIgv = importeTotal;
-                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv,2));
+                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv,8));
                 $(this).val(redondea(importeTotal,2));
             }
         }
@@ -82,7 +82,7 @@ $(document).ready(function() {
                 var impuesto = importeSinIgv*0.18;
                 var importeTotal = importeSinIgv+impuesto;
                 $(this).val(redondea(importeSinIgv,2));
-                $('#inpPrecioConIgv').val(redondea(importeTotal,2));
+                $('#inpPrecioConIgv').val(redondea(importeTotal,8));
             }
         }
     });
@@ -96,13 +96,13 @@ $(document).ready(function() {
                 var impuesto = importeSinIgv*0.18;
                 //la suma debe ser correcta
                 importeTotal = importeSinIgv+impuesto;
-                $('#inpPrecioSinIgv').val(redondea(importeSinIgv,2));
+                $('#inpPrecioSinIgv').val(redondea(importeSinIgv,8));
                 $(this).val(redondea(importeTotal,2));
             }else {
                 //debe ser inafecto o exonerado
                 var importeTotal = parseFloat($(this).val()!=''?$(this).val():0);
                 var importeSinIgv = importeTotal;
-                $('#inpPrecioSinIgv').val(redondea(importeSinIgv,2));
+                $('#inpPrecioSinIgv').val(redondea(importeSinIgv,8));
                 $(this).val(redondea(importeTotal,2));
             }
         }

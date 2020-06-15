@@ -34,12 +34,17 @@
 @endsection
 
 @section('main-content')
+    <input type="hidden" id="inpPorcentajeIgv" value="{{$tributos_para_producto->where('c_codigo_sunat','=','IGV')->first()->n_porcentaje}}">
     <input type="hidden" id="inpNumFilaProducto" value="1">
+
     <input type="hidden" id="inpDatosAdicionalesCalculo" value="{{$datos_adicionales_calculo}}">
+    <input type="hidden" id="inpIdSerieParaComprobante" value="{{$serie_para_comprobante->id_serie}}">
+    <input type="hidden" id="inpIdTipoDocumentoParaComprobante" value="{{$serie_para_comprobante->tipo_documento->id_tipo_documento}}">
+    <input type="hidden" id="inpIdMonedaParaComprobante" value="{{$moneda_para_comprobante->id_moneda}}">
+    <input type="hidden" id="inpIdTipoImpresionParaComprobante" value="{{$tipo_impresion_para_comprobante->id_tipo_impresion}}"">
     <select  id="selTributos" style="display: none;">
-        <option value=""></option>
         @foreach($tributos_para_producto as $tributo)
-            <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+            <option value="{{$tributo->c_codigo_sunat}}">{{$tributo->c_nombre}}</option>
         @endforeach
     </select>
     <section class="ul-contact-detail">
@@ -59,7 +64,7 @@
                     </div>
                     <div class="btn-group float-right" role="group" aria-label="Basic example">
                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#mdlCrearProducto">+ Productos</button>
-                        <button type="button" class="btn btn-success">Guardar</button>
+                        <button type="button" class="btn btn-success" id="btnGuardarComprobante">Guardar</button>
                         <button type="button" class="btn btn-danger" id="btnCancelarEmision">Cancelar</button>
                     </div>
                 </div>
@@ -69,9 +74,9 @@
                             <label class="switch switch-info">
                                 <span>Alumno(a)</span>
                                 @if(isset($alumno_para_comprobante))
-                                    <input type="checkbox" id="chkComprobanteParaAlumno" value="{{$alumno_para_comprobante}}" checked>
+                                    <input type="checkbox" id="chkComprobanteParaAlumno" value="{{$alumno_para_comprobante->id_alumno}}" checked>
                                 @else
-                                    <input type="checkbox" id="chkComprobanteParaAlumno">
+                                    <input type="checkbox" id="chkComprobanteParaAlumno" value="">
                                 @endif
                                 <span class="slider"></span>
                             </label>
@@ -91,6 +96,11 @@
                         @else
                             <div class="form-group col-2 col-comprobante-para-alumno" style="display: none;">
                                 <input type="text" class="form-control form-control-sm" id="inpDniAlumnoParaComprobante" minlength="8" maxlength="8" placeholder="Ingrese DNI">
+                                <span class="invalid-feedback" role="alert" id="spnAlertDniAlumno" style="display: none;">
+                                    <strong>
+                                        No es alumno(a)
+                                    </strong>
+                                </span>
                             </div>
                             <div class="form-group col-2 col-comprobante-para-alumno" style="display: none;">
                                 <input type="text" class="form-control form-control-sm" id="inpNombreAlumnoParaComprobante" placeholder="Ingrese apellidos y nombres">
@@ -155,7 +165,7 @@
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="inpFecha">Observaciones:</label>
-                                <input type="text" class="form-control form-control-sm" id="inpFecha">
+                                <input type="text" class="form-control form-control-sm" id="inpObservaciones">
                             </div>
                         </div>
                         <button type="button" class="btn btn-success btn-sm float-right" id="btnAgregarProductoOServicio" data-toggle="tooltip" data-placement="top" title="Agregar producto o servicio">+</button>
@@ -189,19 +199,22 @@
                                     <td></td>
                                     <td><input type="number" class="form-control form-control-sm campo-variable-com calc-cantidad" value="1" style="display: none;" onchange="fxCalcularTotalPorProducto(event);"></td>
                                      @if($datos_adicionales_calculo==1)
-                                            <td class="td-valor-unitario"></td>
+                                            <td>
+                                                <input type="text" class="form-control form-control calc-valor-unitario campo-variable-com" style="display: none;" onchange="fxCalcularTotalPorProducto(event);">
+                                            </td>
                                             <td class="td-impuesto"></td>
                                      @else
-                                             <td style="display: none;" class="td-valor-unitario"></td>
+                                             <td style="display: none;">
+                                                 <input type="text" class="form-control form-control campo-variable-com calc-valor-unitario" style="display: none;" onchange="fxCalcularTotalPorProducto(event);">
+                                             </td>
                                              <td style="display: none;" class="td-impuesto"></td>
                                      @endif
-                                    <td><input type="text" class="form-control form-control-sm campo-variable-com calc-precio" value="0.00" style="display: none;" onchange="fxCalcularTotalPorProducto(event);"></td>
-                                    <td><input type="text" class="form-control form-control-sm campo-variable-com calc-total" value="0.00" style="display:  none;" onchange="fxCalcularPrecioDeProducto(event);"></td>
+                                    <td><input type="text" class="form-control form-control-sm campo-variable-com calc-precio" value="0.00" style="display: none;" onchange="fxCalcularValorUnitarioDeProducto(event);"></td>
+                                    <td><input type="text" class="form-control form-control-sm campo-variable-com calc-total" value="0.00" style="display:  none;" onchange="fxCalcularNuevoValorProducto(event);"></td>
                                     <td>
-                                        <select class="form-control form-control-sm campo-variable-com" style="display: none;" onchange="fxActualizarPrecioDeProducto(event);">
-                                            <option value=""></option>
+                                        <select class="form-control form-control-sm campo-variable-com calc-tributo" style="display: none;" onchange="fxActualizarValorDeProducto(event);">
                                             @foreach($tributos_para_producto as $tributo)
-                                                <option value="{{$tributo->id_tributo}}">{{$tributo->c_nombre}}</option>
+                                                <option value="{{$tributo->c_codigo_sunat}}">{{$tributo->c_nombre}}</option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -213,48 +226,76 @@
                 </div>
                 <div class="card-footer">
                     <div class="row">
-                        <div class="offset-md-9 col-md-2 text-md-right">
-                            <h4>Importe:</h4>
+                        <div class="offset-md-8 col-md-3 text-md-right">
+                            <h4>TOTAL OP. GRAVADA:</h4>
                         </div>
-                        <div class="col-md-1 text-md-left">
-                            <h4><span class="text-primary" id="spnImporteComprobante">0.00</span></h4>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="offset-md-9 col-md-2 text-md-right">
-                            <h4>IGV:</h4>
-                        </div>
-                        <div class="col-md-1 text-md-left">
-                            <h4><span class="text-primary" id="spnIgvComprobante">0.00</span></h4>
+                        <div class="col-md-1">
+                            <h4><span class="text-primary" id="spnTotalOpGravada">0.00</span></h4>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="offset-md-9 col-md-2 text-md-right">
-                            <button type="button" class="btn btn-warning btn-sm float-left"id="btnDescuentoGlobal">Descuento</button>
-                            <h4>SubTotal:</h4>
+                        <div class="offset-md-8 col-md-3 text-md-right">
+                            <h4>TOTAL OP. EXONERADA:</h4>
                         </div>
-                        <div class="col-md-1 text-md-left">
-                            <h4><span class="text-primary" id="spnSubTotalComprobante">0.00</span></h4>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="offset-md-9 col-md-2 text-md-right">
-                            <h4>Descuento:</h4>
-                        </div>
-                        <div class="col-md-1 text-md-left">
-                            <h4><span class="text-primary" id="spanDescuentoComprobante">0.00</span></h4>
+                        <div class="col-md-1">
+                            <h4><span class="text-primary" id="spnTotalOpExonerada">0.00</span></h4>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="offset-md-9 col-md-2 text-md-right">
-                            <h4>Total:</h4>
+                        <div class="offset-md-8 col-md-3 text-md-right">
+                            <h4>TOTAL OP. INAFECTA:</h4>
+                        </div>
+                        <div class="col-md-1">
+                            <h4><span class="text-primary" id="spnTotalOpInafecta">0.00</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="offset-md-8 col-md-3 text-md-right">
+                            <h4>TOTAL OP. GRATUITA:</h4>
+                        </div>
+                        <div class="col-md-1">
+                            <h4><span class="text-primary" id="spnTotalOpGratuita">0.00</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="offset-md-8 col-md-3 text-md-right">
+                            <h4>TOTAL IGV:</h4>
+                        </div>
+                        <div class="col-md-1">
+                            <h4><span class="text-primary" id="spnTotalIgv">0.00</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="offset-md-8 col-md-3 text-md-right">
+                            <button type="button" class="btn btn-warning btn-sm d-inline-block" id="btnDescuentoGlobal">Descuento</button>
+                            <h4 class="d-inline-block">TOTAL:</h4>
+                        </div>
+                        <div class="col-md-1">
+                            <h4><span class="text-primary" id="spnTotalGlobal">0.00</span></h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="offset-md-8 col-md-3 text-md-right">
+                            <h4>DESCUENTO:</h4>
                         </div>
                         <div class="col-md-1 text-md-left">
-                            <h4><span class="text-primary" id="spanTotalComprobante">0.00</span></h4>
+                            <h4><span class="text-primary" id="spnDescuentoComprobante">0.00</span></h4>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="offset-md-8 col-md-3 text-md-right">
+                            <h4>TOTAL CON DESCUENTO:</h4>
+                        </div>
+                        <div class="col-md-1 text-md-left">
+                            <h4><span class="text-primary" id="spnTotalConDescuentoComprobante">0.00</span></h4>
                         </div>
                     </div>
 
@@ -273,21 +314,12 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-row">
-                        <div class="form-group col-md-2">
-                            <label for="inpImporteGlobal" class="ul-form__label">Importe:</label>
-                            <input type="text" class="form-control form-control-lg" id="inpImporteGlobal" value="0.00" readonly>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="inpIgvGlobal" class="ul-form__label">IGV:</label>
-                            <input type="text" class="form-control form-control-lg" id="inpIgvGlobal" value="0.00" readonly>
+                        <div class="form-group col-md-4">
+                            <label for="inpTotalGlobal" class="ul-form__label">Total:</label>
+                            <input type="text" class="form-control form-control-lg" id="inpTotalGlobal" value="0.00" readonly>
                         </div>
 
-                        <div class="form-group col-md-2">
-                            <label for="inpSubTotalGlobal" class="ul-form__label">SubTotal:</label>
-                            <input type="text" class="form-control form-control-lg" id="inpSubTotalGlobal" value="0.00" readonly>
-                        </div>
-
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-4">
                             <label for="inpDescuentoGlobal" class="ul-form__label">Descuento:</label>
                             <input type="text" class="form-control form-control-lg is-invalid" id="inpDescuentoGlobal" value="0.00">
                             <div class="invalid-feedback" style="display: none;" id="divInvalidDescuento">
@@ -295,9 +327,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-3">
-                            <label for="inpTotalGlobal" class="ul-form__label">Total:</label>
-                            <input type="text" class="form-control form-control-lg" id="inpTotalGlobal" value="0.00" readonly>
+                        <div class="form-group col-md-4">
+                            <label for="inpTotalConDescuentoGlobal" class="ul-form__label">Total con descuento:</label>
+                            <input type="text" class="form-control form-control-lg" id="inpTotalConDescuentoGlobal" value="0.00" readonly>
                         </div>
 
                     </div>
