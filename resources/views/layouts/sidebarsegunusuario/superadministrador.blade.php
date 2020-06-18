@@ -79,7 +79,7 @@
 
             <li class="menu-lateral-item {{ request()->is('super/comunicados*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('super/comunicados')}}">
-                    <i class="nav-icon i-Movie"></i>
+                    <i class="nav-icon i-Megaphone"></i>
                     <br>
                     <span>Comunicados</span>
                 </a>

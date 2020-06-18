@@ -176,11 +176,11 @@
         .icono-success{
             color: #A5DC86;
         }
-        
+
         .icono-question{
             color: #87ADBD;
-        } 
-        
+        }
+
         .icono-info{
             color: #3FC3EE;
         }
@@ -216,7 +216,7 @@
 
 <div id="tools-icon" class="tools-icon">
     {{-- <div class="maletin">
-        
+
     </div> --}}
     <i class="fas fa-th "></i>
 </div>
@@ -394,21 +394,14 @@ $("#frm-tools").on("submit", function(e){
 });
 
 //Validar tamaño de archivo
-$(document).on('change', 'input[type="file"]', function(){
+//comentado por que interferia la implementacion de fineUploader en comunicados
+//**CORREGIR**: El selector no debe apuntar a todos los input de tipo file, solo especificos
+/*$(document).on('change', 'input[type="file"]', function(){
     var file_name = this.files[0].name;
     var file_size = this.files[0].size;
 
     //5MB
     if (file_size > 5000000) {
-
-        /* Swal.fire({
-            position: 'center',
-            icon: 'info',
-            text: 'El archivo no debe superar los 5MB',
-            showConfirmButton: true,
-            confirmButtonColor: '#3498db'
-        }); */
-
         MyAlert(2, 'El archivo no debe superar los 5MB');
 
         this.value = '';
@@ -419,13 +412,6 @@ $(document).on('change', 'input[type="file"]', function(){
 
         if(extensiones != ".jpg" && extensiones != ".jpeg" && extensiones != ".png" && extensiones != ".gif")
         {
-            /* Swal.fire({
-                position: 'center',
-                icon: 'info',
-                text: 'Archivo no válido, intente cono tro archivo',
-                showConfirmButton: true,
-                confirmButtonColor: '#3498db'
-            });*/
 
             MyAlert(2, 'Archivo no válido, intente con un archivo de imagen');
 
@@ -433,7 +419,7 @@ $(document).on('change', 'input[type="file"]', function(){
             this.files[0].name = '';
         }
     }
-});
+});*/
 
 //Mostrar herramientas
 function MostrarHerramientas(){
@@ -571,12 +557,12 @@ $('#btn_actualizar').click(function(){
                     $("#link").val('');
 
                     MostrarHerramientas();
-                    
+
                     MyAlert(1, 'Su herramienta fue actualizada correctamente');
-                    
+
                     $('#btn_guardar').show();
                     $('#btn_actualizar').hide();
-                   
+
                     CancelarEliminar();
                 },
                 error: function(){
@@ -645,7 +631,7 @@ function MyAlert(tipo, text){
 
     modal = $('#MODAL-ALERT-SUCCESS');
     $('#alert-text').text(text);
-    
+
     success = $('.icono-success');
     info = $('.icono-info');
     question = $('.icono-question');
@@ -667,11 +653,11 @@ function MyAlert(tipo, text){
     switch (tipo) {
         case 1:
             success.show();
-            setTimeout(function(){ 
+            setTimeout(function(){
                 modal.modal('hide')
             }, 1500);
             break;
-    
+
         case 2:
             info.show();
             btn_entendido.show();

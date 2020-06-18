@@ -51,6 +51,19 @@ class Comunicado extends Controller
         }
         return redirect('home');
     }
+
+    public function prueba(){
+        return view('super.delete');
+    }
+
+    public function prueba_subir_archivo(Request $request){
+        $datos = array(
+            'success' => TRUE,
+            'message' => 'El titulo del comunicado es: '.$request->input('titulo_comunicado'),
+            'data' => $request->all()
+        );
+        return response()->json($datos);
+    }
     public function agregar(Request $request)
     {
         //tamaño maximo de archivo 256 MB

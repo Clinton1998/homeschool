@@ -211,6 +211,8 @@ Route::post('super/comunicados/agregar', 'usuario\super\Comunicado@agregar')->na
 Route::get('comunicado/ver/{id_comunicado}', 'usuario\super\Comunicado@info')->name('comunicado/ver/{id_comunicado}');
 Route::get('comunicado/archivo/{id_comunicado}', 'usuario\super\Comunicado@descargar_archivo')->name('comunicado/archivo/{id_comunicado}');
 
+Route::get('super/comunicadoprueba', 'usuario\super\Comunicado@prueba')->name('super/comunicadoprueba');
+Route::post('super/comunicados/subirarchivos', 'usuario\super\Comunicado@prueba_subir_archivo')->name('super/comunicados/subirarchivos');
 // CURSOS *********************************************************
 
 Route::get('alumno/cursos', 'usuario\alumno\Cursos@index')->name('alumno/cursos');
