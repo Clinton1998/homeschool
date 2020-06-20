@@ -12,4 +12,7 @@ class Comunicado_d extends Model
     public function colegio(){
         return $this->belongsTo('App\Colegio_m','id_colegio');
     }
+    public function archivos(){
+        return $this->hasMany('App\Archivo_comunicado_d','id_comunicado');
+    }
 }

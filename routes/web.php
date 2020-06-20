@@ -209,10 +209,9 @@ Route::get('super/videoconferencia', 'usuario\super\Videoconferencia@index')->na
 Route::get('super/comunicados', 'usuario\super\Comunicado@index')->name('super/comunicados');
 Route::post('super/comunicados/agregar', 'usuario\super\Comunicado@agregar')->name('super/comunicados/agregar');
 Route::get('comunicado/ver/{id_comunicado}', 'usuario\super\Comunicado@info')->name('comunicado/ver/{id_comunicado}');
-Route::get('comunicado/archivo/{id_comunicado}', 'usuario\super\Comunicado@descargar_archivo')->name('comunicado/archivo/{id_comunicado}');
-
-Route::get('super/comunicadoprueba', 'usuario\super\Comunicado@prueba')->name('super/comunicadoprueba');
-Route::post('super/comunicados/subirarchivos', 'usuario\super\Comunicado@prueba_subir_archivo')->name('super/comunicados/subirarchivos');
+Route::get('comunicado/archivo/{id_comunicado}/{filename}', 'usuario\super\Comunicado@descargar_archivo')->name('comunicado/archivo/{id_comunicado}/{filename}');
+Route::post('super/comunicados/generarcomunicado', 'usuario\super\Comunicado@generar')->name('super/comunicados/generarcomunicado');
+Route::post('super/comunicados/confirmarcomunicado', 'usuario\super\Comunicado@confirmar')->name('super/comunicados/confirmarcomunicado');
 // CURSOS *********************************************************
 
 Route::get('alumno/cursos', 'usuario\alumno\Cursos@index')->name('alumno/cursos');

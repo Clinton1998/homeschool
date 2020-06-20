@@ -53,8 +53,11 @@ const app = new Vue({
                     $('#tituloShowComunicado').text(response.notificacion.comunicado.c_titulo);
                     $('#descripcionShowComunicado').text(response.notificacion.comunicado.c_descripcion);
                     if (response.notificacion.comunicado.c_url_archivo != null) {
-                        //Mostramos un enlace de descarga
-                        $('#archivoShowComunicado').html('<a href="/comunicado/archivo/' + response.notificacion.comunicado.id_comunicado + '" class="text-primary" cdownload="' + response.notificacion.comunicado.c_url_archivo + '">Descargar Archivo</a>');
+                        var htmlArchivos = '<span class="d-block"><a href="/comunicado/archivo/' + response.notificacion.comunicado.id_comunicado + '/'+response.notificacion.comunicado.c_url_archivo+'" class="text-primary" cdownload="' + response.notificacion.comunicado.c_url_archivo + '">Descargar Archivo '+response.notificacion.comunicado.c_url_archivo+'</a></span>';
+                        $.each(response.notificacion.comunicado.archivos,function(indice,archivo){
+                            htmlArchivos += '<span class="d-block"><a href="/comunicado/archivo/' + response.notificacion.comunicado.id_comunicado + '/'+archivo.c_url_archivo+'" class="text-primary" cdownload="' + archivo.c_url_archivo + '">Descargar Archivo '+archivo.c_url_archivo+'</a></span>';
+                        });
+                        $('#archivoShowComunicado').html(htmlArchivos);
                     } else {
                         $('#archivoShowComunicado').text('');
                     }

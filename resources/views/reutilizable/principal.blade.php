@@ -99,7 +99,7 @@
 
 
 <div class="modal fade" id="mdlShowComunicado" tabindex="-1" role="dialog" aria-labelledby="mdlShowComunicadoTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="mdlShowComunicadoTitle">Nuevo comunicado</h5>
@@ -113,7 +113,7 @@
         <div id="archivoShowComunicado"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Leído</button>
+        <button type="button" class="btn btn-primary btn-lg" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

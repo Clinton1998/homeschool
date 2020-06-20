@@ -5,6 +5,7 @@ namespace App\Http\Controllers\usuario\super;
 use App\Http\Controllers\Controller;
 use App\Events\NuevoComunicado;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App;
 use Auth;
@@ -52,26 +53,84 @@ class Comunicado extends Controller
         return redirect('home');
     }
 
-    public function prueba(){
-        return view('super.delete');
-    }
+    public function generar(Request $request){
+        $usuarioSuper = App\User::findOrFail(Auth::user()->id);
+        //obtenemos el colegio
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => $usuarioSuper->id,
+            'estado' => 1
+        ])->first();
 
-    public function prueba_subir_archivo(Request $request){
+        if(!is_null($colegio) && !empty($colegio)){
+            $g_id_comunicado = $request->input('g_id_comunicado');
+            if(!is_null($g_id_comunicado) && !empty($g_id_comunicado)){
+                //obtenemos el comunicado, verificamos que pertenesca al colegio
+                $comunicado = App\Comunicado_d::where([
+                    'id_comunicado' => $g_id_comunicado,
+                    'id_colegio' => $colegio->id_colegio,
+                    'estado' => 0
+                ])->first();
+                if(!is_null($comunicado) && !empty($comunicado)){
+                    $archivo = $request->file('qqfile');
+                    if (!is_null($archivo) && !empty($archivo)) {
+                        $nombre = $request->input('qqfilename');
+                        $nombre = ("(".$comunicado->id_comunicado."-".date('s').")" . $nombre);
+                        $archivo->storeAs('comunicados/' . $comunicado->id_comunicado . '/', $nombre);
+                        $archivo_comunicado = new App\Archivo_comunicado_d;
+                        $archivo_comunicado->id_comunicado = $comunicado->id_comunicado;
+                        $archivo_comunicado->c_url_archivo = $nombre;
+                        $archivo_comunicado->estado = 0;
+                        $archivo_comunicado->creador = Auth::user()->id;
+                        $archivo_comunicado->save();
+                    }
+                    $datos = array(
+                        'success' => TRUE,
+                        'id_comunicado' => $comunicado->id_comunicado,
+                    );
+                    return response()->json($datos);
+                }
+                $datos = array(
+                    'success' => FALSE,
+                    'id_comunicado' => '',
+                );
+                return response()->json($datos);
+            }else{
+
+                $comunicado = new App\Comunicado_d;
+                $comunicado->id_colegio = $colegio->id_colegio;
+                $comunicado->c_titulo = $request->input('titulo_comunicado');
+                $comunicado->c_descripcion = $request->input('descripcion_comunicado');
+                $comunicado->c_destino = $request->input('opt_destino_comunicado_con_archivo');
+                $comunicado->estado = 0;
+                $comunicado->creador = Auth::user()->id;
+                $comunicado->save();
+
+                $archivo = $request->file('qqfile');
+                if (!is_null($archivo) && !empty($archivo)) {
+                    $nombre = $request->input('qqfilename');
+                    $nombre = ("(".$comunicado->id_comunicado."-".date('s').")" . $nombre);
+                    $archivo->storeAs('comunicados/' . $comunicado->id_comunicado . '/', $nombre);
+                    $comunicado->c_url_archivo = $nombre;
+                    $comunicado->save();
+                }
+                $datos = array(
+                    'success' => TRUE,
+                    'id_comunicado' => $comunicado->id_comunicado
+                );
+                return response()->json($datos);
+            }
+        }
         $datos = array(
-            'success' => TRUE,
-            'message' => 'El titulo del comunicado es: '.$request->input('titulo_comunicado'),
-            'data' => $request->all()
+            'success' => FALSE
         );
         return response()->json($datos);
     }
     public function agregar(Request $request)
     {
-        //tamaño maximo de archivo 256 MB
         //validamos los datos
         $request->validate([
             'titulo_comunicado' => 'required',
-            'opt_destino_comunicado' => 'required',
-            'archivo_comunicado' => 'file|max:256000'
+            'opt_destino_comunicado_sin_archivo' => 'required',
         ]);
 
         $usuarioSuper = App\User::findOrFail(Auth::user()->id);
@@ -86,25 +145,47 @@ class Comunicado extends Controller
             $comunicado->id_colegio = $colegio->id_colegio;
             $comunicado->c_titulo = $request->input('titulo_comunicado');
             $comunicado->c_descripcion = $request->input('descripcion_comunicado');
-            $comunicado->c_destino = $request->input('opt_destino_comunicado');
+            $comunicado->c_destino = $request->input('opt_destino_comunicado_sin_archivo');
             $comunicado->creador = $usuarioSuper->id;
             $comunicado->save();
-            //subida de archivo,si es que existe
-            $archivo = $request->file('archivo_comunicado');
-
-            if (!is_null($archivo) && !empty($archivo)) {
-                $nombre = $archivo->getClientOriginalName();
-                $nombre = $comunicado->id_comunicado . $nombre;
-                $archivo->storeAs('comunicados/' . $comunicado->id_comunicado . '/', $nombre);
-                $comunicado->c_url_archivo = $nombre;
-                $comunicado->save();
-            }
-
             event(new NuevoComunicado($colegio,$comunicado));
-
-            return redirect('super/comunicados');
+            return redirect('/super/comunicados');
         }
-        return redirect('home');
+        return redirect('/home');
+    }
+
+    public function confirmar(Request $request){
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado' => 1
+        ])->first();
+        if(!is_null($colegio) && !empty($colegio)){
+            //obtenemos el comunicado inactivo
+            $comunicado = App\Comunicado_d::where([
+                'id_comunicado' => $request->input('id_comunicado'),
+                'id_colegio' => $colegio->id_colegio,
+                'estado' => 0
+            ])->first();
+            if(!is_null($comunicado) && !empty($comunicado)){
+                //actualizamos al comunicado como activo
+                $comunicado->estado = 1;
+                $comunicado->modificador = Auth::user()->id;
+                $comunicado->save();
+                //actualizamos el detalle archivo
+                DB::table('archivo_comunicado_d')
+                    ->where('id_comunicado','=',$comunicado->id_comunicado)
+                    ->update(['estado' => 1,'modificador' => Auth::user()->id]);
+                event(new NuevoComunicado($colegio,$comunicado));
+                $datos = array(
+                    'correcto' => TRUE
+                );
+                return response()->json($datos);
+            }
+        }
+        $datos = array(
+            'correcto' => FALSE
+        );
+        return response()->json($datos);
     }
 
     public function info($id_comunicado){
@@ -146,9 +227,9 @@ class Comunicado extends Controller
         return redirect('home');
     }
 
-    public function descargar_archivo($id_comunicado)
+    public function descargar_archivo($id_comunicado,$filename)
     {
         $comunicado = App\Comunicado_d::findOrFail($id_comunicado);
-        return Storage::download('comunicados/' . $comunicado->id_comunicado . '/' . $comunicado->c_url_archivo);
+        return Storage::download('comunicados/' . $comunicado->id_comunicado . '/' . $filename);
     }
 }

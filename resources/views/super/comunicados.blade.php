@@ -20,10 +20,10 @@
                 <span class="qq-upload-drop-area-text-selector"></span>
             </div>
             <div class="qq-upload-button-selector qq-upload-button">
-                <div>Upload a file</div>
+                <div>Seleccionar archivos</div>
             </div>
             <span class="qq-drop-processing-selector qq-drop-processing">
-                    <span>Processing dropped files...</span>
+                    <span>Procesando archivos caídos...</span>
                     <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
                 </span>
             <ul class="qq-upload-list-selector qq-upload-list" aria-live="polite" aria-relevant="additions removals">
@@ -37,9 +37,9 @@
                     <span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
                     <input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
                     <span class="qq-upload-size-selector qq-upload-size"></span>
-                    <button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel">Cancel</button>
-                    <button type="button" class="qq-btn qq-upload-retry-selector qq-upload-retry">Retry</button>
-                    <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">Delete</button>
+                    <button type="button" class="qq-btn qq-upload-cancel-selector qq-upload-cancel">Quitar</button>
+                    <button type="button" class="qq-btn qq-upload-retry-selector qq-upload-retry">Reintentar</button>
+                    <button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">Eliminar</button>
                     <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
                 </li>
             </ul>
@@ -47,7 +47,7 @@
             <dialog class="qq-alert-dialog-selector">
                 <div class="qq-dialog-message-selector"></div>
                 <div class="qq-dialog-buttons">
-                    <button type="button" class="qq-cancel-button-selector">Close</button>
+                    <button type="button" class="qq-cancel-button-selector">Cerrar</button>
                 </div>
             </dialog>
 
@@ -55,7 +55,7 @@
                 <div class="qq-dialog-message-selector"></div>
                 <div class="qq-dialog-buttons">
                     <button type="button" class="qq-cancel-button-selector">No</button>
-                    <button type="button" class="qq-ok-button-selector">Yes</button>
+                    <button type="button" class="qq-ok-button-selector">Sí</button>
                 </div>
             </dialog>
 
@@ -63,7 +63,7 @@
                 <div class="qq-dialog-message-selector"></div>
                 <input type="text">
                 <div class="qq-dialog-buttons">
-                    <button type="button" class="qq-cancel-button-selector">Cancel</button>
+                    <button type="button" class="qq-cancel-button-selector">Cancelar</button>
                     <button type="button" class="qq-ok-button-selector">Ok</button>
                 </div>
             </dialog>
@@ -75,6 +75,10 @@
 
 <section class="ul-contact-detail">
     <h2 class="hs_titulo">Comunicados</h2>
+
+    @foreach($errors->all() as $error)
+        <h1>{{$error}}</h1>
+    @endforeach
     <div class="row">
 
         <div class="col-lg-12 col-md-12 mb-3">
@@ -206,87 +210,154 @@
           </button>
         </div>
         <div class="modal-body">
-            <div class="progress mb-3" id="divProgressArchivoComunicado" style="height: 40px;display: none;">
-                <div class="progress-bar w-100 progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="font-size: 2em;font-weight: bold;">Subiendo archivo</div>
-            </div>
-        {{--<form id="qq-form" class="needs-validation" method="POST" action="{{url('/super/comunicados/agregar')}}" enctype="multipart/form-data" novalidate>--}}
-        <form id="qq-form" class="needs-validation" method="POST" action="{{url('/super/comunicados/subirarchivos')}}" enctype="multipart/form-data" novalidate>
-            @csrf
-            @error('titulo_comunicado')
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{$message}}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @enderror
-            @error('archivo_comunicado')
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{$message}}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @enderror
-            @error('opt_destino_comunicado')
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{$message}}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            @enderror
-
             <div class="form-group">
-                <label for="titulo_comunicado">Título</label>
-                <input type="text" class="form-control" id="titulo_comunicado" name="titulo_comunicado" required>
-                <div class="invalid-feedback">
-                    El título es necesario
-                </div>
+                <label class="switch switch-success mr-3">
+                    <span>Con archivo</span>
+                    <input type="checkbox" id="chkConArchivoComunicado">
+                    <span class="slider"></span>
+                </label>
             </div>
-            <div class="form-group">
-                <label for="descripcion_comunicado">Descripción</label>
-                <textarea name="descripcion_comunicado" class="form-control" id="descripcion_comunicado" cols="30" rows="7"></textarea>
+            <div id="divFrmConArchivo" style="display: none;">
+                <form id="qq-form" class="needs-validation" method="POST" action="{{url('/super/comunicados/generarcomunicado')}}" enctype="multipart/form-data" novalidate>
+                    @csrf
+                    <input type="hidden" id="gIdComunicado" name="g_id_comunicado" value="">
+                    @error('titulo_comunicado')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{$message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @enderror
+                    @error('archivo_comunicado')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{$message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @enderror
+                    @error('opt_destino_comunicado_con_archivo')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{$message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @enderror
+                    <div class="form-group">
+                        <label for="titulo_comunicado_con_archivo">Título</label>
+                        <input type="text" class="form-control input-modo-con-archivo" id="titulo_comunicado_con_archivo" name="titulo_comunicado" required>
+                        <div class="invalid-feedback">
+                            El título es necesario
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion_comunicado_con_archivo">Descripción</label>
+                        <textarea name="descripcion_comunicado" class="form-control input-modo-con-archivo" id="descripcion_comunicado_con_archivo" cols="30" rows="4"></textarea>
+                    </div>
+
+                    <div id="uploader-comunicado"></div>
+
+                    <br>
+                    <h3>Para</h3>
+                    <div class="radio-alumnos form-group" id="divRadioAlumno">
+                        <div class="radio-btn form-check form-check-inline">
+                            <label class="radio radio-success">
+                                <input type="radio" name="opt_destino_comunicado_con_archivo" [value]="1" class="form-check-input"  id="radioTodoConArchivo" value="TODO" required checked >
+                                <span>Todos</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="radio-btn form-check form-check-inline">
+                            <label class="radio radio-success">
+                                <input type="radio" name="opt_destino_comunicado_con_archivo" [value]="1"  class="form-check-input" id="radioDocenteConArchivo" value="DOCE" required >
+                                <span>Docentes</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <div class="radio-btn form-check form-check-inline">
+                            <label class="radio radio-success">
+                                <input type="radio" name="opt_destino_comunicado_con_archivo" [value]="1"  class="form-check-input" id="radioAlumnoConArchivo" value="ALUM" required >
+                                <span>Alumnos</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="divFrmSinArchivo">
+                <form id="frmNuevoComunicado" class="needs-validation" method="POST" action="{{url('/super/comunicados/agregar')}}" novalidate>
+                    @csrf
+                    @error('titulo_comunicado')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{$message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @enderror
+                    @error('archivo_comunicado')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{$message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @enderror
+                    @error('opt_destino_comunicado_sin_archivo')
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>{{$message}}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @enderror
+                    <div class="form-group">
+                        <label for="titulo_comunicado_sin_archivo">Título</label>
+                        <input type="text" class="form-control" id="titulo_comunicado_sin_archivo" name="titulo_comunicado" required>
+                        <div class="invalid-feedback">
+                            El título es necesario
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion_comunicado_sin_archivo">Descripción</label>
+                        <textarea name="descripcion_comunicado" class="form-control" id="descripcion_comunicado_sin_archivo" cols="30" rows="4"></textarea>
+                    </div>
+                    <h3>Para</h3>
+                    <div class="radio-alumnos form-group" id="divRadioAlumno">
+                        <div class="radio-btn form-check form-check-inline">
+                            <label class="radio radio-success">
+                                <input type="radio" name="opt_destino_comunicado_sin_archivo" [value]="1" id="radioTodoSinArchivo"  class="form-check-input" value="TODO" required checked >
+                                <span>Todos</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="radio-btn form-check form-check-inline">
+                            <label class="radio radio-success">
+                                <input type="radio" name="opt_destino_comunicado_sin_archivo" [value]="1" id="radioDocenteSinArchivo"  class="form-check-input" value="DOCE" required >
+                                <span>Docentes</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <div class="radio-btn form-check form-check-inline">
+                            <label class="radio radio-success">
+                                <input type="radio" name="opt_destino_comunicado_sin_archivo" [value]="1" id="radioAlumnoSinArchivo"  class="form-check-input" value="ALUM" required >
+                                <span>Alumnos</span>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </form>
             </div>
 
-            <!--<div class="form-group">
-                <label for="archivo_comunicado">Archivo</label>
-                <input type="file" class="form-control" id="archivo_comunicado" name="archivo_comunicado">
-            </div>-->
-
-            <div id="uploader-comunicado"></div>
-
-            <br>
-            <h3>Para</h3>
-            <div class="radio-alumnos form-group" id="divRadioAlumno">
-                <div class="radio-btn form-check form-check-inline">
-                    <label class="radio radio-success">
-                        <input type="radio" name="opt_destino_comunicado" [value]="1" formcontrolname="radio" class="form-check-input" value="TODO" required checked >
-                        <span>Todos</span>
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-                <div class="radio-btn form-check form-check-inline">
-                    <label class="radio radio-success">
-                        <input type="radio" name="opt_destino_comunicado" [value]="1" formcontrolname="radio" class="form-check-input" value="DOCE" required >
-                        <span>Docentes</span>
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-
-                <div class="radio-btn form-check form-check-inline">
-                    <label class="radio radio-success">
-                        <input type="radio" name="opt_destino_comunicado" [value]="1" formcontrolname="radio" class="form-check-input" value="ALUM" required >
-                        <span>Alumnos</span>
-                        <span class="checkmark"></span>
-                    </label>
-                </div>
-            </div>
-        </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary btn-lg" form="qq-form" id="btnEnviarComunicado">Enviar a <span>todos</span></button>
+            <button type="submit" class="btn btn-primary btn-lg" form="frmNuevoComunicado" id="btnEnviarComunicadoSinArchivo">Enviar a <span>todos</span></button>
+          <button type="submit" class="btn btn-primary btn-lg" form="qq-form" id="btnEnviarComunicadoConArchivo" style="display: none;">Enviar a <span>todos</span></button>
         </div>
       </div>
     </div>
@@ -314,6 +385,57 @@
                     notAvailablePath: '/fine-uploader/placeholders/not_available-generic.png'
                 }
             },
+          validation: {
+                //256MB
+              sizeLimit: 268435456
+          },
+            messages: {
+                sizeError: '¡{file} es demasiado grande! Sus archivos deben estar restringidos a {sizeLimit} o más pequeños.',
+                noFilesError: 'No hay ningun archivo para subir, seleccione un archivo es obligatorio'
+            },
+            text: {
+                failUpload: 'Falló al subir',
+                waitingForResponse: 'Subiendo. Espere por favor'
+            },
+            callbacks: {
+                onComplete: function(id,name,responseJSON){
+                    if(responseJSON.success){
+                        $('.input-modo-con-archivo').attr('readonly','true');
+                        $('input[name="opt_destino_comunicado_con_archivo"]').attr('disabled','true');
+                        $('#btnEnviarComunicadoConArchivo').attr('disabled','true');
+                        $('#gIdComunicado').val(responseJSON.id_comunicado);
+                    }else{
+                        $('.input-modo-con-archivo').removeAttr('readonly');
+                        $('input[name="opt_destino_comunicado_con_archivo"]').removeAttr('disabled');
+                        $('#btnEnviarComunicadoConArchivo').removeAttr('disabled');
+                    }
+                },
+                onAllComplete: function(succeeded,failed) {
+                    $('#btnEnviarComunicadoConArchivo').attr('disabled','true');
+                    if(failed.length==0){
+                        $.ajax({
+                            type: 'POST',
+                            url: '/super/comunicados/confirmarcomunicado',
+                            data: {
+                                id_comunicado: $('#gIdComunicado').val()
+                            },
+                            error: function(error){
+                                alert('Ocurrío un error');
+                                console.error(error);
+                                location.reload();
+                            }
+                        }).done(function(data){
+                            if(data.correcto){
+                                location.reload();
+                            }
+                        });
+                    }else{
+                        alert('Algo salió mal. Recarga la pagina e intenta de nuevo');
+                        location.reload();
+                    }
+                }
+            },
+            maxConnections: 1,
             autoUpload: false,
             debug: false
         });

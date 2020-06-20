@@ -27,6 +27,7 @@ class EnviarNotificacion
     {
         $colegio = $event->colegio;
         $comunicado = $event->comunicado;
+        $comunicado->load('archivos');
         $destino = strtoupper($comunicado->c_destino);
 
         if ($destino == 'TODO') {
