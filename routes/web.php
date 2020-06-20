@@ -15,6 +15,7 @@ Route::get('/', 'HomeController@index');
 //rutas para la autenticacion del usuario
 Auth::routes();
 
+Route::get('probarevento','usuario\super\Prueba@probar')->name('probarevento');
 //rutas para facturacion electronica
 //PREFERENCIAS
 Route::get('super/facturacion/preferencias','usuario\super\facturacion\Preferencia@index')->name('super/facturacion/preferencias');

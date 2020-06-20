@@ -83,6 +83,22 @@ const app = new Vue({
                     }
                 }
             });
+
+            //cuando hay nuevos mensajes para grupos
+            Echo.private(`alertforuser.${window.Laravel.userId}`).listen(
+                "AlertSimple",
+                e => {
+                    var alert = e.alert;
+                    VanillaToasts.create ({
+                        title: alert.title,
+                        text: alert.text,
+                        type: alert.type,
+                        icon: alert.icon,
+                        positionClass: 'bottomCenter',
+                        timeout: alert.timeout
+                    });
+                }
+            );
         }
     }
 });

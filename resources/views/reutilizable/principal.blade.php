@@ -50,7 +50,9 @@
         @endif
         {{-- page specific css --}}
         @yield('page-css')
-
+        <!--vanilla toast-->
+        <link rel="stylesheet" href="{{asset('assets/styles/css/libreria/vanillatoast/vanillatoasts.css')}}">
+        <!--end vanilla toast-->
         <!--Push js-->
         <script src="{{asset('assets/js/libreria/push/push.min.js')}}"></script>
         <!--end Push js-->
@@ -148,6 +150,9 @@
 
         {{-- common js --}}
         <script src="{{  asset('assets/js/common-bundle-script.js')}}"></script>
+        <!--vanilla toast-->
+        <script src="{{  asset('assets/js/libreria/vanillatoast/vanillatoasts.js')}}"></script>
+        <!--end vanilla toast-->
         @if($tipo_usuario=='superadministrador')
             <script src="{{ asset('assets/js/vendor/datatables.min.js') }}"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9" ></script>

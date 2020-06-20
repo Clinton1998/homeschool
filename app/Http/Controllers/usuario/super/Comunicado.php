@@ -4,6 +4,7 @@ namespace App\Http\Controllers\usuario\super;
 
 use App\Http\Controllers\Controller;
 use App\Events\NuevoComunicado;
+use App\Events\AlertSimple;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -221,6 +222,32 @@ class Comunicado extends Controller
                 }
             }
             if($permitido){
+                //notificacion simple de que el comunicado fue abierto por un usuario
+                if(!(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0)){
+                    $title = 'Comunicado abierto';
+                    $text = '';
+                    $type = 'info';
+                    $timeout = 10000;
+                    $icon = '/assets/images/colegio/school.png';
+                    $colegio = '';
+                    if(!is_null(Auth::user()->id_docente)){
+                        $docente = App\Docente_d::findOrFail(Auth::user()->id_docente);
+                        $colegio = $docente->colegio;
+                        if(!is_null($colegio->c_logo) && !empty($colegio->c_logo)){
+                            $icon = '/super/colegio/logo'.$colegio->c_logo;
+                        }
+                        $text = $docente->c_nombre. ' ha abierto el comunicado "'.$comunicado->c_titulo.'"';
+                    }else if(!is_null(Auth::user()->id_alumno)){
+                        $alumno = App\Alumno_d::findOrFail(Auth::user()->id_alumno);
+                        $colegio = $alumno->seccion->grado->colegio;
+                        if(!is_null($colegio->c_logo) && !empty($colegio->c_logo)){
+                            $icon = '/super/colegio/logo/'.$colegio->c_logo;
+                        }
+                        $text = $alumno->c_nombre. ' ha abierto el comunicado "'.$comunicado->c_titulo.'"';
+                    }
+                    broadcast(new AlertSimple([$colegio->id_superadministrador],$title,$text,$type,$timeout,$icon));
+                }
+
                 return view('super.infocomunicado',compact('comunicado'));
             }
         }
@@ -230,6 +257,31 @@ class Comunicado extends Controller
     public function descargar_archivo($id_comunicado,$filename)
     {
         $comunicado = App\Comunicado_d::findOrFail($id_comunicado);
+        //notificamos al superadministrador del colegio, que alguien esta descagando
+        if(!(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0)){
+            $title = 'Descarga de archivo';
+            $text = '';
+            $type = 'info';
+            $timeout = 10000;
+            $icon = '/assets/images/colegio/school.png';
+            $colegio = '';
+            if(!is_null(Auth::user()->id_docente)){
+                $docente = App\Docente_d::findOrFail(Auth::user()->id_docente);
+                $colegio = $docente->colegio;
+                if(!is_null($colegio->c_logo) && !empty($colegio->c_logo)){
+                    $icon = '/super/colegio/logo'.$colegio->c_logo;
+                }
+                $text = $docente->c_nombre. ' está descargando un archivo del comunicado "'.$comunicado->c_titulo.'"';
+            }else if(!is_null(Auth::user()->id_alumno)){
+                $alumno = App\Alumno_d::findOrFail(Auth::user()->id_alumno);
+                $colegio = $alumno->seccion->grado->colegio;
+                if(!is_null($colegio->c_logo) && !empty($colegio->c_logo)){
+                    $icon = '/super/colegio/logo/'.$colegio->c_logo;
+                }
+                $text = $alumno->c_nombre. ' está descargando un archivo del comunicado "'.$comunicado->c_titulo.'"';
+            }
+            broadcast(new AlertSimple([$colegio->id_superadministrador],$title,$text,$type,$timeout,$icon));
+        }
         return Storage::download('comunicados/' . $comunicado->id_comunicado . '/' . $filename);
     }
 }
