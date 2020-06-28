@@ -21,4 +21,7 @@ class Tarea_d extends Model
     public function comentarios(){
         return $this->hasMany('App\Comentario_d','id_tarea');
     }
+    public function archivos(){
+        return $this->hasMany('App\Archivo_tarea_d','id_tarea');
+    }
 }

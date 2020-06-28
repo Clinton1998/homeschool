@@ -1,7 +1,7 @@
 @extends('reutilizable.principal')
 @section('page-css')
-    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">   
-    <link rel="stylesheet" href="{{asset('assets/styles/css/style-docente.css')}}"> 
+    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/styles/css/style-docente.css')}}">
 @endsection
 
 @section('main-content')
@@ -18,6 +18,7 @@
     @endphp
 <section class="contact-list">
     <div class="row">
+
         <div class="col-xs-12 col-md-6 offset-md-3">
 
             <div class="card mb-4">
@@ -28,12 +29,17 @@
                         <h4 class="hs_upper">{{$tarea->c_titulo}}</h4>
                         <p class="hs_capitalize-first ul-task-manager__paragraph mb-3 text-justify">{{$tarea->c_observacion}}</p>
                         @if(!is_null($tarea->c_url_archivo) && !empty($tarea->c_url_archivo))
-                            <strong>Archivo</strong>
-                            <p>
-                            <a href="{{url('/docente/tarea/archivo/'.$tarea->id_tarea)}}" class="text-primary" cdownload="{{$tarea->c_url_archivo}}">
-                                    Descargar Archivo {{$tarea->c_url_archivo}}
-                                    </a>
-                            </p>
+                            <strong>Archivos adjuntos</strong>
+                            <span class="d-block">
+                              <a href="{{url('/docente/tarea/archivo/'.$tarea->id_tarea.'/'.$tarea->c_url_archivo)}}" class="text-primary" cdownload="{{$tarea->c_url_archivo}}">
+                                      Descargar Archivo {{$tarea->c_url_archivo}}
+                                      </a>
+                            </span>
+                            @foreach($tarea->archivos()->where('estado','=',1)->get() as $archivo)
+                                <span class="d-block"> <a href="{{url('/docente/tarea/archivo/'.$tarea->id_tarea.'/'.$archivo->c_url_archivo)}}" class="text-primary" cdownload="{{$archivo->c_url_archivo}}">
+                                  Descargar Archivo {{$archivo->c_url_archivo}}
+                                </a> </span>
+                            @endforeach
                         @endif
 
                         @if(is_null($tarea->docente->c_foto)  || empty($tarea->docente->c_foto))
@@ -60,7 +66,7 @@
                 <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
                     <span>Fecha de entrega: <span class="font-weight-semibold text-primary">{{$tarea->t_fecha_hora_entrega}}</span></span>
                     @if($tarea->t_fecha_hora_entrega<=date('Y-m-d H:i:s'))
-                        <a href="/docente/estadotareas">Ver respuestas</a>
+                        <a href="/docente/estadotareas" class="btn btn-primary btn-sm">Ver respuestas</a>
                     @endif
                 </div>
 
@@ -81,8 +87,8 @@
                                         @foreach($tarea->alumnos_asignados()->where('alumno_d.estado','=',1)->orderBy('alumno_d.c_nombre','ASC')->get() as $alumno)
                                             @if(!is_null($alumno->pivot->id_respuesta))
                                                 @if(!($alumno->pivot->c_estado=='ACAL'))
-                                                    <li class="tarea-pendiente-alumno list-group-item" onclick="fxAplicarRespuesta({{$alumno->pivot->id_alumno_docente_tarea}});">{{$alumno->c_nombre}}
-                                                        <a href="#" class="badge badge-success p-2" style="margin-left: 5px;">Ver respuesta
+                                                    <li class="tarea-pendiente-alumno list-group-item">{{$alumno->c_nombre}}
+                                                        <a href="#" class="badge badge-success p-2" style="margin-left: 5px;" onclick="fxAplicarRespuesta({{$alumno->pivot->id_alumno_docente_tarea}},event);">Ver respuesta
                                                         </a>
                                                     </li>
                                                 @endif
@@ -91,7 +97,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            
+
                             <div class="card-header header-elements-inline">
                                 <h6 class="card-title ul-collapse__icon--size ul-collapse__right-icon mb-0">
                                     <a data-toggle="collapse" class="text-default collapsed" href="#lista-pendientes-2" aria-expanded="false">
@@ -114,7 +120,7 @@
                         </div>
                     </div>
             @endif
-            
+
                 <div class="card-body">
                     <strong>Escribe un comentario</strong>
 
@@ -127,10 +133,10 @@
                         <button type="submit" class="btn btn-primary float-right">Publicar comentario</button>
                         </div>
                     </form>
-                    
+
                     <br>
                     <h4 class="">Comentarios recientes</h4>
-                    
+
                     <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
                         <div class="caja-comentarios">
                             @if($tarea->comentarios()->count()<=0)
@@ -168,7 +174,7 @@
                                     </div>
                                 @endforeach
                             @endif
-                            
+
                         </div>
                     </div>
                 </div>
@@ -183,7 +189,7 @@
 
 
 <div class="modal" id="modal-tarea-pendiente-revisar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Respuesta a la tarea</h5>
@@ -192,16 +198,24 @@
                 </button>
             </div>
             <div class="modal-body">
+                <div class="text-center" id="spinnerRespuestaDeTarea" style="display: none;">
+                    <div class="spinner-bubble spinner-bubble-light m-5"></div>
+                </div>
 
-                <strong>Respuesta</strong>
-                <div class="tarea-pendiente-respuesta">
-                <p id="respuestaObservacion"></p>
+                <div id="divRespuestaTarea" style="display: none;">
+                  <div class="alert alert-info" role="alert">
+                    La respuesta podrá calificarse después del minuto cumplido de la fecha <span id="spnFechaEntregaTarea">{{$tarea->t_fecha_hora_entrega}}</span>
+                  </div>
+
+                  <strong>Respuesta</strong>
+                  <div class="tarea-pendiente-respuesta">
+                    <p id="respuestaObservacion"></p>
+                  </div>
+
+                  <strong>Archivos adjuntos</strong>
+                  <div class="tarea-pendiente-respuesta" id="divArchivosRespuesta">
+                  </div>
                 </div>
-                <strong>Archivo adjunto</strong>
-                <div class="tarea-pendiente-respuesta">
-                <p id="respuestaArchivo"></p>
-                </div>
-            
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -209,7 +223,7 @@
         </div>
     </div>
 </div>
-  
+
 
 @endsection
 

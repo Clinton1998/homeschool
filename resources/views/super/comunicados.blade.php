@@ -212,7 +212,7 @@
         <div class="modal-body">
             <div class="form-group">
                 <label class="switch switch-success mr-3">
-                    <span>Con archivo</span>
+                    <span>Adjuntar archivo</span>
                     <input type="checkbox" id="chkConArchivoComunicado">
                     <span class="slider"></span>
                 </label>

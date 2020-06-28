@@ -29110,7 +29110,7 @@ var render = function() {
                   _c(
                     "span",
                     { staticClass: "badge badge-pill badge-primary ml-1 mr-1" },
-                    [_vm._v("nuevo")]
+                    [_vm._v("Nuevo")]
                   ),
                   _vm._v(" "),
                   _c("span", { staticClass: "flex-grow-1" })
@@ -29124,11 +29124,7 @@ var render = function() {
                   "p",
                   {
                     staticClass: "text-small text-muted m-0",
-                    staticStyle: {
-                      "max-height": "19px",
-                      "max-width": "150px",
-                      overflow: "hidden"
-                    }
+                    staticStyle: { "max-height": "19px", overflow: "hidden" }
                   },
                   [_vm._v(_vm._s(notificacion.data["notificacion"]["mensaje"]))]
                 )

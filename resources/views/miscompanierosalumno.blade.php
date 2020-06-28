@@ -18,7 +18,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
         <div class="hs_encabezado">
             <div class="hs_encabezado-linea"></div>
@@ -29,15 +29,15 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="ul-contact-page__profile">
-                                <div class="user-profile">
+                                <div class="user-profile d-flex">
                                     @if(is_null($companiero->c_foto)  || empty($companiero->c_foto))
                                         @if(strtoupper($companiero->c_sexo)=='M')
-                                            <img class="profile-picture mb-1" src="{{asset('assets/images/usuario/studentman.png')}}" alt="Fotografía">
+                                            <img class="img-fluid rounded" src="{{asset('assets/images/usuario/studentman.png')}}" alt="Fotografía">
                                         @else
-                                            <img class="profile-picture mb-1" src="{{asset('assets/images/usuario/studentwoman.png')}}" alt="Fotografía">
+                                            <img class="img-fluid rounded" src="{{asset('assets/images/usuario/studentwoman.png')}}" alt="Fotografía">
                                         @endif
                                     @else
-                                        <img class="profile-picture mb-1" src="{{url('super/alumno/foto/'.$companiero->c_foto)}}" alt="Fotografía">
+                                        <img class="img-fluid rounded" src="{{url('super/alumno/foto/'.$companiero->c_foto)}}" alt="Fotografía">
                                     @endif
                                 </div>
                                 <div class="ul-contact-page__info">

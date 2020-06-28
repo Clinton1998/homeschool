@@ -1,6 +1,6 @@
 <div id="task-manager">
     <!-- top-content-bar -->
-    
+
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
@@ -36,19 +36,18 @@
 
                                     <div class="card-footer d-sm-flex justify-content-sm-between align-items-sm-center">
                                         <strong style="color: var(--a-color-primario);"><span>Fecha de entrega: <span class="font-weight-semibold " >{{$tarea->t_fecha_hora_entrega}}</span></span></strong>
-                                        <a href="{{url('alumno/tareaenviada/'.$tarea->id_tarea)}}" class="text-default">Ver</a>
+                                        <a href="{{url('alumno/tareaenviada/'.$tarea->id_tarea)}}" class="btn btn-primary btn-sm">Ver</a>
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
                     @endif
                 @endforeach
             </div>
-            
+
         </div>
 
 
     </div>
-        
+
 
 </div>
-

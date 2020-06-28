@@ -251,7 +251,7 @@ class Comunicado extends Controller
                 return view('super.infocomunicado',compact('comunicado'));
             }
         }
-        return redirect('home');
+        return redirect('/home');
     }
 
     public function descargar_archivo($id_comunicado,$filename)
@@ -269,7 +269,7 @@ class Comunicado extends Controller
                 $docente = App\Docente_d::findOrFail(Auth::user()->id_docente);
                 $colegio = $docente->colegio;
                 if(!is_null($colegio->c_logo) && !empty($colegio->c_logo)){
-                    $icon = '/super/colegio/logo'.$colegio->c_logo;
+                    $icon = '/super/colegio/logo/'.$colegio->c_logo;
                 }
                 $text = $docente->c_nombre. ' está descargando un archivo del comunicado "'.$comunicado->c_titulo.'"';
             }else if(!is_null(Auth::user()->id_alumno)){

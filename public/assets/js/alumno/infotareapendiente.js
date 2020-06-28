@@ -1,16 +1,23 @@
-$(document).ready(function() {
-    $('#btnPresentarTarea').on('click', function() {
-        if ($('#preobservacion').val().trim() != '' && $('#prearchivo').val() != '') {
-            $('#divProgressArchivoRespuesta').attr('style', 'height: 40px;display: block;');
-        } else {
-            $('#divProgressArchivoRespuesta').attr('style', 'height: 40px;display: none;');
-        }
-    });
-});
+$(document).ready(function(){
+  $('#chkConArchivoRespuesta').on('change',function(){
+    if($(this).prop('checked')){
+      $('#divFrmRespuestaSinArchivo').attr('style','display: none;');
+      $('#btnPresentarTareaSinArchivo').attr('style','display: none;');
+      $('#btnPresentarTareaConArchivo').show();
+      $('#divFrmRespuestaConArchivo').show();
+    }else{
+      $('#divFrmRespuestaConArchivo').attr('style','display: none;');
+      $('#btnPresentarTareaConArchivo').attr('style','display: none;');
+      $('#btnPresentarTareaSinArchivo').show();
+      $('#divFrmRespuestaSinArchivo').show();
+    }
+  });
 
-function fxResponder(id_tar) {
-    $('#btnResponderTarea').attr('disabled', 'true');
-    $('#preid_tarea').val(id_tar);
-    $('#mdlPresentarTarea').modal('show');
-    $('#btnResponderTarea').removeAttr('disabled');
-}
+  $('#preobservacionConArchivo').on('change',function(){
+    $('#preobservacionSinArchivo').val($(this).val());
+  });
+
+  $('#preobservacionSinArchivo').on('change',function(){
+    $('#preobservacionConArchivo').val($(this).val());
+  });
+});

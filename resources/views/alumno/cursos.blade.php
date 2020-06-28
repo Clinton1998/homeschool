@@ -14,7 +14,7 @@
                 @endphp
                 @foreach ($cursos as $c)
                     @if ($tmp == 0)
-                        <strong><p class="hs_capitalize">{{mb_strtolower(substr($c->nom_grado,3))}}</p></strong> 
+                        <strong><p class="hs_capitalize">{{mb_strtolower(substr($c->nom_grado,3))}}</p></strong>
                         <strong>&nbsp;"{{$c->nom_seccion}}"&nbsp;</strong>
                         <strong>({{ucfirst(strtolower($c->nom_nivel))}})</strong>
                         @php
@@ -45,7 +45,7 @@
         </div>
         <div id="cursos_notificaciones">
             <div class="cursos-header">
-                <strong>Anuncios y comunicados</strong>
+                <strong>Anuncios y comunicados hahah</strong>
             </div>
             <div class="cn-box mb-1">
                 <div class="cn-header">
@@ -60,12 +60,21 @@
                             @php
                                 $counter_com++;
                                 if ($counter_com <= 2) {
-                                    echo '<div class="cn-card mb-2">
-                                        <strong><p id="ct-'.$co->id_comunicado.'" class="cn-card-title hs_capitalize-first">'.$co->c_titulo.'</p></strong>
-                                        <p id="cc-'.$co->id_comunicado.'" class="cn-card-content hs_capitalize-first">'.$co->c_descripcion.'</p>
-                                        <small id="cd-'.$co->id_comunicado.'">'.$co->created_at.'</small>
-                                        <a class="cn-card-link" href="#" onclick="OpenComunicado('.$co->id_comunicado.')">Ver</a>
-                                    </div>';
+                                    $html_card = '<div class="cn-card mb-2">'
+                                                .'<strong><p id="ct-'.$co->id_comunicado.'" class="cn-card-title hs_capitalize-first">'.$co->c_titulo.'</p></strong>'
+                                                .'<p id="cc-'.$co->id_comunicado.'" class="cn-card-content hs_capitalize-first">'.$co->c_descripcion.'</p>'
+                                                .'<small id="cd-'.$co->id_comunicado.'">'.$co->created_at.'</small>';
+                                    //verificamos si el comunicado tiene archivos
+                                    if(!is_null($co->c_url_archivo) && !empty($co->c_url_archivo)){
+                                        $html_card .= '<div id="divArchivosComunicado'.$co->id_comunicado.'" class="d-none">';
+                                          $html_card .= '<span class="d-block"><a href="/comunicado/archivo/'.$co->id_comunicado.'/'.$co->c_url_archivo.'" class="text-primary" cdownload="'.$co->c_url_archivo.'">Descargar Archivo'.$co->c_url_archivo.'</a></span>';
+                                          foreach($co->archivos()->where('estado','=',1)->get() as $archivo){
+                                            $html_card .= '<span class="d-block"><a href="/comunicado/archivo/'.$co->id_comunicado.'/'.$archivo->c_url_archivo.'" class="text-primary" cdownload="'.$archivo->c_url_archivo.'">Descargar Archivo '.$archivo->c_url_archivo.'</a></span>';
+                                          }
+                                        $html_card .= '</div>';
+                                    }
+                                    $html_card .= '<a class="cn-card-link" href="#" onclick="OpenComunicado('.$co->id_comunicado.')">Ver</a></div>';
+                                    echo $html_card;
                                 }
                                 else {
                                     echo '<strong class="mb-2"><a class="cn-card-link" href="#" data-toggle="modal" data-target="#MODAL-CALL">Ver todo</a></strong>';
@@ -100,13 +109,13 @@
                                 echo '<strong class="mb-2"><a class="cn-card-link" href="#" data-toggle="modal" data-target="#MODAL-AALL">Ver todo</a></strong>';
                                 break;
                             }
-                        @endphp    
+                        @endphp
                     @endforeach
                 </div>
             </div>
         </div>
     </div>
-  
+
     <!-- Modal -->
     <div class="modal fade" id="OPEN-NTF" tabindex="-1" role="dialog" aria-labelledby="OPEN-NTFLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -171,7 +180,8 @@
                                             @csrf
                                             <input type="hidden" id="location" name="location" value="TA">
                                             <input type="hidden" id="id_comunicado" name="id_comunicado" value="{{$call->id_comunicado}}">
-                                            <input type="submit" class="btn btn-secondary btn-sm" value="Comunicado leído">
+                                            <input type="submit" class="btn btn-secondary btn-sm d-inline-block" value="Comunicado leído">
+                                            <a href="/comunicado/ver/{{$call->id_comunicado}}" class="btn btn-primary btn-sm d-inline-block">Ver completo</a>
                                         </form>
                                     </p>
                                 </div>
@@ -252,16 +262,18 @@
             }
         });
     }
-    
     function OpenComunicado(id){
         t = $('#ct-'+id).text();
         c = $('#cc-'+id).text();
         d = $('#cd-'+id).text();
-        
+        //verificamos si hay archivos
+        if($('#divArchivosComunicado'+id).length>0){
+          c += $('#divArchivosComunicado'+id).html();
+        }
         $('#location').val('TA');
         $('#id_comunicado').val(id);
         $('#ntf-title').text(t);
-        $('#ntf-content').text(c);
+        $('#ntf-content').html(c);
         $('#ntf-date').text('Fecha de publicación: ' + d);
 
         $('#frm_comu').show();
@@ -274,7 +286,7 @@
         t = $('#at-'+id).text();
         c = $('#ac-'+id).text();
         d = $('#ad-'+id).text();
-        
+
         $('#id_anuncio').val(id);
         $('#ntf-title').text(t);
         $('#ntf-content').text(c);

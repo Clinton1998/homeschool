@@ -1,25 +1,22 @@
 @extends('reutilizable.principal')
 @section('page-css')
-    <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
 @endsection
 @section('main-content')
 <head>
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-docente.css')}}">
 </head>
-
 <body>
     <h2 class="titulo">Estado de tareas</h2>
-    
+
     <div class="contenedor-estado-tareas row">
         <div id="panel-estado-de-tareas" class="col-md-6">
             <div class="card text-left">
                 <div class="card-body">
-    
+
                     <div class="ul-widget__head">
                         <div class="ul-widget__head-label">
                             <h3 class="ul-widget__head-title">
-                                <!--Estados-->
                             </h3>
                         </div>
                         <div class="ul-widget__head-toolbar">
@@ -37,7 +34,7 @@
                                         role="tab">
                                         Calificados
                                         <span style="font-size: 13px" class="badge-calificadas badge  badge-square-success">{{$tareas_calificadas->count()}}</span>
-                                        
+
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -72,7 +69,7 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                @endif 
+                                @endif
                             </div>
 
                             <div class="tab-pane" id="tareas-calificadas">
@@ -172,17 +169,12 @@
                             </span>
                         </div>
                         <div>
-                            <span class="badge badge-light text-dark w-badge" id="spanCategoria">{categoria}</span>
+                            <span class="badge w-badge" id="spanCategoria">{categoria}</span>
                         </div>
                         <h4 style="margin-top: 10px;" id="nombreTarea" class="hs_upper"></h4>
                         <p id="observacionTarea" class="hs_capitalize-first"></p>
-                        <p id="archivoTarea" class="hs_capitalize-first"></p>
-                        
-                        <!--<div class="panel-botonera">
-                            <button type="button" class="btn btn-sm btn-secondary" onclick="CerrarPanel()">Cancelar</button>
-                            <button type="button" class="btn btn-sm btn-primary">Guardar cambios</button>   
-                        </div>-->
-    
+                        <div id="archivoTarea" class="hs_capitalize-first"></div>
+
                         <div class="accordion" id="accordionRightIcon">
                             <div class="card">
                                 <!-- Lista de alumnos que cumplieron la tarea a tiempo -->
@@ -204,7 +196,7 @@
                                                     Revisarxd
                                                 </a>
                                             </li>
-                                                                                    
+
                                             <!-- CUANDO YA SE HA REVISADO LA TAREA -->
                                             <li class="tarea-pendiente-alumno list-group-item hs_capitalize">
                                                 {nombre-de-alumno}
@@ -216,7 +208,7 @@
                                                     </svg>
                                                 </a>
                                             </li>
-    
+
                                         </ul>
                                     </div>
                                 </div>
@@ -240,7 +232,7 @@
                                                     Revisarxd
                                                 </a>
                                             </li>
-                                                                                    
+
                                             <!-- CUANDO YA SE HA REVISADO LA TAREA -->
                                             <li class="tarea-pendiente-alumno list-group-item hs_capitalize">
                                                 {nombre-de-alumno}
@@ -252,7 +244,7 @@
                                                     </svg>
                                                 </a>
                                             </li>
-    
+
                                         </ul>
                                     </div>
                                 </div>
@@ -286,7 +278,7 @@
 
     <!-- MODAL: Detalle de Tareas CALIFICADAS y PENDIENTEs -->
     <div class="modal fade" id="modal-tarea-pendiente-revisar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Respuesta a la tarea</h5>
@@ -295,31 +287,33 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
-                    <form  id="frmCalificarTareaDeAlumno" method="POST" class="needs-validation" action="{{ url('docente/tarea/calificarrespuesta') }}" novalidate>
+                  <div class="text-center" id="spinnerInfoTareaPendiente" style="display: none;">
+                      <div class="spinner-bubble spinner-bubble-light m-5"></div>
+                  </div>
+                  <div id="divFrmTareaPendiente" style="display: none;">
+                    <form  id="frmCalificarTareaDeAlumno" method="POST" action="{{ url('/docente/tarea/calificarrespuesta') }}">
                         @csrf
                         <input type="hidden" id="id_puente" name="id_puente">
-                    <strong>Respuesta</strong>
-                    <div class="tarea-pendiente-respuesta">
-                        <p id="respuestaObservacion"></p>
-                    </div>
-                    <strong>Archivo adjunto</strong>
-                    <div class="tarea-pendiente-respuesta">
-                        <p id="respuestaArchivo"></p>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-default">Calificación</span>
+                        <strong>Respuesta</strong>
+                        <div class="tarea-pendiente-respuesta">
+                            <p id="respuestaObservacion"></p>
                         </div>
-                        <input type="text" id="txtCalificacion" name="calificacion" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                    </div>
-                    <br>
-                    <strong>Comentario u observación</strong>
-                    <div class="form-group">
-                        <textarea class="form-control" id="txtComentario"  name="comentario_calificacion" rows="3" placeholder="(Opcional)"></textarea>
-                    </div>
-
-                </form>
+                        <strong>Archivo adjunto</strong>
+                        <div class="tarea-pendiente-respuesta" id="divRespuestaArchivos">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="inputGroup-sizing-default">Calificación</span>
+                            </div>
+                            <input type="text" id="txtCalificacion" name="calificacion" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <br>
+                        <strong>Comentario u observación</strong>
+                        <div class="form-group">
+                            <textarea class="form-control" id="txtComentario"  name="comentario_calificacion" rows="3" placeholder="(Opcional)"></textarea>
+                        </div>
+                      </form>
+                  </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -335,10 +329,5 @@
 
 @section('page-js')
     <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
-    <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
-    <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
-    <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
     <script src="{{asset('assets/js/docente/estadotareas.js')}}"></script>
-
-
 @endsection

@@ -43,13 +43,13 @@
         <div class="notification-details flex-grow-1">
           <p class="m-0 d-flex align-items-center">
             <small>{{notificacion.data['notificacion']['titulo']}}</small>
-            <span class="badge badge-pill badge-primary ml-1 mr-1">nuevo</span>
+            <span class="badge badge-pill badge-primary ml-1 mr-1">Nuevo</span>
             <span class="flex-grow-1"></span>
           </p>
           <small class="text-small text-muted ml-auto">{{notificacion.created_at}}</small>
           <p
             class="text-small text-muted m-0"
-            style="max-height: 19px; max-width: 150px; overflow: hidden"
+            style="max-height: 19px;overflow: hidden"
           >{{notificacion.data['notificacion']['mensaje']}}</p>
         </div>
       </div>

@@ -40,11 +40,15 @@ class cursos extends Controller
             ->orderBy('nom_curso')
         ->get();
 
-        $comunicados = DB::table('comunicado_d')
+        /*$comunicados = DB::table('comunicado_d')
             ->select ('comunicado_d.*')
             ->where(['comunicado_d.estado' => 1, 'comunicado_d.id_colegio' => $alumno->seccion->grado->colegio->id_colegio])
             ->orderBy('comunicado_d.created_at', 'DESC')
-        ->get();
+        ->get();*/
+        $comunicados = App\Comunicado_d::where([
+          'estado' => 1,
+          'id_colegio' => $alumno->seccion->grado->colegio->id_colegio
+        ])->orderBy('created_at','DESC')->get();
 
         $comunicados_all = DB::table('comunicado_d')
             ->select ('comunicado_d.*')

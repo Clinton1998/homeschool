@@ -121,8 +121,7 @@ Route::post('notificacionesdelusuario/marcarcomoleido', 'Notificacion@marcar_com
 Route::post('notificacionesdelusuario/marcartodocomoleido', 'Notificacion@marcar_todo_como_leido')->name('notificacionesdelusuario/marcartodocomoleido');
 //para generar un usuario superadministrado del colegio
 Route::post('register/generarusuario', 'SuperAdmin@generar_usuario')->name('register/generarusuario');
-//para verificar si el colegio ha pagado la plataforma, para usarse
-//Route::post('verificaractivo','Pago@verificar')->name('verificaractivo');
+
 Route::post('ruc/buscar','api\Ruc@buscar')->name('ruc/buscar');
 Route::post('dni/buscar','api\Dni@buscar')->name('dni/buscar');
 
@@ -231,6 +230,8 @@ Route::get('docente/cursos/descargar_archivo/{id_archivo}', 'usuario\docente\Cur
 Route::post('docente/cursos/crear_anuncio', 'usuario\docente\Cursos@crear_anuncio')->name('docente/cursos/crear_anuncio');
 Route::post('docente/cursos/eliminar_anuncio', 'usuario\docente\Cursos@eliminar_anuncio')->name('docente/cursos/eliminar_anuncio');
 Route::post('docente/cursos/crear_tarea', 'usuario\docente\Cursos@crear_tarea')->name('docente/cursos/crear_tarea');
+Route::post('docente/cursos/tarea/generar', 'usuario\docente\Cursos@generar_tarea')->name('docente/cursos/tarea/generar');
+Route::post('docente/cursos/tarea/confirmar', 'usuario\docente\Cursos@confirmar_tarea')->name('docente/cursos/tarea/confirmar');
 Route::post('docente/cursos/crear_comentario', 'usuario\docente\Cursos@crear_comentario')->name('docente/cursos/crear_comentario');
 Route::get('docente/cursos/comentarios', 'usuario\docente\Cursos@comentarios')->name('docente/cursos/comentarios');
 
@@ -248,6 +249,11 @@ Route::get('alumno/cambiarcontrasena', 'usuario\alumno\Usuario@index')->name('al
 Route::post('alumno/tarea/listar', 'usuario\alumno\Tarea@listar')->name('alumno/tarea/listar');
 Route::post('alumno/tarea/respuesta', 'usuario\alumno\Tarea@respuesta')->name('alumno/tarea/respuesta');
 Route::post('alumno/tarea/responder', 'usuario\alumno\Tarea@responder')->name('alumno/tarea/responder');
+Route::post('alumno/tarea/respuesta/generar','usuario\alumno\Tarea@generar_respuesta')->name('alumno/tarea/respuesta/generar');
+Route::post('alumno/tarea/respuesta/confirmar','usuario\alumno\Tarea@confirmar_respuesta')->name('alumno/tarea/respuesta/confirmar');
+Route::post('alumno/tarea/respuesta/editargenerado','usuario\alumno\Tarea@editar_respuesta_generado')->name('alumno/tarea/respuesta/editargenerado');
+Route::post('alumno/tarea/respuesta/confirmaredicion','usuario\alumno\Tarea@confirmar_respuesta_editado')->name('alumno/tarea/respuesta/confirmaredicion');
+
 Route::post('alumno/tarea/editarrespuesta', 'usuario\alumno\Tarea@editar_respuesta')->name('alumno/tarea/editarrespuesta');
 Route::post('alumno/tarea/comentarpendiente', 'usuario\alumno\Tarea@comentar_pendiente')->name('alumno/tarea/comentarpendiente');
 Route::post('alumno/tarea/comentarvencido', 'usuario\alumno\Tarea@comentar_vencido')->name('alumno/tarea/comentarvencido');
@@ -255,7 +261,7 @@ Route::post('alumno/tarea/comentarenviado', 'usuario\alumno\Tarea@comentar_envia
 Route::get('alumno/tareapendiente/{id_tarea}', 'usuario\alumno\Tarea@info_pendiente')->name('alumno/tareapendiente/{id_tarea}');
 Route::get('alumno/tareaenviada/{id_tarea}', 'usuario\alumno\Tarea@info_enviado')->name('alumno/tareaenviada/{id_tarea}');
 Route::get('alumno/tareavencida/{id_tarea}', 'usuario\alumno\Tarea@info_vencido')->name('alumno/tareavencida/{id_tarea}');
-Route::get('alumno/tarea/respuestaarchivo/{id_tarea}/{id_respuesta}', 'usuario\alumno\Tarea@descargar_archivo')->name('alumno/tarea/respuestaarchivo/{id_tarea}/{id_respuesta}');
+Route::get('alumno/tarea/respuestaarchivo/{id_tarea}/{id_respuesta}/{filename}', 'usuario\alumno\Tarea@descargar_archivo')->name('alumno/tarea/respuestaarchivo/{id_tarea}/{id_respuesta}/{filename}');
 
 Route::post('docente/cambiarcontrasena', 'usuario\docente\Usuario@cambiar_contrasena')->name('docente/cambiarcontrasena');
 Route::get('docente/cambiarcontrasena', 'usuario\docente\Usuario@index')->name('docente/cambiarcontrasena');
@@ -264,12 +270,14 @@ Route::post('docente/docente/aplicar', 'usuario\docente\Docente@aplicar')->name(
 Route::post('docente/docente/buscar', 'usuario\docente\Docente@buscar')->name('docente/docente/buscar');
 Route::post('docente/docente/alumnoscategorias', 'usuario\docente\AsignarTareas@alumnos_categorias')->name('docente/docente/alumnoscategorias');
 Route::post('docente/tarea/registrar', 'usuario\docente\AsignarTareas@asignar')->name('docente/tarea/registrar');
+Route::post('docente/tarea/generar', 'usuario\docente\AsignarTareas@generar')->name('docente/tarea/generar');
+Route::post('docente/tarea/confirmar', 'usuario\docente\AsignarTareas@confirmar')->name('docente/tarea/confirmar');
 Route::post('docente/tarea/aplicar', 'usuario\docente\Tarea@aplicar')->name('docente/tarea/aplicar');
 Route::post('docente/tarea/aplicar_info', 'usuario\docente\Tarea@aplicar_info')->name('docente/tarea/aplicar_info');
 Route::post('docente/tarea/respuesta', 'usuario\docente\Tarea@respuesta')->name('docente/tarea/respuesta');
 Route::post('docente/tarea/calificarrespuesta', 'usuario\docente\Tarea@calificar_respuesta')->name('docente/tarea/calificarrespuesta');
 Route::get('docente/tarea/{id_tarea}', 'usuario\docente\Tarea@info')->name('docente/tarea/{id_tarea}');
-Route::get('docente/tarea/archivo/{id_tarea}', 'usuario\docente\Tarea@descargar_archivo')->name('docente/tarea/archivo/{id_tarea}');
+Route::get('docente/tarea/archivo/{id_tarea}/{filename}', 'usuario\docente\Tarea@descargar_archivo')->name('docente/tarea/archivo/{id_tarea}/{filename}');
 
 Route::post('docente/alumno/aplicar', 'usuario\docente\Alumno@aplicar')->name('docente/alumno/aplicar');
 Route::post('docente/tarea/comentar', 'usuario\docente\Tarea@comentar')->name('docente/tarea/comentar');
