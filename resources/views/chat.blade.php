@@ -6,6 +6,7 @@
             if(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0){
                 //se trata de un superadministrador del colegio
                 $colegio = App\Colegio_m::where('id_superadministrador','=',Auth::user()->id)->first();
+                $tipo_usuario ='superadministrador';
             }else if(!is_null(Auth::user()->id_docente)){
                 $re_docente = App\Docente_d::findOrFail(Auth::user()->id_docente);
                 $colegio = $re_docente->colegio;
@@ -13,17 +14,43 @@
                 $re_alumno = App\Alumno_d::findOrFail(Auth::user()->id_alumno);
                 $colegio = $re_alumno->seccion->grado->colegio;
             }
-            $fecha_corte = '';
-            if (!is_null($colegio->t_corte_prueba) && is_null($colegio->t_corte_normal)) {
-                //version prueba del usuario, con dias gratuitos
-                $fecha_corte = $colegio->t_corte_prueba;
-            } else if (is_null($colegio->t_corte_prueba) && !is_null($colegio->t_corte_normal)) {
-                //version normal cuando ya se pagó por el sistema
-                $fecha_corte = $colegio->t_corte_normal;
-            }
-            if (date('Y-m-d H:i:s') >= $fecha_corte) {
+
+            if(!is_null($colegio->t_corte_prueba)){
+              if (date('Y-m-d H:i:s') >= $colegio->t_corte_prueba) {
+                  Session::flush();
+              }
+            }else if(!is_null($colegio->c_token) && !empty($colegio->c_token)){
+              $configuracion = DB::table('configuracion_m')->first();
+              //se valida con el software CONCORD
+              $token = $colegio->c_token;
+              $clave = $colegio->c_clave;
+              $ch = curl_init($configuracion->c_api_concord.'/validar?clave='.$clave);
+              curl_setopt($ch, CURLOPT_HTTPHEADER,['token:'.$token]);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+              curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+              $response = curl_exec($ch);
+              curl_close($ch);
+              $array_response = json_decode($response,true);
+              if($array_response['success']){
+                if($array_response['estado']){
+                    if($array_response['estado_cuota']){
+                      Session::flush();
+                    }else{
+                      //validacion de licencia
+                      if($array_response['estado_fecha']=='cortado'){
+                          Session::flush();
+                      }
+                    }
+                }else{
+                  //cuando el token no esta disponible o la clave es incorrecta
+                  Session::flush();
+                }
+              }else{
+                //cuando el token es incorrecto
                 Session::flush();
-            }  
+              }
+            }
+
         @endphp
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -49,7 +76,7 @@
         </script>
 </head>
 <body class="dark">
-    
+
 <!-- new group modal -->
 <div class="modal" id="newGroup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
@@ -101,7 +128,7 @@
 
 <div class="layout" id="chat">
 
-    
+
     <nav class="navigation">
         <div class="nav-group">
             <ul>
@@ -127,9 +154,9 @@
             </ul>
         </div>
     </nav>
-    
+
     <chat-app :user="{{Auth::user()}}"><chat-app>
-   
+
 </div>
 
 <script src="{{asset('assets/chat/vendor/jquery-3.4.1.min.js')}}"></script>
