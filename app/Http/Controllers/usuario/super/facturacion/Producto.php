@@ -20,6 +20,7 @@ class Producto extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verificarsuperadministrador');
+        $this->middleware('verificarpermisofacturacion');
     }
 
     public function index(){

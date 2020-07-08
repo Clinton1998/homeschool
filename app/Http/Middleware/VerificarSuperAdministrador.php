@@ -18,7 +18,7 @@ class VerificarSuperAdministrador
 
         //verificar que no es un superadministrador de un colegio
         if(!(is_null(Auth::user()->id_docente) && is_null(Auth::user()->id_alumno) && Auth::user()->b_root==0)){
-            return redirect('home');
+            return redirect('/home');
         }
         return $next($request);
     }

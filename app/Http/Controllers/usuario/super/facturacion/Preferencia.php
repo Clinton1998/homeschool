@@ -15,6 +15,7 @@ class Preferencia extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verificarsuperadministrador');
+        $this->middleware('verificarpermisofacturacion');
     }
     public function index(){
         $colegio = App\Colegio_m::where([
