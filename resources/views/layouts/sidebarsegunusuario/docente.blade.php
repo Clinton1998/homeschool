@@ -6,14 +6,14 @@
     <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar data-suppress-scroll-x="true">
         <!-- INICIO DE NUEVO MENU SLIDER -->
         <ul class="menu-lateral ">
-            <li class="menu-lateral-item {{ request()->is('datatables/*') ? 'item-activo' : '' }}">
-                <a class="menu-lateral-item-link" href="">
+            <li class="menu-lateral-item {{ (request()->is('/') || request()->is('home')) ? 'item-activo' : '' }}">
+                <a class="menu-lateral-item-link" href="{{route('home')}}">
                     <i class="nav-icon i-Optimization"></i>
                     <br>
                     <span>Tablero</span>
                 </a>
             </li>
-            
+
             <li class="menu-lateral-item {{ request()->is('docente/cursos*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('docente/cursos')}}">
                     <i class="nav-icon i-Sidebar-Window"></i>
@@ -21,7 +21,7 @@
                     <span>Mis Cursos</span>
                 </a>
             </li>
-            
+
             <li class="menu-lateral-item {{ request()->is('docente/docente*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('docente/docente')}}">
                     <i class="nav-icon i-Geek"></i>
@@ -77,7 +77,7 @@
             <input type="text" placeholder="Buscar tus herramientas" class="textBuscar" id="textBuscar">
         </div>
         <div class="tools-list" id="tools-list">
-            
+
         </div>
         <div class="tools-footer">
             <a class="btn btn-sm btn-primary" href="#" data-toggle="modal" data-target="#MODAL-TOOLS">Agregar</a>
@@ -111,7 +111,7 @@
                     <label for="nombre">Nombre</label>
                     <input type="text" name="nombre" id="nombre" class="form-control" required>
                 </div>
-                
+
                 <br>
                 <div class="formgroup">
                     <label for="link">Enlace de la herramienta</label>
@@ -122,14 +122,14 @@
                 <div class="formgroup">
                     <label for="">Imagen</label>
                 </div>
-                    
+
                 <div class="form-group" style="display: flex; flex-wrap: wrap; justify-content: space-between">
                     <label class="radio radio-light mr-1" id="file-web">
                         <input type="radio" name="radio" [value]="2" formControlName="radio" checked>
                         <span>Desde un enlace web</span>
                         <span class="checkmark"></span>
                     </label>
-                    
+
                     <label class="radio radio-light" id="file-pc">
                         <input type="radio" name="radio" [value]="1" formControlName="radio">
                         <span>Desde mi dispositivo</span>
@@ -161,7 +161,7 @@
         $('#tools-icon').show();
 
         MostrarHerramientas();
-        
+
         $('.boton_editar').hide();
         $('.boton_eliminar').hide();
         $('#quiero_cancelar').hide();
@@ -228,7 +228,7 @@
 
                 $.ajax({
                     url: "/herramienta/agregar",
-                    type: "post",  
+                    type: "post",
                     dataType: "html",
                     data: formData,
                     cache: false,
@@ -236,7 +236,7 @@
                     processData: false,
                     success:function(data){
                         /* $("#box_files"+id_modulo).load(" #box_files"+id_modulo); */
-                        
+
                         modal.modal('hide');
 
                         $("#nombre").val('');
@@ -274,7 +274,7 @@
 
         //5MB
         if (file_size > 5000000) {
-            
+
             Swal.fire({
                 position: 'center',
                 icon: 'info',
@@ -302,14 +302,14 @@
                 this.value = '';
                 this.files[0].name = '';
             }
-        } 
+        }
     });
 
     //Mostrar herramientas
     function MostrarHerramientas(){
         $.ajax({
             url: "/herramienta/listar",
-            type: "GET",  
+            type: "GET",
             /* data: {id_tarea: id}, */
             success:function(data){
                 Comentarios = '';

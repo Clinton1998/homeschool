@@ -29,4 +29,3 @@ CREATE TABLE colegio_m(
 ALTER TABLE colegio_m ADD CONSTRAINT FK_colegio_m_users_id_superadministrador FOREIGN KEY (id_superadministrador) REFERENCES users (id);
 ALTER TABLE colegio_m ADD CONSTRAINT FK_colegio_m_users_creador FOREIGN KEY (creador) REFERENCES users (id);
 ALTER TABLE colegio_m ADD CONSTRAINT FK_colegio_m_users_modificador FOREIGN KEY (modificador) REFERENCES users (id);
-

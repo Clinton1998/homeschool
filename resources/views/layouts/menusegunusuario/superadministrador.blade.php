@@ -13,19 +13,29 @@
             </div>
 
             <div id="CORTE" class="d-flex align-items-center">
-                @if(is_null($colegio->t_corte_normal) && !is_null($colegio->t_corte_prueba))
+                @if(!is_null($colegio->t_corte_prueba))
                     @php
                         $fecha1= new DateTime($colegio->t_corte_prueba);
                         $fecha2= new DateTime( date('Y-m-d'));
-                        $diff = $fecha1->diff($fecha2);    
+                        $diff = $fecha1->diff($fecha2);
                     @endphp
                     @if($diff->days==0)
                         <span class="badge badge-danger cursos-badge-comunicado" data-toggle="modal" data-target="#mdlInfoComunicadoSistema">Te quedan pocos minutos gratis</span>
                     @elseif($diff->days==1)
                         <span class="badge badge-danger cursos-badge-comunicado" data-toggle="modal" data-target="#mdlInfoComunicadoSistema">Te quedan 1 día gratis</span>
                     @else
-                        <span class="badge badge-danger cursos-badge-comunicado" data-toggle="modal" data-target="#mdlInfoComunicadoSistema">Te quedan {{$diff->days}} días gratis</span>  
+                        <span class="badge badge-danger cursos-badge-comunicado" data-toggle="modal" data-target="#mdlInfoComunicadoSistema">Te quedan {{$diff->days}} días gratis</span>
                     @endif
+                @elseif(!is_null($colegio->c_token) && !empty($colegio->c_token) && !is_null($estado_fecha_concord))
+                  <a href="#" data-toggle="modal" data-target="#mdlLicenciaConcord">
+                  @if($estado_fecha_concord=='porvencer')
+                    <span class="badge badge-warning cursos-badge-comunicado">Licencia de software</span>
+                  @elseif($estado_fecha_concord=='vencido')
+                    <span class="badge badge-danger cursos-badge-comunicado">Licencia de software</span>
+                  @else
+                    <span class="badge badge-success cursos-badge-comunicado">Licencia de software</span>
+                  @endif
+                </a>
                 @endif
             </div>
         </div>
@@ -117,3 +127,72 @@
     </div>
 </div>
 <!--endInformacionSistema-->
+
+@if(is_null($colegio->t_corte_prueba) && (!is_null($colegio->c_token) && !empty($colegio->c_token)) && !is_null($estado_fecha_concord))
+  <div id="mdlActualizarClave" class="modal" role="dialog">
+  <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+            <h2 class="text-info text-center">Actualizar Clave de licencia</h2>
+            <div class="form-group">
+                <input type="hidden" id="inpTokenLicencia" value="{{$colegio->c_token}}">
+                <label for="inpNuevaClaveLicencia">Ingrese nueva clave suministrada por el proveedor</label>
+                <input type="text" class="form-control form-control-lg" id="inpNuevaClaveLicencia" style="font-size: 3em;" value="">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" id="btnActualizarClaveLicencia">Actualizar</button>
+          <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+  </div>
+  </div>
+@endif
+
+
+<!--modal para mostrar la licencia de software CONCORD-->
+@if(is_null($colegio->t_corte_prueba) && (!is_null($colegio->c_token) && !empty($colegio->c_token)) && !is_null($estado_fecha_concord))
+  <div class="modal" tabindex="-1" role="dialog" id="mdlLicenciaConcord">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+                @if($estado_fecha_concord=='vigente')
+                  <div class="alert alert-success" role="alert">
+                @elseif($estado_fecha_concord=='porvencer')
+                  <div class="alert alert-warning" role="alert">
+                @else
+                  <div class="alert alert-danger" role="alert">
+                @endif
+                <h4 class="alert-heading text-center">Datos de licencia</h4>
+                <div class="row">
+                    <div class="col-md-6 text-center">
+                        ESTADO LICENCIA:<br><strong>{{strtoupper($estado_fecha_concord)}}</strong>
+                    </div>
+                    <div class="col-md-6 text-center">
+                      CLAVE LICENCIA:<br>
+                      <strong>{{$colegio->c_clave}}</strong>
+                    </div>
+                </div>
+                <hr>
+                <p>{{$msg_concord}}</p>
+                <hr>
+                  <p>Para contactar con Innova Sistemas Integrales, comuniquese a traves de:</p>
+                  <p>Numeros Telefonicos: 973477015 - 951028016 - 930274447</p>
+                  <p>e-mail: soporte@innovaqp.com - ventas@innovaqp.com - sistemasintegralesperu@gmail.com</p>
+                  <p>Página web: innovaqp.com</p>
+                <hr>
+                <p class="mb-0">
+                  Para renovacion de su licencia puede realizarla manualmente por area de soporte con pago en cuenta o efectivo. En caso de que ya posea su nueva clave, por favor actualice la clave de licencia
+                </p>
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#mdlActualizarClave">Actualizar Clave Licencia</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+  </div>
+  <!--endLicenciaSoftwareConcord-->
+@endif

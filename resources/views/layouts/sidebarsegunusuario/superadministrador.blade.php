@@ -1,5 +1,6 @@
 <head>
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-panel-super.css')}}">
+
     <style>
         .bg-primary-super{
             background-color: #4563BF;
@@ -18,7 +19,7 @@
     <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar data-suppress-scroll-x="true">
         <!-- INICIO DE NUEVO MENU SLIDER -->
         <ul class="menu-lateral ">
-            <li class="menu-lateral-item {{ request()->is('home') ? 'item-activo' : '' }}">
+            <li class="menu-lateral-item {{ (request()->is('/') || request()->is('home'))? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('home')}}">
                     <i class="nav-icon i-Optimization"></i>
                     <br>
@@ -364,6 +365,3 @@
     </div>
 </div>
 <!--final modal elegir cliente para alumno en comprobante-->
-
-
-

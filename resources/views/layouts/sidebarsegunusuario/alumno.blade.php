@@ -6,7 +6,7 @@
     <div class="sidebar-left open rtl-ps-none" data-perfect-scrollbar data-suppress-scroll-x="true">
         <!-- INICIO DE NUEVO MENU SLIDER -->
         <ul class="menu-lateral ">
-            <li class="menu-lateral-item {{ request()->is('home') ? 'item-activo' : '' }}">
+            <li class="menu-lateral-item {{ (request()->is('/') || request()->is('home')) ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('home')}}">
                     <i class="nav-icon i-Optimization"></i>
                     <br>
@@ -48,10 +48,10 @@
                     <span>Compañeros</span>
                 </a>
             </li>
-            
+
         </ul>
         <!-- FIN DE NUEVO MENU SLIDER -->
-        
+
         <!--<ul class="navigation-left">
 
             <li class="nav-item {{ request()->is('home') ? 'active' : '' }}">
@@ -69,7 +69,7 @@
                 </a>
                 <div class="triangle"></div>
             </li>
-            
+
             <li class="nav-item {{ request()->is('alumno/tareas*') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{route('alumno/tareas')}}">
                     <i class="nav-icon i-Box-Full"></i>
@@ -85,7 +85,7 @@
                 </a>
                 <div class="triangle"></div>
             </li>
-            
+
             <li class="nav-item {{ request()->is('alumno/companieros*') ? 'active' : '' }}">
                 <a class="nav-item-hold" href="{{route('alumno/companieros')}}">
                     <i class="nav-icon i-MaleFemale"></i>

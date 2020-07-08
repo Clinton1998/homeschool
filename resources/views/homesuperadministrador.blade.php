@@ -5,7 +5,6 @@
 @endsection
 
 @section('main-content')
-
 <h2 class="hs_titulo">Bienvenido a panel de administrador</h2>
 
 <div class="row hs_contenedor">
@@ -25,5 +24,4 @@
      <script src="{{asset('assets/js/vendor/echarts.min.js')}}"></script>
      <script src="{{asset('assets/js/es5/echart.options.min.js')}}"></script>
      <script src="{{asset('assets/js/es5/dashboard.v3.script.js')}}"></script>
-
 @endsection
