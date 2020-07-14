@@ -65,7 +65,7 @@
                                             <a href="{{url('super/alumno/'.$alumno->id_alumno)}}" class="btn btn-sm btn-warning mr-2"  data-toggle="tooltip" data-placement="top" title="Editar">
                                                 <i class="nav-icon i-Pen-4" style="font-size: 15px"></i>
                                             </a>
-    
+
                                             <a href="#" class="btn btn-sm btn-danger" id="btnEliminarAlumno{{$alumno->id_alumno}}" onclick="fxConfirmacionEliminarAlumno({{$alumno->id_alumno}});" data-toggle="tooltip" data-placement="top" title="Eliminar">
                                                 <i class="far fa-trash-alt" style="font-size: 15px"></i>
                                             </a>
@@ -104,8 +104,6 @@
                                         <li><a href="#step-1">Paso 1</a></li>
                                         <li><a href="#step-2">Paso 2</a></li>
                                         <li><a href="#step-3">Paso 3</a></li>
-                                        <li><a href="#step-4">Paso 4</a></li>
-                                        <li><a href="#step-5">Paso 5</a></li>
                                     </ul>
                                     <div>
                                         <div id="step-1">
@@ -171,6 +169,33 @@
                                                     <input type="text" class="press-mayusculas form-control form-control-sm" id="adicional" name="adicional" placeholder="(Opcional)">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
+
+
+                                                <h5 style="color: rgb(7, 160, 221);"> <i class="nav-icon i-Right-2" style="font-size: 14px;"></i> Grado y Sección</h5>
+
+                                                <div class="form-group">
+                                                    <label for="optseccion">Registrar en la sección</label>
+
+                                                    <select name="optseccion" id="optseccion" class="form-control form-control-sm" required>
+                                                        <option value=""></option>
+                                                        @foreach($TMP as $seccion)
+                                                            @if (strtoupper($seccion->c_nivel_academico) === 'INICIAL')
+                                                                <option value="{{$seccion->id_seccion}}">{{substr($seccion->nom_grado,3)}} "{{strtoupper($seccion->nom_seccion)}}" {{ucfirst(strtolower($seccion->c_nivel_academico))}}</option>
+                                                            @else
+                                                                <option value="{{$seccion->id_seccion}}">{{ucfirst(strtolower(substr($seccion->nom_grado,3)))}} "{{strtoupper($seccion->nom_seccion)}}" {{ucfirst(strtolower($seccion->c_nivel_academico))}}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+
+                                                    <div class="help-block with-errors text-danger"></div>
+                                                </div>
+
+                                                <h5 style="color: rgb(7, 160, 221);"> <i class="nav-icon i-Right-2" style="font-size: 14px;"></i> Fotografía del alumno</h5>
+                                                <br>
+                                                <div class="form-group">
+                                                    <input type="file" class="hs_upload form-control form-control-lg" id="fotoalumno" name="fotoalumno" accept="image/x-png,image/gif,image/jpeg">
+                                                </div>
+
                                             </div>
                                         </div>
 
@@ -311,38 +336,6 @@
                                                 </div>
                                             </div>
 
-                                        </div>
-
-                                        <div id="step-4" class="">
-                                            <div id="form-step-3" role="form" data-toggle="validator">
-                                                <h5 style="color: rgb(7, 160, 221);"> <i class="nav-icon i-Right-2" style="font-size: 14px;"></i> Grado y Sección</h5>
-
-                                                <div class="form-group">
-                                                    <label for="optseccion">Registrar en la sección</label>
-
-                                                    <select name="optseccion" id="optseccion" class="form-control form-control-sm" required>
-                                                        <option value=""></option>
-                                                        @foreach($TMP as $seccion)
-                                                            @if (strtoupper($seccion->c_nivel_academico) === 'INICIAL')
-                                                                <option value="{{$seccion->id_seccion}}">{{substr($seccion->nom_grado,3)}} "{{strtoupper($seccion->nom_seccion)}}" {{ucfirst(strtolower($seccion->c_nivel_academico))}}</option>
-                                                            @else
-                                                                <option value="{{$seccion->id_seccion}}">{{ucfirst(strtolower(substr($seccion->nom_grado,3)))}} "{{strtoupper($seccion->nom_seccion)}}" {{ucfirst(strtolower($seccion->c_nivel_academico))}}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-
-                                                    <div class="help-block with-errors text-danger"></div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div id="step-5">
-                                            <h5 style="color: rgb(7, 160, 221);"> <i class="nav-icon i-Right-2" style="font-size: 14px;"></i> Fotografía del alumno</h5>
-                                            <br>
-                                            <div class="form-group">
-                                                <input type="file" class="hs_upload form-control form-control-lg" id="fotoalumno" name="fotoalumno" accept="image/x-png,image/gif,image/jpeg">
-                                            </div>
                                         </div>
 
                                     </div>

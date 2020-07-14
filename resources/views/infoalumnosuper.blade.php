@@ -179,19 +179,7 @@
                                                 @endif
                                             @endforeach
                                         </select>
-                                        <!--<select name="seccion" id="seccion" class="form-control form-control-sm @error('seccion') is-invalid @enderror" required>
-                                            @foreach($grados as $grado)
-                                                <optgroup label="{{$grado->c_nombre}} - {{$grado->c_nivel_academico}}">
-                                                    @foreach($grado->secciones->where('estado','=',1) as $seccion)
-                                                        @if($seccion->id_seccion==$alumno->id_seccion)
-                                                            <option value="{{$seccion->id_seccion}}" selected>{{$seccion->c_nombre}}</option>
-                                                        @else
-                                                            <option value="{{$seccion->id_seccion}}">{{$seccion->c_nombre}}</option>
-                                                        @endif
-                                                    @endforeach
-                                                </optgroup>
-                                            @endforeach
-                                        </select>-->
+                                        
                                         <span class="invalid-feedback" role="alert">
                                             La sección es necesario
                                             </span>

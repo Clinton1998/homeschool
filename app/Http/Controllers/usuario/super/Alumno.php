@@ -322,6 +322,7 @@ class Alumno extends Controller
             ])->first();
 
             if (!is_null($alumno) && !empty($alumno)) {
+                $dni_temp = $alumno->c_dni;
                 //actualizamos al docente
                 $alumno->id_seccion = $seccion_solicitada->id_seccion;
                 $alumno->c_dni = $request->input('dni');
@@ -334,6 +335,41 @@ class Alumno extends Controller
                 $alumno->c_informacion_adicional = $request->input('direccion');
                 $alumno->modificador = $usuario->id;
                 $alumno->save();
+
+                //verificamos si el el dni ha cambiado
+                if($dni_temp!=$alumno->c_dni){
+                  //actualizamos el usuario de ese alumno
+                  $usuario_dni = App\User::where([
+                      'email' => $alumno->c_dni,
+                      'estado' => 1
+                  ])->first();
+                  $name_usuario = '';
+                  if (!is_null($usuario_dni) && !empty($usuario_dni)) {
+                      $correlativo = 1;
+                      $usuarios = DB::table('users')
+                          ->where('email', 'like', $usuario_dni->email . '-%')
+                          ->get();
+
+                      $correlativos = array();
+                      $i = 0;
+                      foreach ($usuarios as $usuario_value) {
+                          $correlativos[$i] = (int) (substr((stristr($usuario_value->email, "-")), 1));
+                          $i++;
+                      }
+                      if ($i == 0) {
+                          $name_usuario = $alumno->c_dni . '-' . ($correlativo);
+                      } else {
+                          $correlativo = max($correlativos) + 1;
+                          $name_usuario = $alumno->c_dni . '-' . $correlativo;
+                      }
+                  } else {
+                      $name_usuario = $alumno->c_dni;
+                  }
+                  $usuario_actual = $alumno->usuario;
+                  $usuario_actual->email = $name_usuario;
+                  $usuario_actual->password = bcrypt('12345678');
+                  $usuario_actual->save();
+                }
             }
         }
         return redirect('super/alumno/' . $request->input('id_alumno'));

@@ -94,7 +94,6 @@
                                     <li><a href="#step-1">Paso 1<br /><small>Datos personales</small></a></li>
                                     <li><a href="#step-2">Paso 2<br /><small>Secciones</small></a></li>
                                     <li><a href="#step-3">Paso 3<br /><small>Asignaturas</small></a></li>
-                                    <li><a href="#step-4">Paso 4<br /><small>Foto del docente</small></a></li>
                                 </ul>
                                 <div>
                                     <div id="step-1">
@@ -162,6 +161,10 @@
                                                 <input type="text" class="form-control form-control-sm press-mayusculas" id="direccion" name="direccion" required placeholder="Ejemplo: Av. El Valle 9999, Miraflores">
                                                 <div class="help-block with-errors text-danger"></div>
                                             </div>
+
+                                            <div class="form-group">
+                                                <input type='file' class="hs_upload form-control form-control-lg" id="fotodocente" name="fotodocente" accept="image/x-png,image/gif,image/jpeg">
+                                            </div>
                                         </div>
                                     </div>
 
@@ -187,15 +190,7 @@
                                         <div id="divCursos">
 
                                         </div>
-
                                     </div>
-
-                                    <div id="step-4">
-                                        <div class="form-group">
-                                            <input type='file' class="hs_upload form-control form-control-lg" id="fotodocente" name="fotodocente" accept="image/x-png,image/gif,image/jpeg">
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                     </form>

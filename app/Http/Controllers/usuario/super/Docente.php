@@ -268,12 +268,10 @@ class Docente extends Controller
             'telefono' => 'required',
             'direccion' => 'required'
         ]);
-
         //verificamos que el colegio pertenesca al superadministrador
         $usuario = App\User::findOrFail(Auth::user()->id);
         //obtenemos el colegio
         $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
-
         //si todo esta bien actualizamos el docente
         $docente = App\Docente_d::where([
             'id_docente' => $request->input('id_docente'),
@@ -282,6 +280,7 @@ class Docente extends Controller
 
         if (!is_null($docente) && !empty($docente)) {
             //actualizamos al docente
+            $dni_temp = $docente->c_dni;
             $docente->c_dni = $request->input('dni');
             $docente->c_nombre = $request->input('nombre');
             $docente->c_nacionalidad = $request->input('nacionalidad');
@@ -293,9 +292,41 @@ class Docente extends Controller
             $docente->c_direccion = $request->input('direccion');
             $docente->modificador = $usuario->id;
             $docente->save();
+
+            if($dni_temp!=$docente->c_dni){
+              //actualizamos el usuario de ese docente
+              $usuario_dni = App\User::where([
+                  'email' => $docente->c_dni,
+                  'estado' => 1
+              ])->first();
+              $name_usuario = '';
+              if (!is_null($usuario_dni) && !empty($usuario_dni)) {
+                  $correlativo = 1;
+                  $usuarios = DB::table('users')
+                      ->where('email', 'like', $usuario_dni->email . '-%')
+                      ->get();
+
+                  $correlativos = array();
+                  $i = 0;
+                  foreach ($usuarios as $usuario_value) {
+                      $correlativos[$i] = (int) (substr((stristr($usuario_value->email, "-")), 1));
+                      $i++;
+                  }
+                  if ($i == 0) {
+                      $name_usuario = $docente->c_dni . '-' . ($correlativo);
+                  } else {
+                      $correlativo = max($correlativos) + 1;
+                      $name_usuario = $docente->c_dni . '-' . $correlativo;
+                  }
+              } else {
+                  $name_usuario = $docente->c_dni;
+              }
+              $usuario_actual = $docente->usuario;
+              $usuario_actual->email = $name_usuario;
+              $usuario_actual->password = bcrypt('12345678');
+              $usuario_actual->save();
+            }
         }
-
-
         return redirect('super/docente/' . $request->input('id_docente'));
     }
     public function quitar_seccion(Request $request)
