@@ -172,7 +172,7 @@
                                         <div class="form-group">
 
                                             <label for="optsecciones"><strong>Asignar secciones</strong></label>
-                                            <select id="optsecciones" name="optsecciones[]" multiple>
+                                            <select id="optsecciones" name="optsecciones[]" multiple required>
                                                 @foreach($TMP as $seccion)
                                                     @if (strtoupper($seccion->c_nivel_academico) == 'INICIAL')
                                                         <option value="{{$seccion->id_seccion}}"><span class="hs_lower">{{ucfirst(strtolower($seccion->c_nivel_academico))}} </span> {{substr($seccion->nom_grado,3)}} "{{strtoupper($seccion->nom_seccion)}}" </option>
