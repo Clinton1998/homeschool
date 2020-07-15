@@ -5,6 +5,7 @@ namespace App\Http\Controllers\usuario\alumno;
 use App\Http\Controllers\Controller;
 use App\Notifications\NuevaTareaParaAlumnoNotification;
 use App\Events\AlertSimple;
+use App\Events\NewCommentTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -109,6 +110,17 @@ class Tarea extends Controller
                       $notificacion_a_marcar->read_at  = date('Y-m-d H:i:s');
                       $notificacion_a_marcar->save();
                   }
+
+                  $tarea->comentarios = $tarea->comentarios()->where('comentario_d.estado','=',1)->orderBy('created_at','DESC')->get();
+                  $tarea->comentarios = $tarea->comentarios->map(function ($comentario){
+                    if(!is_null($comentario->comenta->id_docente)){
+                      $comentario->load('comenta.docente');
+                    }else{
+                      $comentario->load('comenta.alumno');
+                    }
+                    return $comentario;
+                  });
+
                   //enviamos una alerta simple al docente, de que un alumno abrio la tarea.
                   $colegio = $alumno_de_tarea->seccion->grado->colegio;
                   $title = 'Tarea abierta';
@@ -149,6 +161,15 @@ class Tarea extends Controller
             ])->first();
 
             if (!is_null($alumno_de_tarea) && !empty($alumno_de_tarea)) {
+                $tarea->comentarios = $tarea->comentarios()->where('comentario_d.estado','=',1)->orderBy('created_at','DESC')->get();
+                $tarea->comentarios = $tarea->comentarios->map(function ($comentario){
+                  if(!is_null($comentario->comenta->id_docente)){
+                    $comentario->load('comenta.docente');
+                  }else{
+                    $comentario->load('comenta.alumno');
+                  }
+                  return $comentario;
+                });
                 return view('alumno.infotareaenviado', compact('tarea'));
             } else {
                 return redirect('alumno/tareas');;
@@ -180,6 +201,15 @@ class Tarea extends Controller
                 ])->first();
 
                 if (!is_null($alumno_de_tarea) && !empty($alumno_de_tarea)) {
+                  $tarea->comentarios = $tarea->comentarios()->where('comentario_d.estado','=',1)->orderBy('created_at','DESC')->get();
+                  $tarea->comentarios = $tarea->comentarios->map(function ($comentario){
+                    if(!is_null($comentario->comenta->id_docente)){
+                      $comentario->load('comenta.docente');
+                    }else{
+                      $comentario->load('comenta.alumno');
+                    }
+                    return $comentario;
+                  });
                   //enviamos una alerta simple al docente, de que un alumno abrio una tarea que ya se venció.
                   $colegio = $alumno_de_tarea->seccion->grado->colegio;
                   $title = 'Tarea abierta fuera de plazo';
@@ -192,7 +222,7 @@ class Tarea extends Controller
                   }
                   $text = $alumno_de_tarea->c_nombre. ' ha abierto la tarea "'.$tarea->c_titulo.'"';
                   broadcast(new AlertSimple([$tarea->docente->usuario->id],$title,$text,$type,$timeout,$icon));
-                    return view('alumno.infotareavencido', compact('tarea'));
+                  return view('alumno.infotareavencido', compact('tarea'));
                 } else {
                     return redirect('alumno/tareas');;
                 }
@@ -682,10 +712,16 @@ class Tarea extends Controller
                 foreach($alumnos_asignados as $item_alumno){
                   $id_usuarios[] = $item_alumno->usuario->id;
                 }
+                $comentario->load('comenta.alumno');
                 broadcast(new AlertSimple($id_usuarios,$title,$text,$type,$timeout,$icon));
+                broadcast(new NewCommentTask($comentario));
+                return response()->json([
+                  'correcto' => TRUE,
+                  'comentario' => $comentario
+                ]);
             }
         }
-        return redirect('alumno/tareapendiente/' . $request->input('id_tarea'));
+        return response()->json(['correcto' => FALSE]);
     }
 
     public function comentar_vencido(Request $request)
@@ -727,7 +763,7 @@ class Tarea extends Controller
                     }
                     $comentario->creador = $usuarioAlumno->id;
                     $comentario->save();
-                    
+
                     //alerta simple de un comentario nuevo
                     $title = 'Nuevo comentario en la tarea "'.$tarea->c_titulo.'"';
                     $text = '';
@@ -752,11 +788,17 @@ class Tarea extends Controller
                     foreach($alumnos_asignados as $item_alumno){
                       $id_usuarios[] = $item_alumno->usuario->id;
                     }
+                    $comentario->load('comenta.alumno');
                     broadcast(new AlertSimple($id_usuarios,$title,$text,$type,$timeout,$icon));
+                    broadcast(new NewCommentTask($comentario));
+                    return response()->json([
+                      'correcto' => TRUE,
+                      'comentario' => $comentario
+                    ]);
                 }
             }
         }
-        return redirect('alumno/tareavencida/' . $request->input('id_tarea'));
+        return response()->json(['correcto'=> FALSE]);
     }
 
     public function comentar_enviado(Request $request)
@@ -819,11 +861,17 @@ class Tarea extends Controller
                   foreach($alumnos_asignados as $item_alumno){
                     $id_usuarios[] = $item_alumno->usuario->id;
                   }
+                  $comentario->load('comenta.alumno');
                   broadcast(new AlertSimple($id_usuarios,$title,$text,$type,$timeout,$icon));
+                  broadcast(new NewCommentTask($comentario));
+                  return response()->json([
+                    'correcto' => TRUE,
+                    'comentario' => $comentario
+                  ]);
               }
             }
         }
-        return redirect('alumno/tareaenviada/' . $request->input('id_tarea'));
+        return response()->json(['correcto' => TRUE]);
     }
     public function respuesta(Request $request)
     {

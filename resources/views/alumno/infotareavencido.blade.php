@@ -115,7 +115,11 @@
                     <button type="button" class="btn btn-primary btn-lg float-right" id="btnResponderTarea" data-toggle="modal" data-target="#mdlPresentarTarea">Responder</button>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body" id="vue-comentario">
+                  <comment-app :task="{{$tarea}}" :user="{{Auth::user()}}" :comentar="'vencido'" ></comment-app>
+                </div>
+
+                <!--<div class="card-body">
                     <strong>Escribe un comentario</strong>
 
                     <form id="frmComentarTarea" method="post" action="{{url('/alumno/tarea/comentarvencido')}}" class="needs-validation" novalidate>
@@ -172,7 +176,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div>-->
 
 
             </div>

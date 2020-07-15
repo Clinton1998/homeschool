@@ -13,6 +13,7 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js');
 mix.js('resources/js/chat.js', 'public/js');
+mix.js('resources/js/comment.js', 'public/js');
    //.sass('resources/sass/app.scss', 'public/css');
 
 mix.combine(
@@ -23,5 +24,5 @@ mix.combine(
       ],
       "public/assets/js/common-bundle-script.js"
   );
-  
+
   mix.js(["resources/gull/assets/js/script.js"], "public/assets/js/script.js");

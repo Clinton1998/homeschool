@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Notifications\NuevaTareaParaAlumnoNotification;
 use App\Events\AlertSimple;
+use App\Events\NewCommentTask;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App;
@@ -137,10 +138,13 @@ class Tarea extends Controller
                 foreach($alumnos_asignados as $item_alumno){
                   $id_usuarios[] = $item_alumno->usuario->id;
                 }
+                $comentario->load('comenta.docente');
                 broadcast(new AlertSimple($id_usuarios,$title,$text,$type,$timeout,$icon));
+                broadcast(new NewCommentTask($comentario));
+                return response()->json(['correcto' => TRUE,'comentario' => $comentario]);
             }
         }
-        return redirect('docente/tarea/' . $request->input('id_tarea'));
+        return response()->json(['correcto' => FALSE]);
     }
 
     public function respuesta(Request $request)
@@ -309,12 +313,21 @@ class Tarea extends Controller
 
             //verificamos si la tarea le pertenece al docente
             if (!is_null($tarea) && !empty($tarea)) {
-                $tarea->alumnos_asignados;
-
                 $p_alumno = $tarea->alumnos_asignados()->first();
                 $seccion_asignada = App\Seccion_d::findOrFail($p_alumno->id_seccion);
                 $seccion_asignada->grado;
 
+                $tarea->alumnos_asignados = $tarea->alumnos_asignados()->where('alumno_d.estado','=',1)->orderBy('alumno_d.c_nombre','ASC')->get();
+                $tarea->comentarios = $tarea->comentarios()->where('comentario_d.estado','=',1)->orderBy('created_at','DESC')->get();
+
+                $tarea->comentarios = $tarea->comentarios->map(function ($comentario){
+                  if(!is_null($comentario->comenta->id_docente)){
+                    $comentario->load('comenta.docente');
+                  }else{
+                    $comentario->load('comenta.alumno');
+                  }
+                  return $comentario;
+                });
                 return view('docente.infotarea', compact('tarea','seccion_asignada'));
             } else {
                 return redirect('docente/asignartareas');;

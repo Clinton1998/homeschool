@@ -148,8 +148,12 @@
                     @endif
                 </div>
 
+                <div class="card-body" id="vue-comentario">
+                  <comment-app :task="{{$tarea}}" :user="{{Auth::user()}}" :comentar="'enviado'" ></comment-app>
+                </div>
 
-                <div class="card-body">
+
+                <!--<div class="card-body">
                     <strong>Comentario</strong>
 
                     <form id="frmComentarTarea" method="post" action="{{url('/alumno/tarea/comentarenviado')}}" class="needs-validation" novalidate>
@@ -206,7 +210,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div>-->
 
 
             </div>

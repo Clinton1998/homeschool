@@ -8,7 +8,7 @@
     @php
             $countEnviaron = 0;
             $countNoEnviaron = 0;
-            foreach($tarea->alumnos_asignados()->where('alumno_d.estado','=',1)->get() as $alumno){
+            foreach($tarea->alumnos_asignados as $alumno){
                 if(is_null($alumno->pivot->id_respuesta)){
                     $countNoEnviaron++;
                 }else{
@@ -84,7 +84,7 @@
                             <div id="lista-pendientes-1" class="collapse " data-parent="#accordionRightIcon" style="">
                                 <div class="card-body">
                                     <ul id="alumnos-que-enviaron" class="contenedor-scroll list-group">
-                                        @foreach($tarea->alumnos_asignados()->where('alumno_d.estado','=',1)->orderBy('alumno_d.c_nombre','ASC')->get() as $alumno)
+                                        @foreach($tarea->alumnos_asignados as $alumno)
                                             @if(!is_null($alumno->pivot->id_respuesta))
                                                 @if(!($alumno->pivot->c_estado=='ACAL'))
                                                     <li class="tarea-pendiente-alumno list-group-item">{{$alumno->c_nombre}}
@@ -109,7 +109,7 @@
                             <div id="lista-pendientes-2" class="collapse " data-parent="#accordionRightIcon" style="">
                                 <div class="card-body">
                                     <ul id="alumnos-que-no-enviaron" class="contenedor-scroll list-group">
-                                        @foreach($tarea->alumnos_asignados()->where('alumno_d.estado','=',1)->orderBy('alumno_d.c_nombre','ASC')->get() as $alumno)
+                                        @foreach($tarea->alumnos_asignados as $alumno)
                                             @if(is_null($alumno->pivot->id_respuesta))
                                                 <li class="tarea-pendiente-alumno list-group-item">{{$alumno->c_nombre}}</li>
                                             @endif
@@ -120,69 +120,10 @@
                         </div>
                     </div>
             @endif
-
-                <div class="card-body">
-                    <strong>Escribe un comentario</strong>
-
-                    <form id="frmAsignarTarea" method="post" action="{{url('/docente/tarea/comentar')}}" class="needs-validation" novalidate>
-                        @csrf
-                        <input type="hidden" name="id_tarea" value="{{$tarea->id_tarea}}">
-                        <input class="form-control form-control-lg mb-6" id="txtComentario" name="comentario" rows="2" placeholder="Escribe aquí..." required autofocus>
-                        <div class="mb-4">
-                            <br>
-                        <button type="submit" class="btn btn-primary float-right">Publicar comentario</button>
-                        </div>
-                    </form>
-
-                    <br>
-                    <h4 class="">Comentarios recientes</h4>
-
-                    <div class="d-sm-flex align-item-sm-center flex-sm-nowrap">
-                        <div class="caja-comentarios">
-                            @if($tarea->comentarios()->count()<=0)
-                                <h5 class="text-secondary">Sin comentarios</h5>
-                            @else
-                                @foreach($tarea->comentarios()->orderBy('created_at','DESC')->get() as $comentario)
-                                    <div class="comentario mb-4">
-                                    <strong class="comentario-persona">
-                                        @if(!is_null($comentario->comenta->id_docente))
-                                            @if(is_null($comentario->comenta->docente->c_foto)  || empty($comentario->comenta->docente->c_foto))
-                                                @if(strtoupper($comentario->comenta->docente->c_sexo)=='M')
-                                                <img  class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherman.png')}}" alt="Docente">
-                                                @else
-                                                <img class="rounded-circle" width="36" height="36" src="{{asset('assets/images/usuario/teacherwoman.png')}}" alt="Docente">
-                                                @endif
-                                            @else
-                                                <img class="rounded-circle" width="36" height="36" src="{{url('super/docente/foto/'.$comentario->comenta->docente->c_foto)}}" alt="Docente">
-                                            @endif
-                                            <span class="hs_capitalize">{{$comentario->comenta->docente->c_nombre}}</span>
-                                        @else
-                                            @if(is_null($comentario->comenta->alumno->c_foto)  || empty($comentario->comenta->alumno->c_foto))
-                                                @if(strtoupper($comentario->comenta->alumno->c_sexo)=='M')
-                                                    <img class="rounded-circle" width="36" height="36"  src="{{asset('assets/images/usuario/studentman.png')}}" alt="Foto del alumno">
-                                                @else
-                                                    <img class="rounded-circle" width="36" height="36"  src="{{asset('assets/images/usuario/studentwoman.png')}}" alt="Foto de la alumna">
-                                                @endif
-                                            @else
-                                                <img class="rounded-circle" width="36" height="36"  src="{{url('super/alumno/foto/'.$comentario->comenta->alumno->c_foto)}}" alt="Foto del alumno">
-                                            @endif
-
-                                            <span class="hs_capitalize">{{$comentario->comenta->alumno->c_nombre}}</span>
-                                        @endif
-                                        ({{$comentario->created_at}})</strong>
-                                    <p class="comentario-contenido">{{$comentario->c_descripcion}}</p>
-                                    </div>
-                                @endforeach
-                            @endif
-
-                        </div>
-                    </div>
+                <div class="card-body" id="vue-comentario">
+                  <comment-app :task="{{$tarea}}" :user="{{Auth::user()}}"></comment-app>
                 </div>
-
-
             </div>
-
-
         </div>
     </div>
 </section>

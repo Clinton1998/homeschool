@@ -72,7 +72,7 @@
 </head>
 
 <body>
-    <h2 class="titulo">Asignación de tareas</h2>
+    <h2 class="titulo">Historial de tareas</h2>
     @foreach($errors->all() as $error)
       <h1>{{ $error }}</h1>
     @endforeach

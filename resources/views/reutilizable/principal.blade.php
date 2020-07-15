@@ -97,6 +97,11 @@
         <script src="{{asset('assets/js/libreria/push/push.min.js')}}"></script>
         <!--end Push js-->
         <script src="{{asset('js/app.js')}}" defer></script>
+        @if($tipo_usuario=='docente' || $tipo_usuario=='alumno')
+          @if(request()->is('docente/tarea/*')  || request()->is('alumno/tareapendiente/*') || request()->is('alumno/tareavencida/*') || request()->is('alumno/tareaenviada/*'))
+            <script src="{{asset('js/comment.js')}}" defer></script>
+          @endif
+        @endif
         <script>
             window.Laravel = <?php echo json_encode([
                 //'csrfToken' => csrf_token(),

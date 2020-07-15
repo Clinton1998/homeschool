@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -201,7 +201,7 @@ $(window).on("load", function () {
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /*!**************************************************!*\
   !*** multi ./resources/gull/assets/js/script.js ***!
   \**************************************************/
