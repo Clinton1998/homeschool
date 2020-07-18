@@ -435,7 +435,9 @@ function MostrarHerramientas(){
             if (data.herramientas.length > 0) {
                 data.herramientas.forEach(function (herramienta, indice){
                     Herramientas += '<div class="tools-item" data-toggle="tooltip" data-placement="top" title="'+ herramienta.c_link +'">';
-                    Herramientas += '<div class="text-right tools-delete-box"><a href="#" class="pt-1 pb-1 badge badge-warning boton_editar" onclick="EditarHerramienta('+ herramienta.id_herramienta +')"><i class="i-Pen-5"></i></a><a href="#" class="badge badge-danger boton_eliminar" onclick="EliminarHerramienta('+ herramienta.id_herramienta +')">x</a></div>';
+                    if(herramienta.b_mantenimiento==1){
+                        Herramientas += '<div class="text-right tools-delete-box"><a href="#" class="pt-1 pb-1 badge badge-warning boton_editar" onclick="EditarHerramienta('+ herramienta.id_herramienta +')"><i class="i-Pen-5"></i></a><a href="#" class="badge badge-danger boton_eliminar" onclick="EliminarHerramienta('+ herramienta.id_herramienta +')">x</a></div>';
+                    }
                     Herramientas += '<a class="tools-link" id="tool_link_'+ herramienta.id_herramienta +'" href="'+ herramienta.c_link +'" target="_blank">';
                     /* Herramientas +='<input type="hidden" id="tool_'+ herramienta.id_herramienta +'" name="tool_'+ herramienta.id_herramienta +'" value="">'; */
                     if (herramienta.c_logo_fisico == null && herramienta.c_logo_link == null) {

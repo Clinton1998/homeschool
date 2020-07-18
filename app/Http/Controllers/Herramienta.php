@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Storage;
 use App;
 use Auth;
 class Herramienta extends Controller
-{   
+{
     private $fotos_path;
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -72,50 +72,51 @@ class Herramienta extends Controller
     public function actualizar(Request $request){
 
         $herramienta = App\Herramienta_d::findOrFail($request->id_tool);
-        $herramienta->c_nombre = $request->input('nombre');
-        $herramienta->c_link = $request->input('link');
-        $herramienta->modificador = Auth::user()->id;
-        $herramienta->save();
+        if($herramienta->b_mantenimiento==1){
+          $herramienta->c_nombre = $request->input('nombre');
+          $herramienta->c_link = $request->input('link');
+          $herramienta->modificador = Auth::user()->id;
+          $herramienta->save();
 
-        $logo_link = $request->input('logo_link');
-        $logo_fisico = $request->file('logo_fisico');
+          $logo_link = $request->input('logo_link');
+          $logo_fisico = $request->file('logo_fisico');
 
-        if (!is_null($logo_fisico) && !empty($logo_fisico)) {
+          if (!is_null($logo_fisico) && !empty($logo_fisico)) {
 
-            if (!is_null($herramienta->c_logo_fisico)) {
-                unlink($this->fotos_path.'/'.$herramienta->c_logo_fisico);
-            }
+              if (!is_null($herramienta->c_logo_fisico)) {
+                  unlink($this->fotos_path.'/'.$herramienta->c_logo_fisico);
+              }
 
-            if (!is_dir($this->fotos_path)) {
-                mkdir($this->fotos_path, 0777);
-            }
+              if (!is_dir($this->fotos_path)) {
+                  mkdir($this->fotos_path, 0777);
+              }
 
-            $name = sha1(date('YmdHis'));
-            $resize_name = $name . '.' . $logo_fisico->getClientOriginalExtension();
-            
-            Image::make($logo_fisico)
-                ->resize(250, null, function ($constraints) {
-                    $constraints->aspectRatio();
-                })
-                ->save($this->fotos_path . '/' . $resize_name);
+              $name = sha1(date('YmdHis'));
+              $resize_name = $name . '.' . $logo_fisico->getClientOriginalExtension();
 
-            $herramienta->c_logo_fisico = $resize_name;
-            $herramienta->save();
+              Image::make($logo_fisico)
+                  ->resize(250, null, function ($constraints) {
+                      $constraints->aspectRatio();
+                  })
+                  ->save($this->fotos_path . '/' . $resize_name);
+
+              $herramienta->c_logo_fisico = $resize_name;
+              $herramienta->save();
+          }
+          elseif (!is_null($logo_link) && !empty($logo_link)) {
+
+              if (!is_null($herramienta->c_logo_fisico)) {
+                  unlink($this->fotos_path.'/'.$herramienta->c_logo_fisico);
+                  $herramienta->c_logo_fisico = NULL;
+              }
+
+              $herramienta->c_logo_link = $request->input('logo_link');
+              $herramienta->save();
+          }
         }
-        elseif (!is_null($logo_link) && !empty($logo_link)) {
-            
-            if (!is_null($herramienta->c_logo_fisico)) {
-                unlink($this->fotos_path.'/'.$herramienta->c_logo_fisico);
-                $herramienta->c_logo_fisico = NULL;
-            }
-
-            $herramienta->c_logo_link = $request->input('logo_link');
-            $herramienta->save();
-        }
-
         return response()->json($herramienta);
     }
-    
+
     public function eliminar(Request $request){
 
         $herramienta = App\Herramienta_d::findOrFail($request->id_herramienta);
@@ -123,11 +124,11 @@ class Herramienta extends Controller
         /* if(!is_null($herramienta->c_logo_fisico) && !empty($herramienta->c_logo_fisico) ){
             unlink($this->fotos_path.'/'.$herramienta->c_logo_fisico);
         } */
-
-        $herramienta->delete();
-        
+        if($herramienta->b_mantenimiento==1){
+            $herramienta->delete();
+        }
         $herramientas = App\Herramienta_d::where('id_usuario','=',Auth::user()->id)->orderBy('created_at','DESC')->get();
-        
+
         $datos = array(
             'herramientas' => $herramientas
         );

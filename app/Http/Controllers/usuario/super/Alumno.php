@@ -69,111 +69,107 @@ class Alumno extends Controller
 
         $usuario  = App\User::findOrFail(Auth::user()->id);
         $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
+        if(!is_null($colegio) && !empty($colegio)){
+          //aplicando seccion enviada
+          $seccion_enviada = App\Seccion_d::where([
+              'id_seccion' => $request->input('optseccion'),
+              'estado' => 1
+          ])->first();
+          if(!is_null($seccion_enviada) && !empty($seccion_enviada)){
+            $colegio_de_seccion = $seccion_enviada->grado->colegio;
+            if(!is_null($colegio_de_seccion) && !empty($colegio_de_seccion)){
+              //verificamos si la seccion pertenece al colegio del superadministrador
+              if ($colegio->id_colegio == $colegio_de_seccion->id_colegio) {
+                  //registramos al alumno
+                  $alumno = new App\Alumno_d;
+                  $alumno->id_seccion = $seccion_enviada->id_seccion;
+                  $alumno->c_dni = $request->input('dni');
+                  $alumno->c_nombre = $request->input('apellido') . " " . $request->input('nombre');
+                  $alumno->c_nacionalidad = $request->input('nacionalidad');
+                  $alumno->c_correo = $request->input('correo_alumno');
+                  $alumno->c_sexo = $request->input('sexo');
+                  $alumno->t_fecha_nacimiento = $request->input('fecha_nacimiento');
+                  $alumno->c_direccion = $request->input('direccion');
+                  $alumno->c_informacion_adicional = $request->input('adicional');
 
-        //aplicando seccion enviada
-        $seccion_enviada = App\Seccion_d::where([
-            'id_seccion' => $request->input('optseccion'),
-            'estado' => 1
-        ])->first();
+                  $alumno->c_dni_representante1 = $request->input('dni_repre1');
+                  $alumno->c_nombre_representante1 = $request->input('apellido_repre1') . " " . $request->input('nombre_repre1');
+                  $alumno->c_nacionalidad_representante1 = $request->input('nacionalidad_repre1');
+                  $alumno->c_sexo_representante1 = $request->input('sexo_repre1');
+                  $alumno->c_telefono_representante1 = $request->input('telefono_repre1');
+                  $alumno->c_correo_representante1 = $request->input('correo_repre1');
+                  $alumno->c_direccion_representante1 = $request->input('direccion_repre1');
+                  $alumno->c_vinculo_representante1 = $request->input('vinculo_repre1');
 
-        $colegio_de_seccion = $seccion_enviada->grado->colegio;
-        //verificamos si la seccion pertenece al colegio del superadministrador
-        if ($colegio->id_colegio == $colegio_de_seccion->id_colegio) {
-            //registramos al alumno
-            $alumno = new App\Alumno_d;
-            $alumno->id_seccion = $seccion_enviada->id_seccion;
-            $alumno->c_dni = $request->input('dni');
-            $alumno->c_nombre = $request->input('apellido') . " " . $request->input('nombre');
-            $alumno->c_nacionalidad = $request->input('nacionalidad');
-            $alumno->c_correo = $request->input('correo_alumno');
-            $alumno->c_sexo = $request->input('sexo');
-            $alumno->t_fecha_nacimiento = $request->input('fecha_nacimiento');
-            $alumno->c_direccion = $request->input('direccion');
-            $alumno->c_informacion_adicional = $request->input('adicional');
+                  $alumno->c_dni_representante2 = $request->input('dni_repre2');
+                  $alumno->c_nombre_representante2 = $request->input('apellido_repre2') . " " . $request->input('nombre_repre2');
+                  $alumno->c_nacionalidad_representante2 = $request->input('nacionalidad_repre2');
+                  $alumno->c_sexo_representante2 = $request->input('sexo_repre2');
+                  $alumno->c_telefono_representante2 = $request->input('telefono_repre2');
+                  $alumno->c_correo_representante2 = $request->input('correo_repre2');
+                  $alumno->c_direccion_representante2 = $request->input('direccion_repre2');
+                  $alumno->c_vinculo_representante2 = $request->input('vinculo_repre2');
+                  $alumno->creador = $usuario->id;
+                  $alumno->save();
+                  //asignamos foto al alumno
+                  $foto = $request->file('fotoalumno');
+                  if (!is_null($foto) && !empty($foto)) {
+                      if (!is_dir($this->fotos_path)) {
+                          mkdir($this->fotos_path, 0777);
+                      }
+                      $name = sha1(date('YmdHis'));
+                      $save_name = $name . '.' . $foto->getClientOriginalExtension();
+                      $resize_name = $name . '.' . $foto->getClientOriginalExtension();
+                      Image::make($foto)
+                          ->resize(250, null, function ($constraints) {
+                              $constraints->aspectRatio();
+                          })
+                          ->save($this->fotos_path . '/' . $resize_name);
+                      $alumno->c_foto = $resize_name;
+                      $alumno->save();
+                  }
 
-            $alumno->c_dni_representante1 = $request->input('dni_repre1');
-            $alumno->c_nombre_representante1 = $request->input('apellido_repre1') . " " . $request->input('nombre_repre1');
-            $alumno->c_nacionalidad_representante1 = $request->input('nacionalidad_repre1');
-            $alumno->c_sexo_representante1 = $request->input('sexo_repre1');
-            $alumno->c_telefono_representante1 = $request->input('telefono_repre1');
-            $alumno->c_correo_representante1 = $request->input('correo_repre1');
-            $alumno->c_direccion_representante1 = $request->input('direccion_repre1');
-            $alumno->c_vinculo_representante1 = $request->input('vinculo_repre1');
+                  //creamos un usuario con ese alumno
+                  //password por defecto 12345678
 
-            $alumno->c_dni_representante2 = $request->input('dni_repre2');
-            $alumno->c_nombre_representante2 = $request->input('apellido_repre2') . " " . $request->input('nombre_repre2');
-            $alumno->c_nacionalidad_representante2 = $request->input('nacionalidad_repre2');
-            $alumno->c_sexo_representante2 = $request->input('sexo_repre2');
-            $alumno->c_telefono_representante2 = $request->input('telefono_repre2');
-            $alumno->c_correo_representante2 = $request->input('correo_repre2');
-            $alumno->c_direccion_representante2 = $request->input('direccion_repre2');
-            $alumno->c_vinculo_representante2 = $request->input('vinculo_repre2');
-            $alumno->creador = $usuario->id;
-            $alumno->save();
+                  $usuario_dni = App\User::where([
+                      'email' => $request->input('dni'),
+                      'estado' => 1
+                  ])->first();
+                  $name_usuario = '';
+                  if (!is_null($usuario_dni) && !empty($usuario_dni)) {
+                      $correlativo = 1;
+                      $usuarios = DB::table('users')
+                          ->where('email', 'like', $usuario_dni->email . '-%')
+                          ->get();
 
+                      $correlativos = array();
+                      $i = 0;
+                      foreach ($usuarios as $usuario_value) {
+                          $correlativos[$i] = (int) (substr((stristr($usuario_value->email, "-")), 1));
+                          $i++;
+                      }
+                      if ($i == 0) {
+                          $name_usuario = $request->input('dni') . '-' . ($correlativo);
+                      } else {
+                          $correlativo = max($correlativos) + 1;
+                          $name_usuario = $request->input('dni') . '-' . $correlativo;
+                      }
+                  } else {
+                      $name_usuario = $request->input('dni');
+                  }
 
-            //asignamos foto al alumno
-            //asignamos su foto de docente
-            $foto = $request->file('fotoalumno');
-            if (!is_null($foto) && !empty($foto)) {
-                if (!is_dir($this->fotos_path)) {
-                    mkdir($this->fotos_path, 0777);
-                }
-                $name = sha1(date('YmdHis'));
-                $save_name = $name . '.' . $foto->getClientOriginalExtension();
-                $resize_name = $name . '.' . $foto->getClientOriginalExtension();
-                Image::make($foto)
-                    ->resize(250, null, function ($constraints) {
-                        $constraints->aspectRatio();
-                    })
-                    ->save($this->fotos_path . '/' . $resize_name);
-
-                //$foto->move($this->fotos_path, $save_name);
-
-                //actualizamos foto del docente
-                $alumno->c_foto = $resize_name;
-                $alumno->save();
+                  $newusuario = new App\User;
+                  $newusuario->email = $name_usuario;
+                  $newusuario->password = bcrypt('12345678');
+                  $newusuario->id_alumno = $alumno->id_alumno;
+                  $newusuario->creador = $usuario->id;
+                  $newusuario->save();
+              }
             }
-
-            //creamos un usuario con ese alumno
-            //password por defecto 12345678
-
-            $usuario_dni = App\User::where([
-                'email' => $request->input('dni'),
-                'estado' => 1
-            ])->first();
-            $name_usuario = '';
-            if (!is_null($usuario_dni) && !empty($usuario_dni)) {
-                $correlativo = 1;
-                $usuarios = DB::table('users')
-                    ->where('email', 'like', $usuario_dni->email . '-%')
-                    ->get();
-
-                $correlativos = array();
-                $i = 0;
-                foreach ($usuarios as $usuario_value) {
-                    $correlativos[$i] = (int) (substr((stristr($usuario_value->email, "-")), 1));
-                    $i++;
-                }
-                if ($i == 0) {
-                    $name_usuario = $request->input('dni') . '-' . ($correlativo);
-                } else {
-                    $correlativo = max($correlativos) + 1;
-                    $name_usuario = $request->input('dni') . '-' . $correlativo;
-                }
-            } else {
-                $name_usuario = $request->input('dni');
-            }
-
-            $newusuario = new App\User;
-            $newusuario->email = $name_usuario;
-            $newusuario->password = bcrypt('12345678');
-            $newusuario->id_alumno = $alumno->id_alumno;
-            $newusuario->creador = $usuario->id;
-            $newusuario->save();
+          }
         }
-
-        return redirect('super/alumnos');
+        return redirect('/super/alumnos');
     }
 
     public function foto($fileName)
@@ -303,76 +299,84 @@ class Alumno extends Controller
             'direccion' => 'required',
             'seccion' => 'required'
         ]);
+
         //verificamos que el colegio pertenesca al superadministrador
         $usuario = App\User::findOrFail(Auth::user()->id);
         //obtenemos el colegio del superadministrador
-        $colegio = App\Colegio_m::where('id_superadministrador', '=', $usuario->id)->first();
-        //obtenemos el colegio
-        $seccion_solicitada = App\Seccion_d::where([
-            'id_seccion' => $request->input('seccion'),
-            'estado' => 1
+        $colegio = App\Colegio_m::where([
+          'id_superadministrador' => $usuario->id,
+          'estado' => 1
         ])->first();
-        $colegio_solicitado = $seccion_solicitada->grado->colegio;
-
-        if ($colegio_solicitado->id_colegio == $colegio->id_colegio) {
-            //si todo esta bien actualizamos al alumno
-            $alumno = App\Alumno_d::where([
-                'id_alumno' => $request->input('id_alumno'),
-                'estado' => 1
-            ])->first();
-
-            if (!is_null($alumno) && !empty($alumno)) {
-                $dni_temp = $alumno->c_dni;
-                //actualizamos al docente
-                $alumno->id_seccion = $seccion_solicitada->id_seccion;
-                $alumno->c_dni = $request->input('dni');
-                $alumno->c_nombre = $request->input('nombre');
-                $alumno->c_nacionalidad = $request->input('nacionalidad');
-                $alumno->c_sexo = $request->input('sexo');
-                $alumno->t_fecha_nacimiento = $request->input('fecha_nacimiento');
-                $alumno->c_correo = $request->input('correo_alumno');
-                $alumno->c_direccion = $request->input('direccion');
-                $alumno->c_informacion_adicional = $request->input('direccion');
-                $alumno->modificador = $usuario->id;
-                $alumno->save();
-
-                //verificamos si el el dni ha cambiado
-                if($dni_temp!=$alumno->c_dni){
-                  //actualizamos el usuario de ese alumno
-                  $usuario_dni = App\User::where([
-                      'email' => $alumno->c_dni,
+        if(!is_null($colegio) && !empty($colegio)){
+          //obtenemos el colegio
+          $seccion_solicitada = App\Seccion_d::where([
+              'id_seccion' => $request->input('seccion'),
+              'estado' => 1
+          ])->first();
+          if(!is_null($seccion_solicitada) && !empty($seccion_solicitada)){
+            $colegio_solicitado = $seccion_solicitada->grado->colegio;
+            if(!is_null($colegio_solicitado) && !empty($colegio_solicitado)){
+              if ($colegio_solicitado->id_colegio == $colegio->id_colegio) {
+                  //si todo esta bien actualizamos al alumno
+                  $alumno = App\Alumno_d::where([
+                      'id_alumno' => $request->input('id_alumno'),
                       'estado' => 1
                   ])->first();
-                  $name_usuario = '';
-                  if (!is_null($usuario_dni) && !empty($usuario_dni)) {
-                      $correlativo = 1;
-                      $usuarios = DB::table('users')
-                          ->where('email', 'like', $usuario_dni->email . '-%')
-                          ->get();
+                  if (!is_null($alumno) && !empty($alumno)) {
+                      $dni_temp = $alumno->c_dni;
+                      //actualizamos al docente
+                      $alumno->id_seccion = $seccion_solicitada->id_seccion;
+                      $alumno->c_dni = $request->input('dni');
+                      $alumno->c_nombre = $request->input('nombre');
+                      $alumno->c_nacionalidad = $request->input('nacionalidad');
+                      $alumno->c_sexo = $request->input('sexo');
+                      $alumno->t_fecha_nacimiento = $request->input('fecha_nacimiento');
+                      $alumno->c_correo = $request->input('correo_alumno');
+                      $alumno->c_direccion = $request->input('direccion');
+                      $alumno->c_informacion_adicional = $request->input('direccion');
+                      $alumno->modificador = $usuario->id;
+                      $alumno->save();
 
-                      $correlativos = array();
-                      $i = 0;
-                      foreach ($usuarios as $usuario_value) {
-                          $correlativos[$i] = (int) (substr((stristr($usuario_value->email, "-")), 1));
-                          $i++;
+                      //verificamos si el el dni ha cambiado
+                      if($dni_temp!=$alumno->c_dni){
+                        //actualizamos el usuario de ese alumno
+                        $usuario_dni = App\User::where([
+                            'email' => $alumno->c_dni,
+                            'estado' => 1
+                        ])->first();
+                        $name_usuario = '';
+                        if (!is_null($usuario_dni) && !empty($usuario_dni)) {
+                            $correlativo = 1;
+                            $usuarios = DB::table('users')
+                                ->where('email', 'like', $usuario_dni->email . '-%')
+                                ->get();
+
+                            $correlativos = array();
+                            $i = 0;
+                            foreach ($usuarios as $usuario_value) {
+                                $correlativos[$i] = (int) (substr((stristr($usuario_value->email, "-")), 1));
+                                $i++;
+                            }
+                            if ($i == 0) {
+                                $name_usuario = $alumno->c_dni . '-' . ($correlativo);
+                            } else {
+                                $correlativo = max($correlativos) + 1;
+                                $name_usuario = $alumno->c_dni . '-' . $correlativo;
+                            }
+                        } else {
+                            $name_usuario = $alumno->c_dni;
+                        }
+                        $usuario_actual = $alumno->usuario;
+                        $usuario_actual->email = $name_usuario;
+                        $usuario_actual->password = bcrypt('12345678');
+                        $usuario_actual->save();
                       }
-                      if ($i == 0) {
-                          $name_usuario = $alumno->c_dni . '-' . ($correlativo);
-                      } else {
-                          $correlativo = max($correlativos) + 1;
-                          $name_usuario = $alumno->c_dni . '-' . $correlativo;
-                      }
-                  } else {
-                      $name_usuario = $alumno->c_dni;
                   }
-                  $usuario_actual = $alumno->usuario;
-                  $usuario_actual->email = $name_usuario;
-                  $usuario_actual->password = bcrypt('12345678');
-                  $usuario_actual->save();
-                }
+              }
             }
+          }
         }
-        return redirect('super/alumno/' . $request->input('id_alumno'));
+        return redirect('/super/alumno/' . $request->input('id_alumno'));
     }
 
     public function actualizar_representante(Request $request)
@@ -413,7 +417,6 @@ class Alumno extends Controller
 
         return response()->json($datos);
     }
-
     public function eliminar(Request $request)
     {
         //verificamos el super administrador

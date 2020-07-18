@@ -1,7 +1,6 @@
 @extends('reutilizable.principal')
 @section('page-css')
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/css/libreria/slim/slimselect.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/smart.wizard/smart_wizard.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/smart.wizard/smart_wizard_theme_arrows.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
@@ -10,7 +9,6 @@
 @endsection
 
 @section('main-content')
-
 <h2 class="hs_titulo">Alumnos</h2>
 
 <div class="row hs_contenedor">
@@ -351,36 +349,27 @@
     </div>
 </div>
 <!-- end::modal -->
-
-
-
 @endsection
-
 @section('page-js')
+  <script>
+      $('#optseccion').on('change', function(){
+          tmp = $('#optseccion').val();
 
-<script>
-    $('#optseccion').on('change', function(){
-        tmp = $('#optseccion').val();
-
-        if(tmp == ''){
-            alert('Debe seleccionar una sección');
-        }
-    })
-</script>
-
-<!-- page script -->
-<script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
-<script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
-<script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
-<script src="{{asset('assets/js/libreria/validator/validator.min.js')}}"></script>
-<script src="{{asset('assets/js/vendor/jquery.smartWizard.min.js')}}"></script>
-
-<script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
-<script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
-<script src="{{asset('assets/js/superadmin/alumnos.js')}}"></script>
-<script src="{{asset('assets/js/all/validacionKey.js')}}"></script>
-
-<script>
-$('#ul-contact-list').DataTable();
-</script>
+          if(tmp == ''){
+              alert('Debe seleccionar una sección');
+          }
+      })
+  </script>
+  <!-- page script -->
+  <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
+  <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
+  <script src="{{asset('assets/js/libreria/validator/validator.min.js')}}"></script>
+  <script src="{{asset('assets/js/vendor/jquery.smartWizard.min.js')}}"></script>
+  <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
+  <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
+  <script src="{{asset('assets/js/superadmin/alumnos.js')}}"></script>
+  <script src="{{asset('assets/js/all/validacionKey.js')}}"></script>
+  <script>
+    $('#ul-contact-list').DataTable();
+  </script>
 @endsection

@@ -253,6 +253,12 @@ class Docente extends Controller
         $newusuario->creador = $usuario->id;
         $newusuario->save();
 
+        //registramos herramientas por defecto al usuario
+        DB::table('herramienta_d')->insert([
+          ['id_usuario' => $newusuario->id,'c_nombre' => 'Google Drive','c_logo_link' => url('/assets/images/tools/google-drive.png'),'c_link' => 'https://drive.google.com/','b_mantenimiento' => 0,'creador' => $newusuario->id],
+          ['id_usuario' => $newusuario->id,'c_nombre' => 'YouTube Innova','c_logo_link' => url('/assets/images/tools/youtube.png'),'c_link' => 'https://www.youtube.com/channel/UCtogoQsfAGBpGcn7BClcIYg','b_mantenimiento' => 0,'creador' => $newusuario->id]
+        ]);
+
         return redirect('super/docentes');
     }
 

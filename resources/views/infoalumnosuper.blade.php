@@ -7,6 +7,9 @@
 @section('main-content')
 
 <section>
+    @if(Session::has('error_dni'))
+      <h1>{{Session::get('error_dni')}}</h1>
+    @endif
     <div class="row">
         <div class="col-lg-8 col-md-12 mb-3">
             <div class="card">
@@ -40,21 +43,29 @@
                                     <div class="col-sm-4">
                                         <div class="input-group mb-3">
                                             <input type="text" id="dni" name="dni"
-                                            class="form-control @error('dni') is-invalid @enderror" value="{{$alumno->c_dni}}" minlength="8" maxlength="8" required>
+                                            class="form-control @error('dni') is-invalid @enderror {{(Session::has('error_dni'))?'is-invalid': ''}}" value="{{$alumno->c_dni}}" minlength="8" maxlength="8" required>
 
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-light ladda-button"  data-style="expand-right" id="btnBuscarPorDNI">Buscar</button>
                                             </div>
-                                            <span class="invalid-feedback" role="alert">
-                                                Debe ser un DNI válido
-                                            </span>
+                                            @if($errors->has('dni'))
+                                              @error('dni')
+                                                  <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                  </span>
+                                              @enderror
+                                            @else
+                                              @if(Session::has('error_dni'))
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ Session::get('error_dni')}}</strong>
+                                                </span>
+                                              @else
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>Debe ser un DNI válido</strong>
+                                                </span>
+                                              @endif
+                                            @endif
                                         </div>
-
-                                        @error('dni')
-                                            <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
                                     </div>
 
                                     <label for="nombre" class="hs_capitalize col-sm-2 col-form-label  ">Apellidos y Nombre(s)</label>
@@ -179,7 +190,7 @@
                                                 @endif
                                             @endforeach
                                         </select>
-                                        
+
                                         <span class="invalid-feedback" role="alert">
                                             La sección es necesario
                                             </span>
