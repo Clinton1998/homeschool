@@ -30,18 +30,18 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tareas-pendientes"
+                                        role="tab">
+                                        Por Calificar
+                                        <span style="font-size: 13px" class="badge-pendientes badge  badge-square-danger">{{$tareas_pendientes_por_calificar->count()}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tareas-calificadas"
                                         role="tab">
                                         Calificados
                                         <span style="font-size: 13px" class="badge-calificadas badge  badge-square-success">{{$tareas_calificadas->count()}}</span>
 
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#tareas-pendientes"
-                                        role="tab">
-                                        Pendientes
-                                        <span style="font-size: 13px" class="badge-pendientes badge  badge-square-danger">{{$tareas_pendientes_por_calificar->count()}}</span>
                                     </a>
                                 </li>
                             </ul>
