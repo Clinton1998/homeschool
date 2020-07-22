@@ -220,7 +220,7 @@
                               <div class="col-6" style="min-width: 190px!important">
                                   <div class="form-group">
                                       <label class="label-text" for="txtFechaEntregaSinArchivo">Fecha</label>
-                                      <input class="form-control" id="txtFechaEntregaSinArchivo"  name="fecha_hora_entrega" type="date" min="{{date('Y-m-d')}}" disabled required>
+                                      <input class="form-control" id="txtFechaEntregaSinArchivo"  name="fecha_hora_entrega" type="date" min="{{date('Y-m-d')}}" value="{{date('Y-m-d')}}" disabled required>
                                       <span class="invalid-feedback" role="alert">
                                           Selecciona una fecha correcta
                                       </span>
@@ -229,7 +229,7 @@
                               <div class="col-3" style="min-width: 50px!important">
                                   <div class="form-group">
                                       <label class="label-text" for="txtHoraEntregaSinArchivo">Hora</label>
-                                      <input class="form-control" id="txtHoraEntregaSinArchivo"  name="hora_entrega" type="number" min="0" max="23" disabled>
+                                      <input class="form-control" id="txtHoraEntregaSinArchivo"  name="hora_entrega" type="number" min="0" max="23" value="23" disabled>
                                       <span class="invalid-feedback" role="alert">
                                           Ingresa hora
                                       </span>
@@ -238,7 +238,7 @@
                               <div class="col-3" style="min-width: 50px!important">
                                   <div class="form-group">
                                       <label class="label-text" for="txtMinutoEntregaSinArchivo">Minuto</label>
-                                      <input class="form-control" id="txtMinutoEntregaSinArchivo"  name="minuto_entrega" type="number" min="0" max="59" disabled>
+                                      <input class="form-control" id="txtMinutoEntregaSinArchivo"  name="minuto_entrega" type="number" min="0" max="59" value="59" disabled>
                                       <span class="invalid-feedback" role="alert">
                                           Ingresa minuto
                                       </span>
@@ -324,8 +324,8 @@
                           <div class="row">
                               <div class="col-6" style="min-width: 190px!important">
                                   <div class="form-group">
-                                      <label class="label-text" for="txtFechaEntregaConArchivo">Fecha</label>
-                                  <input class="form-control input-modo-con-archivo" id="txtFechaEntregaConArchivo"  name="fecha_hora_entrega" type="date" min="{{date('Y-m-d')}}" disabled required>
+                                      <label class="label-text" for="txtFechaEntregaConArchivo">*Fecha</label>
+                                  <input class="form-control input-modo-con-archivo" id="txtFechaEntregaConArchivo"  name="fecha_hora_entrega" type="date" min="{{date('Y-m-d')}}" value="{{date('Y-m-d')}}" disabled required>
                                       <span class="invalid-feedback" role="alert">
                                           Selecciona una fecha correcta
                                       </span>
@@ -334,7 +334,7 @@
                               <div class="col-3" style="min-width: 50px!important">
                                   <div class="form-group">
                                       <label class="label-text" for="txtHoraEntregaConArchivo">Hora</label>
-                                      <input class="form-control input-modo-con-archivo" id="txtHoraEntregaConArchivo"  name="hora_entrega" type="number" min="0" max="23" disabled>
+                                      <input class="form-control input-modo-con-archivo" id="txtHoraEntregaConArchivo"  name="hora_entrega" type="number" min="0" max="23" value="23" disabled>
                                       <span class="invalid-feedback" role="alert">
                                           Ingresa hora
                                       </span>
@@ -344,7 +344,7 @@
                               <div class="col-3" style="min-width: 50px!important">
                                   <div class="form-group">
                                       <label class="label-text" for="txtMinutoEntregaConArchivo">Minuto</label>
-                                      <input class="form-control input-modo-con-archivo" id="txtMinutoEntregaConArchivo"  name="minuto_entrega" type="number" min="0" max="59" disabled>
+                                      <input class="form-control input-modo-con-archivo" id="txtMinutoEntregaConArchivo"  name="minuto_entrega" type="number" min="0" max="59" value="59" disabled>
                                       <span class="invalid-feedback" role="alert">
                                           Ingresa minuto
                                       </span>
