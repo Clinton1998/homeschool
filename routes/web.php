@@ -53,6 +53,8 @@ Route::post('super/facturacion/serie/prefijo','usuario\super\facturacion\Serie@p
 
 //COMPROBANTE
 Route::get('super/facturacion/comprobante','usuario\super\facturacion\Comprobante@index')->name('super/facturacion/comprobante');
+Route::post('super/facturacion/comprobante/agregar','usuario\super\facturacion\Comprobante@agregar')->name('super/facturacion/comprobante/agregar');
+
 Route::post('super/facturacion/comprobante/basiconecesario','usuario\super\facturacion\Comprobante@basico_necesario')->name('super/facturacion/comprobante/basiconecesario');
 Route::post('super/facturacion/comprobante/alumnos','usuario\super\facturacion\Comprobante@alumnos')->name('super/facturacion/comprobante/alumnos');
 Route::post('super/facturacion/comprobante/alumno','usuario\super\facturacion\Comprobante@alumno')->name('super/facturacion/comprobante/alumno');

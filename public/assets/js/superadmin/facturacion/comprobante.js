@@ -551,6 +551,7 @@ $(function() {
 
 function fxGuardarComprobante() {
     var comprobante = {
+        fecha: $('#spnFechaEmisionComprobante').find('i.text-fecha-emision').text(),
         id_serie: $('#inpIdSerieParaComprobante').val(),
         id_alumno: ($('#chkComprobanteParaAlumno').val() != '') ? $('#chkComprobanteParaAlumno').val() : null,
         id_tipo_documento: $('#inpIdTipoDocumentoParaComprobante').val(),
@@ -560,18 +561,52 @@ function fxGuardarComprobante() {
         direccion_receptor: $('#inpDireccion').val(),
         observaciones: $('#inpObservaciones').val(),
         id_tipo_impresion: $('#inpIdTipoImpresionParaComprobante').val(),
-        total_operacion_gravada: parseFloat($('#spnImporteComprobante').text() != '' ? $('#spnImporteComprobante').text() : 0),
-        total_descuento: parseFloat($('#spanDescuentoComprobante').text() != '' ? $('#spanDescuentoComprobante').text() : 0),
-        total_igv: parseFloat($('#spnIgvComprobante').text() != '' ? $('#spnIgvComprobante').text() : 0),
-        total: parseFloat($('#spanTotalComprobante').text() != '' ? $('#spanTotalComprobante').text() : 0)
+        total_operacion_gravada: $('#spnTotalOpGravada').text(),
+        total_operacion_exonerada: $('#spnTotalOpExonerada').text(),
+        total_operacion_inafecta: $('#spnTotalOpInafecta').text(),
+        total_operacion_gratuita: $('#spnTotalOpGratuita').text(),
+        total_descuento: $('#spnDescuentoComprobante').text(),
+        total_igv: $('#spnTotalIgv').text(),
+        total: $('#spnTotalConDescuentoComprobante').text(),
+        items: []
     };
-
-
-    alert(JSON.stringify(comprobante));
-    alert('FALTA MUCHO');
-
+    //agregamos los items del comprobante
+    $('#tabProductos tbody tr').each(function(el) {
+        let tds = $(this).find('td');
+        let valor_unitario = parseFloat(tds.filter(':eq(5)').find('input').val());
+        let cantidad = parseInt(tds.filter(':eq(4)').find('input').val());
+        let total_base = valor_unitario * cantidad;
+        let item = {
+            id_producto: tds.filter(':eq(1)').find('select').val(),
+            tributo: tds.filter(':eq(9)').find('select').val(),
+            cantidad: tds.filter(':eq(4)').find('input').val(),
+            valor_unitario: tds.filter(':eq(5)').find('input').val(),
+            precio_unitario: tds.filter(':eq(7)').find('input').val(),
+            total_base: total_base,
+            total_igv: tds.filter(':eq(6)').text(),
+            total_detalle: tds.filter(':eq(8)').find('input').val()
+        };
+        comprobante.items.push(item);
+    });
     console.log('Los datos a enviar son: ');
     console.log(comprobante);
+
+    $.ajax({
+        type: 'POST',
+        url: '/super/facturacion/comprobante/agregar',
+        data: comprobante,
+        error: function(error) {
+            alert('Ocurrió un error');
+            console.error(error);
+        }
+    }).done(function(data) {
+        console.log('Los datos devueltos son: ');
+        console.log(data);
+        if (data.correcto) {
+            alert('Comprobante guardado');
+            location.reload();
+        }
+    });
 }
 
 function fxActualizarValorDeProducto(e) {

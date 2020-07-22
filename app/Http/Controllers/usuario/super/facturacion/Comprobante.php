@@ -4,7 +4,9 @@ namespace App\Http\Controllers\usuario\super\facturacion;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\facturacion\GenerarPrevisualizacion;
+use App\Http\Requests\facturacion\AgregarComprobante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App;
 use Auth;
 
@@ -106,6 +108,112 @@ class Comprobante extends Controller
             }
         }
         return redirect('/home');
+    }
+    public function agregar(AgregarComprobante $request){
+        $colegio = App\Colegio_m::where([
+            'id_superadministrador' => Auth::user()->id,
+            'estado' => 1
+        ])->first();
+        if(!is_null($colegio) && !empty($colegio)){
+            $comprobante = new App\Comprobante_d;
+            $comprobante->id_colegio = $colegio->id_colegio;
+            $comprobante->id_serie = $request->input('id_serie');
+            $comprobante->id_alumno = $request->input('id_alumno');
+            $comprobante->id_tipo_documento = $request->input('id_tipo_documento');
+            $comprobante->id_moneda = $request->input('id_moneda');
+            $comprobante->n_numero = 2004;
+            $comprobante->c_nombre_receptor = $request->input('nombre_receptor');
+            $doc = trim($request->input('numero_documento_identidad'));
+            $codigo_sunat = null;
+            if(strlen($doc)==8){
+                $codigo_sunat = 1;
+            }else if(strlen($doc)==11){
+                $codigo_sunat = 6;
+            }
+            if(!is_null($codigo_sunat)){
+                $documento_identidad = App\Documento_identidad_m::where([
+                'c_codigo_sunat'=> $codigo_sunat,
+                'estado' => 1
+                ])->first();
+                if(!is_null($documento_identidad) && !empty($documento_identidad)){
+                    $comprobante->id_documento_identidad = $documento_identidad->id_documento_identidad;
+                }
+            }
+            $comprobante->c_numero_documento_identidad = $doc;
+            $comprobante->c_direccion_receptor = $request->input('direccion_receptor');
+            $comprobante->c_ubigeo_receptor = '010101';
+            $comprobante->c_email_receptor = 'clintontapialagar@gmail.com';
+            $comprobante->c_telefono_receptor = '920192637';
+            $comprobante->t_fecha_emision = $request->input('fecha');
+            $comprobante->t_fecha_vencimiento = $request->input('fecha');
+            $comprobante->c_observaciones = $request->input('observaciones');
+            $comprobante->id_tipo_impresion = $request->input('id_tipo_impresion');
+            $comprobante->b_envio_automatico_email = 0;
+            $comprobante->n_total_operacion_gravada = $request->input('total_operacion_gravada');
+            $comprobante->n_total_operacion_inafecta = $request->input('total_operacion_inafecta');
+            $comprobante->n_total_operacion_exonerada = $request->input('total_operacion_exonerada');
+            $comprobante->n_total_operacion_gratuita = 0;
+            $comprobante->n_total_descuento = $request->input('total_descuento');
+            $comprobante->n_total_igv = $request->input('total_igv');
+            $comprobante->n_total_icbper = 0;
+            $comprobante->n_total = $request->input('total');
+            $comprobante->b_estado_comprobado = 0;
+            $comprobante->creador = Auth::user()->id;
+            $response = $comprobante->save();
+            if($response){
+                $porcentaje = (App\Tributo_m::where([
+                    'c_codigo_sunat' => 'IGV',
+                    'estado' => 1
+                ])->first())->n_porcentaje;
+                $items = $request->input('items');
+                for($i = 0; $i<count($items); $i++){
+                    //obtemos el producto
+                    $producto = App\Producto_servicio_d::where([
+                        'id_colegio' => $colegio->id_colegio,
+                        'id_producto_servicio' => $items[$i]['id_producto'],
+                        'estado' => 1
+                    ])->first();
+                    if(!is_null($producto) && !empty($producto)){
+                        //agregamos los items del comprobante
+                        $detalle = new App\Detalle_comprobante_d;
+                        $detalle->id_comprobante = $comprobante->id_comprobante;
+                        $detalle->id_producto = $producto->id_producto_servicio;
+                        $detalle->c_codigo_producto = $producto->c_codigo;
+                        $detalle->c_nombre_producto = $producto->c_nombre;
+                        $detalle->c_unidad_producto = $producto->c_unidad;
+                        $detalle->c_tributo_producto = $items[$i]['tributo'];
+                        $detalle->c_informacion_adicional = '--info--';
+                        $detalle->b_tipo_detalle = 0;
+                        $detalle->n_cantidad = $items[$i]['cantidad'];
+                        $detalle->n_valor_unitario = $items[$i]['valor_unitario'];
+                        $detalle->n_precio_unitario = $items[$i]['precio_unitario'];
+                        $detalle->n_porcentaje_igv = $porcentaje;
+                        $detalle->n_total_base = $items[$i]['total_base'];
+                        $detalle->n_total_igv = $items[$i]['total_igv'];
+                        $detalle->n_total_icbper = 0;
+                        $detalle->n_total_impuesto = $items[$i]['total_igv'];
+                        $detalle->n_total_detalle = $items[$i]['total_detalle'];
+                        $detalle->estado  = 0;
+                        $detalle->creador = Auth::user()->id;
+                        $detalle->save();
+                    }
+                }
+
+                //actualizamos el detalle y la cabacera
+                DB::table('detalle_comprobante_d')
+                ->where('id_comprobante','=',$comprobante->id_comprobante)
+                ->update(['estado' => 1]);
+                $comprobante->estado = 2;
+                $comprobante->save();
+
+                return response()->json([
+                    'correcto' => TRUE
+                ]);
+            }
+        }
+        return response()->json([
+            'correcto' => FALSE
+        ]);
     }
     public function posibles_clientes(){
         $colegio = App\Colegio_m::where([

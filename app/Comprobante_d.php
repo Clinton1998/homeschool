@@ -48,4 +48,18 @@ class Comprobante_d extends Model
         'n_valor_unitario','n_precio_unitario','n_porcentaje_igv','n_total_base',
         'n_total_igv','n_total_icbper','n_total_impuesto','n_total_detalle');
     }
+
+    //mutadores
+    public function setCNombreReceptorAttribute($value){
+        $this->attributes['c_nombre_receptor'] = trim($value);
+    }
+    public function setCNumeroDocumentoIdentidad($value){
+        $this->attributes['c_numero_documento_identidad'] = trim($value);
+    }
+    public function setCDireccionReceptor($value){
+        $this->attributes['c_direccion_receptor'] = trim($value);
+    }
+    public function setCObservaciones($value){
+        $this->attributes['c_observaciones'] = trim($value);
+    }
 }
