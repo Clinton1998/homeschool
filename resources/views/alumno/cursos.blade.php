@@ -24,22 +24,30 @@
                 @endforeach
             </div>
             <section class="cursos-tablero">
+                @php
+                    $tmp = 0;
+                @endphp
                 @foreach ($cursos as $c)
-                    <article class="curso-card">
-                        <div class="curso-card-header" style="background: {{$c->col_curso}}">
-                            <h4 class="curso-card-titulo hs_capitalize-first">{{mb_strtolower($c->nom_curso)}}</h4>
-                        </div>
-                        <div class="curso-card-footer">
-                            <div class="curso-card-notify">
-                                <i class="curso-notify nav-icons i-Mailbox-Empty"></i>
-                                <i class="curso-notify nav-icons i-Speach-Bubbles"></i>
-                                <i class="curso-notify nav-icons i-Bell"></i>
+                    @if ($c->id_categoria != $tmp)
+                        <article class="curso-card">
+                            <div class="curso-card-header" style="background: {{$c->col_curso}}">
+                                <h4 class="curso-card-titulo hs_capitalize-first">{{mb_strtolower($c->nom_curso)}}</h4>
                             </div>
-                            <div>
-                                <a class="btn btn-secondary" href="{{url('alumno/cursos/curso/'.$c->id_categoria)}}">Ingresar</a>
+                            <div class="curso-card-footer">
+                                <div class="curso-card-notify">
+                                    <i class="curso-notify nav-icons i-Mailbox-Empty"></i>
+                                    <i class="curso-notify nav-icons i-Speach-Bubbles"></i>
+                                    <i class="curso-notify nav-icons i-Bell"></i>
+                                </div>
+                                <div>
+                                    <a class="btn btn-secondary" href="{{url('alumno/cursos/curso/'.$c->id_seccion_categoria)}}">Ingresar</a>
+                                </div>
                             </div>
-                        </div>
-                    </article>
+                        </article>
+                        @php
+                            $tmp = $c->id_categoria;
+                        @endphp
+                    @endif
                 @endforeach
             </section>
         </div>

@@ -40,11 +40,18 @@ class cursos extends Controller
             ->orderBy('nom_curso')
         ->get();
 
-        /*$comunicados = DB::table('comunicado_d')
-            ->select ('comunicado_d.*')
-            ->where(['comunicado_d.estado' => 1, 'comunicado_d.id_colegio' => $alumno->seccion->grado->colegio->id_colegio])
-            ->orderBy('comunicado_d.created_at', 'DESC')
-        ->get();*/
+        //Docentes de curso
+        $docentes = DB::table('docente_d')
+        ->join('seccion_categoria_docente_p','docente_d.id_docente','=','seccion_categoria_docente_p.id_docente')
+        ->join('seccion_categoria_p','seccion_categoria_docente_p.id_seccion_categoria','=','seccion_categoria_p.id_seccion_categoria')
+        ->select('seccion_categoria_p.id_seccion_categoria',
+                'docente_d.id_docente', 'docente_d.c_nombre as nom_docente', 'docente_d.c_especialidad as especialidad', 'docente_d.*')
+        ->where([
+            'docente_d.estado' => 1,
+            'seccion_categoria_p.estado' => 1,
+            'seccion_categoria_docente_p.estado' => 1])
+        ->get();
+        
         $comunicados = App\Comunicado_d::where([
           'estado' => 1,
           'id_colegio' => $alumno->seccion->grado->colegio->id_colegio
@@ -74,7 +81,7 @@ class cursos extends Controller
             ->orderBy('anuncio_d.created_at', 'DESC')
         ->get();
 
-        return view('alumno.cursos', compact('alumno','grado_seccion','cursos','comunicados','comunicados_all','anuncios_seccion','anuncios_seccion_all'));
+        return view('alumno.cursos', compact('alumno','grado_seccion','cursos', 'docentes', 'comunicados','comunicados_all','anuncios_seccion','anuncios_seccion_all'));
     }
 
     public function curso($id_curso){
@@ -92,7 +99,8 @@ class cursos extends Controller
                     'seccion_d.id_seccion', 'seccion_d.c_nombre as nom_seccion',
                     'grado_m.c_nombre as nom_grado', 'grado_m.c_nivel_academico as nom_nivel',
                     'docente_d.id_docente', 'docente_d.c_nombre as nom_docente', 'docente_d.c_especialidad as especialidad', 'docente_d.*')
-            ->where(['seccion_d.id_seccion' => $alumno->id_seccion, 'categoria_d.id_categoria' => $id_curso,
+            ->where(['seccion_d.id_seccion' => $alumno->id_seccion, 'seccion_categoria_p.id_seccion_categoria' => $id_curso,
+            /* ->where(['seccion_d.id_seccion' => $alumno->id_seccion, 'categoria_d.id_categoria' => $id_curso, */
             'categoria_d.estado' => 1,
             'seccion_d.estado' => 1,
             'grado_m.estado' => 1,
@@ -100,6 +108,18 @@ class cursos extends Controller
             'seccion_categoria_p.estado' => 1,
             'seccion_categoria_docente_p.estado' => 1])
         ->first();
+
+        //Docentes de curso
+        $docentes = DB::table('docente_d')
+        ->join('seccion_categoria_docente_p','docente_d.id_docente','=','seccion_categoria_docente_p.id_docente')
+        ->join('seccion_categoria_p','seccion_categoria_docente_p.id_seccion_categoria','=','seccion_categoria_p.id_seccion_categoria')
+        ->select('seccion_categoria_p.id_seccion_categoria',
+                'docente_d.id_docente', 'docente_d.c_nombre as nom_docente', 'docente_d.c_especialidad as especialidad', 'docente_d.*')
+        ->where(['seccion_categoria_p.id_seccion_categoria' => $id_curso,
+            'docente_d.estado' => 1,
+            'seccion_categoria_p.estado' => 1,
+            'seccion_categoria_docente_p.estado' => 1])
+        ->get();
 
         //Tareas asignadas
         $tareas = $alumno->tareas_asignados()->where(['tarea_d.estado' => 1, 'tarea_d.id_categoria' => $id_curso])->orderBy('t_fecha_hora_entrega', 'DESC')->get();
@@ -134,7 +154,7 @@ class cursos extends Controller
             ->orderBy('archivo_d.id_archivo','ASC')
         ->get();
 
-        return view('alumno.curso', compact('curso', 'tareas', 'docente','alumnosseccion', 'modulos', 'anuncios_curso', 'archivos'));
+        return view('alumno.curso', compact('curso', 'docentes','tareas' ,'alumnosseccion', 'modulos', 'anuncios_curso', 'archivos'));
     }
 
     public function descargar_archivo($id_archivo){

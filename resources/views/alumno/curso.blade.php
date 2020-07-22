@@ -6,11 +6,21 @@
 @section('main-content')
 <body>
     <div class="curso-main">
+
         <!--header-->
         <div class="curso-header" style="background: {{$curso->col_curso}}">
             <div>
                 <h4 class="curso-name hs_capitalize-first">{{mb_strtolower($curso->nom_curso)}}</h4>
-                <small class="celda_oculta curso-name curso-name-sub hs_upper">DOCENTE:&nbsp;{{$curso->nom_docente}}</small>
+                <small class="celda_oculta curso-name curso-name-sub hs_upper">
+                    @if ($docentes->count() == 1)
+                        DOCENTE:&nbsp;{{$curso->nom_docente}}
+                    @else
+                        DOCENTES:&nbsp;
+                        @foreach ($docentes as $doc)
+                            {{$doc->nom_docente}}&nbsp;|
+                        @endforeach
+                    @endif
+                </small>
             </div>
             <a class="curso-back btn btn-secondary" href="{{url('/alumno/cursos')}}">
                 <i class="nav-icon i-Arrow-Left"></i>

@@ -22,14 +22,6 @@
                 </a>
             </li>
 
-            <li class="menu-lateral-item {{ request()->is('docente/asignartareas*') ? 'item-activo' : '' }}">
-                <a class="menu-lateral-item-link" href="{{route('docente/asignartareas')}}">
-                    <i class="nav-icon i-Notepad"></i>
-                    <br>
-                    <span>Historial de tareas</span>
-                </a>
-            </li>
-
             <li class="menu-lateral-item {{ request()->is('docente/estadotareas*') ? 'item-activo' : '' }}">
                 <a class="menu-lateral-item-link" href="{{route('docente/estadotareas')}}">
                     <i class="nav-icon i-Folder-With-Document"></i>
@@ -38,11 +30,11 @@
                 </a>
             </li>
 
-            <li class="menu-lateral-item {{ request()->is('docente/alumno*') ? 'item-activo' : '' }}">
-                <a class="menu-lateral-item-link" href="{{route('docente/alumno')}}">
-                    <i class="nav-icon i-Student-Hat-2"></i>
+            <li class="menu-lateral-item {{ request()->is('docente/asignartareas*') ? 'item-activo' : '' }}">
+                <a class="menu-lateral-item-link" href="{{route('docente/asignartareas')}}">
+                    <i class="nav-icon i-Notepad"></i>
                     <br>
-                    <span>Mis alumnos</span>
+                    <span>Historial de tareas</span>
                 </a>
             </li>
 
@@ -51,6 +43,14 @@
                     <i class="nav-icon i-Movie"></i>
                     <br>
                     <span>Videoclase</span>
+                </a>
+            </li>
+
+            <li class="menu-lateral-item {{ request()->is('docente/alumno*') ? 'item-activo' : '' }}">
+                <a class="menu-lateral-item-link" href="{{route('docente/alumno')}}">
+                    <i class="nav-icon i-Student-Hat-2"></i>
+                    <br>
+                    <span>Mis alumnos</span>
                 </a>
             </li>
 
