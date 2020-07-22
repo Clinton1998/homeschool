@@ -35,6 +35,13 @@ class Alumno extends Controller
             'estado' => 1
         ])->orderBy('c_nivel_academico', 'ASC')->orderBy('c_nombre', 'ASC')->get();
 
+        //obtenemos departamentos
+        $departamentos = DB::table('ubigeo_m')->where([
+          //['c_departamento','<>','00'],
+          ['c_provincia','=','00'],
+          ['c_distrito','=','00']
+        ])->select('c_departamento','c_nombre')->orderBy('c_nombre','ASC')->get();
+
         //obteniendo los alumnos de ese colegio
 
         $TMP = DB::table('seccion_d')
@@ -48,7 +55,7 @@ class Alumno extends Controller
             ])
             ->orderBy('grado_m.c_nivel_academico', 'ASC')->orderBy('grado_m.c_nombre', 'ASC')->orderBy('seccion_d.c_nombre', 'ASC')->get();
 
-        return view('alumnossuper', compact('grados', 'TMP'));
+        return view('alumnossuper', compact('grados', 'TMP','departamentos'));
     }
 
     public function agregar(Request $request)
@@ -90,6 +97,7 @@ class Alumno extends Controller
                   $alumno->c_sexo = $request->input('sexo');
                   $alumno->t_fecha_nacimiento = $request->input('fecha_nacimiento');
                   $alumno->c_direccion = $request->input('direccion');
+                  $alumno->c_ubigeo = $request->input('distrito');
                   $alumno->c_informacion_adicional = $request->input('adicional');
 
                   $alumno->c_dni_representante1 = $request->input('dni_repre1');
@@ -99,6 +107,7 @@ class Alumno extends Controller
                   $alumno->c_telefono_representante1 = $request->input('telefono_repre1');
                   $alumno->c_correo_representante1 = $request->input('correo_repre1');
                   $alumno->c_direccion_representante1 = $request->input('direccion_repre1');
+                  $alumno->c_ubigeo_representante1 = $request->input('distrito_repre1');
                   $alumno->c_vinculo_representante1 = $request->input('vinculo_repre1');
 
                   $alumno->c_dni_representante2 = $request->input('dni_repre2');
@@ -108,6 +117,7 @@ class Alumno extends Controller
                   $alumno->c_telefono_representante2 = $request->input('telefono_repre2');
                   $alumno->c_correo_representante2 = $request->input('correo_repre2');
                   $alumno->c_direccion_representante2 = $request->input('direccion_repre2');
+                  $alumno->c_ubigeo_representante2 = $request->input('distrito_repre2');
                   $alumno->c_vinculo_representante2 = $request->input('vinculo_repre2');
                   $alumno->creador = $usuario->id;
                   $alumno->save();
@@ -204,6 +214,69 @@ class Alumno extends Controller
         //obtenemos el usuario del alumno
         $usuario_del_alumno = App\User::where('id_alumno', '=', $alumno->id_alumno)->first();
 
+        //obtenemos los departamentos
+        $departamentos = DB::table('ubigeo_m')->where([
+          //['c_departamento','<>','00'],
+          ['c_provincia','=','00'],
+          ['c_distrito','=','00']
+        ])->select('c_departamento','c_nombre')->orderBy('c_nombre','ASC')->get();
+
+        //obtenemos ubigeo del alumno
+        $ubigeo = DB::table('ubigeo_m')->where([
+          'id_ubigeo' => $alumno->c_ubigeo
+        ])->select('id_ubigeo','c_departamento','c_provincia','c_distrito')->first();
+        $provincias = null;
+        $distritos = null;
+        if(!is_null($ubigeo) && !empty($ubigeo)){
+          $provincias = DB::table('ubigeo_m')->where([
+            ['c_departamento','=',$ubigeo->c_departamento],
+            ['c_provincia','<>','00'],
+            ['c_distrito','=','00']
+          ])->select('c_provincia','c_nombre')->orderBy('c_nombre','ASC')->get();
+          $distritos = DB::table('ubigeo_m')->where([
+            ['c_departamento','=',$ubigeo->c_departamento],
+            ['c_provincia','=',$ubigeo->c_provincia],
+            ['c_distrito','<>','00']
+          ])->select('id_ubigeo','c_nombre')->orderBy('c_nombre','ASC')->get();
+        }
+
+        //obtenemos el ubigeo del primer representante
+        $ubigeo_repre1 = DB::table('ubigeo_m')->where([
+          'id_ubigeo' => $alumno->c_ubigeo_representante1
+        ])->select('id_ubigeo','c_departamento','c_provincia','c_distrito')->first();
+        $provincias_repre1 = null;
+        $distritos_repre1 = null;
+        if(!is_null($ubigeo_repre1) && !empty($ubigeo_repre1)){
+          $provincias_repre1 = DB::table('ubigeo_m')->where([
+            ['c_departamento','=',$ubigeo_repre1->c_departamento],
+            ['c_provincia','<>','00'],
+            ['c_distrito','=','00']
+          ])->select('c_provincia','c_nombre')->orderBy('c_nombre','ASC')->get();
+          $distritos_repre1 = DB::table('ubigeo_m')->where([
+            ['c_departamento','=',$ubigeo_repre1->c_departamento],
+            ['c_provincia','=',$ubigeo_repre1->c_provincia],
+            ['c_distrito','<>','00']
+          ])->select('id_ubigeo','c_nombre')->orderBy('c_nombre','ASC')->get();
+        }
+
+        //obtenemos el ubigeo del segundo representante
+        $ubigeo_repre2 = DB::table('ubigeo_m')->where([
+          'id_ubigeo' => $alumno->c_ubigeo_representante2
+        ])->select('id_ubigeo','c_departamento','c_provincia','c_distrito')->first();
+        $provincias_repre2 = null;
+        $distritos_repre2 = null;
+        if(!is_null($ubigeo_repre2) && !empty($ubigeo_repre2)){
+          $provincias_repre2 = DB::table('ubigeo_m')->where([
+            ['c_departamento','=',$ubigeo_repre2->c_departamento],
+            ['c_provincia','<>','00'],
+            ['c_distrito','=','00']
+          ])->select('c_provincia','c_nombre')->orderBy('c_nombre','ASC')->get();
+          $distritos_repre2 = DB::table('ubigeo_m')->where([
+            ['c_departamento','=',$ubigeo_repre2->c_departamento],
+            ['c_provincia','=',$ubigeo_repre2->c_provincia],
+            ['c_distrito','<>','00']
+          ])->select('id_ubigeo','c_nombre')->orderBy('c_nombre','ASC')->get();
+        }
 
         $TMP = DB::table('seccion_d')
             ->join('grado_m', 'seccion_d.id_grado', '=', 'grado_m.id_grado')
@@ -215,9 +288,7 @@ class Alumno extends Controller
                 'seccion_d.estado' => 1
             ])
             ->orderBy('grado_m.c_nivel_academico', 'ASC')->orderBy('grado_m.c_nombre', 'ASC')->orderBy('seccion_d.c_nombre', 'ASC')->get();
-
-
-        return view('infoalumnosuper', compact('alumno', 'grados', 'usuario_del_alumno', 'TMP'));
+        return view('infoalumnosuper', compact('alumno', 'grados', 'usuario_del_alumno', 'TMP','departamentos','ubigeo','provincias','distritos','ubigeo_repre1','provincias_repre1','distritos_repre1','ubigeo_repre2','provincias_repre2','distritos_repre2'));
     }
 
     public function cambiar_foto(Request $request)
@@ -297,7 +368,10 @@ class Alumno extends Controller
             'sexo' => 'required|string|size:1',
             'fecha_nacimiento' => 'required',
             'direccion' => 'required',
-            'seccion' => 'required'
+            'seccion' => 'required',
+            'departamento' => 'required',
+            'provincia' => 'required',
+            'distrito' => 'required'
         ]);
 
         //verificamos que el colegio pertenesca al superadministrador
@@ -333,6 +407,7 @@ class Alumno extends Controller
                       $alumno->t_fecha_nacimiento = $request->input('fecha_nacimiento');
                       $alumno->c_correo = $request->input('correo_alumno');
                       $alumno->c_direccion = $request->input('direccion');
+                      $alumno->c_ubigeo = $request->input('distrito');
                       $alumno->c_informacion_adicional = $request->input('direccion');
                       $alumno->modificador = $usuario->id;
                       $alumno->save();
@@ -397,6 +472,7 @@ class Alumno extends Controller
             $alumno->c_telefono_representante1 = $request->input('telefono_repre1');
             $alumno->c_correo_representante1 = $request->input('correo_repre1');
             $alumno->c_direccion_representante1 = $request->input('direccion_repre1');
+            $alumno->c_ubigeo_representante1 = $request->input('ubigeo_repre1');
             $alumno->c_vinculo_representante1 = $request->input('vinculo_repre1');
 
             $alumno->c_dni_representante2 = $request->input('dni_repre2');
@@ -406,6 +482,7 @@ class Alumno extends Controller
             $alumno->c_telefono_representante2 = $request->input('telefono_repre2');
             $alumno->c_correo_representante2 = $request->input('correo_repre2');
             $alumno->c_direccion_representante2 = $request->input('direccion_repre2');
+            $alumno->c_ubigeo_representante2 = $request->input('ubigeo_repre2');
             $alumno->c_vinculo_representante2 = $request->input('vinculo_repre2');
             $alumno->modificador = $usuario->id;
             $alumno->save();

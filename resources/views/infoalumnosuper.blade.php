@@ -1,11 +1,11 @@
 @extends('reutilizable.principal')
 @section('page-css')
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/css/libreria/slim/slimselect.min.css')}}">
+    <!--<link rel="stylesheet" href="{{ asset('assets/styles/css/libreria/slim/slimselect.min.css')}}">-->
     <link rel="stylesheet" href="{{ asset('assets/styles/css/style-super.css')}}">
+    <link href="{{asset('assets/styles/css/libreria/select2/select2.min.css')}}" rel="stylesheet" />
 @endsection
 @section('main-content')
-
 <section>
     <div class="row">
         <div class="col-lg-8 col-md-12 mb-3">
@@ -80,7 +80,7 @@
                                     <div class="col-sm-4">
                                     <input type="text" id="nacionalidad" name="nacionalidad" class="press-mayusculas only-letras hs_capitalize form-control @error('nacionalidad') is-invalid @enderror" value="{{$alumno->c_nacionalidad}}" required>
                                     <span class="invalid-feedback" role="alert">
-                                        La nacionalida es requerido
+                                        La nacionalidad es requerido
                                         </span>
 
                                     @error('nacionalidad')
@@ -146,7 +146,7 @@
                                         <input type="text" class="press-mayusculas hs_capitalize-first form-control @error('direccion') is-invalid @enderror" id="direccion" name="direccion" value="{{$alumno->c_direccion}}" required>
                                         <span class="invalid-feedback" role="alert">
                                             La dirección es requerido
-                                            </span>
+                                        </span>
                                         @error('direccion')
                                             <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -194,7 +194,62 @@
 
                                 </div>
 
+                                <div class="form-group row">
+                                    <label for="selDepartamento" class="col-form-label col-sm-2 text-right">Departamento</label>
+                                    <div class="col-sm-2">
+                                      <select id="selDepartamento" style="width: 100%;" name="departamento">
+                                        <option></option>
+                                        @foreach($departamentos as $departamento)
+                                          @if(!is_null($ubigeo) && $departamento->c_departamento==$ubigeo->c_departamento)
+                                            <option value="{{$departamento->c_departamento}}" selected>{{$departamento->c_nombre}}</option>
+                                          @else
+                                            <option value="{{$departamento->c_departamento}}">{{$departamento->c_nombre}}</option>
+                                          @endif
+                                        @endforeach
+                                      </select>
+                                      @error('departamento')
+                                        <p class="text-danger"><strong>{{$message}}</strong></p>
+                                      @enderror
+                                    </div>
 
+                                    <label for="selProvincia" class="col-form-label col-sm-2 text-right">Provincia</label>
+                                    <div class="col-sm-2">
+                                      <select id="selProvincia" style="width: 100%;" name="provincia">
+                                        <option></option>
+                                        @if(!is_null($ubigeo) && !is_null($provincias))
+                                          @foreach($provincias as $provincia)
+                                            @if($provincia->c_provincia==$ubigeo->c_provincia)
+                                              <option value="{{$provincia->c_provincia}}" selected>{{$provincia->c_nombre}}</option>
+                                            @else
+                                              <option value="{{$provincia->c_provincia}}">{{$provincia->c_nombre}}</option>
+                                            @endif
+                                          @endforeach
+                                        @endif
+                                      </select>
+                                      @error('provincia')
+                                        <p class="text-danger"><strong>{{$message}}</strong></p>
+                                      @enderror
+                                    </div>
+
+                                    <label for="selDistrito" class="col-form-label col-sm-2 text-right">Distrito</label>
+                                    <div class="col-sm-2">
+                                      <select id="selDistrito" style="width: 100%;" name="distrito">
+                                        <option></option>
+                                        @if(!is_null($ubigeo) && !is_null($provincias) && !is_null($distritos))
+                                          @foreach($distritos as $distrito)
+                                            @if($distrito->id_ubigeo==$ubigeo->id_ubigeo)
+                                              <option value="{{$distrito->id_ubigeo}}" selected>{{$distrito->c_nombre}}</option>
+                                            @else
+                                              <option value="{{$distrito->id_ubigeo}}">{{$distrito->c_nombre}}</option>
+                                            @endif
+                                          @endforeach
+                                        @endif
+                                      </select>
+                                      @error('distrito')
+                                        <p class="text-danger"><strong>{{$message}}</strong></p>
+                                      @enderror
+                                    </div>
+                                </div>
 
                                 <div class="form-group row">
                                     <div class="col" style="display:flex; justify-content: space-between;">
@@ -274,7 +329,53 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <label for="selDepartamentoRepre1" class="col-form-label col-sm-2 text-right">Departamento</label>
+                                <div class="col-sm-2">
+                                  <select id="selDepartamentoRepre1" style="width: 100%;" name="departamento_repre1">
+                                    <option></option>
+                                    @foreach($departamentos as $departamento)
+                                      @if(!is_null($ubigeo_repre1) && $departamento->c_departamento==$ubigeo_repre1->c_departamento)
+                                        <option value="{{$departamento->c_departamento}}" selected>{{$departamento->c_nombre}}</option>
+                                      @else
+                                        <option value="{{$departamento->c_departamento}}">{{$departamento->c_nombre}}</option>
+                                      @endif
+                                    @endforeach
+                                  </select>
+                                </div>
 
+                                <label for="selProvinciaRepre1" class="col-form-label col-sm-2 text-right">Provincia</label>
+                                <div class="col-sm-2">
+                                  <select id="selProvinciaRepre1" style="width: 100%;" name="provincia_repre1">
+                                    <option></option>
+                                    @if(!is_null($ubigeo_repre1) && !is_null($provincias_repre1))
+                                      @foreach($provincias_repre1 as $provincia)
+                                        @if($provincia->c_provincia==$ubigeo_repre1->c_provincia)
+                                          <option value="{{$provincia->c_provincia}}" selected>{{$provincia->c_nombre}}</option>
+                                        @else
+                                          <option value="{{$provincia->c_provincia}}">{{$provincia->c_nombre}}</option>
+                                        @endif
+                                      @endforeach
+                                    @endif
+                                  </select>
+                                </div>
+
+                                <label for="selDistritoRepre1" class="col-form-label col-sm-2 text-right">Distrito</label>
+                                <div class="col-sm-2">
+                                  <select id="selDistritoRepre1" style="width: 100%;" name="distrito_repre1">
+                                    <option></option>
+                                    @if(!is_null($ubigeo_repre1) && !is_null($provincias_repre1) && !is_null($distritos_repre1))
+                                      @foreach($distritos_repre1 as $distrito)
+                                        @if($distrito->id_ubigeo==$ubigeo_repre1->id_ubigeo)
+                                          <option value="{{$distrito->id_ubigeo}}" selected>{{$distrito->c_nombre}}</option>
+                                        @else
+                                          <option value="{{$distrito->id_ubigeo}}">{{$distrito->c_nombre}}</option>
+                                        @endif
+                                      @endforeach
+                                    @endif
+                                  </select>
+                                </div>
+                            </div>
 
                             <h4>Segundo representante</h4>
                             <div class="form-group row">
@@ -336,6 +437,54 @@
                                 <label for="vinculo_repre2" class="col-sm-2 col-form-label">Vínculo</label>
                                 <div class="col-sm-4">
                                 <input type="text" class="press-mayusculas only-letras hs_capitalize form-control form-control-sm" id="vinculo_repre2" name="vinculo_repre2"value="{{$alumno->c_vinculo_representante2}}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="selDepartamentoRepre2" class="col-form-label col-sm-2 text-right">Departamento</label>
+                                <div class="col-sm-2">
+                                  <select id="selDepartamentoRepre2" style="width: 100%;" name="departamento_repre2">
+                                    <option></option>
+                                    @foreach($departamentos as $departamento)
+                                      @if(!is_null($ubigeo_repre2) && $departamento->c_departamento==$ubigeo_repre2->c_departamento)
+                                        <option value="{{$departamento->c_departamento}}" selected>{{$departamento->c_nombre}}</option>
+                                      @else
+                                        <option value="{{$departamento->c_departamento}}">{{$departamento->c_nombre}}</option>
+                                      @endif
+                                    @endforeach
+                                  </select>
+                                </div>
+
+                                <label for="selProvinciaRepre2" class="col-form-label col-sm-2 text-right">Provincia</label>
+                                <div class="col-sm-2">
+                                  <select id="selProvinciaRepre2" style="width: 100%;" name="provincia_repre2">
+                                    <option></option>
+                                    @if(!is_null($ubigeo_repre2) && !is_null($provincias_repre2))
+                                      @foreach($provincias_repre2 as $provincia)
+                                        @if($provincia->c_provincia==$ubigeo_repre2->c_provincia)
+                                          <option value="{{$provincia->c_provincia}}" selected>{{$provincia->c_nombre}}</option>
+                                        @else
+                                          <option value="{{$provincia->c_provincia}}">{{$provincia->c_nombre}}</option>
+                                        @endif
+                                      @endforeach
+                                    @endif
+                                  </select>
+                                </div>
+
+                                <label for="selDistritoRepre2" class="col-form-label col-sm-2 text-right">Distrito</label>
+                                <div class="col-sm-2">
+                                  <select id="selDistritoRepre2" style="width: 100%;" name="distrito_repre2">
+                                    <option></option>
+                                    @if(!is_null($ubigeo_repre2) && !is_null($provincias_repre2) && !is_null($distritos_repre2))
+                                      @foreach($distritos_repre2 as $distrito)
+                                        @if($distrito->id_ubigeo==$ubigeo_repre2->id_ubigeo)
+                                          <option value="{{$distrito->id_ubigeo}}" selected>{{$distrito->c_nombre}}</option>
+                                        @else
+                                          <option value="{{$distrito->id_ubigeo}}">{{$distrito->c_nombre}}</option>
+                                        @endif
+                                      @endforeach
+                                    @endif
+                                  </select>
                                 </div>
                             </div>
 
@@ -545,8 +694,9 @@
 @endsection
 @section('page-js')
 <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
-<script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>
+<!--<script src="{{asset('assets/js/libreria/slim/slimselect.min.js')}}"></script>-->
 <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
+<script src="{{asset('assets/js/libreria/select2/select2.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
 <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
 <script src="{{asset('assets/js/superadmin/infoalumno.js')}}"></script>

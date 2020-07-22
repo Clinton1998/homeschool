@@ -291,6 +291,10 @@ Route::get('docente/asignartareas', 'usuario\docente\AsignarTareas@index')->name
 Route::get('docente/estadotareas', 'usuario\docente\EstadoTareas@index')->name('docente/estadotareas');
 Route::get('docente/videoclase', 'usuario\docente\Videoclase@index')->name('docente/videoclase');
 
+//Ubigeo
+Route::get('provincias/{departamento}','Ubigeo@provincias');
+Route::get('distritos/{departamento}/{provincia}','Ubigeo@distritos');
+
 // Route::view('/', 'starter')->name('starter');
 Route::get('large-compact-sidebar/dashboard/dashboard1', function () {
     // set layout sesion(key)

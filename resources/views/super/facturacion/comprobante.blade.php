@@ -2,7 +2,7 @@
 @section('page-css')
     <link rel="stylesheet" href="{{asset('assets/styles/css/libreria/jqueryui/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{asset('assets/styles/css/libreria/select2/select2.min.css')}}" rel="stylesheet" />
 
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
     <style>
@@ -553,7 +553,7 @@
     <script src="{{asset('assets/js/tooltip.script.js')}}"></script>
     <script src="{{asset('assets/js/form.validation.script.js')}}"></script>
     <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="{{asset('assets/js/libreria/select2/select2.min.js')}}"></script>
     <script src="{{asset('assets/js/superadmin/facturacion/comprobante.js')}}"></script>
 
 @endsection

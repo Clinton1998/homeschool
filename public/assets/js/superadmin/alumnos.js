@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     // Toolbar extra buttons
     var btnFinish = $('<button></button>').text('Registrar')
         .addClass('btn btn-primary')
@@ -74,8 +73,134 @@ $(document).ready(function () {
         }
     });
 
-});
+    $('#selDepartamento').select2({
+        placeholder: "Seleccione departamento",
+        allowClear: true
+    });
+    $('#selProvincia').select2({
+        placeholder: "Seleccione provincia",
+        allowClear: true
+    });
+    $('#selDistrito').select2({
+        placeholder: "Seleccione distrito",
+        allowClear: true
+    });
+    $('#selDepartamentoRepre1').select2({
+        placeholder: "Seleccione departamento",
+        allowClear: true
+    });
+    $('#selProvinciaRepre1').select2({
+        placeholder: "Seleccione provincia",
+        allowClear: true
+    });
+    $('#selDistritoRepre1').select2({
+        placeholder: "Seleccione distrito",
+        allowClear: true
+    });
 
+    $('#selDepartamentoRepre2').select2({
+        placeholder: "Seleccione departamento",
+        allowClear: true
+    });
+    $('#selProvinciaRepre2').select2({
+        placeholder: "Seleccione provincia",
+        allowClear: true
+    });
+    $('#selDistritoRepre2').select2({
+        placeholder: "Seleccione distrito",
+        allowClear: true
+    });
+    $('#selDepartamento').on('change',function(){
+        let value = $(this).val().trim();
+        if(value.length!=0){
+          fxProvincias(value,'#selProvincia','#selDistrito');
+        }
+    });
+
+    $('#selProvincia').on('change',function(){
+        let dep = $('#selDepartamento').val().trim();
+        let pro = $(this).val().trim();
+        if(dep.length!=0 && pro.length!=0){
+          fxDistritos(dep,pro,'#selDistrito');
+        }
+    });
+
+    $('#selDepartamentoRepre1').on('change',function(){
+        let value = $(this).val().trim();
+        if(value.length!=0){
+          fxProvincias(value,'#selProvinciaRepre1','#selDistritoRepre1');
+        }
+    });
+
+    $('#selProvinciaRepre1').on('change',function(){
+        let dep = $('#selDepartamentoRepre1').val().trim();
+        let pro = $(this).val().trim();
+        if(dep.length!=0 && pro.length!=0){
+          fxDistritos(dep,pro,'#selDistritoRepre1');
+        }
+    });
+
+    $('#selDepartamentoRepre2').on('change',function(){
+        let value = $(this).val().trim();
+        if(value.length!=0){
+          fxProvincias(value,'#selProvinciaRepre2','#selDistritoRepre2');
+        }
+    });
+
+    $('#selProvinciaRepre2').on('change',function(){
+        let dep = $('#selDepartamentoRepre2').val().trim();
+        let pro = $(this).val().trim();
+        if(dep.length!=0 && pro.length!=0){
+          fxDistritos(dep,pro,'#selDistritoRepre2');
+        }
+    });
+});
+function fxProvincias(dep,target,clear){
+  let selProvincia = $(target);
+  let selClear = $(clear);
+  selProvincia.attr('disabled','true');
+  selClear.attr('disabled','true');
+  $.ajax({
+    type: 'GET',
+    url: '/provincias/'+dep,
+    error: function(error){
+      alert('Ocurrió un error');
+      console.error(error);
+      selProvincia.removeAttr('disabled');
+      selClear.removeAttr('disabled');
+    }
+  }).done(function(data){
+      let htmlProvincias = `<option></option>`;
+      data.forEach(function(provincia,index){
+          htmlProvincias += `<option value="${provincia.c_provincia}">${provincia.c_nombre}</option>`;
+      });
+      selProvincia.html(htmlProvincias);
+      selClear.html('<option></option>');
+      selProvincia.removeAttr('disabled');
+      selClear.removeAttr('disabled');
+  });
+}
+
+function fxDistritos(dep,pro,target){
+  let selDistrito = $(target);
+  selDistrito.attr('disabled','true');
+  $.ajax({
+    type: 'GET',
+    url: '/distritos/'+dep+'/'+pro,
+    error: function(error){
+      alert('Ocurrió un error');
+      console.error(error);
+      selDistrito.removeAttr('disabled');
+    }
+  }).done(function(data){
+      let htmlDistritos = `<option></option>`;
+      data.forEach(function(distrito,index){
+          htmlDistritos += `<option value="${distrito.id_ubigeo}">${distrito.c_nombre}</option>`;
+      });
+      selDistrito.html(htmlDistritos);
+      selDistrito.removeAttr('disabled');
+  });
+}
 function fxConfirmacionEliminarAlumno(id_alumno) {
     swal({
         title: '',

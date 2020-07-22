@@ -1,11 +1,13 @@
 @extends('reutilizable.principal')
 @section('page-css')
+
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/ladda-themeless.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/smart.wizard/smart_wizard.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/smart.wizard/smart_wizard_theme_arrows.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/styles/vendor/sweetalert2.min.css')}}">
 
     <link rel="stylesheet" href="{{asset('assets/styles/css/style-super.css')}}">
+    <link href="{{asset('assets/styles/css/libreria/select2/select2.min.css')}}" rel="stylesheet" />
 @endsection
 
 @section('main-content')
@@ -162,6 +164,42 @@
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
 
+                                                <div class="row">
+                                                  <div class="col-md-4 col-xs-12">
+                                                      <div class="form-group">
+                                                        <label for="selDepartamento">Departamento</label>
+                                                        <select id="selDepartamento" name="departamento" style="width: 100%;" required>
+                                                            <option></option>
+                                                            @foreach($departamentos as $departamento)
+                                                              <option value="{{$departamento->c_departamento}}">{{$departamento->c_nombre}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                      </div>
+                                                  </div>
+
+                                                  <div class="col-md-4 col-xs-12">
+                                                      <div class="form-group">
+                                                        <label for="selProvincia">Provincia</label>
+                                                        <select id="selProvincia"style="width: 100%;" name="provincia" required>
+                                                            <option></option>
+                                                        </select>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                      </div>
+                                                  </div>
+
+
+                                                  <div class="col-md-4 col-xs-12">
+                                                      <div class="form-group">
+                                                        <label for="selDistrito">Distrito</label>
+                                                        <select id="selDistrito" style="width: 100%;" name="distrito" required>
+                                                            <option></option>
+                                                        </select>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                      </div>
+                                                  </div>
+                                                </div>
+
                                                 <div class="form-group">
                                                     <label for="adicional">Información adicional</label>
                                                     <input type="text" class="press-mayusculas form-control form-control-sm" id="adicional" name="adicional" placeholder="(Opcional)">
@@ -263,6 +301,42 @@
                                                     <input type="text" class="press-mayusculas form-control form-control-sm" id="direccion_repre1" name="direccion_repre1" placeholder="Ejemplo: Av. El Valle 155, Miraflores" required>
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
+
+                                                <div class="row">
+                                                  <div class="col-md-4 col-xs-12">
+                                                      <div class="form-group">
+                                                        <label for="selDepartamentoRepre1">Departamento</label>
+                                                        <select id="selDepartamentoRepre1" name="departamento_repre1" style="width: 100%;" required>
+                                                            <option></option>
+                                                            @foreach($departamentos as $departamento)
+                                                              <option value="{{$departamento->c_departamento}}">{{$departamento->c_nombre}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                      </div>
+                                                  </div>
+
+                                                  <div class="col-md-4 col-xs-12">
+                                                      <div class="form-group">
+                                                        <label for="selProvinciaRepre1">Provincia</label>
+                                                        <select id="selProvinciaRepre1" style="width: 100%;" name="provincia_repre1" required>
+                                                            <option></option>
+                                                        </select>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                      </div>
+                                                  </div>
+
+
+                                                  <div class="col-md-4 col-xs-12">
+                                                      <div class="form-group">
+                                                        <label for="selDistritoRepre1">Distrito</label>
+                                                        <select id="selDistritoRepre1" style="width: 100%;" name="distrito_repre1" required>
+                                                            <option></option>
+                                                        </select>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                      </div>
+                                                  </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -332,6 +406,44 @@
                                                     <input type="text" class="press-mayusculas form-control form-control-sm" id="direccion_repre2" name="direccion_repre2" placeholder="Ejemplo: Av. El Valle 155, Miraflores">
                                                     <div class="help-block with-errors text-danger"></div>
                                                 </div>
+
+
+                                                <div class="row">
+                                                  <div class="col-md-4 col-xs-12">
+                                                      <div class="form-group">
+                                                        <label for="selDepartamentoRepre2">Departamento</label>
+                                                        <select id="selDepartamentoRepre2" name="departamento_repre2" style="width: 100%;">
+                                                            <option></option>
+                                                            @foreach($departamentos as $departamento)
+                                                              <option value="{{$departamento->c_departamento}}">{{$departamento->c_nombre}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                      </div>
+                                                  </div>
+
+                                                  <div class="col-md-4 col-xs-12">
+                                                      <div class="form-group">
+                                                        <label for="selProvinciaRepre2">Provincia</label>
+                                                        <select id="selProvinciaRepre2" style="width: 100%;" name="provincia_repre2">
+                                                            <option></option>
+                                                        </select>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                      </div>
+                                                  </div>
+
+
+                                                  <div class="col-md-4 col-xs-12">
+                                                      <div class="form-group">
+                                                        <label for="selDistritoRepre2">Distrito</label>
+                                                        <select id="selDistritoRepre2" style="width: 100%;" name="distrito_repre2">
+                                                            <option></option>
+                                                        </select>
+                                                        <div class="help-block with-errors text-danger"></div>
+                                                      </div>
+                                                  </div>
+                                                </div>
+
                                             </div>
 
                                         </div>
@@ -364,6 +476,7 @@
   <script src="{{ asset('assets/js/tooltip.script.js') }}"></script>
   <script src="{{asset('assets/js/vendor/sweetalert2.min.js')}}"></script>
   <script src="{{asset('assets/js/libreria/validator/validator.min.js')}}"></script>
+  <script src="{{asset('assets/js/libreria/select2/select2.min.js')}}"></script>
   <script src="{{asset('assets/js/vendor/jquery.smartWizard.min.js')}}"></script>
   <script src="{{asset('assets/js/vendor/spin.min.js')}}"></script>
   <script src="{{asset('assets/js/vendor/ladda.js')}}"></script>
