@@ -97,7 +97,7 @@ INSERT INTO configuracion_m(c_api_dni,c_api_ruc,c_api_concord) VALUES
 /*conversations*/
 /*ok*/
 
-/*docente_categoria_p*/
+/*docente_categoria_p*/PENDIENTE
 --eliminar table y pasar los datos a la nueva relacion, si es posible hacerlo
 
 /*docente_d*/
@@ -161,8 +161,8 @@ CREATE TABLE seccion_categoria_docente_p(
     PRIMARY KEY(id_seccion_categoria_docente)
 );
 
-ALTER TABLE seccion_categoria_docente_p ADD CONSTRAINT seccion_categoria_docente_p_seccion_categoria_p_id_seccion_categoria FOREIGN KEY (id_seccion_categoria) REFERENCES seccion_categoria_p (id_seccion_categoria);
-ALTER TABLE seccion_categoria_docente_p ADD CONSTRAINT seccion_categoria_docente_p_seccion_categoria_p_id_docente FOREIGN KEY (id_docente) REFERENCES docente_d (id_docente);
+ALTER TABLE seccion_categoria_docente_p ADD CONSTRAINT seccion_categoria_docente_p_s_cat_p_id_seccion_categoria FOREIGN KEY (id_seccion_categoria) REFERENCES seccion_categoria_p (id_seccion_categoria);
+ALTER TABLE seccion_categoria_docente_p ADD CONSTRAINT seccion_categoria_docente_p_s_cat_p_id_docente FOREIGN KEY (id_docente) REFERENCES docente_d (id_docente);
 
 ALTER TABLE seccion_categoria_docente_p ADD CONSTRAINT seccion_categoria_docente_p_users_creador FOREIGN KEY (creador) REFERENCES users (id);
 ALTER TABLE seccion_categoria_docente_p ADD CONSTRAINT seccion_categoria_docente_p_users_modificador FOREIGN KEY (modificador) REFERENCES users (id);
@@ -177,3 +177,7 @@ ALTER TABLE seccion_categoria_docente_p ADD CONSTRAINT seccion_categoria_docente
 -- ok
 
 --verificar la columna updated_at
+
+
+--table ubigeo
+--datos de ubigeo
