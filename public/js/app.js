@@ -41424,6 +41424,13 @@ var app = new Vue({
           timeout: alert.timeout
         });
       });
+      Echo.private("newnumberforvoucher.".concat(window.Laravel.userId)).listen("NumberVoucherCreated", function (e) {
+        var serie_interfaz = parseInt($('#inpIdSerieParaComprobante').val());
+
+        if (serie_interfaz == e.id_serie) {
+          $('#spnNumeroParaSerie').text(e.next_number);
+        }
+      });
     }
   }
 });

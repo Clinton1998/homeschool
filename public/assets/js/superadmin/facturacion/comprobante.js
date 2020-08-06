@@ -26,6 +26,13 @@ $(function() {
                 $('#inpDniRuc').val(item.dni_repre1);
                 $('#inpNombreCliente').val(item.nombre_repre1);
                 $('#inpDireccion').val(item.direccion_repre1);
+                if (item.ubigeo_repre1 == null || item.ubigeo_repre1 == '') {
+                    $('#inpUbigeo').val($('#inpUbigeoDefault').val());
+                } else {
+                    $('#inpUbigeo').val(item.ubigeo_repre1);
+                }
+                $('#inpEmail').val(item.email_repre1);
+                $('#inpTelefono').val(item.telefono_repre1);
             }
         }
     });
@@ -36,13 +43,129 @@ $(function() {
         location.reload();
     });
     $('#btnGuardarComprobante').on('click', function() {
-        //proceso de validacion
-        fxGuardarComprobante();
-    });
+        let correcto = true;
 
-    /*$('#btnPrevisualizarComrpobante').on('click', function () {
-        fxPrevisualizarComprobante();
-    });*/
+        let msg_required = 'El campo es requerido.';
+        let msg_not_number = 'El campo debe ser numérico';
+        let msg_dni = 'DNI debe ser de 8 dígitos';
+
+        let chkAlumno = $('#chkComprobanteParaAlumno');
+        let inpDniRuc = $('#inpDniRuc');
+        let inpNombreCliente = $('#inpNombreCliente');
+        let inpDireccion = $('#inpDireccion');
+        let inpObservaciones = $('#inpObservaciones');
+
+        //validacion de cabecera
+        if (chkAlumno.prop('checked')) {
+            let inpDniAlumnoParaComprobante = $('#inpDniAlumnoParaComprobante');
+            let inpNombreAlumnoParaComprobante = $('#inpNombreAlumnoParaComprobante');
+
+            if (inpDniAlumnoParaComprobante.val().trim().length == 0) {
+                $('#spnAlertDniAlumno').find('strong').text(msg_required);
+                $('#spnAlertDniAlumno').show();
+                inpDniAlumnoParaComprobante.removeClass('is-valid').addClass('is-invalid');
+                correcto = false;
+            } else {
+                if (isNaN(inpDniAlumnoParaComprobante.val().trim())) {
+                    $('#spnAlertDniAlumno').find('strong').text(msg_not_number);
+                    $('#spnAlertDniAlumno').show();
+                    inpDniAlumnoParaComprobante.removeClass('is-valid').addClass('is-invalid');
+                    correcto = false;
+                } else {
+                    if (inpDniAlumnoParaComprobante.val().trim().length !== 8) {
+                        $('#spnAlertDniAlumno').find('strong').text(msg_dni);
+                        $('#spnAlertDniAlumno').show();
+                        inpDniAlumnoParaComprobante.removeClass('is-valid').addClass('is-invalid');
+                        correcto = false;
+                    } else {
+                        $('#spnAlertDniAlumno').find('strong').text('No es alumno(a)');
+                        $('#spnAlertDniAlumno').attr('style', 'display: none;');
+                        inpDniAlumnoParaComprobante.removeClass('is-invalid').addClass('is-valid');
+                    }
+                }
+            }
+
+            if (inpNombreAlumnoParaComprobante.val().trim().length == 0) {
+                inpNombreAlumnoParaComprobante.siblings("span").find('strong').text(msg_required);
+                inpNombreAlumnoParaComprobante.removeClass('is-valid').addClass('is-invalid');
+                correcto = false;
+            } else {
+                inpNombreAlumnoParaComprobante.removeClass('is-invalid').addClass('is-valid');
+            }
+        }
+        if (inpDniRuc.val().trim().length == 0) {
+            inpDniRuc.siblings("span").find('strong').text(msg_required);
+            inpDniRuc.removeClass('is-valid').addClass('is-invalid');
+            correcto = false;
+        } else {
+            if (isNaN(inpDniRuc.val().trim())) {
+                inpDniRuc.siblings("span").find('strong').text(msg_not_number);
+                inpDniRuc.removeClass('is-valid').addClass('is-invalid');
+                correcto = false;
+            } else {
+                inpDniRuc.removeClass('is-invalid').addClass('is-valid');
+            }
+        }
+
+        if (inpNombreCliente.val().trim().length == 0) {
+            inpNombreCliente.siblings("span").find('strong').text(msg_required);
+            inpNombreCliente.removeClass('is-valid').addClass('is-invalid');
+            correcto = false;
+        } else {
+            inpNombreCliente.removeClass('is-invalid').addClass('is-valid');
+        }
+
+        if (inpDireccion.val().trim().length == 0) {
+            inpDireccion.siblings("span").find('strong').text(msg_required);
+            inpDireccion.removeClass('is-valid').addClass('is-invalid');
+            correcto = false;
+        } else {
+            inpDireccion.removeClass('is-invalid').addClass('is-valid');
+        }
+
+        if (inpObservaciones.val().trim().length == 0) {
+            inpObservaciones.siblings("span").find('strong').text(msg_required);
+            inpObservaciones.removeClass('is-valid').addClass('is-invalid');
+            correcto = false;
+        } else {
+            inpObservaciones.removeClass('is-invalid').addClass('is-valid');
+        }
+
+        if (correcto) {
+            //validacion de items(detalle)
+            let tabProductos = $('#tabProductos');
+
+            if (tabProductos.find('tbody').find('tr').length == 0) {
+                $('#alertTabProductos').text('Debes agregar al menos un item');
+                $('#alertTabProductos').show();
+                correcto = false;
+                console.log('Entra al primer if');
+            } else {
+                $('#tabProductos tbody tr').each(function(el) {
+                    if ($(this).hasClass('item-no-disponible')) {
+                        $(this).attr('style', 'border: 2px solid #f44336');
+                        correcto = false;
+                    } else {
+                        $(this).removeAttr('style');
+                    }
+                });
+                if (correcto == false) {
+                    $('#alertTabProductos').text('Falta llenar fila(s)');
+                    $('#alertTabProductos').show();
+                    console.log('Entra al segundo if');
+                } else {
+                    $('#alertTabProductos').text('Debes agregar al menos un item');
+                    $('#alertTabProductos').attr('style', 'display: none;');
+                    console.log('Entra el else');
+                }
+            }
+        }
+        if (correcto) {
+            fxGuardarComprobante();
+        } else {
+            alert('Hay errores de validacion, revisa por favor');
+        }
+    });
     $('#inpDateFechaEmision').on('change', function() {
         //verificamos si el valor actual es vacio
         var valor = $(this).val();
@@ -102,8 +225,10 @@ $(function() {
                         var valorVentaUnitario = parseFloat(producto.n_precio_sin_igv);
 
                         tds.filter(':eq(2)').find('select').html('<option value="' + producto.id_producto_servicio + '">' + producto.c_nombre + '</option>');
+                        tds.filter(':eq(2)').find('input').val('');
+                        tds.filter(':eq(2)').find('a').attr('style', 'display: inline;');
                         tds.filter(':eq(3)').text(producto.c_unidad);
-                        tds.filter(':eq(5)').find('input.calc-valor-unitario').val(redondea(valorVentaUnitario, 8));
+                        tds.filter(':eq(5)').find('input.calc-valor-unitario').val(redondea(valorVentaUnitario, 6));
                         //verificamos que tipo de tributo se aplica al producto
                         var impuesto = 0;
                         var totalItem = 0;
@@ -124,6 +249,13 @@ $(function() {
                     //muestro los campos ocultos
                     filaProducto.find('.campo-variable-com').removeAttr('disabled');
                     filaProducto.find('.campo-variable-com').show();
+                    filaProducto.removeClass('item-no-disponible').addClass('item-disponible');
+                    filaProducto.removeAttr('style');
+                    if ($('#tabProductos tbody').find('tr.item-no-disponible').length > 0) {
+                        $('#alertTabProductos').show();
+                    } else {
+                        $('#alertTabProductos').attr('style', 'display: none;');
+                    }
                 } else {
                     alert('Algo salió mal. Elige de nuevo');
                 }
@@ -179,8 +311,11 @@ $(function() {
                         var valorVentaUnitario = parseFloat(producto.n_precio_sin_igv);
 
                         tds.filter(':eq(1)').find('select').html('<option value="' + producto.id_producto_servicio + '">' + producto.c_codigo + '</option>');
+                        tds.filter(':eq(2)').find('input').val('');
+                        tds.filter(':eq(2)').find('a').attr('style', 'display: inline;');
+
                         tds.filter(':eq(3)').text(producto.c_unidad);
-                        tds.filter(':eq(5)').find('input.calc-valor-unitario').val(redondea(valorVentaUnitario, 8));
+                        tds.filter(':eq(5)').find('input.calc-valor-unitario').val(redondea(valorVentaUnitario, 6));
                         //verificamos que tipo de tributo se aplica al producto
                         var impuesto = 0;
                         var totalItem = 0;
@@ -201,6 +336,14 @@ $(function() {
                     //muestro los campos ocultos
                     filaProducto.find('.campo-variable-com').removeAttr('disabled');
                     filaProducto.find('.campo-variable-com').show();
+
+                    filaProducto.removeClass('item-no-disponible').addClass('item-disponible');
+                    filaProducto.removeAttr('style');
+                    if ($('#tabProductos tbody').find('tr.item-no-disponible').length > 0) {
+                        $('#alertTabProductos').show();
+                    } else {
+                        $('#alertTabProductos').attr('style', 'display: none;');
+                    }
                 } else {
                     alert('Algo salió mal. Elige de nuevo');
                 }
@@ -211,14 +354,16 @@ $(function() {
     $('#btnAgregarProductoOServicio').on('click', function() {
         var datos_adicionales_calculo = $('#inpDatosAdicionalesCalculo').val() != '' ? 1 : 0;
         var tributos = $('#selTributos').html();
-        var fila = parseInt($('#inpNumFilaProducto').val());
+        var numfila = parseInt($('#inpNumFilaProducto').val());
+        numfila++;
+        $('#inpNumFilaProducto').val(numfila);
+        var fila = parseInt($('#inpCodUniqueFilaProducto').val());
         fila++;
-        $('#inpNumFilaProducto').val(fila);
-        var numfila = fila;
-        var htmlfila = '<tr>';
+        $('#inpCodUniqueFilaProducto').val(fila);
+        var htmlfila = '<tr class="item-no-disponible">';
         htmlfila += '<td>' + numfila + '</td>';
         htmlfila += '<td><select id="selFiltroCodigoCom' + fila + '" style="width: 100%;" class="campo-variable-com"></select></td>';
-        htmlfila += '<td><select type="text" id="selFiltroNombreCom' + fila + '" style="width: 100%;" class="campo-variable-com"></select></td>';
+        htmlfila += '<td><input type="hidden" id="inpInfAdi' + fila + '" value=""><select type="text" id="selFiltroNombreCom' + fila + '" style="width: 100%;" class="campo-variable-com"></select><a href="#" onclick="fxInformacionAdicional(' + fila + ',event);" style="display: none;"><span class="badge badge-secondary" id="bdgInfAdi' + fila + '">Agregar información adicional</span></a></td>';
         htmlfila += '<td></td>';
         htmlfila += '<td><input type="number" class="form-control form-control-sm campo-variable-com calc-cantidad" value="1" style="display: none;" onchange="fxCalcularTotalPorProducto(event);"></td>';
         if (datos_adicionales_calculo == 1) {
@@ -281,8 +426,10 @@ $(function() {
                             var valorVentaUnitario = parseFloat(producto.n_precio_sin_igv);
 
                             tds.filter(':eq(2)').find('select').html('<option value="' + producto.id_producto_servicio + '">' + producto.c_nombre + '</option>');
+                            tds.filter(':eq(2)').find('input').val('');
+                            tds.filter(':eq(2)').find('a').attr('style', 'display: inline;');
                             tds.filter(':eq(3)').text(producto.c_unidad);
-                            tds.filter(':eq(5)').find('input.calc-valor-unitario').val(redondea(valorVentaUnitario, 8));
+                            tds.filter(':eq(5)').find('input.calc-valor-unitario').val(redondea(valorVentaUnitario, 6));
                             //verificamos que tipo de tributo se aplica al producto
                             var impuesto = 0;
                             var totalItem = 0;
@@ -303,6 +450,15 @@ $(function() {
                         //muestro los campos ocultos
                         filaProducto.find('.campo-variable-com').removeAttr('disabled');
                         filaProducto.find('.campo-variable-com').show();
+
+
+                        filaProducto.removeClass('item-no-disponible').addClass('item-disponible');
+                        filaProducto.removeAttr('style');
+                        if ($('#tabProductos tbody').find('tr.item-no-disponible').length > 0) {
+                            $('#alertTabProductos').show();
+                        } else {
+                            $('#alertTabProductos').attr('style', 'display: none;');
+                        }
                     } else {
                         alert('Algo salió mal. Elige de nuevo');
                     }
@@ -358,8 +514,10 @@ $(function() {
                             var valorVentaUnitario = parseFloat(producto.n_precio_sin_igv);
 
                             tds.filter(':eq(1)').find('select').html('<option value="' + producto.id_producto_servicio + '">' + producto.c_codigo + '</option>');
+                            tds.filter(':eq(2)').find('input').val('');
+                            tds.filter(':eq(2)').find('a').attr('style', 'display: inline;');
                             tds.filter(':eq(3)').text(producto.c_unidad);
-                            tds.filter(':eq(5)').find('input.calc-valor-unitario').val(redondea(valorVentaUnitario, 8));
+                            tds.filter(':eq(5)').find('input.calc-valor-unitario').val(redondea(valorVentaUnitario, 6));
                             //verificamos que tipo de tributo se aplica al producto
                             var impuesto = 0;
                             var totalItem = 0;
@@ -380,6 +538,13 @@ $(function() {
                         //muestro los campos ocultos
                         filaProducto.find('.campo-variable-com').removeAttr('disabled');
                         filaProducto.find('.campo-variable-com').show();
+                        filaProducto.removeClass('item-no-disponible').addClass('item-disponible');
+                        filaProducto.removeAttr('style');
+                        if ($('#tabProductos tbody').find('tr.item-no-disponible').length > 0) {
+                            $('#alertTabProductos').show();
+                        } else {
+                            $('#alertTabProductos').attr('style', 'display: none;');
+                        }
                     } else {
                         alert('Algo salió mal. Elige de nuevo');
                     }
@@ -421,14 +586,14 @@ $(function() {
             $("#inpNombreCliente").catcomplete({
                 delay: 0,
                 source: data.posibles_clientes,
-                change: function(event, ui) {
+                select: function(event, ui) {
                     var item = ui.item;
                     if (item != null) {
-                        //obtengo el dni y direccion
-                        var dni = item.dni;
-                        var direccion = item.direccion;
-                        $('#inpDniRuc').val(dni);
-                        $('#inpDireccion').val(direccion);
+                        $('#inpDniRuc').val(item.dni);
+                        $('#inpDireccion').val(item.direccion);
+                        $('#inpUbigeo').val(item.ubigeo);
+                        $('#inpEmail').val(item.email);
+                        $('#inpTelefono').val(item.telefono);
                     }
                 }
             });
@@ -500,11 +665,11 @@ $(function() {
         if ($(this).val().trim() != '') {
             var tributo = $(this).find('option:selected').text().toUpperCase();
             if (tributo == 'EXONERADO' || tributo == 'INAFECTO') {
-                $('#inpPrecioProductoSinIgv').val('0.00');
+                $('#inpPrecioProductoSinIgv').val('0.000000');
                 $('#inpPrecioProductoConIgv').val('0.00');
                 $('#inpPrecioProductoSinIgv').attr('readonly', 'true');
             } else if (tributo == 'IGV') {
-                $('#inpPrecioProductoSinIgv').val('0.00');
+                $('#inpPrecioProductoSinIgv').val('0.000000');
                 $('#inpPrecioProductoConIgv').val('0.00');
                 $('#inpPrecioProductoSinIgv').removeAttr('readonly');
             }
@@ -517,8 +682,9 @@ $(function() {
         if ($('#selTributoProducto').val() != '') {
             var tributo = $('#selTributoProducto').find('option:selected').text().toUpperCase();
             if (tributo == 'IGV') {
+                var porcentajeIgv = parseInt($('#inpPorcentajeIgv').val());
                 var importeSinIgv = parseFloat($(this).val() != '' ? $(this).val() : 0);
-                var impuesto = importeSinIgv * 0.18;
+                var impuesto = importeSinIgv * (porcentajeIgv / 100);
                 var importeTotal = importeSinIgv + impuesto;
                 $(this).val(redondea(importeSinIgv, 2));
                 $('#inpPrecioProductoConIgv').val(redondea(importeTotal, 2));
@@ -530,35 +696,62 @@ $(function() {
         if ($('#selTributoProducto').val() != '') {
             var tributo = $('#selTributoProducto').find('option:selected').text().toUpperCase();
             if (tributo == 'IGV') {
+                var porcentajeIgv = parseInt($('#inpPorcentajeIgv').val());
                 var importeTotal = parseFloat($(this).val() != '' ? $(this).val() : 0);
-                var importeSinIgv = importeTotal / 1.18;
-                var impuesto = importeSinIgv * 0.18;
+                var importeSinIgv = importeTotal / (1 + (porcentajeIgv / 100));
+                var impuesto = importeSinIgv * (porcentajeIgv / 100);
                 //la suma debe ser correcta
                 importeTotal = importeSinIgv + impuesto;
-                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv, 2));
+                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv, 6));
                 $(this).val(redondea(importeTotal, 2));
             } else {
                 //debe ser inafecto o exonerado
                 var importeTotal = parseFloat($(this).val() != '' ? $(this).val() : 0);
                 var importeSinIgv = importeTotal;
-                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv, 2));
+                $('#inpPrecioProductoSinIgv').val(redondea(importeSinIgv, 6));
                 $(this).val(redondea(importeTotal, 2));
             }
         }
     });
+
+    $('#btnGuardarInfAdi').on('click', function() {
+        var codFila = $('#inpCodFilaItem').val();
+        var infAdi = $('#inpInformacionAdicional').val();
+        $('#inpInfAdi' + codFila).val(infAdi);
+        var newValue = $('#inpInfAdi' + codFila).val().trim();
+        if (newValue.length == 0) {
+            $('#bdgInfAdi' + codFila).text('Agregar información adicional');
+        } else {
+            $('#bdgInfAdi' + codFila).text('Editar información adicional');
+        }
+        $('#mdlInformacionAdicional').modal('hide');
+    });
 });
+
+function fxInformacionAdicional(codFila, e) {
+    e.preventDefault();
+    var inpInfAdi = $('#inpInfAdi' + codFila);
+    $('#inpCodFilaItem').val(codFila);
+    $('#inpInformacionAdicional').val(inpInfAdi.val());
+    $('#mdlInformacionAdicional').modal('show');
+}
 
 
 function fxGuardarComprobante() {
     var comprobante = {
         fecha: $('#spnFechaEmisionComprobante').find('i.text-fecha-emision').text(),
         id_serie: $('#inpIdSerieParaComprobante').val(),
-        id_alumno: ($('#chkComprobanteParaAlumno').val() != '') ? $('#chkComprobanteParaAlumno').val() : null,
+        numero: parseInt($('#spnNumeroParaSerie').text()),
+        is_for_alumno: ($('#chkComprobanteParaAlumno').prop('checked')) ? 1 : 0,
+        id_alumno: ($('#chkComprobanteParaAlumno').val() != '' && $('#chkComprobanteParaAlumno').prop('checked')) ? $('#chkComprobanteParaAlumno').val() : null,
         id_tipo_documento: $('#inpIdTipoDocumentoParaComprobante').val(),
         id_moneda: $('#inpIdMonedaParaComprobante').val(),
         nombre_receptor: $('#inpNombreCliente').val(),
         numero_documento_identidad: $('#inpDniRuc').val(),
         direccion_receptor: $('#inpDireccion').val(),
+        ubigeo_receptor: $('#inpUbigeo').val(),
+        email_receptor: $('#inpEmail').val(),
+        telefono_receptor: $('#inpTelefono').val(),
         observaciones: $('#inpObservaciones').val(),
         id_tipo_impresion: $('#inpIdTipoImpresionParaComprobante').val(),
         total_operacion_gravada: $('#spnTotalOpGravada').text(),
@@ -570,14 +763,20 @@ function fxGuardarComprobante() {
         total: $('#spnTotalConDescuentoComprobante').text(),
         items: []
     };
+    //compprobamos si el comprobante es para un alumno(a)
+    if (comprobante.is_for_alumno == 1) {
+        comprobante.dni_alumno = $('#inpDniAlumnoParaComprobante').val().trim();
+        comprobante.nombre_alumno = $('#inpNombreAlumnoParaComprobante').val().trim();
+    }
     //agregamos los items del comprobante
-    $('#tabProductos tbody tr').each(function(el) {
+    $('#tabProductos tbody tr.item-disponible').each(function(el) {
         let tds = $(this).find('td');
         let valor_unitario = parseFloat(tds.filter(':eq(5)').find('input').val());
         let cantidad = parseInt(tds.filter(':eq(4)').find('input').val());
         let total_base = valor_unitario * cantidad;
         let item = {
             id_producto: tds.filter(':eq(1)').find('select').val(),
+            inf_adi: tds.filter(':eq(2)').find('input').val(),
             tributo: tds.filter(':eq(9)').find('select').val(),
             cantidad: tds.filter(':eq(4)').find('input').val(),
             valor_unitario: tds.filter(':eq(5)').find('input').val(),
@@ -588,23 +787,91 @@ function fxGuardarComprobante() {
         };
         comprobante.items.push(item);
     });
-    console.log('Los datos a enviar son: ');
-    console.log(comprobante);
-
     $.ajax({
         type: 'POST',
         url: '/super/facturacion/comprobante/agregar',
         data: comprobante,
+        beforeSend: function(xhr) {
+            $('#loadMsgLoading').show();
+            $('#responseAfterLoad').attr('style', 'display: none;');
+            $('#mdlLoading').find('.modal-footer').attr('style', 'display: none;');
+            $('#mdlLoading').modal('show');
+        },
         error: function(error) {
-            alert('Ocurrió un error');
-            console.error(error);
+            if (error.status == 422) {
+                var data = error.responseJSON;
+                let inpDniAlumnoParaComprobante = $('#inpDniAlumnoParaComprobante');
+                let inpNombreAlumnoParaComprobante = $('#inpNombreAlumnoParaComprobante');
+                let inpDniRuc = $('#inpDniRuc');
+                let inpNombreCliente = $('#inpNombreCliente');
+                let inpDireccion = $('#inpDireccion');
+                let inpObservaciones = $('#inpObservaciones');
+
+                if (data.errors.hasOwnProperty('dni_alumno')) {
+                    $('#spnAlertDniAlumno').find('strong').text(data.errors.dni_alumno[0]);
+                    $('#spnAlertDniAlumno').show();
+                    inpDniAlumnoParaComprobante.removeClass('is-valid').addClass('is-invalid');
+                } else {
+                    $('#spnAlertDniAlumno').find('strong').text('No es alumno(a)');
+                    $('#spnAlertDniAlumno').attr('style', 'display: none;');
+                    inpDniAlumnoParaComprobante.removeClass('is-invalid').addClass('is-valid');
+                }
+                if (data.errors.hasOwnProperty('nombre_alumno')) {
+                    inpNombreAlumnoParaComprobante.siblings("span").find('strong').text(data.errors.nombre_alumno[0]);
+                    inpNombreAlumnoParaComprobante.removeClass('is-valid').addClass('is-invalid');
+                } else {
+                    inpNombreAlumnoParaComprobante.removeClass('is-invalid').addClass('is-valid');
+                }
+                if (data.errors.hasOwnProperty('numero_documento_identidad')) {
+                    inpDniRuc.siblings("span").find('strong').text(data.errors.numero_documento_identidad[0]);
+                    inpDniRuc.removeClass('is-valid').addClass('is-invalid');
+                } else {
+                    inpDniRuc.removeClass('is-invalid').addClass('is-valid');
+                }
+                if (data.errors.hasOwnProperty('nombre_receptor')) {
+                    inpNombreCliente.siblings("span").find('strong').text(data.errors.nombre_receptor[0]);
+                    inpNombreCliente.removeClass('is-valid').addClass('is-invalid');
+                } else {
+                    inpNombreCliente.removeClass('is-invalid').addClass('is-valid');
+                }
+
+                if (data.errors.hasOwnProperty('direccion_receptor')) {
+                    inpDireccion.siblings("span").find('strong').text(data.errors.direccion_receptor[0]);
+                    inpDireccion.removeClass('is-valid').addClass('is-invalid');
+                } else {
+                    inpDireccion.removeClass('is-invalid').addClass('is-valid');
+                }
+
+                if (data.errors.hasOwnProperty('observaciones')) {
+                    inpObservaciones.siblings("span").find('strong').text(data.errors.observaciones[0]);
+                    inpObservaciones.removeClass('is-valid').addClass('is-invalid');
+                } else {
+                    inpObservaciones.removeClass('is-invalid').addClass('is-valid');
+                }
+
+                if (data.errors.hasOwnProperty('items')) {
+                    $('#alertTabProductos').text('Debes agregar al menos un item');
+                    $('#alertTabProductos').show();
+                } else {
+                    $('#alertTabProductos').attr('style', 'display: none;');
+                }
+            } else {
+                alert('Ocurrió un error');
+                console.error(error);
+            }
+            $('#loadMsgLoading').attr('style', 'display: none;');
+            $('#responseAfterLoad').attr('style', 'display: none;');
+            $('#mdlLoading').find('.modal-footer').attr('style', 'display: none;');
+            $('#mdlLoading').modal('hide');
         }
     }).done(function(data) {
         console.log('Los datos devueltos son: ');
         console.log(data);
         if (data.correcto) {
-            alert('Comprobante guardado');
-            location.reload();
+            $('#loadMsgLoading').attr('style', 'display: none;');
+            $('#responseAfterLoad').html('<h2 class="text-info text-center">Comprobante guardado</h2>');
+            $('#responseAfterLoad').show();
+            $('#mdlLoading').find('.modal-footer').show();
         }
     });
 }
@@ -766,7 +1033,6 @@ function fxQuitarProducto(e) {
     } else {
         $('#inpNumFilaProducto').val(0);
     }
-
     fxCalcularTotales();
 }
 
@@ -799,7 +1065,14 @@ function fxConsultaPorRuc(r) {
     }).done(function(data) {
         if (data.success) {
             $('#inpNombreCliente').val(data.nombre_o_razon_social);
-            $('#inpDireccion').val(data.direccion);
+            $('#inpDireccion').val(data.direccion_completa);
+            if (data.ubigeo == '-' || data.ubigeo == '') {
+                $('#inpUbigeo').val($('#inpUbigeoDefault').val());
+            } else {
+                $('#inpUbigeo').val(data.ubigeo);
+            }
+            $('#inpEmail').val('');
+            $('#inpTelefono').val('');
         }
     });
     $('#inpDniRuc').removeAttr('readonly');
@@ -816,11 +1089,15 @@ function fxConsultaPorDni(d) {
         dataType: 'JSON',
         error: function(error) {
             alert('Ocurrió un error');
-            console.err(error);
+            console.error(error);
         }
     }).done(function(data) {
         if (data.success) {
             $('#inpNombreCliente').val(data.result.Apellidos + ' ' + data.result.Nombres);
+            $('#inpDireccion').val('SIN INFORMACIÓN');
+            $('#inpUbigeo').val($('#inpUbigeoDefault').val());
+            $('#inpEmail').val('');
+            $('#inpTelefono').val('');
         }
     });
     $('#inpDniRuc').removeAttr('readonly');
@@ -850,6 +1127,9 @@ function fxConsultaAlumnoPorDni(d) {
             $('#inpDniRuc').val(data.alumno.c_dni_representante1);
             $('#inpNombreCliente').val(data.alumno.c_nombre_representante1);
             $('#inpDireccion').val(data.alumno.c_direccion_representante1);
+            $('#inpUbigeo').val(data.alumno.c_ubigeo_representante1);
+            $('#inpEmail').val(data.alumno.c_correo_representante1);
+            $('#inpTelefono').val(data.alumno.c_telefono_representante1);
         } else {
             $('#chkComprobanteParaAlumno').val('');
             $('#inpNombreAlumnoParaComprobante').val('');

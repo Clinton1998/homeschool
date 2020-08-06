@@ -1,16 +1,16 @@
-$(document).ready(function(){
+$(document).ready(function() {
     //alert('Documento listo');
-    $('#selTipoDocumentoSerie').on('change',function(){
-        fxAplicarTipoDocumento($(this).val(),'registrar');
+    $('#selTipoDocumentoSerie').on('change', function() {
+        fxAplicarTipoDocumento($(this).val(), 'registrar');
     });
 
     //establecemos el evento al select
-    $('#selTipoDocumento').on('change',function(){
-        fxAplicarTipoDocumento($(this).val(),'actualizar');
+    $('#selTipoDocumento').on('change', function() {
+        fxAplicarTipoDocumento($(this).val(), 'actualizar');
     });
 
 
-    $('#btnVerSeriesEliminados').on('click',function(){
+    $('#btnVerSeriesEliminados').on('click', function() {
         fxSeriesEliminados();
     });
 
@@ -18,7 +18,8 @@ $(document).ready(function(){
         destroy: true
     });
 });
-function fxConfirmacionEstablecerDefecto(serie,e){
+
+function fxConfirmacionEstablecerDefecto(serie, e) {
     e.preventDefault();
     swal({
         title: '¿Estas seguro?',
@@ -35,28 +36,29 @@ function fxConfirmacionEstablecerDefecto(serie,e){
     }, function(dismiss) {});
 }
 
-function fxEstablecerPorDefecto(serie){
-    $('#btnEstablecerADefecto'+serie).attr('disabled','true');
+function fxEstablecerPorDefecto(serie) {
+    $('#btnEstablecerADefecto' + serie).attr('disabled', 'true');
     $.ajax({
         type: 'POST',
         url: '/super/facturacion/serie/estableceraprincipal',
         data: {
             id_serie: serie
         },
-        error: function(error){
+        error: function(error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function(data){
-        if(data.correcto){
+    }).done(function(data) {
+        if (data.correcto) {
             location.reload();
-        }else{
+        } else {
             alert('Algo salió mal. Recarga la página');
         }
     });
 
 }
-function fxConfirmacionRestaurarSerie(serie){
+
+function fxConfirmacionRestaurarSerie(serie) {
     swal({
         title: '¿Estas seguro?',
         showCancelButton: true,
@@ -71,75 +73,76 @@ function fxConfirmacionRestaurarSerie(serie){
         fxRestaurarSerie(serie);
     }, function(dismiss) {});
 }
-function fxRestaurarSerie(serie){
-    $('#btnRestaurarSerie'+serie).attr('disabled','true');
+
+function fxRestaurarSerie(serie) {
+    $('#btnRestaurarSerie' + serie).attr('disabled', 'true');
     $.ajax({
         type: 'POST',
         url: '/super/facturacion/serie/restaurar',
         data: {
             id_serie: serie
         },
-        error: function(error){
+        error: function(error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function(data){
-        if(data.restaurado){
+    }).done(function(data) {
+        if (data.restaurado) {
             location.reload();
-        }else{
+        } else {
             alert('Algo salió mal...');
         }
     });
 }
 
-function fxSeriesEliminados(){
+function fxSeriesEliminados() {
     $('#spinnerSeriesEliminados').show();
-    $('#divTabla').attr('style','display: none;');
+    $('#divTabla').attr('style', 'display: none;');
     $('#mdlSeriesEliminados').modal('show');
     $.ajax({
         type: 'POST',
         url: '/super/facturacion/serie/eliminados',
-        error: function(error){
+        error: function(error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function(data){
-        if(data.correcto){
+    }).done(function(data) {
+        if (data.correcto) {
             var f = 1;
-            $.each(data.series,function(){
+            $.each(data.series, function() {
                 var id_serie = this.id_serie;
                 this.numeroFila = f;
-                var documento_afectacion = (this.c_documento_afectacion)?(this.c_documento_afectacion.toUpperCase()):'';
-                if(documento_afectacion=='F'){
-                        this.c_documento_afectacion = 'Factura';
-                }else if(documento_afectacion=='B'){
-                        this.c_documento_afectacion = 'Boleta';
+                var documento_afectacion = (this.c_documento_afectacion) ? (this.c_documento_afectacion.toUpperCase()) : '';
+                if (documento_afectacion == 'F') {
+                    this.c_documento_afectacion = 'Factura';
+                } else if (documento_afectacion == 'B') {
+                    this.c_documento_afectacion = 'Boleta';
                 }
-                this.restaurar = '<button type="button" class="btn btn-success btn-sm" id="btnRestaurarSerie'+id_serie+'" onclick="fxConfirmacionRestaurarSerie('+id_serie+');">Restaurar</button>';
+                this.restaurar = '<button type="button" class="btn btn-success btn-sm" id="btnRestaurarSerie' + id_serie + '" onclick="fxConfirmacionRestaurarSerie(' + id_serie + ');">Restaurar</button>';
                 f++;
             });
             $('#tabEliminados').DataTable({
                 data: data.series,
                 columns: [
-                    {data:'numeroFila'},
-                    {data:'tipo_documento.c_nombre'},
-                    {data:'c_documento_afectacion'},
-                    {data:'c_serie'},
-                    {data:'restaurar'},
+                    { data: 'numeroFila' },
+                    { data: 'tipo_documento.c_nombre' },
+                    { data: 'c_documento_afectacion' },
+                    { data: 'c_serie' },
+                    { data: 'restaurar' },
                 ],
                 destroy: true
             });
 
             //mostramos los datos
-            $('#spinnerSeriesEliminados').attr('style','display: none;');
+            $('#spinnerSeriesEliminados').attr('style', 'display: none;');
             $('#divTabla').show();
-        }else{
+        } else {
             alert('Algo salio mal');
         }
     });
 }
 
-function fxConfirmacionEliminarSerie(serie){
+function fxConfirmacionEliminarSerie(serie) {
     swal({
         title: '¿Estas seguro?',
         showCancelButton: true,
@@ -154,7 +157,8 @@ function fxConfirmacionEliminarSerie(serie){
         fxEliminarSerie(serie);
     }, function(dismiss) {});
 }
-function fxEliminarSerie(serie){
+
+function fxEliminarSerie(serie) {
 
     $.ajax({
         type: 'POST',
@@ -162,24 +166,25 @@ function fxEliminarSerie(serie){
         data: {
             id_serie: serie
         },
-        error: function(error){
+        error: function(error) {
             alert('Ocurrió un error');
             console.error(error);
         }
-    }).done(function(data){
-        if(data.eliminado){
+    }).done(function(data) {
+        if (data.eliminado) {
             location.reload();
-        }else{
+        } else {
             alert('Algo salió mal. Recarga la página');
         }
     });
 
 }
-function fxAplicarSerie(serie,e){
+
+function fxAplicarSerie(serie, e) {
     e.preventDefault();
     //alert('Consultamos la serie');
     $('#spinnerEditarSerie').show();
-    $('#divFrmEditarSerie').attr('style','display: none;');
+    $('#divFrmEditarSerie').attr('style', 'display: none;');
     $('#mdlEditarSerie').modal('show');
     $.ajax({
         type: 'POST',
@@ -187,25 +192,26 @@ function fxAplicarSerie(serie,e){
         data: {
             id_serie: serie
         },
-        error: function(error){
+        error: function(error) {
             alert('Ocurió un error');
             console.error(error);
         }
-    }).done(function(data){
-        console.log('La serie de porqueria es: ');
+    }).done(function(data) {
+        console.log('Los datos devueltos son: ');
         console.log(data);
-        if(data.correcto){
-            $('#inpIdSerie').val(data.serie.id_serie);
-            $('#selTipoDocumento').val(data.serie.id_tipo_documento);
-            var prefijo = '';
-            var numero = 0;
+        if (data.correcto) {
+            if (!data.usado) {
+                $('#inpIdSerie').val(data.serie.id_serie);
+                $('#selTipoDocumento').val(data.serie.id_tipo_documento);
+                var prefijo = '';
+                var numero = 0;
 
-            if(data.serie.c_documento_afectacion !=null && data.serie.tipo_documento.b_tipo==1){
-                //obtenemos el prefijo y el numero
-                prefijo = data.serie.c_serie.substr(0,2);
-                numero = data.serie.c_serie.substr(2);
+                if (data.serie.c_documento_afectacion != null && data.serie.tipo_documento.b_tipo == 1) {
+                    //obtenemos el prefijo y el numero
+                    prefijo = data.serie.c_serie.substr(0, 2);
+                    numero = data.serie.c_serie.substr(2);
 
-                var afectado = `
+                    var afectado = `
             <label for="selDocumentoAfectacionSerie">Documento afectación</label>
             <select name="documento_afectacion_serie" id="selDocumentoAfectacionSerie" class="form-control" required>
                     <option value="">--Seleccione--</option>
@@ -218,67 +224,72 @@ function fxAplicarSerie(serie,e){
                     </strong>
             </span>
             `;
-                $('#divDocumentoAfectacionEdicion').html(afectado);
-                $('#selDocumentoAfectacionSerie').find('option[value="'+data.serie.c_documento_afectacion+'"]').attr('selected','true');
+                    $('#divDocumentoAfectacionEdicion').html(afectado);
+                    $('#selDocumentoAfectacionSerie').find('option[value="' + data.serie.c_documento_afectacion + '"]').attr('selected', 'true');
 
-                $('#selDocumentoAfectacionSerie').on('change',function(){
-                    fxPrefijo('actualizar',data.serie.id_tipo_documento,$(this).val());
-                });
-                $('#inpSerieSerie').attr('minlength','2');
-                $('#inpSerieSerie').attr('maxlength','2');
-                $('#divDocumentoAfectacionEdicion').show();
-            }else{
-                prefijo = data.serie.c_serie.substr(0,1);
-                numero = data.serie.c_serie.substr(1);
+                    $('#selDocumentoAfectacionSerie').on('change', function() {
+                        fxPrefijo('actualizar', data.serie.id_tipo_documento, $(this).val());
+                    });
+                    $('#inpSerieSerie').attr('minlength', '2');
+                    $('#inpSerieSerie').attr('maxlength', '2');
+                    $('#divDocumentoAfectacionEdicion').show();
+                } else {
+                    prefijo = data.serie.c_serie.substr(0, 1);
+                    numero = data.serie.c_serie.substr(1);
 
-                $('#divDocumentoAfectacionEdicion').html('');
-                $('#inpSerieSerie').attr('minlength','3');
-                $('#inpSerieSerie').attr('maxlength','3');
-                $('#divDocumentoAfectacionEdicion').attr('style','display: none;');
+                    $('#divDocumentoAfectacionEdicion').html('');
+                    $('#inpSerieSerie').attr('minlength', '3');
+                    $('#inpSerieSerie').attr('maxlength', '3');
+                    $('#divDocumentoAfectacionEdicion').attr('style', 'display: none;');
+                }
+                prefijo = prefijo.toUpperCase();
+                $('#divFormGroupSerieEdicion').find('span.input-group-text').text(prefijo);
+                $('#inpPrefijoEdit').val(prefijo);
+                $('#inpSerieSerie').val(numero);
+
+                $('#spinnerEditarSerie').attr('style', 'display: none;')
+                $('#divFrmEditarSerie').show();
+            } else {
+                $('#spinnerEditarSerie').attr('style', 'display: none;')
+                $('#divFrmEditarSerie').show();
+                $('#mdlEditarSerie').modal('hide');
+                alert('La serie ya ha sido utilizado en algún comprobante, ya no es posible su edición');
             }
-            prefijo = prefijo.toUpperCase();
-            $('#divFormGroupSerieEdicion').find('span.input-group-text').text(prefijo);
-            $('#inpPrefijoEdit').val(prefijo);
-            $('#inpSerieSerie').val(numero);
-
-            $('#spinnerEditarSerie').attr('style','display: none;')
-            $('#divFrmEditarSerie').show();
-
-        }else{
+        } else {
             alert('No se encontró la serie. Actualize la página');
         }
     });
 }
 
-function fxAplicarTipoDocumento(tipo_documento,opcion){
-    if(opcion=='registrar'){
-        $('#btnCancelarRegistroSerie').attr('disabled','true');
-        $('#btnEnviarRegistroSerie').attr('disabled','true');
+function fxAplicarTipoDocumento(tipo_documento, opcion) {
+    if (opcion == 'registrar') {
+        $('#btnCancelarRegistroSerie').attr('disabled', 'true');
+        $('#btnEnviarRegistroSerie').attr('disabled', 'true');
         $('#divDocumentoAfectacion').html('');
-        $('#divDocumentoAfectacion').attr('style','display: none;');
-        $('#divFormGroupSerieRegistro').attr('style','display: none;');
-    }else if(opcion=='actualizar'){
-        $('#btnCancelarEdicionSerie').attr('disabled','true');
-        $('#btnEnviarEdicionSerie').attr('disabled','true');
+        $('#divDocumentoAfectacion').attr('style', 'display: none;');
+        $('#divFormGroupSerieRegistro').attr('style', 'display: none;');
+    } else if (opcion == 'actualizar') {
+        $('#btnCancelarEdicionSerie').attr('disabled', 'true');
+        $('#btnEnviarEdicionSerie').attr('disabled', 'true');
         $('#divDocumentoAfectacionEdicion').html('');
-        $('#divDocumentoAfectacionEdicion').attr('style','display: none;');
-        $('#divFormGroupSerieEdicion').attr('style','display: none;');
+        $('#divDocumentoAfectacionEdicion').attr('style', 'display: none;');
+        $('#divFormGroupSerieEdicion').attr('style', 'display: none;');
     }
-    if(tipo_documento!=''){
+    if (tipo_documento != '') {
         $.ajax({
             type: 'POST',
             url: '/super/facturacion/serie/tipodocumento',
             data: {
                 id_tipo_documento: tipo_documento
             },
-            error: function(error){
+            error: function(error) {
                 alert('Ocurrió un error');
                 console.error(error);
             }
-        }).done(function(data){
+        }).done(function(data) {
 
-            if(opcion=='registrar'){
-                if(data.b_tipo==1){
+            if (opcion == 'registrar') {
+                if (data.b_tipo == 1) {
                     //mostramos select de documento de afectacion
                     $('#divDocumentoAfectacion').html(`
                 <label for="selDocumentoAfectacion">Documento afectación</label>
@@ -293,35 +304,35 @@ function fxAplicarTipoDocumento(tipo_documento,opcion){
                     </strong>
                 </span>
             `);
-                    $('#selDocumentoAfectacion').on('change',function(){
-                        fxPrefijo('registrar',data.id_tipo_documento,$(this).val());
+                    $('#selDocumentoAfectacion').on('change', function() {
+                        fxPrefijo('registrar', data.id_tipo_documento, $(this).val());
                     });
                     $('#divDocumentoAfectacion').show();
-                }else{
+                } else {
                     //generamos el ayudante de autocompletado de la serie
-                    if(data.c_codigo_sunat=='01'){
+                    if (data.c_codigo_sunat == '01') {
                         //factura electronica
                         $('#divFormGroupSerieRegistro').find('span.input-group-text').text('F');
                         $('#inpPrefijo').val('F');
-                    }else if(data.c_codigo_sunat=='03'){
+                    } else if (data.c_codigo_sunat == '03') {
                         //boleta electronica
                         $('#divFormGroupSerieRegistro').find('span.input-group-text').text('B');
                         $('#inpPrefijo').val('B');
                     }
                     $('#divDocumentoAfectacion').html('');
-                    $('#divDocumentoAfectacion').attr('style','display: none;');
+                    $('#divDocumentoAfectacion').attr('style', 'display: none;');
 
                     $('#inpSerieRegistro').val('');
-                    $('#inpSerieRegistro').attr('minlength','3');
-                    $('#inpSerieRegistro').attr('maxlength','3');
+                    $('#inpSerieRegistro').attr('minlength', '3');
+                    $('#inpSerieRegistro').attr('maxlength', '3');
                     $('#inpSerieRegistro').removeAttr('readonly');
                     $('#divFormGroupSerieRegistro').show();
 
                     $('#btnCancelarRegistroSerie').removeAttr('disabled');
                     $('#btnEnviarRegistroSerie').removeAttr('disabled');
                 }
-            }else if(opcion=='actualizar'){
-                if(data.b_tipo==1){
+            } else if (opcion == 'actualizar') {
+                if (data.b_tipo == 1) {
                     //mostramos select de documento de afectacion
                     $('#divDocumentoAfectacionEdicion').html(`
                 <label for="selDocumentoAfectacionSerie">Documento afectación</label>
@@ -337,27 +348,27 @@ function fxAplicarTipoDocumento(tipo_documento,opcion){
                 </span>
             `);
 
-                    $('#selDocumentoAfectacionSerie').on('change',function(){
-                        fxPrefijo('actualizar',data.id_tipo_documento,$(this).val());
+                    $('#selDocumentoAfectacionSerie').on('change', function() {
+                        fxPrefijo('actualizar', data.id_tipo_documento, $(this).val());
                     });
 
                     $('#divDocumentoAfectacionEdicion').show();
-                }else{
+                } else {
                     //generamos el ayudante de autocompletado de la serie
-                    if(data.c_codigo_sunat=='01'){
+                    if (data.c_codigo_sunat == '01') {
                         //factura electronica
                         $('#divFormGroupSerieEdicion').find('span.input-group-text').text('F');
                         $('#inpPrefijoEdit').val('F');
-                    }else if(data.c_codigo_sunat=='03'){
+                    } else if (data.c_codigo_sunat == '03') {
                         //boleta electronica
                         $('#divFormGroupSerieEdicion').find('span.input-group-text').text('B');
                         $('#inpPrefijoEdit').val('B');
                     }
                     $('#divDocumentoAfectacionEdicion').html('');
-                    $('#divDocumentoAfectacionEdicion').attr('style','display: none;');
+                    $('#divDocumentoAfectacionEdicion').attr('style', 'display: none;');
                     $('#inpSerieSerie').val('');
-                    $('#inpSerieSerie').attr('minlength','3');
-                    $('#inpSerieSerie').attr('maxlength','3');
+                    $('#inpSerieSerie').attr('minlength', '3');
+                    $('#inpSerieSerie').attr('maxlength', '3');
                     $('#inpSerieSerie').removeAttr('readonly');
                     $('#divFormGroupSerieEdicion').show();
                     $('#btnCancelarEdicionSerie').removeAttr('disabled');
@@ -368,17 +379,17 @@ function fxAplicarTipoDocumento(tipo_documento,opcion){
     }
 }
 
-function fxPrefijo(opcion,tipo_documento,afectacion='-'){
+function fxPrefijo(opcion, tipo_documento, afectacion = '-') {
     //afectacion = -
     //significa que no nos pasaron un valor para afectacion
-    if(opcion=='registrar'){
-        if(afectacion=='-'){
+    if (opcion == 'registrar') {
+        if (afectacion == '-') {
             afectacion = $('#selDocumentoAfectacion').val()
         }
-        $('#btnCancelarRegistroSerie').attr('disabled','true');
-        $('#btnEnviarRegistroSerie').attr('disabled','true');
-        $('#divFormGroupSerieRegistro').attr('style','display: none;');
-        if(afectacion!=''){
+        $('#btnCancelarRegistroSerie').attr('disabled', 'true');
+        $('#btnEnviarRegistroSerie').attr('disabled', 'true');
+        $('#divFormGroupSerieRegistro').attr('style', 'display: none;');
+        if (afectacion != '') {
             var doc = afectacion.toUpperCase();
             $.ajax({
                 type: 'POST',
@@ -387,34 +398,34 @@ function fxPrefijo(opcion,tipo_documento,afectacion='-'){
                     id_tipo_documento: tipo_documento,
                     documento_afectacion: doc
                 },
-                error: function(error){
+                error: function(error) {
                     alert('Ocurrió un error');
                     console.error(error);
                 }
-            }).done(function(data){
-                if(data.correcto){
+            }).done(function(data) {
+                if (data.correcto) {
                     $('#divFormGroupSerieRegistro').find('span.input-group-text').text(data.prefijo);
                     $('#inpPrefijo').val(data.prefijo);
                     $('#inpSerieRegistro').val('');
-                    $('#inpSerieRegistro').attr('minlength','2');
-                    $('#inpSerieRegistro').attr('maxlength','2');
+                    $('#inpSerieRegistro').attr('minlength', '2');
+                    $('#inpSerieRegistro').attr('maxlength', '2');
                     $('#inpSerieRegistro').removeAttr('readonly');
                     $('#divFormGroupSerieRegistro').show();
                     $('#btnCancelarRegistroSerie').removeAttr('disabled');
                     $('#btnEnviarRegistroSerie').removeAttr('disabled');
-                }else{
+                } else {
                     location.reload();
                 }
             });
         }
-    }else if(opcion=='actualizar'){
-        if(afectacion=='-'){
+    } else if (opcion == 'actualizar') {
+        if (afectacion == '-') {
             afectacion = $('#selDocumentoAfectacionSerie').val()
         }
-        $('#btnCancelarEdicionSerie').attr('disabled','true');
-        $('#btnEnviarEdicionSerie').attr('disabled','true');
-        $('#divFormGroupSerieEdicion').attr('style','display: none;');
-        if(afectacion!=''){
+        $('#btnCancelarEdicionSerie').attr('disabled', 'true');
+        $('#btnEnviarEdicionSerie').attr('disabled', 'true');
+        $('#divFormGroupSerieEdicion').attr('style', 'display: none;');
+        if (afectacion != '') {
             var doc = afectacion.toUpperCase();
             $.ajax({
                 type: 'POST',
@@ -423,23 +434,23 @@ function fxPrefijo(opcion,tipo_documento,afectacion='-'){
                     id_tipo_documento: tipo_documento,
                     documento_afectacion: doc
                 },
-                error: function(error){
+                error: function(error) {
                     alert('Ocurrió un error');
                     console.error(error);
                 }
-            }).done(function(data){
+            }).done(function(data) {
 
-                if(data.correcto){
+                if (data.correcto) {
                     $('#divFormGroupSerieEdicion').find('span.input-group-text').text(data.prefijo);
                     $('#inpPrefijoEdit').val(data.prefijo);
                     $('#inpSerieSerie').val('');
-                    $('#inpSerieSerie').attr('minlength','2');
-                    $('#inpSerieSerie').attr('maxlength','2');
+                    $('#inpSerieSerie').attr('minlength', '2');
+                    $('#inpSerieSerie').attr('maxlength', '2');
                     $('#inpSerieSerie').removeAttr('readonly');
                     $('#divFormGroupSerieEdicion').show();
                     $('#btnCancelarEdicionSerie').removeAttr('disabled');
                     $('#btnEnviarEdicionSerie').removeAttr('disabled');
-                }else{
+                } else {
                     location.reload();
                 }
             });

@@ -23,34 +23,51 @@ class AgregarComprobante extends FormRequest
      */
     public function rules()
     {
-        /*
-            total_operacion_gravada: $('#spnTotalOpGravada').text(),
-        total_operacion_exonerada: $('#spnTotalOpExonerada').text(),
-        total_operacion_inafecta: $('#spnTotalOpInafecta').text(),
-        total_operacion_gratuita: $('#spnTotalOpGratuita').text(),
-        total_descuento: $('#spnDescuentoComprobante').text(),
-        total_igv: $('#spnTotalIgv').text(),
-        total: $('#spnTotalConDescuentoComprobante').text(),
-        items: []
-        */
-        return [
-            'fecha' => 'required|date',
-            'id_serie' => 'required|integer',
-            'id_tipo_documento' => 'required|integer',
-            'id_moneda' => 'required|integer',
-            'nombre_receptor' => 'required',
-            'numero_documento_identidad' => 'required|numeric|digits_between:8,11',
-            'direccion_receptor' => 'required',
-            'observaciones' => 'required',
-            'id_tipo_impresion' => 'required|integer',
-            'total_operacion_gravada' => 'required|numeric',
-            'total_operacion_exonerada' => 'required|numeric',
-            'total_operacion_inafecta' => 'required|numeric',
-            'total_operacion_gratuita' => 'required|numeric',
-            'total_descuento' => 'required|numeric',
-            'total_igv' => 'required|numeric',
-            'total' =>'required|numeric',
-            'items' => 'required|array'
-        ];
+        if($this->is_for_alumno==1){
+            return [
+                'fecha' => 'required|date',
+                'id_serie' => 'required|integer',
+                'numero' =>'required|integer',
+                'id_tipo_documento' => 'required|integer',
+                'id_moneda' => 'required|integer',
+                'id_alumno' => 'required|integer',
+                'dni_alumno'=> 'required|numeric|digits:8',
+                'nombre_alumno' => 'required',
+                'numero_documento_identidad' => 'required|numeric|digits_between:8,11',
+                'nombre_receptor' => 'required',
+                'direccion_receptor' => 'required',
+                'observaciones' => 'required',
+                'id_tipo_impresion' => 'required|integer',
+                'total_operacion_gravada' => 'required|numeric',
+                'total_operacion_exonerada' => 'required|numeric',
+                'total_operacion_inafecta' => 'required|numeric',
+                'total_operacion_gratuita' => 'required|numeric',
+                'total_descuento' => 'required|numeric',
+                'total_igv' => 'required|numeric',
+                'total' =>'required|numeric',
+                'items' => 'required|array|min:1'
+            ];
+        }else{
+            return [
+                'fecha' => 'required|date',
+                'id_serie' => 'required|integer',
+                'numero' =>'required|integer',
+                'id_tipo_documento' => 'required|integer',
+                'id_moneda' => 'required|integer',
+                'numero_documento_identidad' => 'required|numeric|digits_between:8,11',
+                'nombre_receptor' => 'required',
+                'direccion_receptor' => 'required',
+                'observaciones' => 'required',
+                'id_tipo_impresion' => 'required|integer',
+                'total_operacion_gravada' => 'required|numeric',
+                'total_operacion_exonerada' => 'required|numeric',
+                'total_operacion_inafecta' => 'required|numeric',
+                'total_operacion_gratuita' => 'required|numeric',
+                'total_descuento' => 'required|numeric',
+                'total_igv' => 'required|numeric',
+                'total' =>'required|numeric',
+                'items' => 'required|array|min:1'
+            ];
+        }
     }
 }

@@ -53,9 +53,9 @@ const app = new Vue({
                     $('#tituloShowComunicado').text(response.notificacion.comunicado.c_titulo);
                     $('#descripcionShowComunicado').text(response.notificacion.comunicado.c_descripcion);
                     if (response.notificacion.comunicado.c_url_archivo != null) {
-                        var htmlArchivos = '<span class="d-block"><a href="/comunicado/archivo/' + response.notificacion.comunicado.id_comunicado + '/'+response.notificacion.comunicado.c_url_archivo+'" class="text-primary" cdownload="' + response.notificacion.comunicado.c_url_archivo + '">Descargar Archivo '+response.notificacion.comunicado.c_url_archivo+'</a></span>';
-                        $.each(response.notificacion.comunicado.archivos,function(indice,archivo){
-                            htmlArchivos += '<span class="d-block"><a href="/comunicado/archivo/' + response.notificacion.comunicado.id_comunicado + '/'+archivo.c_url_archivo+'" class="text-primary" cdownload="' + archivo.c_url_archivo + '">Descargar Archivo '+archivo.c_url_archivo+'</a></span>';
+                        var htmlArchivos = '<span class="d-block"><a href="/comunicado/archivo/' + response.notificacion.comunicado.id_comunicado + '/' + response.notificacion.comunicado.c_url_archivo + '" class="text-primary" cdownload="' + response.notificacion.comunicado.c_url_archivo + '">Descargar Archivo ' + response.notificacion.comunicado.c_url_archivo + '</a></span>';
+                        $.each(response.notificacion.comunicado.archivos, function(indice, archivo) {
+                            htmlArchivos += '<span class="d-block"><a href="/comunicado/archivo/' + response.notificacion.comunicado.id_comunicado + '/' + archivo.c_url_archivo + '" class="text-primary" cdownload="' + archivo.c_url_archivo + '">Descargar Archivo ' + archivo.c_url_archivo + '</a></span>';
                         });
                         $('#archivoShowComunicado').html(htmlArchivos);
                     } else {
@@ -89,7 +89,7 @@ const app = new Vue({
                 "AlertSimple",
                 e => {
                     var alert = e.alert;
-                    VanillaToasts.create ({
+                    VanillaToasts.create({
                         title: alert.title,
                         text: alert.text,
                         type: alert.type,
@@ -97,6 +97,16 @@ const app = new Vue({
                         positionClass: 'bottomCenter',
                         timeout: alert.timeout
                     });
+                }
+            );
+
+            Echo.private(`newnumberforvoucher.${window.Laravel.userId}`).listen(
+                "NumberVoucherCreated",
+                e => {
+                    let serie_interfaz = parseInt($('#inpIdSerieParaComprobante').val());
+                    if (serie_interfaz == e.id_serie) {
+                        $('#spnNumeroParaSerie').text(e.next_number);
+                    }
                 }
             );
         }

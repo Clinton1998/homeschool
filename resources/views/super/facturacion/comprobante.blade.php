@@ -34,8 +34,10 @@
 @endsection
 
 @section('main-content')
+    <input type="hidden" id="inpUbigeoDefault" value="040101">
     <input type="hidden" id="inpPorcentajeIgv" value="{{$tributos_para_producto->where('c_codigo_sunat','=','IGV')->first()->n_porcentaje}}">
     <input type="hidden" id="inpNumFilaProducto" value="1">
+    <input type="hidden" id="inpCodUniqueFilaProducto" value="1">
 
     <input type="hidden" id="inpDatosAdicionalesCalculo" value="{{$datos_adicionales_calculo}}">
     <input type="hidden" id="inpIdSerieParaComprobante" value="{{$serie_para_comprobante->id_serie}}">
@@ -54,7 +56,7 @@
 
                     <div class="float-left">
                         <h3 class="d-inline-block" style="margin-right: 1.5em;"><span id="spnFechaEmisionComprobante"><i class="text-fecha-emision">{{date('Y-m-d')}}</i><i class="input-fecha-emision" style="display: none;"><input type="date"  id="inpDateFechaEmision" style="display: inline-block;" value="{{date('Y-m-d')}}"></i></span><a href="#" onclick="fxMostrarCampoFecha(event);"><i class="i-Pen-5 text-muted" id="iconEditEmision"></i></a>&nbsp;&nbsp;<span>{{($serie_para_comprobante->tipo_documento->c_codigo_sunat=='01')?'FACTURA': 'BOLETA'}}</span>&nbsp;&nbsp;
-                        <span>{{$serie_para_comprobante->c_serie}}</span>-<span class="text-primary font-weight-bold">00000001</span></h3>
+                        <span>{{$serie_para_comprobante->c_serie}}</span>-<span class="text-primary font-weight-bold" id="spnNumeroParaSerie">{{str_pad($numero_maximo, 8, "0", STR_PAD_LEFT)}}</span></h3>
                         <div class="d-inline-block tipo-impresion-border">
                             <span>{{$moneda_para_comprobante->c_nombre}}</span>
                         </div>
@@ -92,6 +94,9 @@
                             </div>
                             <div class="form-group col-2 col-comprobante-para-alumno">
                                 <input type="text" class="form-control form-control-sm" id="inpNombreAlumnoParaComprobante" placeholder="Ingrese apellidos y nombres" value="{{$alumno_para_comprobante->c_nombre}}">
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>El campo es obligatorio.</strong>
+                                </span>
                             </div>
                         @else
                             <div class="form-group col-2 col-comprobante-para-alumno" style="display: none;">
@@ -104,6 +109,9 @@
                             </div>
                             <div class="form-group col-2 col-comprobante-para-alumno" style="display: none;">
                                 <input type="text" class="form-control form-control-sm" id="inpNombreAlumnoParaComprobante" placeholder="Ingrese apellidos y nombres">
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>El campo es obligatorio.</strong>
+                                </span>
                             </div>
                         @endif
                     </div>
@@ -129,6 +137,9 @@
                                 @else
                                     <input type="text" class="form-control form-control-sm" id="inpDniRuc" name="documento_identidad" required>
                                 @endif
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>El campo es obligatorio.</strong>
+                                </span>
                             </div>
 
                             <div class="form-group col-md-4">
@@ -146,6 +157,9 @@
                                 @else
                                     <input type="text" class="form-control form-control-sm" id="inpNombreCliente" placeholder="Buscar" required>
                                 @endif
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>El campo es obligatorio.</strong>
+                                </span>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="inpDireccion">Dirección:</label>
@@ -162,14 +176,29 @@
                                 @else
                                     <input type="text" class="form-control form-control-sm" id="inpDireccion">
                                 @endif
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>El campo es obligatorio.</strong>
+                                </span>
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="inpFecha">Observaciones:</label>
                                 <input type="text" class="form-control form-control-sm" id="inpObservaciones">
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>El campo es obligatorio.</strong>
+                                </span>
                             </div>
+                            <input type="hidden" id="inpUbigeo" value="040101">
+                            <input type="hidden" id="inpEmail" value="">
+                            <input type="hidden" id="inpTelefono" value="">
                         </div>
                         <button type="button" class="btn btn-success btn-sm float-right" id="btnAgregarProductoOServicio" data-toggle="tooltip" data-placement="top" title="Agregar producto o servicio">+</button>
                     <div class="table-responsive">
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alertTabProductos" style="display: none;">
+                            Debes agregar al menos un item
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                         <table id="tabProductos" class="table table-sm table-bordered table-striped" style="width:100%;">
                             <thead>
                                 <tr>
@@ -192,10 +221,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                 <tr>
+                                 <tr class="item-no-disponible">
                                     <td>1</td>
                                     <td><select id="selFiltroCodigoCom1" style="width: 100%;" class="campo-variable-com"></select></td>
-                                    <td><select type="text" id="selFiltroNombreCom1" style="width: 100%;" class="campo-variable-com"></select></td>
+                                    <td>
+                                        <input type="hidden" id="inpInfAdi1" value="">
+                                        <select type="text" id="selFiltroNombreCom1" style="width: 100%;" class="campo-variable-com"></select>
+                                        <a href="#" onclick="fxInformacionAdicional(1,event);" style="display: none;"><span class="badge badge-secondary" id="bdgInfAdi1">Agregar información adicional</span></a>
+                                    </td>
                                     <td></td>
                                     <td><input type="number" class="form-control form-control-sm campo-variable-com calc-cantidad" value="1" style="display: none;" onchange="fxCalcularTotalPorProducto(event);"></td>
                                      @if($datos_adicionales_calculo==1)
@@ -304,6 +337,47 @@
         </div>
 
     </section>
+
+    <!--modal loading-->
+    <div id="mdlLoading" class="modal" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-body">
+                <div id="loadMsgLoading" class="text-center" style="display: none;">
+                    <div class="loader-bubble loader-bubble-info m-5"></div>
+                    <h3 class="text-info">Guardando</h3>
+                </div>
+                <div id="responseAfterLoad" style="display: none;">
+                </div>
+            </div>
+            <div class="modal-footer" style="display: none;">
+                <button type="button" class="btn btn-success" onclick="location.reload();">Ok</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end modal loading-->
+
+    <!--Informacion adicional-->
+    <div id="mdlInformacionAdicional" class="modal" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+                <input type="hidden" id="inpCodFilaItem" value="">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-lg" id="inpInformacionAdicional" value="">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarInfAdi">Guardar</button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+    <!--end informacion adicional-->
+
     <!--modal para el descuento global-->
     <div class="modal" id="mdlAgregarDescuentoGlobal" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-lg">

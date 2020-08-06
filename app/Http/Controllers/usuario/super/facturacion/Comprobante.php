@@ -5,6 +5,7 @@ namespace App\Http\Controllers\usuario\super\facturacion;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\facturacion\GenerarPrevisualizacion;
 use App\Http\Requests\facturacion\AgregarComprobante;
+use App\Events\NumberVoucherCreated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App;
@@ -66,6 +67,15 @@ class Comprobante extends Controller
                     'estado' => 1
                 ])->first();
 
+                //obtenemos el numero correspondiente a esa serie de un determinados colegio
+                $numero_maximo = App\Comprobante_d::where([
+                    'id_colegio' => $colegio_para_comprobante->id_colegio,
+                    'id_serie' => $serie_para_comprobante->id_serie,
+                ])->max('n_numero');
+                if(is_null($numero_maximo) || empty($numero_maximo)){
+                    $numero_maximo = 0;
+                }
+                $numero_maximo++;
                 //verificamos si el tipo documento elegigo es un registro preferencia o no, del usuario actual
                 $preferencia_para_comprobante = App\Preferencia_d::where([
                     'id_tipo_documento' => $serie_para_comprobante->id_tipo_documento,
@@ -97,13 +107,13 @@ class Comprobante extends Controller
                         //ese alumno pertenece al colegio
                         //obteniendo al cliente para el alumno
                         $tipo_dato_cliente_para_alumno = strtolower(trim($request->input('tipo_dato_cliente_comprobante')));
-                        return view('super.facturacion.comprobante',compact('colegio_para_comprobante','alumno_para_comprobante','tipo_dato_cliente_para_alumno','tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_para_comprobante','datos_adicionales_calculo','tributos'));
+                        return view('super.facturacion.comprobante',compact('colegio_para_comprobante','alumno_para_comprobante','tipo_dato_cliente_para_alumno','tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_para_comprobante','datos_adicionales_calculo','tributos','numero_maximo'));
                     }else{
                         /*REVIEW*/
                         return redirect('/home');
                     }
                 }else{
-                    return view('super.facturacion.comprobante',compact('colegio_para_comprobante','tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_para_comprobante','datos_adicionales_calculo','tributos'));
+                    return view('super.facturacion.comprobante',compact('colegio_para_comprobante','tributos_para_producto','serie_para_comprobante','moneda_para_comprobante','tipo_impresion_para_comprobante','datos_adicionales_calculo','tributos','numero_maximo'));
                 }
             }
         }
@@ -115,13 +125,23 @@ class Comprobante extends Controller
             'estado' => 1
         ])->first();
         if(!is_null($colegio) && !empty($colegio)){
+            //hallamos el proximo numero del comprobante
+            $numero_maximo = App\Comprobante_d::where([
+                'id_colegio' => $colegio->id_colegio,
+                'id_serie' => $request->input('id_serie'),
+            ])->max('n_numero');
+            if(is_null($numero_maximo) || empty($numero_maximo)){
+                $numero_maximo = 0;
+            }
+            $numero_maximo++;
+
             $comprobante = new App\Comprobante_d;
             $comprobante->id_colegio = $colegio->id_colegio;
             $comprobante->id_serie = $request->input('id_serie');
             $comprobante->id_alumno = $request->input('id_alumno');
             $comprobante->id_tipo_documento = $request->input('id_tipo_documento');
             $comprobante->id_moneda = $request->input('id_moneda');
-            $comprobante->n_numero = 2004;
+            $comprobante->n_numero = $numero_maximo;
             $comprobante->c_nombre_receptor = $request->input('nombre_receptor');
             $doc = trim($request->input('numero_documento_identidad'));
             $codigo_sunat = null;
@@ -141,9 +161,9 @@ class Comprobante extends Controller
             }
             $comprobante->c_numero_documento_identidad = $doc;
             $comprobante->c_direccion_receptor = $request->input('direccion_receptor');
-            $comprobante->c_ubigeo_receptor = '010101';
-            $comprobante->c_email_receptor = 'clintontapialagar@gmail.com';
-            $comprobante->c_telefono_receptor = '920192637';
+            $comprobante->c_ubigeo_receptor = $request->input('ubigeo_receptor');
+            $comprobante->c_email_receptor = $request->input('email_receptor');
+            $comprobante->c_telefono_receptor = $request->input('telefono_receptor');
             $comprobante->t_fecha_emision = $request->input('fecha');
             $comprobante->t_fecha_vencimiento = $request->input('fecha');
             $comprobante->c_observaciones = $request->input('observaciones');
@@ -160,6 +180,7 @@ class Comprobante extends Controller
             $comprobante->b_estado_comprobado = 0;
             $comprobante->creador = Auth::user()->id;
             $response = $comprobante->save();
+
             if($response){
                 $porcentaje = (App\Tributo_m::where([
                     'c_codigo_sunat' => 'IGV',
@@ -182,7 +203,7 @@ class Comprobante extends Controller
                         $detalle->c_nombre_producto = $producto->c_nombre;
                         $detalle->c_unidad_producto = $producto->c_unidad;
                         $detalle->c_tributo_producto = $items[$i]['tributo'];
-                        $detalle->c_informacion_adicional = '--info--';
+                        $detalle->c_informacion_adicional = $items[$i]['inf_adi'];
                         $detalle->b_tipo_detalle = 0;
                         $detalle->n_cantidad = $items[$i]['cantidad'];
                         $detalle->n_valor_unitario = $items[$i]['valor_unitario'];
@@ -205,6 +226,8 @@ class Comprobante extends Controller
                 ->update(['estado' => 1]);
                 $comprobante->estado = 2;
                 $comprobante->save();
+
+                broadcast(new NumberVoucherCreated($comprobante));
 
                 return response()->json([
                     'correcto' => TRUE
@@ -231,9 +254,41 @@ class Comprobante extends Controller
                         //{ label: "anders", category: "Alumno|Representante" }
                         //verificamos si ese alumno tiene el primer representante
                         if(!is_null($alumno->c_dni_representante1) && !empty($alumno->c_dni_representante1) && !is_null($alumno->c_nombre_representante1) && !empty($alumno->c_nombre_representante1)){
+                            $ubigeo = '040101';
+                            $c_departamento = null;
+                            $c_provincia = null;
+                            $c_distrito = null;
+                            $id_ubigeo = $alumno->c_ubigeo_representante1;
+                            if(!is_null($id_ubigeo) && !empty($id_ubigeo)){
+                                $ubigeo_repre1 = DB::table('ubigeo_m')->where([
+                                    'id_ubigeo' => $id_ubigeo
+                                ])->select('id_ubigeo','c_departamento','c_provincia','c_distrito','c_nombre')->first();
+                                $c_distrito = $ubigeo_repre1->c_nombre;
+
+                                $c_provincia = (DB::table('ubigeo_m')->where([
+                                    'c_departamento' => $ubigeo_repre1->c_departamento,
+                                    'c_provincia' => $ubigeo_repre1->c_provincia,
+                                    'c_distrito' => '00'
+                                ])->select('c_nombre')->first())->c_nombre;
+
+                                $c_departamento = (DB::table('ubigeo_m')->where([
+                                    'c_departamento' => $ubigeo_repre1->c_departamento,
+                                    'c_provincia' => '00',
+                                    'c_distrito' => '00'
+                                ])->select('c_nombre')->first())->c_nombre;
+
+                                $ubigeo = $id_ubigeo;
+                            }
+                            $direccion_completa = $alumno->c_direccion_representante1;
+                            if(!is_null($c_departamento)){
+                                $direccion_completa .= ' '.$c_departamento.'-'.$c_provincia.'-'.$c_distrito;
+                            }
                             $item_repre1 = array(
                                 'dni' => $alumno->c_dni_representante1,
-                                'direccion' => $alumno->c_direccion_representante1,
+                                'direccion' => $direccion_completa,
+                                'ubigeo' => $ubigeo,
+                                'telefono' => $alumno->c_telefono_representante1,
+                                'email' => $alumno->c_correo_representante1,
                                 'label' => $alumno->c_nombre_representante1,
                                 'category' => 'Representante'
                             );
@@ -242,9 +297,41 @@ class Comprobante extends Controller
 
                         //verificamos si ese alumno tiene el segundo representante
                         if(!is_null($alumno->c_dni_representante2) && !empty($alumno->c_dni_representante2) && !is_null($alumno->c_nombre_representante2) && !empty($alumno->c_nombre_representante2)){
+                            $ubigeo = '040101';
+                            $c_departamento = null;
+                            $c_provincia = null;
+                            $c_distrito = null;
+                            $id_ubigeo = $alumno->c_ubigeo_representante2;
+                            if(!is_null($id_ubigeo) && !empty($id_ubigeo)){
+                                $ubigeo_repre2 = DB::table('ubigeo_m')->where([
+                                    'id_ubigeo' => $id_ubigeo
+                                ])->select('id_ubigeo','c_departamento','c_provincia','c_distrito','c_nombre')->first();
+                                $c_distrito = $ubigeo_repre2->c_nombre;
+
+                                $c_provincia = (DB::table('ubigeo_m')->where([
+                                    'c_departamento' => $ubigeo_repre2->c_departamento,
+                                    'c_provincia' => $ubigeo_repre2->c_provincia,
+                                    'c_distrito' => '00'
+                                ])->select('c_nombre')->first())->c_nombre;
+
+                                $c_departamento = (DB::table('ubigeo_m')->where([
+                                    'c_departamento' => $ubigeo_repre2->c_departamento,
+                                    'c_provincia' => '00',
+                                    'c_distrito' => '00'
+                                ])->select('c_nombre')->first())->c_nombre;
+
+                                $ubigeo = $id_ubigeo;
+                            }
+                            $direccion_completa = $alumno->c_direccion_representante2;
+                            if(!is_null($c_departamento)){
+                                $direccion_completa .= ' '.$c_departamento.'-'.$c_provincia.'-'.$c_distrito;
+                            }
                             $item_repre2 = array(
                                 'dni' => $alumno->c_dni_representante2,
-                                'direccion' => $alumno->c_direccion_representante2,
+                                'direccion' => $direccion_completa ,
+                                'ubigeo' => $ubigeo,
+                                'telefono' => $alumno->c_telefono_representante2,
+                                'email' => $alumno->c_correo_representante2,
                                 'label' => $alumno->c_nombre_representante2,
                                 'category' => 'Representante'
                             );
@@ -256,11 +343,42 @@ class Comprobante extends Controller
                         $hoy = new \DateTime();
                         $edad = $hoy->diff($fecha_nacimiento);
                         if($edad->y>=18){
+                            $ubigeo = '040101';
+                            $c_departamento = null;
+                            $c_provincia = null;
+                            $c_distrito = null;
+                            $id_ubigeo = $alumno->c_ubigeo;
+                            if(!is_null($id_ubigeo) && !empty($id_ubigeo)){
+                                $ubigeo_alumn = DB::table('ubigeo_m')->where([
+                                    'id_ubigeo' => $id_ubigeo
+                                ])->select('id_ubigeo','c_departamento','c_provincia','c_distrito','c_nombre')->first();
+                                $c_distrito = $ubigeo_alumn->c_nombre;
+                                $c_provincia = (DB::table('ubigeo_m')->where([
+                                    'c_departamento' => $ubigeo_alumn->c_departamento,
+                                    'c_provincia' => $ubigeo_alumn->c_provincia,
+                                    'c_distrito' => '00'
+                                ])->select('c_nombre')->first())->c_nombre;
+
+                                $c_departamento = (DB::table('ubigeo_m')->where([
+                                    'c_departamento' => $ubigeo_alumn->c_departamento,
+                                    'c_provincia' => '00',
+                                    'c_distrito' => '00'
+                                ])->select('c_nombre')->first())->c_nombre;
+
+                                $ubigeo = $id_ubigeo;
+                            }
+                            $direccion_completa = $alumno->c_direccion;
+                            if(!is_null($c_departamento)){
+                                $direccion_completa .= ' '.$c_departamento.'-'.$c_provincia.'-'.$c_distrito;
+                            }
                             $item_alumno = array(
                                 'dni' => $alumno->c_dni,
-                                'direccion' => $alumno->c_direccion,
+                                'direccion' => $direccion_completa,
+                                'ubigeo' => $ubigeo,
+                                'telefono' => $alumno->c_telefono_representante1,
+                                'email' => $alumno->c_correo,
                                 'label' => $alumno->c_nombre,
-                                'category' => 'Alumno'
+                                'category' => 'Alumno(a)'
                             );
                             array_push($arr_posibles_clientes,$item_alumno);
                         }
@@ -492,6 +610,47 @@ class Comprobante extends Controller
                 //verificamos que ese alumno pertenesca al colegio
                 $colegio_del_alumno = $alumno->seccion->grado->colegio;
                 if($colegio->id_colegio == $colegio_del_alumno->id_colegio){
+                    $ubigeo = '040101';
+                    $direccion_completa = 'SIN INFORMACIÓN';
+                    $c_departamento = null;
+                    $c_provincia = null;
+                    $c_distrito = null;
+
+                    if(!is_null($alumno->c_direccion_representante1) && !empty($alumno->c_direccion_representante1)){
+                        $direccion_completa = $alumno->c_direccion_representante1;
+                        $id_ubigeo = $alumno->c_ubigeo_representante1;
+
+                        if(!is_null($id_ubigeo) && !empty($id_ubigeo)){
+                            $ubigeo_repre1 = DB::table('ubigeo_m')->where([
+                                'id_ubigeo' => $id_ubigeo
+                            ])->select('id_ubigeo','c_departamento','c_provincia','c_distrito','c_nombre')->first();
+
+                            $c_distrito = $ubigeo_repre1->c_nombre;
+                            
+                            $c_provincia = (DB::table('ubigeo_m')->where([
+                                'c_departamento' => $ubigeo_repre1->c_departamento,
+                                'c_provincia' => $ubigeo_repre1->c_provincia,
+                                'c_distrito' => '00'
+                            ])->select('c_nombre')->first())->c_nombre;
+
+                            $c_departamento = (DB::table('ubigeo_m')->where([
+                                'c_departamento' => $ubigeo_repre1->c_departamento,
+                                'c_provincia'=>'00',
+                                'c_distrito' => '00'
+                            ])->select('c_nombre')->first())->c_nombre;
+
+
+                            $ubigeo = $id_ubigeo;
+                        }
+
+                        $direccion_completa = $alumno->c_direccion_representante1;
+                        if(!is_null($c_departamento)){
+                            $direccion_completa .= ' '.$c_departamento.'-'.$c_provincia.'-'.$c_distrito;
+                        }
+                    }
+
+                    $alumno->c_direccion_representante1 = $direccion_completa;
+                    $alumno->c_ubigeo_representante1 = $ubigeo;
                     $datos = array(
                         'encontrado' => TRUE,
                         'alumno' => $alumno
@@ -524,13 +683,41 @@ class Comprobante extends Controller
                         ['c_nombre','like','%'.$term.'%'],
                         ['estado','=',1]
                     ])->get() as $alumno){
+                        $id_ubigeo = $alumno->c_ubigeo_representante1;
+                            if(!is_null($id_ubigeo) && !empty($id_ubigeo)){
+                                $ubigeo_repre1 = DB::table('ubigeo_m')->where([
+                                    'id_ubigeo' => $id_ubigeo
+                                ])->select('id_ubigeo','c_departamento','c_provincia','c_distrito','c_nombre')->first();
+                                $c_distrito = $ubigeo_repre1->c_nombre;
+
+                                $c_provincia = (DB::table('ubigeo_m')->where([
+                                    'c_departamento' => $ubigeo_repre1->c_departamento,
+                                    'c_provincia' => $ubigeo_repre1->c_provincia,
+                                    'c_distrito' => '00'
+                                ])->select('c_nombre')->first())->c_nombre;
+
+                                $c_departamento = (DB::table('ubigeo_m')->where([
+                                    'c_departamento' => $ubigeo_repre1->c_departamento,
+                                    'c_provincia' => '00',
+                                    'c_distrito' => '00'
+                                ])->select('c_nombre')->first())->c_nombre;
+
+                                $ubigeo = $id_ubigeo;
+                            }
+                            $direccion_completa = $alumno->c_direccion_representante1;
+                            if(!is_null($c_departamento)){
+                                $direccion_completa .= ' '.$c_departamento.'-'.$c_provincia.'-'.$c_distrito;
+                            }
                         $item_alumno = array(
                             'label' => $alumno->c_nombre,
                             'value' => $alumno->c_nombre,
                             'dni_alumno' => $alumno->c_dni,
                             'dni_repre1' => $alumno->c_dni_representante1,
                             'nombre_repre1' => $alumno->c_nombre_representante1,
-                            'direccion_repre1' => $alumno->c_direccion_representante1
+                            'direccion_repre1' => $direccion_completa,
+                            'ubigeo_repre1' => $alumno->c_ubigeo_representante1,
+                            'email_repre1' => $alumno->c_correo_representante1,
+                            'telefono_repre1' => $alumno->c_telefono_representante1
                         );
                         array_push($array_alumnos,$item_alumno);
                     }
@@ -542,13 +729,4 @@ class Comprobante extends Controller
         $datos = array();
         return response()->json($datos);
     }
-
-    /*public function generar_previsualizacion(GenerarPrevisualizacion $request){
-        $datos = array(
-            'correcto' => TRUE,
-            'datos' => $request->all()
-        );
-
-        return response()->json($datos);
-    }*/
 }

@@ -55,10 +55,17 @@ class Serie extends Controller
                 'estado' => 1
             ])->first();
             if(!is_null($serie) && !empty($serie)){
+                //validamos que no se puede enviar la serie, si ya existe un comprobante con esa serie
+                $cantidad = App\Comprobante_d::where([
+                    'id_colegio' => $colegio->id_colegio,
+                    'id_serie' => $serie->id_serie
+                ])->count();
+                $usado = ($cantidad>0)?TRUE:FALSE;
                 $serie->load('tipo_documento');
                 $datos = array(
                     'correcto' => TRUE,
-                    'serie' => $serie
+                    'serie' => $serie,
+                    'usado' => $usado
                 );
                 return response()->json($datos);
             }

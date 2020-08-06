@@ -5,6 +5,7 @@
 @endsection
 
 @section('main-content')
+<input type="hidden" id="inpPorcentajeIgv" value="{{$tributos->where('c_codigo_sunat','=','IGV')->first()->n_porcentaje}}">
 <section class="ul-contact-detail">
 
     <div class="row hs_contenedor">
