@@ -43373,7 +43373,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: '37df518fa3ab482cde42',
+  key: 'a17dc3e925d142218ab0',
   cluster: 'mt1',
   forceTLS: true
 });

@@ -307,7 +307,9 @@ class Tarea extends Controller
                       $icon = '/super/colegio/logo/'.$colegio->c_logo;
                     }
                     $text = $alumno->c_nombre. ' envió su respuesta de la tarea "'.$tarea->c_titulo.'"';
-                    broadcast(new AlertSimple($id_usuarios,$title,$text,$type,$timeout,$icon));
+                    if(count($id_usuarios)>0){
+                        broadcast(new AlertSimple($id_usuarios,$title,$text,$type,$timeout,$icon));    
+                    }
                     return redirect('/alumno/tareas');
                 }
               }
