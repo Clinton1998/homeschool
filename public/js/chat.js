@@ -43373,7 +43373,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
-  key: 'a17dc3e925d142218ab0',
+  key: '37df518fa3ab482cde42',
   cluster: 'mt1',
   forceTLS: true
 });
@@ -43749,7 +43749,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\laragon\www\gull_html_laravel\resources\js\chat.js */"./resources/js/chat.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\homeschool\resources\js\chat.js */"./resources/js/chat.js");
 
 
 /***/ })
